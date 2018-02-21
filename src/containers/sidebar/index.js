@@ -15,7 +15,7 @@ const Sidebar = () => (
     </Row>
     <Row>
       <a className="pull-right reset">
-        <img src={Reset} align="resetImg" />Reset
+        <img src={Reset} alt="" />Reset
       </a>
     </Row>
     <Row className="dropdown_up dropdown_dd">

@@ -1,7 +1,6 @@
 import React from 'react';
 import Navbar from 'react-bootstrap/lib/Navbar';
 import Nav from 'react-bootstrap/lib/Nav';
-import NavItem from 'react-bootstrap/lib/NavItem';
 import { MenuItem, NavDropdown } from 'react-bootstrap';
 import 'react-fa'
 import DropdownContent from '../../components/DropdownContent';
@@ -15,14 +14,14 @@ export default class HeaderNavigation extends React.Component {
         <Navbar.Header>
           <Navbar.Brand>
             <a href="#home">
-              <img src={Logo} />
+              <img src={Logo} alt="" />
             </a>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
         <Navbar.Collapse>
           <Nav>
-            <li class="active"><a href="#"><i class="fa fa-home"></i></a></li>
+            <li class="active"><a><i class="fa fa-home"></i></a></li>
             <NavDropdown eventKey={1} title={<DropdownContent title="Topics" />} id="basic-nav-dropdown">
               <MenuItem eventKey={1.1}>Action</MenuItem>
               <MenuItem eventKey={1.2}>Another action</MenuItem>
