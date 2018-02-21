@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Col } from 'react-bootstrap';
+import { Grid } from 'react-bootstrap';
 import HeaderNavigation from '../navbar';
 import JumbotronContainer from '../jumbotron';
 import Sidebar from '../sidebar';
