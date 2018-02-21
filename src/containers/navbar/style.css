@@ -58,9 +58,10 @@
   padding:0px 10px;
   margin-left: 20px;
 }
-.caret_nav i{
-  font-size:14px;
+.dropdown .dropdown-toggle .caret_nav i {
+  font-size: 14px;
 }
+
 @media (max-width: 767px) {
   .caret_nav {
     display: none

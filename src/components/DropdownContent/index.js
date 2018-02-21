@@ -1,13 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Icon} from 'react-fa'
 
 const DropdownContent = ({ title, isDownIcon }) => (
   <div>{title}
     <span className="caret_nav">
     {
       isDownIcon && (
-        <Icon name="chevron-down" />
+        <i class="fa fa-chevron-down"></i>
       )
     }
     </span>
