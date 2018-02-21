@@ -70,7 +70,7 @@
   background: transparent;
 }
 
-.caret {
+.navbar-nav .dropdown .caret {
   display: none
 }
 .caret_nav {
