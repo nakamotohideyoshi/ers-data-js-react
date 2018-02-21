@@ -3,10 +3,10 @@ import Navbar from 'react-bootstrap/lib/Navbar';
 import Nav from 'react-bootstrap/lib/Nav';
 import NavItem from 'react-bootstrap/lib/NavItem';
 import { MenuItem, NavDropdown } from 'react-bootstrap';
-import {Icon} from 'react-fa'
+import 'react-fa'
 import DropdownContent from '../../components/DropdownContent';
-import './style.css';
 import Logo from '../../images/logo.png'
+import './style.css';
 
 export default class HeaderNavigation extends React.Component {
   render() {
