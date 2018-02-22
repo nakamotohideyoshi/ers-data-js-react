@@ -1,0 +1,69 @@
+.navbar-right-2 {
+  float: right;
+}
+.main-heading{
+	font-size:20px;
+	font-family: 'Roboto', sans-serif;
+	color:#304550;
+	margin:30px 0px 30px;
+	text-align:center;
+	
+}
+.btn-second{
+	background:#fafafa;
+	padding:10px 10px;
+	float:right;
+	font-size:12px;
+	font-weight:700px;
+	text-transform:uppercase;
+	margin-right:40px;
+	border:none;
+	letter-spacing:2px;
+	color:#447bac;
+}
+
+
+.download-menu{
+    min-width: 121px ;
+    right: 62px ;
+    left: 6px;
+}
+.download-menu-2{
+    width: 100% ;
+    border-radius: 0px;
+	height:120px;
+	overflow:auto;
+}
+
+.download-title{
+	font-size:10px;
+	font-family:'Arial';
+	color:#304550;
+	text-transform:uppercase;
+	font-weight:bold;
+	margin:10px;
+}
+.download-menu>li>a {
+    display: block;
+    padding: 5px 20px;
+    clear: both;
+    font-weight: 400;
+    line-height: 1.42857143;
+    color: #23527c;
+	font-size:16px;
+    white-space: nowrap;
+	font-family: 'Roboto', sans-serif;
+}
+.download-menu>li>a:hover {
+	background:none;
+	color:#304550;
+}
+.download-menu>li.active>a {
+	color:#304550;
+	background-color:none;
+}
+.download-menu>li>a:focus {
+	background:none;
+	color:#304550;
+	
+}
