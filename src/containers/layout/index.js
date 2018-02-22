@@ -1,8 +1,9 @@
 import React from 'react';
 import { Grid } from 'react-bootstrap';
-import HeaderNavigation from '../navbar';
-import JumbotronContainer from '../jumbotron';
-import Sidebar from '../sidebar';
+import HeaderNavigation from '../Navbar';
+import JumbotronContainer from '../Jumbotron';
+import Sidebar from '../Sidebar';
+import MainContainer from '../MainContainer';
 
 export default class Layout extends React.Component {
   render() {
@@ -11,6 +12,7 @@ export default class Layout extends React.Component {
         <HeaderNavigation />
         <JumbotronContainer title="ARMS Farm Structure and Finance" />
         <Sidebar />
+        <MainContainer />
       </Grid>
     )
   }
