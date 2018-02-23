@@ -4,7 +4,7 @@ import './style.css';
 
 const Footnote = ({ title }) => (
   <Col xs={12} md={12} sm={12}>
-    <div class="footnote">
+    <div className="footnote">
     <p>
       <span>Footnote</span><br />
       <strong>*</strong> — Statistically unreliable due to a low sample size.<br />

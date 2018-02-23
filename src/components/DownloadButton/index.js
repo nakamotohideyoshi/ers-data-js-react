@@ -9,7 +9,7 @@ export default class MainContainer extends React.Component {
           <div className="btn-second">
             <DropdownButton
               bsStyle="default"
-              bsSize="medium"
+              bsSize="sm"
               pullRight
               title={<div>
               <img src={DownloadImg} alt="" /> Download

@@ -6,7 +6,7 @@ const DropdownContent = ({ title, isDownIcon }) => (
     <span className="caret_nav">
     {
       isDownIcon && (
-        <i class="fa fa-chevron-down"></i>
+        <i className="fa fa-chevron-down"></i>
       )
     }
     </span>

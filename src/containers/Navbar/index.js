@@ -13,7 +13,7 @@ export default class HeaderNavigation extends React.Component {
       <Navbar collapseOnSelect>
         <Navbar.Header>
           <Navbar.Brand>
-            <a href="#home">
+            <a>
               <img src={Logo} alt="" />
             </a>
           </Navbar.Brand>
@@ -21,7 +21,7 @@ export default class HeaderNavigation extends React.Component {
         </Navbar.Header>
         <Navbar.Collapse>
           <Nav>
-            <li class="active"><a><i class="fa fa-home"></i></a></li>
+            <li className="active"><a><i className="fa fa-home"></i></a></li>
             <NavDropdown eventKey={1} title={<DropdownContent title="Topics" />} id="basic-nav-dropdown">
               <MenuItem eventKey={1.1}>Action</MenuItem>
               <MenuItem eventKey={1.2}>Another action</MenuItem>
