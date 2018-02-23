@@ -1,0 +1,91 @@
+.container > .navbar-default {
+  background: #540a13;
+  border: none;
+  margin-bottom: 0px;
+  border-radius: 0px;
+}
+.navbar-default > .container {
+  width: 100%;
+}
+.container-fluid > .navbar-collapse,
+.container-fluid > .navbar-header,
+.container > .navbar-collapse,
+.container > .navbar-header {
+  margin-right: 0px;
+  margin-left: 0px;
+}
+.navbar-brand {
+  padding: 3px 15px 0px 20px;
+}
+@media (min-width: 768px) {
+  .navbar > .container .navbar-brand,
+  .navbar > .container-fluid .navbar-brand {
+    margin-left: 0px;
+  }
+}
+.navbar-nav.navbar-center {
+  position: absolute;
+  left: 55%;
+  transform: translatex(-50%);
+  width: 80%;
+}
+.navbar-default .navbar-toggle {
+  background-color: transparent;
+}
+.navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover {
+  background-color: #333333;
+}
+.navbar-default .navbar-toggle .icon-bar {
+  background-color: #fff;
+}
+.navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>.active>a:hover {
+  color: #fff;
+  background: #7f4a50;
+  padding: 10px 20px;
+  line-height: 20px;
+}
+.navbar-default .navbar-nav>li>a:focus, .navbar-default .navbar-nav>li>a:hover {
+  color: #fff;
+  background: none;
+}
+.navbar-default .navbar-nav>li>a i {
+  font-size: 29px;
+  padding: 0px 0px;
+}
+.nav>li>a {
+  position: relative;
+  display: block;
+  padding: 0px 0px 0px 20px;
+  font-size:14px;
+}
+.navbar-default .navbar-nav>li>a {
+  color: #fff;
+  line-height: 50px;
+}
+.navbar-default 
+.navbar-nav > .open > a,
+.navbar-default .navbar-nav > .open > a:focus,
+.navbar-default .navbar-nav> .open > a:hover {
+  color: #fff;
+  background: transparent;
+}
+
+.navbar-nav .dropdown .caret {
+  display: none
+}
+.caret_nav {
+  display: inline-block;
+  border-right: 1px solid #7f4a50;
+  border-left: 1px solid #7f4a50;
+  padding:0px 10px;
+  margin-left: 20px;
+}
+.dropdown .dropdown-toggle .caret_nav i {
+  font-size: 14px;
+}
+
+@media (max-width: 767px) {
+  .caret_nav {
+    display: none
+  }
+}
