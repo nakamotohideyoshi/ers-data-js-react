@@ -15,7 +15,7 @@ export default class MainContainer extends React.Component {
     years.forEach(yearNumber => {
       const infoObj = {}
       infoObj.year = yearNumber
-      infoObj.checked = 0
+      infoObj.checked = false
       infoObj.grossCashIncome = Math.floor((Math.random() * 250) + 1);
       infoObj.totalCashExpense = Math.floor((Math.random() * 250) + 1);
       infoObj.variableExpense = Math.floor((Math.random() * 250) + 1);
