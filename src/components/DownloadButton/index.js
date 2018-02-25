@@ -1,7 +1,6 @@
 import React from 'react';
 import { DropdownButton, MenuItem } from 'react-bootstrap';
 import DownloadImg from '../../images/download.png'
-import './style.css';
 
 export default class MainContainer extends React.Component {
   render() {

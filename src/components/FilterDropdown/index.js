@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Col, DropdownButton } from 'react-bootstrap';
 import Checkbox from '../Checkbox';
-import './style.css';
 
 const FilterDropdown = ({ onSelectYear, yearsInfo }) => (
   <div className="filterDropdownContainer">

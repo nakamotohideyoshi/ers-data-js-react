@@ -2,6 +2,9 @@
 .sidebar-container {
   padding: 1px 0px 0px 40px;
 }
+.right-padding-option {
+  padding: 1px 0px 0px 26px;
+}
 .dropdown_up:not(:first-child) {
   margin-top: 2px;
 }
