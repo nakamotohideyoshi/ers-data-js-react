@@ -4,7 +4,7 @@ import SidebarDropdown from '../SidebarDropdown'
 import { SlideDown } from 'react-slidedown'
 import Reset from '../../images/reset.png'
 
-const SidebarItem = ({ headingTitle, titles, selectedIndex, isOpened, isCategory, toggleCategoryOptions, updateFilter }) => (
+const SidebarItem = ({ headingTitle, titles, selectedIndex, isOpened, isCategory, toggleCategoryOptions, updateFilter, resetFilter }) => (
   <div className="dropdown_second">
     <SidebarDropdown headingTitle={headingTitle} title={titles[selectedIndex]} isOpened={isOpened} isCategory={isCategory} onToggle={() => toggleCategoryOptions()} />
     <SlideDown className='my-dropdown-slidedown'>
@@ -36,7 +36,7 @@ const SidebarItem = ({ headingTitle, titles, selectedIndex, isOpened, isCategory
     {
       isCategory && (
         <div>
-          <a className="pull-right reset">
+          <a className="pull-right reset" onClick={resetFilter}>
             <img src={Reset} alt="" />Reset
           </a>
         </div>

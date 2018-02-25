@@ -38,6 +38,13 @@ export default class Sidebar extends React.Component {
     this.setState({ sidebarItems })
     this.toggleCategoryOptions(sidebarItemIndex)
   }
+  resetFilter = () => {
+    const { sidebarItems } =this.state
+    sidebarItems.forEach((element) => {
+      element.selectedIndex = 0
+    })
+    this.setState({ sidebarItems })    
+  }
   render() {
     return (
     <Col sm={3} md={3} xs={12} className="sidebar-container">
@@ -51,7 +58,8 @@ export default class Sidebar extends React.Component {
               isOpened={sidebarItems[i].isOpened}
               isCategory={sidebarItems[i].isCategory} 
               toggleCategoryOptions={() => this.toggleCategoryOptions(i)}
-              updateFilter={(index) => this.updateFilter(i, index)}          
+              updateFilter={(index) => this.updateFilter(i, index)}   
+              resetFilter={() => this.resetFilter()}       
             />
           )
         })
