@@ -1,21 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const SidebarDropdown = ({ title, headingTitle, isCategory, onToggle }) => (
+const SidebarDropdown = ({ title, headingTitle, isCategory, isOpened, onToggle }) => (
   <div className="dropdown_up dropdown_dd">
     <button className={`${isCategory ? `btn-dark`:`btn-light`} btn_dd`} onClick={onToggle} >
       {
         headingTitle.length > 0 && (
           <div>
-            <span className="top_heading">report</span>
+            <span className="top_heading">{headingTitle}</span>
             <br />
           </div>
         )
       }
       {title}
-      <span className="caret_down">
-        <i className="fa fa-caret-down"></i>
-      </span>
+      {
+        isOpened && (
+          <span className="caret_down">
+            <i className="fa fa-caret-up"></i>
+          </span>
+        ) || (
+          <span className="caret_down">
+            <i className="fa fa-caret-down"></i>
+          </span>
+        )
+      }
+
     </button>
   </div>
 );
