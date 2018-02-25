@@ -4,9 +4,9 @@ import SidebarDropdown from '../SidebarDropdown'
 import { SlideDown } from 'react-slidedown'
 import Reset from '../../images/reset.png'
 
-const SidebarItem = ({ titles, selectedIndex, isOpened, isCategory, toggleCategoryOptions, updateFilter }) => (
+const SidebarItem = ({ headingTitle, titles, selectedIndex, isOpened, isCategory, toggleCategoryOptions, updateFilter }) => (
   <div className="dropdown_second">
-    <SidebarDropdown title={titles[selectedIndex]} isOpened={isOpened} isCategory={isCategory} onToggle={() => toggleCategoryOptions()} />
+    <SidebarDropdown headingTitle={headingTitle} title={titles[selectedIndex]} isOpened={isOpened} isCategory={isCategory} onToggle={() => toggleCategoryOptions()} />
     <SlideDown className='my-dropdown-slidedown'>
       {
         isOpened && (
