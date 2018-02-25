@@ -9,7 +9,7 @@ export default class Layout extends React.Component {
   render() {
     return (
       <Grid>
-        <HeaderNavigation />
+        
         <JumbotronContainer title="ARMS Farm Structure and Finance" />
         <Sidebar />
         <MainContainer />
