@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Row, Col, DropdownButton } from 'react-bootstrap';
+import { Col, DropdownButton } from 'react-bootstrap';
 import Checkbox from '../Checkbox';
 import './style.css';
 
 const FilterDropdown = ({ onSelectYear, yearsInfo }) => (
-  <Row className="filterDropdownContainer">
+  <div className="filterDropdownContainer">
     <Col md={6} sm={6} xs={12}>
       <Col md={7} sm={6} xs={12} mdOffset={5} smOffset={6}>
         <div className="top-title right-title">VIEW MULTIPLE YEARS</div>
@@ -38,7 +38,7 @@ const FilterDropdown = ({ onSelectYear, yearsInfo }) => (
           </DropdownButton>
         </Col>
     </Col>    
-  </Row>
+  </div>
   
 );
 
