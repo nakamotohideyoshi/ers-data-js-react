@@ -9,18 +9,14 @@ const categoryTitles = [
   ['Farm Business Balance Sheet', 'Farm Business Income Statement', 'Farm Business Financila Ratiost', 'Strctural Caracteristics', 'Farm Business Debt Repayment Capacity', 'Strctural Caracteristics',  'Farm Business Debt Repayment Capacity',  'Govenerment Payments',  'Operator Household Income',  'Operator Household Balance Sheet'],
   ['All Farms', 'Farm Businesses', 'Farm Operator Households'], 
   ['All Farms', 'Collapsed Farm Typology', 'Economic Class', 'Farm Typology', 'Operator Age', 'Farm Resource REgion', 'Production Specialty'],
-  ['All Survey states', 'Arkansas', 'California', 'Florida', 'Georgia', 'Illinois', 'Indiana', 'Iowa',  'Kansas', 'Minnesota', 'Missouri', 'Nebraska', 'North Carolina', 'Texas', 'Washington', 'Wisconsin'],
-  ['All Farms', 'Collapsed Farm Typology', 'Economic Class', 'Farm Typology', 'Operator Age', 'Farm Resource REgion', 'Production Specialty'],
-  ['2016', '2015', '2014', '2013', '2012', '2011', '2010', '2009', '2008', '2007', '2006', '2005', '2004', '2003', '2002', '2001', '2000', '1999', '1998', '1997', '1996']
+  ['Operators 34 years or younger', 'Operators 35 to 44 years', 'Operators 45 to 54 years', 'Operators 55 to 64 years', 'Operators 65 years or older']
 ]
 const sidebarItems = [
-  {isOpened: false, selectedIndex: 0, isCategory: true, headingTitle: "", },
-  {isOpened: false, selectedIndex: 0, isCategory: false, headingTitle: "Report"},
-  {isOpened: false, selectedIndex: 0, isCategory: false, headingTitle: "Subject"},
-  {isOpened: false, selectedIndex: 0, isCategory: false, headingTitle: "Row group"},
-  {isOpened: false, selectedIndex: 0, isCategory: false, headingTitle: "Filter by US or State"},
-  {isOpened: false, selectedIndex: 0, isCategory: false, headingTitle: "Sub group"},  
-  {isOpened: false, selectedIndex: 0, isCategory: false, headingTitle: "From year"}  
+  {isOpened: false, selectedIndex: 0, isCategory: true,  visible: true,  headingTitle: ""},
+  {isOpened: false, selectedIndex: 0, isCategory: false, visible: true,  headingTitle: "Report"},
+  {isOpened: false, selectedIndex: 0, isCategory: false, visible: true,  headingTitle: "Subject"},
+  {isOpened: false, selectedIndex: 0, isCategory: false, visible: true,  headingTitle: "Filter by"},
+  {isOpened: false, selectedIndex: 0, isCategory: false, visible: false, headingTitle: "Operate Age"}
 ]
 export default class Sidebar extends React.Component {
   state = {
@@ -35,6 +31,16 @@ export default class Sidebar extends React.Component {
   updateFilter = (sidebarItemIndex, selectedIndex) => {
     const { sidebarItems } =this.state
     sidebarItems[sidebarItemIndex].selectedIndex = selectedIndex
+
+    if (sidebarItemIndex === 3) {
+      if (selectedIndex === 4) {
+        sidebarItems[4].visible = true
+      } else {
+        sidebarItems[4].visible = false
+        sidebarItems[4].selectedIndex = 0        
+      }
+    } 
+
     this.setState({ sidebarItems })
     this.toggleCategoryOptions(sidebarItemIndex)
   }
@@ -42,7 +48,11 @@ export default class Sidebar extends React.Component {
     const { sidebarItems } =this.state
     sidebarItems.forEach((element) => {
       element.selectedIndex = 0
+      element.isOpened = false
     })
+
+    sidebarItems[4].visible = false
+
     this.setState({ sidebarItems })    
   }
   render() {
@@ -54,6 +64,7 @@ export default class Sidebar extends React.Component {
             <SidebarItem 
               headingTitle={val.headingTitle}
               titles={categoryTitles[i]}
+              visible={sidebarItems[i].visible}              
               selectedIndex={sidebarItems[i].selectedIndex}
               isOpened={sidebarItems[i].isOpened}
               isCategory={sidebarItems[i].isCategory} 
