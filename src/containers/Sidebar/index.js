@@ -39,6 +39,7 @@ export default class Sidebar extends React.Component {
       } else {
         sidebarItems[4].visible = false
         sidebarItems[4].selectedIndex = 0   
+        sidebarItems[4].isOpened = false                     
       }
     } 
 
