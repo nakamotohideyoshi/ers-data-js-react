@@ -3,6 +3,7 @@ import Highcharts from 'highcharts';
 import {
   HighchartsChart, Chart, withHighcharts, XAxis, YAxis, Legend, ColumnSeries,
 } from 'react-jsx-highcharts';
+import './style.css'
 
 class SheetDataChart extends Component {
   render() {
