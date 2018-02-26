@@ -1,5 +1,6 @@
 import React from 'react';
 import { Col } from 'react-bootstrap';
+import 'react-fa'
 import 'react-slidedown/lib/slidedown.css'
 import SidebarItem from '../../components/SidebarItem'
 import './style.css';
@@ -37,7 +38,7 @@ export default class Sidebar extends React.Component {
         sidebarItems[4].visible = true
       } else {
         sidebarItems[4].visible = false
-        sidebarItems[4].selectedIndex = 0        
+        sidebarItems[4].selectedIndex = 0   
       }
     } 
 

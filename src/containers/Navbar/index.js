@@ -2,7 +2,6 @@ import React from 'react';
 import Navbar from 'react-bootstrap/lib/Navbar';
 import Nav from 'react-bootstrap/lib/Nav';
 import { MenuItem, NavDropdown } from 'react-bootstrap';
-import 'react-fa'
 import DropdownContent from '../../components/DropdownContent';
 import Logo from '../../images/logo.png'
 import './style.css';
