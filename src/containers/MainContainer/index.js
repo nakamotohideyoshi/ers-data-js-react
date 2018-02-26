@@ -1,8 +1,9 @@
 import React from 'react';
 import { Col } from 'react-bootstrap';
 import DownloadButton from '../../components/DownloadButton';
-import SheetDataChart from '../../components/SheetDataChart';
 import FilterDropdown from '../../components/FilterDropdown';
+import SheetDataChart from '../../components/SheetDataChart';
+import TableContainer from '../TableContainer';
 import Footnote from '../Footnote';
 import './style.css';
 
@@ -41,6 +42,7 @@ export default class MainContainer extends React.Component {
           onSelectYear={this.onSelectYear} 
         />
         <SheetDataChart yearsInfo={yearsInfo} />
+        <TableContainer />
         <Footnote />
       </Col>
     )
