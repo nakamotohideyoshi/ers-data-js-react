@@ -9,7 +9,7 @@ import charts from '../../ApolloComponent/chartsQuery'
 
 class MainContainer extends React.Component {  
   
-  componentWillMount() {
+  componentWillMount() {    
     let yearsInfo = []
     this.props.years.forEach(yearN => {
       const infoObj = {}
@@ -20,27 +20,36 @@ class MainContainer extends React.Component {
     this.setState({ yearsInfo })
   }
 
-  componentWillReceiveProps(props) {    
-    let {yearsInfo} = this.state
+  componentWillReceiveProps(props) {
+
+    let yearsInfo = []
+    this.props.years.forEach(yearN => {
+      const infoObj = {}
+        infoObj.year = yearN
+        infoObj.checked = false
+        yearsInfo.push(infoObj)
+    })
+
     if(props.charts.arms_surveydata) {
       props.charts.arms_surveydata.forEach(surveyData => {
         yearsInfo.forEach((info, index) => {
-          if (info.year == surveyData.year) {
-            if (surveyData.topic_abb == "igcfi") {
+          if (info.year === surveyData.year) {
+            if (surveyData.topic_abb === "igcfi") {
               yearsInfo[index].grossCashIncome = surveyData.estimate
-            } else if (surveyData.topic_abb == "etot") {
+            } else if (surveyData.topic_abb === "etot") {
               yearsInfo[index].totalCashExpense = surveyData.estimate
-            } else if (surveyData.topic_abb == "evtot") {
+            } else if (surveyData.topic_abb === "evtot") {
               yearsInfo[index].variableExpense = surveyData.estimate
-            } else if (surveyData.topic_abb == "infi") {
+            } else if (surveyData.topic_abb === "infi") {
               yearsInfo[index].netFarmIncome = surveyData.estimate
             }
             return true
           }
         })
-      });
-      this.setState({ yearsInfo })
+      });     
     }
+
+    this.setState({ yearsInfo })
   }
 
   onSelectYear = (index) => {
@@ -50,6 +59,7 @@ class MainContainer extends React.Component {
   }
 
   render() {
+    console.log('updated', this.props.charts)
     const { yearsInfo} = this.state
     return (
       <Col xs={12} md={9} sm={3}>
@@ -65,5 +75,7 @@ class MainContainer extends React.Component {
       </Col>
     )
   }
+  
 }
+
 export default charts(MainContainer)

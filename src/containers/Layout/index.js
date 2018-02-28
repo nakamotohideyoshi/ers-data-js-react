@@ -7,39 +7,54 @@ const filters = [
   [1, 2, 3, 4, 5, 6, 7, 8],
   [1, 2, 3],
   ['farm', 'grp', 'sal', 'stypll', 'age', 'reg', 'spec'],
-  []
+  [0, 1],
+  [0, 1, 2, 3],
+  [0, 1, 2, 3, 4, 5],
+  [0, 1, 2, 3, 4, 5, 6, 7, 11, 12, 13, 14, 15, 16, 17, 18],
+  [0, 1, 2, 3, 4, 5],
+  [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], 
+  [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]
 ]
 
 export default class Layout extends React.Component {
  
   componentWillMount() {
-    const subject_num = [1];
-    const series = ['farm'];
-    const report_num = [2];
-    const selected_years = [];
+
+    const report_num = 1;
+    const subject_num = 1;
+    const series = 'farm';
+    const series_element = 0 
     const {years} = this.props
-    this.setState({ subject_num, series, report_num, selected_years, years })
+    this.setState({ report_num, subject_num, series, series_element, years })
     
   }
-  onSelectYear1 = (selectedyears) => {
-    let {selected_years} = this.state
-    selected_years = selectedyears    
-    this.setState({ selected_years })
+  onSelectFilter = (sidebarItemIndex, selectedIndex) => {
+    let {report_num, subject_num, series, series_element} = this.state
+    if(sidebarItemIndex === 1) {
+      report_num = filters[sidebarItemIndex][selectedIndex]
+    } else if (sidebarItemIndex === 2){
+      subject_num = filters[sidebarItemIndex][selectedIndex]
+    } else if (sidebarItemIndex === 3) {
+      series = filters[sidebarItemIndex][selectedIndex]
+    } else {
+      series_element = filters[sidebarItemIndex][selectedIndex]
+    }
+    this.setState({report_num, subject_num, series, series_element})
+    
   }
   render() {
-    const { subject_num, series, report_num, selected_years, years} = this.state
-    console.log(this.state)    
+    const { subject_num, series, report_num, years, series_element } = this.state
     return (
       <Grid>
         <Sidebar
+          onSelectFilter={this.onSelectFilter}
         />
         <MainContainer 
           years={years}
-          subjectnum = {subject_num}
-          series1 = {series}
-          reportnum = {report_num}
-          selectedyears = {selected_years}
-          onSelectYear1 = {this.onSelectYear1}
+          report_num = {report_num}
+          subject_num = {subject_num}
+          series = {series}
+          series_element = {series_element}        
         />
       </Grid>
     )
