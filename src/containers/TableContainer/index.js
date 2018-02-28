@@ -1,6 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import HelpImg from '../../images/help.png'
+import PinHideImg from '../../images/unin_hide.png'
+import PinShowImg from '../../images/unin_show.png'
+import HideAllImg from '../../images/hide_all.png'
+import HiddenImg from '../../images/hide.png'
+import ShownImg from '../../images/show.png'
+
+
 import './style.css'
 const dataSet = {
   "data": {
@@ -426,22 +433,26 @@ class TableContainer extends React.PureComponent {
   //   // })
   //   console.log(arms_surveydata)
   // }
+  state = {
+    viewData: {},
+    isHiddenAll: true,
+    showList: {}
+  }
   constructor(props) {
     super(props)
-       console.log(arms_surveydata)
       for (let i=0;i<arms_surveydata.length-1;i++)
       for (let j=i+1;j<arms_surveydata.length;j++) {
         const a = arms_surveydata[i]
         const b = arms_surveydata[j]
-        if (a.topic_abb.level > b.topic_abb.level) {
-          arms_surveydata[i] = b
-          arms_surveydata[j] = a
-        } else if (a.topic_abb.level === b.topic_abb.level) {
+      //   if (a.topic_abb.level > b.topic_abb.level) {
+      //     arms_surveydata[i] = b
+      //     arms_surveydata[j] = a
+      //   } else if (a.topic_abb.level === b.topic_abb.level) {
           if (a.topic_abb.seq > b.topic_abb.seq) {
             arms_surveydata[i] = b
             arms_surveydata[j] = a
           } 
-        }
+        // }
       }
       const interval = years.length
       let pos = 0
@@ -457,16 +468,67 @@ class TableContainer extends React.PureComponent {
         }
           pos += interval
       }
-    console.log(arms_surveydata)
+  }
+  hideItem(index, c){
+    const { viewData, showList } = this.state
+    if (viewData[index]) 
+      delete viewData[index]
+    if (showList[index]) 
+      delete showList[index]
+    this.setState({ viewData: Object.assign({}, viewData), showList: Object.assign({}, showList) })
+  }
+  showItem(index, c) {
+    let arr = []
+    for (let i=index;i<index+c;i++) {
+      arr.push(arms_surveydata[i])
+    }
+    const { viewData, showList } = this.state
+    viewData[index] = arr
+    showList[index] = 1
+    this.setState({ viewData: Object.assign({}, viewData), showList: Object.assign({}, showList) })
+  }
+  hideAllItem() {
+    this.setState({ isHiddenAll: true })
+    this.setState({ showList: {} })
+    this.setState({ viewData: {} })
+  }
+  showAllItem() {
+    this.setState({ isHiddenAll: false })
+    arms_surveydata.map((data, index) => {
+      const c = years.length 
+      if (index%c === 0) {
+        this.showItem(index, c)
+      }
+    })
+    console.log(this.state.viewData)
   }
   render() {
+    const { viewData, showList, isHiddenAll } = this.state
     return (
     <div className="col-md-12 col-sm-12 col-xs-12">
         <div class="col-md-5 col-sm-3 col-xs-6 table-responsive-2 no-padding">  
           <table className="table table-sm table-responsive">
             <thead>
                 <tr>
-                  <th>pin</th>
+                  <th>
+                    <div className="pin-container">
+                        <div><img src={PinShowImg} alt="" /></div>
+                        <div className="level-0">
+                          pin
+                        </div>
+                    </div>
+                  </th>
+                  <th>
+                    <div>
+                      {
+                        isHiddenAll && (
+                          <a onClick={() => this.showAllItem()}><img src={HideAllImg} alt="" /></a>
+                        ) || (
+                          <a onClick={() => this.hideAllItem()}><img src={ShownImg} alt="" /></a>
+                        )
+                      }
+                    </div>
+                  </th>
                 </tr>
             </thead>
             <tbody>
@@ -479,9 +541,45 @@ class TableContainer extends React.PureComponent {
                   return (
                   <tr>
                     <td>
+                      <div className="pin-container">
                       <div>
-                      {data.topic_dim.header}
+                        <a onClick={this.hidePin}>
+                          <img src={PinHideImg} alt="" />
+                        </a>
                       </div>
+                      {
+                        data.topic_dim.level === 1 && ( <div className="level-1">{data.topic_dim.header}</div>) ||
+                        data.topic_dim.level === 2 && ( <div className="level-2">{data.topic_dim.header}</div>) ||
+                        data.topic_dim.level === 3 && ( <div className="level-3">{data.topic_dim.header}</div>) ||
+                        data.topic_dim.level === 4 && ( <div className="level-4">{data.topic_dim.header}</div>) ||
+                                                      ( <div className="level-0">{data.topic_dim.header}</div>)
+                      }
+                      </div>
+                    </td>
+                    <td>
+                      {
+                        <div>
+                          {
+                            showList && (
+                              showList[index] && (
+                                <a onClick={() => this.hideItem(index, c)}>
+                                  <img src={ShownImg} alt="" /> 
+                                </a>
+                              ) || (
+                                <a onClick={() => this.showItem(index, c)}>
+                                  <img src={HiddenImg} alt="" /> 
+                                </a>
+                              )
+                            ) || (
+                              <a onClick={() => this.showItem(index, c)}>
+                                  <img src={HiddenImg} alt="" /> 
+                              </a>
+                            )
+                          }
+                          
+                          &ensp;&ensp;Dollar per farm
+                        </div>
+                      }
                     </td>
                   </tr>
                   )
@@ -491,7 +589,7 @@ class TableContainer extends React.PureComponent {
           </table>
         </div>				
         <div class="col-md-7 col-sm-9 col-xs-6 no-padding">
-          <table className="table table-sm table-responsive">
+          <table className="table table-sm table-responsive table-estimate-rse">
             <thead>
               <tr>
                 {
