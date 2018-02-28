@@ -6,32 +6,62 @@ import SheetDataChart from '../../components/SheetDataChart';
 import TableContainer from '../TableContainer';
 import Footnote from '../Footnote';
 import './style.css';
+import charts from '../../ApolloComponent/chartsQuery'
 
-const years = ['2007', '2008', '2009', '2010', '2011', '2012', '2013',  
-               '2014', '2015', '2016', '2017', '2018', '2019', '2020']
-
-export default class MainContainer extends React.Component {
-  componentWillMount() {
+class MainContainer extends React.Component {  
+  
+  componentWillMount() {    
     let yearsInfo = []
-    years.forEach(yearNumber => {
+    this.props.years.forEach(yearN => {
       const infoObj = {}
-      infoObj.year = yearNumber
-      infoObj.checked = false
-      infoObj.grossCashIncome = Math.floor((Math.random() * 250) + 1);
-      infoObj.totalCashExpense = Math.floor((Math.random() * 250) + 1);
-      infoObj.variableExpense = Math.floor((Math.random() * 250) + 1);
-      infoObj.netFarmIncome = Math.floor((Math.random() * 250) + 1);
-      yearsInfo.push(infoObj)
-    });
+        infoObj.year = yearN
+        infoObj.checked = false
+        yearsInfo.push(infoObj)
+    })
     this.setState({ yearsInfo })
   }
+
+  componentWillReceiveProps(props) {
+
+    let yearsInfo = []
+    this.props.years.forEach(yearN => {
+      const infoObj = {}
+        infoObj.year = yearN
+        infoObj.checked = false
+        yearsInfo.push(infoObj)
+    })
+
+    if(props.charts.arms_surveydata) {
+      props.charts.arms_surveydata.forEach(surveyData => {
+        yearsInfo.forEach((info, index) => {
+          if (info.year === surveyData.year) {
+            if (surveyData.topic_abb === "igcfi") {
+              yearsInfo[index].grossCashIncome = surveyData.estimate
+            } else if (surveyData.topic_abb === "etot") {
+              yearsInfo[index].totalCashExpense = surveyData.estimate
+            } else if (surveyData.topic_abb === "evtot") {
+              yearsInfo[index].variableExpense = surveyData.estimate
+            } else if (surveyData.topic_abb === "infi") {
+              yearsInfo[index].netFarmIncome = surveyData.estimate
+            }
+            return true
+          }
+        })
+      });     
+    }
+
+    this.setState({ yearsInfo })
+  }
+
   onSelectYear = (index) => {
     let { yearsInfo } = this.state
     yearsInfo[index].checked = !yearsInfo[index].checked
     this.setState({ yearsInfo })
   }
+
   render() {
-    const { yearsInfo } = this.state
+    console.log('updated', this.props.charts)
+    const { yearsInfo} = this.state
     return (
       <Col xs={12} md={9} sm={3}>
         <h4 className="main-heading">Farm Business Balance Sheet Data 
@@ -47,4 +77,7 @@ export default class MainContainer extends React.Component {
       </Col>
     )
   }
+  
 }
+
+export default charts(MainContainer)

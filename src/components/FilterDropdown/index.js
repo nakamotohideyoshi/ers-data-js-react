@@ -16,7 +16,7 @@ const FilterDropdown = ({ onSelectYear, yearsInfo }) => (
         >
         {
           yearsInfo.map((infoObj, index) => {
-            return <Checkbox title={infoObj.year} checked={infoObj.checked} onCheck={() => onSelectYear(index)} key={index} />
+            return <Checkbox title={infoObj.year + ''} checked={infoObj.checked} onCheck={() => onSelectYear(index)} key={index} />
           })
         }
         </DropdownButton>
