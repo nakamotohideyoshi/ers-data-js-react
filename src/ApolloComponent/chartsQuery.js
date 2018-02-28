@@ -2,17 +2,18 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
 export default graphql(gql`
-  query ChartsQuery($years: [Int]) {
+  query ChartsQuery($years: [Int], $report_num: [Int], $subject_num: [Int], $series: [String], $series_element: [Int]) {
     arms_surveydata(
       year: $years,
-      subject_num: 1,
-      series: "farm",
-      series_element: 0,
+      report_num: $report_num,      
+      subject_num: $subject_num,
+      series: $series,
+      series_element: $series_element,
       series2: "farm",
-      series2_element: 0,
-      report_num: [2],
+      series2_element: 0,      
       state_id: "00",
-      topic_abb: ["igcfi", "etot", "evtot", "infi"]
+      topic_abb: ["igcfi", "etot", "evtot", "infi"],
+      order_by: "topic_dim.seq|asc"
     )
     {
       year
@@ -24,9 +25,8 @@ export default graphql(gql`
         seq
         abb
         header
-      }
-      
-    }
+      }      
+    }    
   }
 `, {
     name: 'charts',
