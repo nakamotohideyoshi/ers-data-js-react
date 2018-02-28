@@ -298,8 +298,6 @@ const dataSet = {
         "rse": 1.7,
         "estimate": 20638,
         "topic_abb": "evfertc",
-        "estimate": 10070,
-        "topic_abb": "evseedp",
         "topic_dim": {
           "level": 3,
           "seq": 10,
@@ -418,70 +416,141 @@ const dataSet = {
     ]}
 }
 const years = ['2014', '2015']
+let arms_surveydata = dataSet.data.arms_surveydata
 
-const TableContainer = ({ }) => (
-  <div className="col-md-12 col-sm-12 col-xs-12">
-    <div class="col-md-5 col-sm-3 col-xs-6 table-responsive-2 no-padding">  
-
-    </div>				
-    <div class="col-md-7 col-sm-9 col-xs-6 no-padding">
-      <table className="table table-sm table-responsive">
-        <thead>
-          <tr>
-            {
-              years.map( year => {
-                return <th scope="col">{year}</th>
-              })
-            }
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            {
-              years.map( year => {
-                return (
-                <td scope="col">
-                  <div className='estimate_rse'>
-                    <div className="data-heading">ESTIMATE</div>
-                    <div className="data-heading">RSE</div>
-                  </div>
-                </td>
-                )
-              })
-            }
-          </tr>
-          {
-            dataSet.data.arms_surveydata.map((data, index) => {
-              const c = years.length
-              if (index % c ===0) {
-                return (
-                  <tr>
-                    {
-                      years.map((year, pos) => {
-                        return (
-                          <td>
-                            <div className='estimate_rse'>
-                              <div>{dataSet.data.arms_surveydata[index+pos].estimate}</div>
-                              <div>{dataSet.data.arms_surveydata[index+pos].rse}</div>
-                            </div>
-                          </td>
-                        )
-                      })
-                    }
-                  </tr>
-                )
-              }
-            })
+class TableContainer extends React.PureComponent {
+  // componentWillReceiveProps(props) {
+  //   let arms_surveydata = dataSet.data.arms_surveydata
+  //   // arms_surveydata.sort(function(a, b) {
+  //   //   return a.year - b.year;
+  //   // })
+  //   console.log(arms_surveydata)
+  // }
+  constructor(props) {
+    super(props)
+       console.log(arms_surveydata)
+      for (let i=0;i<arms_surveydata.length-1;i++)
+      for (let j=i+1;j<arms_surveydata.length;j++) {
+        const a = arms_surveydata[i]
+        const b = arms_surveydata[j]
+        if (a.topic_abb.level > b.topic_abb.level) {
+          arms_surveydata[i] = b
+          arms_surveydata[j] = a
+        } else if (a.topic_abb.level === b.topic_abb.level) {
+          if (a.topic_abb.seq > b.topic_abb.seq) {
+            arms_surveydata[i] = b
+            arms_surveydata[j] = a
+          } 
+        }
+      }
+      const interval = years.length
+      let pos = 0
+      while (pos<arms_surveydata.length) {
+        for (let ii=pos;ii<pos+interval-1;ii++) 
+        for (let jj=ii+1;jj<pos+interval;jj++) {
+          const a = arms_surveydata[ii]
+          const b = arms_surveydata[jj]
+          if (a.year > b.year) {
+            arms_surveydata[ii] = b
+            arms_surveydata[jj] = a
           }
-          <tr>
-          </tr>
-          <tr>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-);
+        }
+          pos += interval
+      }
+    console.log(arms_surveydata)
+  }
+  render() {
+    return (
+    <div className="col-md-12 col-sm-12 col-xs-12">
+        <div class="col-md-5 col-sm-3 col-xs-6 table-responsive-2 no-padding">  
+          <table className="table table-sm table-responsive">
+            <thead>
+                <tr>
+                  <th>pin</th>
+                </tr>
+            </thead>
+            <tbody>
+              <tr><td>PINNED SERIES</td></tr>
+              {
+                arms_surveydata.map((data, index) => {
+                  const c = years.length 
+                                 
+                  if (index%c === 0)
+                  return (
+                  <tr>
+                    <td>
+                      <div>
+                      {data.topic_dim.header}
+                      </div>
+                    </td>
+                  </tr>
+                  )
+                })
+              }
+            </tbody>
+          </table>
+        </div>				
+        <div class="col-md-7 col-sm-9 col-xs-6 no-padding">
+          <table className="table table-sm table-responsive">
+            <thead>
+              <tr>
+                {
+                  years.map( year => {
+                    return <th scope="col">{year}</th>
+                  })
+                }
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                {
+                  years.map( year => {
+                    return (
+                    <td>
+                      <div className='estimate_rse'>
+                        <div className="data-heading">ESTIMATE</div>
+                        <div className="data-heading">RSE</div>
+                      </div>
+                    </td>
+                    )
+                  })
+                }
+              </tr>
+              {
+                arms_surveydata.map((data, index) => {
+                  const c = years.length
+                  if (index % c ===0) {
+                    return (
+                      <tr>
+                        {
+                          years.map((year, pos) => {
+                            return (
+                              <td>
+                                <div className='estimate_rse'>
+                                  <div>{dataSet.data.arms_surveydata[index+pos].estimate}</div>
+                                  <div>{dataSet.data.arms_surveydata[index+pos].rse}</div>
+                                </div>
+                              </td>
+                            )
+                          })
+                        }
+                      </tr>
+                    )
+                  }
+                  return null
+                })
+              }
+              <tr>
+              </tr>
+              <tr>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    )
+  }
+}
 
 TableContainer.propTypes = {
 };
