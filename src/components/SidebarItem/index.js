@@ -22,7 +22,7 @@ const SidebarItem = ({ headingTitle, titles, visible, selectedIndex, isOpened, i
                       <a>
                       {
                         selectedIndex === index && (
-                          <div><i className="fa fa-check"></i>{titles[index]}</div>
+                          <div className="checked-option"><i className="fa fa-check"></i>{titles[index]}</div>
                         ) || (
                           <div className="right-padding-option">{titles[index]}</div>
                         )
