@@ -5,6 +5,9 @@
 .right-padding-option {
   padding: 1px 0px 0px 26px;
 }
+.checked-option {
+  display: flex;
+}
 .dropdown_up:not(:first-child) {
   margin-top: 2px;
 }
