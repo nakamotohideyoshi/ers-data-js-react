@@ -67,7 +67,7 @@ export default class Layout extends React.Component {
       subject_num = 1
       series = 'farm'
       series_element = 0
-      series2 = 'farms'
+      series2 = 'farm'
       series_element2 = 0
     } else if(sidebarItemIndex === 1 || sidebarItemIndex === 10) {
       report_num = filters[sidebarItemIndex][selectedIndex]
