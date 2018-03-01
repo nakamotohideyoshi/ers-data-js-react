@@ -12,7 +12,6 @@ export default graphql(gql`
       series2: "farm",
       series2_element: 0,      
       state_id: "00",
-      topic_abb: ["igcfi", "etot", "evtot", "infi"],
       order_by: "topic_dim.seq|asc"
     )
     {
