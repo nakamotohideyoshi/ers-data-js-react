@@ -29,7 +29,6 @@ const categoryTitles = [
     'Farm Resource Region',
     'Production Specialty'
   ],
-  ['TOTAL', 'NA'],
   ['All Collapsed Typologies', 'Residence farms', 'Intermediate farms', 'Commercial farms'],
   ['All Sales Classes', '$1,000,000 or more', '$500,000 to $999,999', '$250,000 to $499,999', '$100,000 to $249,999', 'Less than $100,000'],
   ['All Typologies', 'Retirement farms', 'Residential/lifestyle farms', 'Farming occupation/lower-sales farms', 'Farming occupation/higher-sales farms', 'Large farms', 'Very large farms', 'Nonfamily farms', 'Retirement farms (New)', 'Off-farm occupation farms (New)', 'Farming-occupation/low-sales farms (New)', 'Farming-occupation/moderate-sales farms (New)', 'Midsize family farms (New)', 'Large farms (New)', 'Very large farms (New)', 'Nonfamily farms'],
@@ -44,7 +43,6 @@ const sidebarItems = [
   {isOpened: false, selectedIndex: 0, isCategory: false, visible: true,  headingTitle: "Report"},
   {isOpened: false, selectedIndex: 0, isCategory: false, visible: true,  headingTitle: "Subject"},
   {isOpened: false, selectedIndex: 0, isCategory: false, visible: true,  headingTitle: "Filter by"},
-  {isOpened: false, selectedIndex: 0, isCategory: false, visible: true, headingTitle: "All Farms"},
   {isOpened: false, selectedIndex: 0, isCategory: false, visible: false, headingTitle: "Collapsed Farm Typology"},
   {isOpened: false, selectedIndex: 0, isCategory: false, visible: false, headingTitle: "Economic Class"},
   {isOpened: false, selectedIndex: 0, isCategory: false, visible: false, headingTitle: "Farm Typology'"},
@@ -71,8 +69,10 @@ export default class Sidebar extends React.Component {
         sidebarItems[i].visible = false
         sidebarItems[i].selectedIndex = 0   
         sidebarItems[i].isOpened = false 
-      }      
-      sidebarItems[selectedIndex+4].visible = true      
+      }
+      if(selectedIndex !== 0){
+        sidebarItems[selectedIndex+3].visible = true
+      }    
     }  
 
     this.setState({ sidebarItems })

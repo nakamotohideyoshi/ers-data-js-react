@@ -7,7 +7,6 @@ const filters = [
   [1, 2, 3, 4, 5, 6, 7, 8],
   [1, 2, 3],
   ['farm', 'grp', 'sal', 'stypll', 'age', 'reg', 'spec'],
-  [0, 1],
   [0, 1, 2, 3],
   [0, 1, 2, 3, 4, 5],
   [0, 1, 2, 3, 4, 5, 6, 7, 11, 12, 13, 14, 15, 16, 17, 18],
@@ -36,6 +35,7 @@ export default class Layout extends React.Component {
       subject_num = filters[sidebarItemIndex][selectedIndex]
     } else if (sidebarItemIndex === 3) {
       series = filters[sidebarItemIndex][selectedIndex]
+      series_element = 0
     } else {
       series_element = filters[sidebarItemIndex][selectedIndex]
     }
