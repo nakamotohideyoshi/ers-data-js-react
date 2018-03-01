@@ -6,35 +6,65 @@ import {
 import './style.css'
 
 class SheetDataChart extends Component {
+  state = {
+    incomeArr: []
+  }
+  componentWillReceiveProps(props) {
+    const { showList, years, surveyData } = props
+    let incomeArr = []
+    const c = years.length
+    if (surveyData) {
+      surveyData.forEach((element, index) => {
+          let singleIncome = {}
+          let currentIndex = 0
+          
+            incomeArr.forEach((income, i) => {
+              if (income.id === element.topic_abb) {
+                singleIncome = income
+                currentIndex = i
+                return
+              }
+            })
+            if (!singleIncome.id) {
+              singleIncome.id = element.topic_abb
+              singleIncome.header = element.topic_dim.header
+              if (showList[element.topic_abb] === 1) 
+              singleIncome.estimateList = [element.estimate]
+              else 
+              singleIncome.estimateList = [0]
+              
+              incomeArr.push(singleIncome)
+            } else {
+              if (showList[element.topic_abb] === 1) 
+              singleIncome.estimateList.push(element.estimate)
+              else 
+              singleIncome.estimateList.push(0)
+              
+              incomeArr[currentIndex] = singleIncome
+            }
+      })
+    }
+    this.setState({ incomeArr: [].concat(incomeArr) })
+  }
   render() {
-    const { yearsInfo } = this.props
-    let years = []
-    let grossCashIncomeArr = []
-    let totalCashExpenseArr = []
-    let variableExpenseArr = []
-    let netFarmIncomeArr = []
+    const { incomeArr } = this.state
+    const { years } = this.props
     
-    yearsInfo.forEach(infoObj => { 
-      if (infoObj.checked) {
-        years.push(infoObj.year)
-        grossCashIncomeArr.push(infoObj.grossCashIncome)
-        totalCashExpenseArr.push(infoObj.totalCashExpense)
-        variableExpenseArr.push(infoObj.variableExpense)
-        netFarmIncomeArr.push(infoObj.netFarmIncome)
-      }
-    })
     return (
       <div className="app">
         <HighchartsChart>
           <Chart />
-          <Legend  />
+          <Legend />
           <XAxis id="year" categories={years} />
           <YAxis id="number">
           <YAxis.Title>$ Millions</YAxis.Title>
-            <ColumnSeries id="grossCashIncome" name="Gross Cash Income" data={grossCashIncomeArr} />
-            <ColumnSeries id="totalCashExpense" name="Total Cash Expense" data={totalCashExpenseArr} />
-            <ColumnSeries id="variableExpense" name="Variable Expense" data={variableExpenseArr} />
-            <ColumnSeries id="netFarmIncome" name="Net Farm Income" data={netFarmIncomeArr} />
+            {
+              incomeArr.map((element) => {
+                return (
+                <ColumnSeries id={element.id} name={element.header} data={element.estimateList} />
+                )
+              })
+            }
           </YAxis>
         </HighchartsChart>
       </div>
