@@ -85,10 +85,12 @@ export default class Sidebar extends React.Component {
       element.selectedIndex = 0
       element.isOpened = false
     })
+    for ( let i = 4; i < sidebarItems.length; i++) {
+      sidebarItems[i].visible = false
+    }
 
-    sidebarItems[4].visible = false
-
-    this.setState({ sidebarItems })    
+    this.setState({ sidebarItems })
+    this.props.onSelectFilter(0, 0)    
   }
   render() {
 
