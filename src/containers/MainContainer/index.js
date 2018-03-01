@@ -60,7 +60,7 @@ class MainContainer extends React.Component {
   }
 
   render() {
-    console.log('updated', this.props)
+    console.log('parameters', this.props)
     const { yearsInfo} = this.state
     return (
       <Col xs={12} md={9} sm={3}>

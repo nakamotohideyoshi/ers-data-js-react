@@ -4,7 +4,7 @@ import SidebarDropdown from '../SidebarDropdown'
 import { SlideDown } from 'react-slidedown'
 import Reset from '../../images/reset.png'
 
-const SidebarItem = ({ headingTitle, titles, visible, selectedIndex, isOpened, isCategory, toggleCategoryOptions, updateFilter, resetFilter }) => (
+const SidebarItem = ({ headingTitle, titles, visible, selectedIndex, isOpened, isCategory, isReports, isDataReset, isLast, toggleCategoryOptions, updateFilter, resetFilter }) => (
   <div>
     {
       visible && (
@@ -38,14 +38,23 @@ const SidebarItem = ({ headingTitle, titles, visible, selectedIndex, isOpened, i
           }
         </SlideDown> 
         {
-          isCategory && (
+          isCategory && isReports && (
             <div>
               <a className="pull-right reset" onClick={resetFilter}>
                 <img src={Reset} alt="" />Reset
               </a>
             </div>
           )
-        }   
+        }
+        {
+          isDataReset && (
+            <div>
+              <a className="pull-right reset" onClick={resetFilter}>
+                <img src={Reset} alt="" />Reset
+              </a>
+            </div>
+          )
+        }          
         </div>
       )
     }
@@ -58,6 +67,9 @@ SidebarItem.propTypes = {
   siebarItemIndex: PropTypes.number,
   isOpened: PropTypes.bool,   
   isCategory: PropTypes.bool,
+  isReports: PropTypes.bool,
+  isDataReset: PropTypes.bool,
+  isLast: PropTypes.bool,
   toggleCategoryOptions: PropTypes.func,
   updateFilter: PropTypes.func  
 };
@@ -66,7 +78,7 @@ SidebarItem.defaultProps = {
   titles: [],
   siebarItemIndex: 0,  
   isOpened: false,  
-  isCategory: false 
+  isCategory: false
 };
 
 export default SidebarItem;
