@@ -29,7 +29,12 @@ export default class Layout extends React.Component {
   }
   onSelectFilter = (sidebarItemIndex, selectedIndex) => {
     let {report_num, subject_num, series, series_element} = this.state
-    if(sidebarItemIndex === 1) {
+    if (sidebarItemIndex === 0) {
+      report_num = 1
+      subject_num = 1
+      series = 'farm'
+      series_element = 0
+    } else if(sidebarItemIndex === 1) {
       report_num = filters[sidebarItemIndex][selectedIndex]
     } else if (sidebarItemIndex === 2){
       subject_num = filters[sidebarItemIndex][selectedIndex]
