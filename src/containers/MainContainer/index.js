@@ -8,60 +8,90 @@ import Footnote from '../Footnote';
 import './style.css';
 import charts from '../../ApolloComponent/chartsQuery'
 
+const defaultYears = [2014, 2015]
+
 class MainContainer extends React.Component {  
-  
-  componentWillMount() {    
+  state = {
+    showList: {},
+    yearsInfo: [],
+    years: [],
+    surveyData: []
+  }
+  componentWillMount() {
     let yearsInfo = []
     this.props.years.forEach(yearN => {
       const infoObj = {}
-        infoObj.year = yearN
-        infoObj.checked = false
-        yearsInfo.push(infoObj)
+      infoObj.year = yearN
+      infoObj.checked = false
+      defaultYears.forEach((defaultYear) => {
+        if (yearN === defaultYear) {
+          infoObj.checked = true
+        }
+      })
+      yearsInfo.push(infoObj)
     })
     this.setState({ yearsInfo })
   }
-
   componentWillReceiveProps(props) {
-
-    let yearsInfo = []
-    this.props.years.forEach(yearN => {
-      const infoObj = {}
-        infoObj.year = yearN
-        infoObj.checked = false
-        yearsInfo.push(infoObj)
-    })
-
-    if(props.charts.arms_surveydata) {
-      props.charts.arms_surveydata.forEach(surveyData => {
-        yearsInfo.forEach((info, index) => {
-          if (info.year === surveyData.year) {
-            if (surveyData.topic_abb === "igcfi") {
-              yearsInfo[index].grossCashIncome = surveyData.estimate
-            } else if (surveyData.topic_abb === "etot") {
-              yearsInfo[index].totalCashExpense = surveyData.estimate
-            } else if (surveyData.topic_abb === "evtot") {
-              yearsInfo[index].variableExpense = surveyData.estimate
-            } else if (surveyData.topic_abb === "infi") {
-              yearsInfo[index].netFarmIncome = surveyData.estimate
-            }
-            return true
-          }
-        })
-      });     
+    if (props.charts.arms_surveydata) {
+      let { yearsInfo } = this.state
+      let showList = {}
+      this.updateFields(yearsInfo, props.charts.arms_surveydata)
+      props.charts.arms_surveydata.forEach(data => {
+        showList[data.topic_abb] = 1
+      })
+      this.setState({ showList })
     }
-
-    this.setState({ yearsInfo })
   }
-
   onSelectYear = (index) => {
     let { yearsInfo } = this.state
     yearsInfo[index].checked = !yearsInfo[index].checked
     this.setState({ yearsInfo })
+    this.updateFields(yearsInfo, this.props.charts.arms_surveydata)
+  }
+  updateFields = (yearsInfo, propData) => {
+    let years = []
+    let surveyData = []
+    const originData = propData
+    yearsInfo.forEach((yearN) => {
+      if (yearN.checked === true) {
+        years.push(yearN.year)
+        originData.forEach((data) => {
+          if (parseInt(data.year, 10) === parseInt(yearN.year, 10))
+          {
+            surveyData.push(data)
+          }
+        })
+      }
+    })
+    this.setState({ years, surveyData })
+  }
+  hideItem(dataId) {
+    const { showList } = this.state
+    showList[dataId] = 0
+    this.setState({ showList: Object.assign({}, showList) })
+  }
+  showItem(dataId) {
+    const { showList } = this.state
+    showList[dataId] = 1
+    this.setState({ showList: Object.assign({}, showList) })
+  }
+  hideAllItem() {
+    const { showList } = this.state
+    for (let key in showList) 
+      showList[key] = 0
+    this.setState({ showList: Object.assign({}, showList) })
+  }
+  showAllItem() {
+    const { showList } = this.state
+    for (let key in showList) 
+      showList[key] = 1
+    this.setState({ showList: Object.assign({}, showList) })
   }
 
   render() {
     console.log('updated', this.props.charts)
-    const { yearsInfo} = this.state
+    const { yearsInfo, years, surveyData, showList } = this.state
     return (
       <Col xs={12} md={9} sm={3}>
         <h4 className="main-heading">Farm Business Balance Sheet Data 
@@ -71,8 +101,20 @@ class MainContainer extends React.Component {
           yearsInfo={yearsInfo} 
           onSelectYear={this.onSelectYear} 
         />
-        <SheetDataChart yearsInfo={yearsInfo} />
-        <TableContainer />
+        <SheetDataChart 
+          years={years}
+          surveyData={surveyData} 
+          showList={showList}
+        />
+        <TableContainer 
+          years={years}
+          surveyData={surveyData}
+          showList={showList}
+          hideItem={(dataId) => this.hideItem(dataId)}
+          showItem={(dataId) => this.showItem(dataId)}
+          showAllItem={() => this.showAllItem()}
+          hideAllItem={() => this.hideAllItem()}
+        />
         <Footnote />
       </Col>
     )
