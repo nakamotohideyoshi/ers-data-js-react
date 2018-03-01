@@ -90,8 +90,10 @@ class MainContainer extends React.Component {
   }
 
   render() {
+
     console.log('updated', this.props.charts)
     const { yearsInfo, years, surveyData, showList } = this.state
+
     return (
       <Col xs={12} md={9} sm={3}>
         <h4 className="main-heading">Farm Business Balance Sheet Data 
