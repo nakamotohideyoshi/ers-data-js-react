@@ -1,3 +1,17 @@
+.table-container {
+  display: flex;
+  width: 100%
+}
+.table-container > div {
+  overflow-x: scroll;
+}
+.col-width-4 {
+  width: 40%;
+}
+.col-width-6 {
+  width: 60%;
+  border-left: 2px solid #dde6ea;  
+}
 .table-responsive {
   overflow-x: auto;
   width: 100%;
@@ -11,7 +25,7 @@ th {
   font-weight:700;
   color:#304550;
 }
-.table-estimate-rse th{
+.estimate-rse-th {
   text-align: center;
 }
 .table>thead>tr>th, 
@@ -21,11 +35,11 @@ th {
   border-top: 0;  
   border-bottom: 0;
 }
-.table-estimate-rse >thead>tr>th, 
-.table-estimate-rse >tbody>tr>th,
-.table-estimate-rse >thead>tr>td,
-.table-estimate-rse >tbody>tr>td {
+.estimate-rse-td {
   border-right: 2px solid #dde6ea;  
+}
+.nowrap-div {
+  white-space: nowrap;
 }
 .table>thead>tr>th {
   background: #eee;
@@ -57,17 +71,17 @@ th {
   display: flex;
 }
 .level-0 {
-  padding-left: 20px;
+  padding-left: 10px;
 }
 .level-1 {
-  padding-left: 40px;
+  padding-left: 20px;
 }
 .level-2 {
-  padding-left: 60px;
+  padding-left: 30px;
 }
 .level-3 {
-  padding-left: 80px;
+  padding-left: 40px;
 }
 .level-3 {
-  padding-left: 100px;
+  padding-left: 50px;
 }
