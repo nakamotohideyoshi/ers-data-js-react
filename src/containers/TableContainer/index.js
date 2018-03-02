@@ -67,8 +67,8 @@ class TableContainer extends React.Component {
     const { incomeArr, isShowItemAll } = this.state
     const { showList, years } = this.props
     return (
-      <div className="col-md-12 col-sm-12 col-xs-12">
-        <div class="col-md-5 col-sm-3 col-xs-6 table-responsive-2 no-padding">
+      <div className="table-container">
+        <div className="col-width-4">
           <table className="table table-sm table-responsive">
             <thead>
               <tr>
@@ -94,7 +94,10 @@ class TableContainer extends React.Component {
               </tr>
             </thead>
             <tbody>
-              <tr><td>PINNED SERIES</td></tr>
+              <tr>
+                <td>PINNED SERIES</td>
+                <td></td>
+              </tr>
               {
 
                 incomeArr.map((data, index) => {
@@ -109,17 +112,17 @@ class TableContainer extends React.Component {
                           </a>
                         </div>
                         {
-                          data.level === 1 && ( <div className="level-1">{data.header}</div>) ||
-                          data.level === 2 && ( <div className="level-2">{data.header}</div>) ||
-                          data.level === 3 && ( <div className="level-3">{data.header}</div>) ||
-                          data.level === 4 && ( <div className="level-4">{data.header}</div>) ||
-                                              ( <div className="level-0">{data.header}</div>)
+                          data.level === 1 && ( <div className="level-1 nowrap-div">{data.header}</div>) ||
+                          data.level === 2 && ( <div className="level-2 nowrap-div">{data.header}</div>) ||
+                          data.level === 3 && ( <div className="level-3 nowrap-div">{data.header}</div>) ||
+                          data.level === 4 && ( <div className="level-4 nowrap-div">{data.header}</div>) ||
+                                              ( <div className="level-0 nowrap-div">{data.header}</div>)
                         }
                         </div>
                       </td>
                       <td>
                         {
-                          <div>
+                          <div className="nowrap-div">
                             {
                               showList && (
                                 showList[data.id] === 1 && (
@@ -147,14 +150,14 @@ class TableContainer extends React.Component {
               }
             </tbody>
           </table>
-        </div>        
-        <div class="col-md-7 col-sm-9 col-xs-6 no-padding">
-          <table className="table table-sm table-responsive table-estimate-rse">
+        </div>
+        <div className="col-width-6">              
+          <table className="table table-sm table-responsive">
             <thead>
               <tr>
                 {
                   years.map( year => {
-                    return <th scope="col">{year}</th>
+                    return <th scope="col" className="estimate-rse-th estimate-rse-td">{year}</th>
                   })
                 }
               </tr>
@@ -164,7 +167,7 @@ class TableContainer extends React.Component {
                 {
                   years.map( year => {
                     return (
-                      <td>
+                      <td className="estimate-rse-td">
                         <div className='estimate_rse'>
                           <div className="data-heading">ESTIMATE</div>
                           <div className="data-heading">RSE</div>
@@ -182,7 +185,7 @@ class TableContainer extends React.Component {
                       {
                         years.map((year, pos) => {
                           return (
-                            <td>
+                            <td className="estimate-rse-td nowrap-div">
                               <div className='estimate_rse'>
                                 <div>{data.estimateList[pos]}</div>
                                 <div>{data.rseList[pos]}</div>
@@ -193,7 +196,6 @@ class TableContainer extends React.Component {
                       }
                     </tr>
                   )
-                  return null
                 })
               }
             </tbody>
