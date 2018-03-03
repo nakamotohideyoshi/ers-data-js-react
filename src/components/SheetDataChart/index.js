@@ -49,26 +49,28 @@ class SheetDataChart extends Component {
   render() {
     const { incomeArr } = this.state
     const { years } = this.props
-    
-    return (
-      <div className="app">
-        <HighchartsChart>
-          <Chart />
-          <Legend />
-          <XAxis id="year" categories={years} />
-          <YAxis id="number">
-          <YAxis.Title>$ Millions</YAxis.Title>
-            {
-              incomeArr.map((element) => {
-                return (
-                <ColumnSeries id={element.id} name={element.header} data={element.estimateList} />
-                )
-              })
-            }
-          </YAxis>
-        </HighchartsChart>
-      </div>
-    );
+    if (incomeArr.length === 0)
+      return (<div className="empty-data-notification">No data to display</div>)
+    else
+      return (
+        <div className="app">
+          <HighchartsChart>
+            <Chart />
+            <Legend />
+            <XAxis id="year" categories={years} />
+            <YAxis id="number">
+            <YAxis.Title>$ Millions</YAxis.Title>
+              {
+                incomeArr.map((element) => {
+                  return (
+                  <ColumnSeries id={element.id} name={element.header} data={element.estimateList} />
+                  )
+                })
+              }
+            </YAxis>
+          </HighchartsChart>
+        </div>
+      );
   }
 }
 

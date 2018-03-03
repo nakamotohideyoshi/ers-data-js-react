@@ -66,143 +66,146 @@ class TableContainer extends React.Component {
   render() {
     const { incomeArr, isShowItemAll } = this.state
     const { showList, years } = this.props
-    return (
-      <div className="table-container">
-        <div className="col-width-4">
-          <table className="table table-sm table-responsive">
-            <thead>
-              <tr>
-                <th>
-                  <div className="pin-container">
-                  <div><img src={PinShowImg} alt="" /></div>
-                  <div className="level-0">
-                    pin
-                  </div>
-                  </div>
-                </th>
-                <th>
-                  <div>
-                    {
-                    isShowItemAll && (
-                    <a onClick={() => this.hideAllItem()}><img src={ShownImg} alt="" /></a>
-                    ) || (
-                    <a onClick={() => this.showAllItem()}><img src={HideAllImg} alt="" /></a>
-                    )
-                    }
-                  </div>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>PINNED SERIES</td>
-                <td></td>
-              </tr>
-              {
-
-                incomeArr.map((data, index) => {
-                  const c = years.length
-                  return (
-                    <tr>
-                      <td>
-                        <div className="pin-container">
-                        <div>
-                          <a onClick={this.hidePin}>
-                            <img src={PinHideImg} alt="" />
-                          </a>
-                        </div>
-                        {
-                          data.level === 1 && ( <div className="level-1 nowrap-div">{data.header}</div>) ||
-                          data.level === 2 && ( <div className="level-2 nowrap-div">{data.header}</div>) ||
-                          data.level === 3 && ( <div className="level-3 nowrap-div">{data.header}</div>) ||
-                          data.level === 4 && ( <div className="level-4 nowrap-div">{data.header}</div>) ||
-                                              ( <div className="level-0 nowrap-div">{data.header}</div>)
-                        }
-                        </div>
-                      </td>
-                      <td>
-                        {
-                          <div className="nowrap-div">
-                            {
-                              showList && (
-                                showList[data.id] === 1 && (
-                                  <a onClick={() => this.hideItem(data.id)}>
-                                    <img src={ShownImg} alt="" />
-                                  </a>
-                                  ) || (
-                                  <a onClick={() => this.showItem(data.id)}>
-                                    <img src={HiddenImg} alt="" />
-                                  </a>
-                                  )
-                                  ) || (
-                                  <a onClick={() => this.showItem(data.id)}>
-                                    <img src={HiddenImg} alt="" />
-                                  </a>
-                              )
-                            }
-                            &ensp;&ensp;Dollar per farm
-                          </div>
-                        }
-                      </td>
-                    </tr>
-                  )
-                })
-              }
-            </tbody>
-          </table>
-        </div>
-        <div className="col-width-6">              
-          <table className="table table-sm table-responsive">
-            <thead>
-              <tr>
-                {
-                  years.map( year => {
-                    return <th scope="col" className="estimate-rse-th estimate-rse-td">{year}</th>
-                  })
-                }
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                {
-                  years.map( year => {
-                    return (
-                      <td className="estimate-rse-td">
-                        <div className='estimate_rse'>
-                          <div className="data-heading">ESTIMATE</div>
-                          <div className="data-heading">RSE</div>
-                        </div>
-                      </td>
-                    )
-                  })
-                }
-              </tr>
-              {
-                incomeArr.map((data, index) => {
-                  const c = years.length
-                  return (
-                    <tr>
+    if (incomeArr.length === 0)
+      return ( <div></div>)
+    else
+      return (
+        <div className="table-container">
+          <div className="col-width-4">
+            <table className="table table-sm table-responsive">
+              <thead>
+                <tr>
+                  <th>
+                    <div className="pin-container">
+                    <div><img src={PinShowImg} alt="" /></div>
+                    <div className="level-0">
+                      pin
+                    </div>
+                    </div>
+                  </th>
+                  <th>
+                    <div>
                       {
-                        years.map((year, pos) => {
-                          return (
-                            <td className="estimate-rse-td nowrap-div">
-                              <div className='estimate_rse'>
-                                <div>{data.estimateList[pos]}</div>
-                                <div>{data.rseList[pos]}</div>
-                              </div>
-                            </td>
-                          )
-                        })
+                      isShowItemAll && (
+                      <a onClick={() => this.hideAllItem()}><img src={ShownImg} alt="" /></a>
+                      ) || (
+                      <a onClick={() => this.showAllItem()}><img src={HideAllImg} alt="" /></a>
+                      )
                       }
-                    </tr>
-                  )
-                })
-              }
-            </tbody>
-          </table>
+                    </div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>PINNED SERIES</td>
+                  <td></td>
+                </tr>
+                {
+
+                  incomeArr.map((data, index) => {
+                    const c = years.length
+                    return (
+                      <tr>
+                        <td>
+                          <div className="pin-container">
+                          <div>
+                            <a onClick={this.hidePin}>
+                              <img src={PinHideImg} alt="" />
+                            </a>
+                          </div>
+                          {
+                            data.level === 1 && ( <div className="level-1 nowrap-div">{data.header}</div>) ||
+                            data.level === 2 && ( <div className="level-2 nowrap-div">{data.header}</div>) ||
+                            data.level === 3 && ( <div className="level-3 nowrap-div">{data.header}</div>) ||
+                            data.level === 4 && ( <div className="level-4 nowrap-div">{data.header}</div>) ||
+                                                ( <div className="level-0 nowrap-div">{data.header}</div>)
+                          }
+                          </div>
+                        </td>
+                        <td>
+                          {
+                            <div className="nowrap-div">
+                              {
+                                showList && (
+                                  showList[data.id] === 1 && (
+                                    <a onClick={() => this.hideItem(data.id)}>
+                                      <img src={ShownImg} alt="" />
+                                    </a>
+                                    ) || (
+                                    <a onClick={() => this.showItem(data.id)}>
+                                      <img src={HiddenImg} alt="" />
+                                    </a>
+                                    )
+                                    ) || (
+                                    <a onClick={() => this.showItem(data.id)}>
+                                      <img src={HiddenImg} alt="" />
+                                    </a>
+                                )
+                              }
+                              &ensp;&ensp;Dollar per farm
+                            </div>
+                          }
+                        </td>
+                      </tr>
+                    )
+                  })
+                }
+              </tbody>
+            </table>
+          </div>
+          <div className="col-width-6">              
+            <table className="table table-sm table-responsive">
+              <thead>
+                <tr>
+                  {
+                    years.map( year => {
+                      return <th scope="col" className="estimate-rse-th estimate-rse-td">{year}</th>
+                    })
+                  }
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  {
+                    years.map( year => {
+                      return (
+                        <td className="estimate-rse-td">
+                          <div className='estimate_rse'>
+                            <div className="data-heading">ESTIMATE</div>
+                            <div className="data-heading">RSE</div>
+                          </div>
+                        </td>
+                      )
+                    })
+                  }
+                </tr>
+                {
+                  incomeArr.map((data, index) => {
+                    const c = years.length
+                    return (
+                      <tr>
+                        {
+                          years.map((year, pos) => {
+                            return (
+                              <td className="estimate-rse-td nowrap-div">
+                                <div className='estimate_rse'>
+                                  <div>{data.estimateList[pos]}</div>
+                                  <div>{data.rseList[pos]}</div>
+                                </div>
+                              </td>
+                            )
+                          })
+                        }
+                      </tr>
+                    )
+                  })
+                }
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
-    )
+      )
   }
 }
 
