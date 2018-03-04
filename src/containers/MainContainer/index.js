@@ -22,7 +22,6 @@ class MainContainer extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-
     let yearsInfo = []
     this.props.years.forEach(yearN => {
       const infoObj = {}
@@ -60,8 +59,11 @@ class MainContainer extends React.Component {
   }
 
   render() {
-    console.log('parameters', this.props)
+    // console.log('parameters', this.props)
     const { yearsInfo} = this.state
+    if(!this.props.charts.loading) {
+      console.log('loaded', this.props)
+    }
     return (
       <Col xs={12} md={9} sm={3}>
         <h4 className="main-heading">Farm Business Balance Sheet Data 
