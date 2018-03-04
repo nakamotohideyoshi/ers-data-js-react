@@ -2,7 +2,7 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
 export default graphql(gql`
-  query ChartsQuery($years: [Int], $report_num: [Int], $subject_num: [Int], $series: [String], $series_element: [Int], $series2: [String], $series_element2: [Int]) {
+  query ChartsQuery($years: [Int], $report_num: [Int], $subject_num: [Int], $series: [String], $series_element: [Int], $series2: [String], $series_element2: [Int], $topic_abb: [String]) {
     arms_surveydata(
       year: $years,
       report_num: $report_num,      
@@ -10,7 +10,8 @@ export default graphql(gql`
       series: $series,
       series_element: $series_element,
       series2: $series2,
-      series2_element: $series_element2,      
+      series2_element: $series_element2,
+      topic_abb: $topic_abb,      
       state_id: "00",
       order_by: "topic_dim.seq|asc"
     )
