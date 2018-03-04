@@ -17,31 +17,32 @@ class SheetDataChart extends Component {
       surveyData.forEach((element, index) => {
           let singleIncome = {}
           let currentIndex = 0
-          
-            incomeArr.forEach((income, i) => {
-              if (income.id === element.topic_abb) {
-                singleIncome = income
-                currentIndex = i
-                return
-              }
-            })
-            if (!singleIncome.id) {
-              singleIncome.id = element.topic_abb
-              singleIncome.header = element.topic_dim.header
-              if (showList[element.topic_abb] === 1) 
-              singleIncome.estimateList = [element.estimate]
-              else 
-              singleIncome.estimateList = [0]
-              
-              incomeArr.push(singleIncome)
-            } else {
-              if (showList[element.topic_abb] === 1) 
-              singleIncome.estimateList.push(element.estimate)
-              else 
-              singleIncome.estimateList.push(0)
-              
-              incomeArr[currentIndex] = singleIncome
+          if (element.topic_dim.level > 1) 
+            return
+          incomeArr.forEach((income, i) => {
+            if (income.id === element.topic_abb) {
+              singleIncome = income
+              currentIndex = i
+              return
             }
+          })
+          if (!singleIncome.id) {
+            singleIncome.id = element.topic_abb
+            singleIncome.header = element.topic_dim.header
+            if (showList[element.topic_abb] === 1) 
+            singleIncome.estimateList = [element.estimate]
+            else 
+            singleIncome.estimateList = [0]
+            
+            incomeArr.push(singleIncome)
+          } else {
+            if (showList[element.topic_abb] === 1) 
+            singleIncome.estimateList.push(element.estimate)
+            else 
+            singleIncome.estimateList.push(0)
+            
+            incomeArr[currentIndex] = singleIncome
+          }
       })
     }
     this.setState({ incomeArr: [].concat(incomeArr) })
