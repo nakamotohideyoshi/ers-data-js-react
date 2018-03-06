@@ -14,12 +14,9 @@ class TableContainer extends React.Component {
     isShowItemAll: true
   }
   componentWillReceiveProps(props) {
-    const { years, surveyData } = props
-    const interval = years.length
+    const { surveyData } = props
     let originData = surveyData
     if (originData) {
-      let pos = 0
-      const c = years.length
       let incomeArr = []
       if (originData) {
         originData.forEach((element, index) => {
@@ -102,11 +99,9 @@ class TableContainer extends React.Component {
                   <td></td>
                 </tr>
                 {
-
                   incomeArr.map((data, index) => {
-                    const c = years.length
                     return (
-                      <tr>
+                      <tr key={`ltr-${index}`}>
                         <td>
                           <div className="pin-container">
                           <div>
@@ -159,8 +154,8 @@ class TableContainer extends React.Component {
               <thead>
                 <tr>
                   {
-                    years.map( year => {
-                      return <th scope="col" className="estimate-rse-th estimate-rse-td">{year}</th>
+                    years.map((year, pos) => {
+                      return <th scope="col" className="estimate-rse-th estimate-rse-td" key={`year-${pos}`}>{year}</th>
                     })
                   }
                 </tr>
@@ -168,9 +163,9 @@ class TableContainer extends React.Component {
               <tbody>
                 <tr>
                   {
-                    years.map( year => {
+                    years.map((year, pos) => {
                       return (
-                        <td className="estimate-rse-td">
+                        <td className="estimate-rse-td" key={`est-th-${pos}`}>
                           <div className='estimate_rse'>
                             <div className="data-heading">ESTIMATE</div>
                             <div className="data-heading">RSE</div>
@@ -182,13 +177,12 @@ class TableContainer extends React.Component {
                 </tr>
                 {
                   incomeArr.map((data, index) => {
-                    const c = years.length
                     return (
-                      <tr>
+                      <tr key={`rtr-${index}`}>
                         {
                           years.map((year, pos) => {
                             return (
-                              <td className="estimate-rse-td nowrap-div">
+                              <td className="estimate-rse-td nowrap-div" key={`est-td-${pos}`}>
                                 <div className='estimate_rse'>
                                   <div>{data.estimateList[pos]}</div>
                                   <div>{data.rseList[pos]}</div>
@@ -210,9 +204,19 @@ class TableContainer extends React.Component {
 }
 
 TableContainer.propTypes = {
+  years: PropTypes.array,
+  surveyData: PropTypes.array,
+  showList: PropTypes.object,
+  hideItem: PropTypes.func,
+  showItem: PropTypes.func,
+  showAllItem: PropTypes.func,
+  hideAllItem: PropTypes.func
 };
 
 TableContainer.defaultProps = {
+  years: [],
+  surveyData: [],
+  showList: {}
 };
 
 export default TableContainer
