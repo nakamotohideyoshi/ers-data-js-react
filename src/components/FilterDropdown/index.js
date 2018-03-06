@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Col, DropdownButton } from 'react-bootstrap';
 import Checkbox from '../Checkbox';
 
-const FilterDropdown = ({ onSelectYear, yearsInfo }) => (
+const FilterDropdown = ({ onSelectYear, yearsInfo, onSelectState, statesInfo }) => (
   <div className="filterDropdownContainer">
     <Col md={6} sm={6} xs={12}>
       <Col md={7} sm={6} xs={12} mdOffset={5} smOffset={6}>
@@ -33,7 +33,11 @@ const FilterDropdown = ({ onSelectYear, yearsInfo }) => (
             id="dropdown-region"
             className="download-menu"
           >
-            <Checkbox title="California" />        	                 	
+          {
+            statesInfo.map((obj, index) => {
+              return <Checkbox title={obj.name + ''} checked={obj.checked} onCheck={() => onSelectState(index)} key={index} />
+            })
+          }       	                 	
           </DropdownButton>
         </Col>
     </Col>    
