@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
-import Highcharts from 'highcharts';
-import {
-  HighchartsChart, Chart, withHighcharts, XAxis, YAxis, Legend, ColumnSeries,
-} from 'react-jsx-highcharts';
 import './style.css'
+import CharView from './generate-chart'
 
 class SheetDataChart extends Component {
   state = {
@@ -29,19 +26,15 @@ class SheetDataChart extends Component {
           if (!singleIncome.id) {
             singleIncome.id = element.topic_abb
             singleIncome.header = element.topic_dim.header
-            if (showList[element.topic_abb] === 1) 
-            singleIncome.estimateList = [element.estimate]
-            else 
-            singleIncome.estimateList = [0]
-            
-            incomeArr.push(singleIncome)
+            if (showList[element.topic_abb] === 1) {
+              singleIncome.estimateList = [element.estimate]
+              incomeArr.push(singleIncome)
+            }
           } else {
-            if (showList[element.topic_abb] === 1) 
-            singleIncome.estimateList.push(element.estimate)
-            else 
-            singleIncome.estimateList.push(0)
-            
-            incomeArr[currentIndex] = singleIncome
+            if (showList[element.topic_abb] === 1) {
+              singleIncome.estimateList.push(element.estimate)          
+              incomeArr[currentIndex] = singleIncome
+            }
           }
       })
     }
@@ -55,24 +48,11 @@ class SheetDataChart extends Component {
     else
       return (
         <div className="app">
-          <HighchartsChart>
-            <Chart />
-            <Legend />
-            <XAxis id="year" categories={years} />
-            <YAxis id="number">
-            <YAxis.Title>$ Millions</YAxis.Title>
-              {
-                incomeArr.map((element) => {
-                  return (
-                  <ColumnSeries id={element.id} name={element.header} data={element.estimateList} />
-                  )
-                })
-              }
-            </YAxis>
-          </HighchartsChart>
+          <CharView series={incomeArr} categories={years} title="Farm Business Balance Sheet Data" />
         </div>
       );
   }
 }
 
-export default withHighcharts(SheetDataChart, Highcharts);
+// export default withHighcharts(SheetDataChart, Highcharts);
+export default SheetDataChart;
