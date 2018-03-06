@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Col } from 'react-bootstrap';
 import DownloadButton from '../../components/DownloadButton';
 import FilterDropdown from '../../components/FilterDropdown';
@@ -123,5 +124,21 @@ class MainContainer extends React.Component {
   }
   
 }
+
+MainContainer.propTypes = {
+  years: PropTypes.array,
+  series: PropTypes.string,
+  report_num: PropTypes.number,
+  subject_num: PropTypes.number,
+  series_element: PropTypes.number
+};
+
+MainContainer.defaultProps = {
+  years: [],
+  series: "farm",
+  report_num: 1,
+  subject_num: 1,
+  series_element: 0
+};
 
 export default charts(MainContainer)
