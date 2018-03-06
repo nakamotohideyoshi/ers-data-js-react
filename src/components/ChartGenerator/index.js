@@ -1,18 +1,11 @@
-// import React, {Component} from 'react';
-// import ReactDOM from 'react-dom';
-// import Highcharts from 'highcharts/highstock';
-
-
 import React from 'react'
-import ReactDOM from 'react-dom'
+import PropTypes from 'prop-types';
 import ReactHighcharts from 'react-highcharts'
-import HighchartsMore from 'highcharts/highcharts-more'
 import HighchartsExporting from 'highcharts-exporting'
 
-// HighchartsMore(ReactHighcharts.Highcharts);
 HighchartsExporting(ReactHighcharts.Highcharts);
 
-export default class ChartView extends React.Component {
+export default class ChartGenerator extends React.Component {
   state = {
     config: {}
   }
@@ -37,7 +30,7 @@ export default class ChartView extends React.Component {
       },
       series: []
     }
-    series.map((element) => {
+    series.forEach((element) => {
       config.series.push({ data: element.estimateList, name: element.header })
     })
     this.setState({ config: Object.assign({}, config) })
@@ -46,3 +39,15 @@ export default class ChartView extends React.Component {
     return <ReactHighcharts config = {this.state.config}></ReactHighcharts>
   }
 }
+
+ChartGenerator.propTypes = {
+  series: PropTypes.array,
+  categories: PropTypes.array,
+  title: PropTypes.string
+};
+
+ChartGenerator.defaultProps = {
+  series: [],
+  categories: [2014, 2015],
+  title: ""
+};
