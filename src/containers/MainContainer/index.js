@@ -8,27 +8,35 @@ import Footnote from '../Footnote';
 import './style.css';
 import charts from '../../ApolloComponent/chartsQuery'
 
-class MainContainer extends React.Component {  
-  
-  componentWillMount() {    
-    let yearsInfo = []
-    this.props.years.forEach(yearN => {
-      const infoObj = {}
-        infoObj.year = yearN
-        infoObj.checked = false
-        yearsInfo.push(infoObj)
-    })
-    this.setState({ yearsInfo })
+class MainContainer extends React.Component {
+  state = {
+    yearsInfo: [],
+    statesInfo: [],
+    checkedYears: [],
+    checkedStates: []
   }
 
   componentWillReceiveProps(props) {
-    let yearsInfo = []
-    this.props.years.forEach(yearN => {
-      const infoObj = {}
-        infoObj.year = yearN
-        infoObj.checked = false
-        yearsInfo.push(infoObj)
-    })
+    let {yearsInfo, statesInfo} = this.state
+    if (yearsInfo.length === 0) {
+      props.years.forEach(yearN => {
+        const infoObj = {}
+          infoObj.year = yearN
+          infoObj.checked = false
+          yearsInfo.push(infoObj)
+      })
+    }
+    
+    if (statesInfo.length === 0) {
+      props.states.forEach(stateN => {
+        const obj = {}
+        obj.name = stateN.name
+        obj.id = stateN.id
+        obj.checked = false
+        statesInfo.push(obj)
+      })
+    }
+    
 
     if(props.charts.arms_surveydata) {
       props.charts.arms_surveydata.forEach(surveyData => {
@@ -49,18 +57,36 @@ class MainContainer extends React.Component {
       });     
     }
 
-    this.setState({ yearsInfo })
+    this.setState({ yearsInfo, statesInfo })
   }
 
   onSelectYear = (index) => {
     let { yearsInfo } = this.state
+    let years = []
     yearsInfo[index].checked = !yearsInfo[index].checked
-    this.setState({ yearsInfo })
+    yearsInfo.forEach(yearN => {
+      if (yearN.checked) {
+        years.push(yearN.year)
+      }
+    })
+    this.props.onSetYears(years)
+  }
+
+  onSelectState = (index) => {
+    let { statesInfo } = this.state
+    let states = []
+    statesInfo[index].checked = !statesInfo[index].checked
+    statesInfo.forEach(stateN => {
+      if (stateN.checked) {
+        states.push(stateN.id)
+      }
+    })
+    this.props.onSetStates(states)
   }
 
   render() {
     // console.log('parameters', this.props)
-    const { yearsInfo} = this.state
+    const { yearsInfo, statesInfo } = this.state
     if(!this.props.charts.loading) {
       console.log('loaded', this.props)
     }
@@ -70,8 +96,10 @@ class MainContainer extends React.Component {
           <DownloadButton />
         </h4>
         <FilterDropdown 
-          yearsInfo={yearsInfo} 
-          onSelectYear={this.onSelectYear} 
+          yearsInfo={yearsInfo}
+          statesInfo={statesInfo} 
+          onSelectYear={this.onSelectYear}
+          onSelectState={this.onSelectState} 
         />
         <SheetDataChart yearsInfo={yearsInfo} />
         <TableContainer />
