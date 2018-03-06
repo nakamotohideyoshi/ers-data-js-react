@@ -3,25 +3,36 @@ import Layout from './containers/Layout';
 import initial from './ApolloComponent/initialQuery'
 
 class App extends Component {
+  state = {
+    years: [],
+    states: [],
+    reports: [],
+    subjects: [],
+    series: []
+  }
+  
+  componentWillReceiveProps(props) {
+    let {years, states, reports, series, subjects} = this.state
+    if (!props.initial.loading) {
+      years = props.initial.arms_year
+      states = props.initial.arms_state
+      reports = props.initial.arms_report
+      subjects = props.initial.arms_subject
+      series = props.initial.arms_serie
+    }
+    this.setState({years, states, reports, subjects, series})
+  }
   render() {
-    if (!this.props.initial.loading) {
+    const {years, states, reports, subjects, series} = this.state
       return (
-        // <Layout
-        //  years = {this.props.initial.arms_year}
-        //  states = {this.props.initial.arms_state}
-        //  reports = {this.props.initial.arms_report}
-        //  series = {this.props.initial.arms_serie}
-        //  subjects = {this.props.initial.arms_subject}
-        // />
         <Layout
-         years = {this.props.initial.arms_year}
+         years = {years}
+         states = {states}
+         reports = {reports}
+         subjects = {subjects}
+         series = {series}
         />
       );
-    } else {
-      return(
-        <p>Loading...</p>
-      )      
-    }   
   }
 }
 
