@@ -41,21 +41,47 @@ const filters = [
 ]
 
 export default class Layout extends React.Component {
- 
-  componentWillMount() {
-
-    const report_num = 1;
-    const subject_num = 1;
-    const series = 'farm';
-    const series_element = 0
-    const series2 = 'farm'
-    const series_element2 = 0
-    const topic_abb = ['kount', 'atot', 'actot', 'acliv', 'accrop', 'acinpt', 'acgrow', 'acprpins', 'acothr', 'antot', 'aninvest', 'anreale', 'anopdw', 'anequip', 'anbreed', 'dtot', 'lctot', 'dshort', 'lcterm', 'lcint', 'lcpay', 'lntot', 'lnnreale', 'lnreale', 'netw']
-    const {years} = this.props
-    const blockIndex = 0
-    this.setState({ report_num: report_num, subject_num: subject_num, series: series, series_element: series_element, series2: series2, series_element2: series_element2, topic_abb: topic_abb, blockIndex: blockIndex, years: years })
-    
+  state = {
+    reports_num: [],
+    subjects_num: [],
+    serie: [],
+    serie_element: [],
+    serie2: [],
+    serie_element2: [],
+    topic_abb: [],
+    year: [],
+    stats: [],
+    blockIndex: -1,
+    datasoruce: [],
+    dataline: [],
+    farmtype: [],
+    filter1: [],
+    filter1_elements: [],
+    filter2: [],
+    filter2_elemensts: []
   }
+
+  componentWillReceiveProps(props) {
+    let reports_num, subjects_num, serie, serie_element, serie2, serie_element2 = []
+    let blockIndex = -1
+    if(props.reports) {
+      reports_num = 1
+    }
+    if (props.subjects) {
+      subjects_num = 1
+    }
+    if (props.series) {
+      serie = 'farm'
+      serie_element = 0
+      serie2 = 'farm'
+      serie_element2 = 0
+    }
+    if (props.reports && props.subjects && props.series) {
+      blockIndex = 0
+    }
+    this.setState({reports_num: reports_num, subjects_num: subjects_num, serie: serie, serie_element: serie_element, serie2: serie2, serie_element2: serie_element2, blockIndex})
+  }
+    
   onSelectFilter = (sidebarItemIndex, selectedIndex, blockIndex) => {
     let {report_num, subject_num, series, series_element, series2, series_element2, topic_abb} = this.state
     
@@ -116,23 +142,49 @@ export default class Layout extends React.Component {
     
     
   }
+
+
+  onSelectYear = (years) => {
+    let year = []
+    years.forEach(yearN => {
+      year.push(yearN)
+    });
+    this.setState({year: year})
+  }
+
+  onSelectState = (states) => {
+    let stats = []
+    states.forEach(stateN => {
+      stats.push(stateN)
+    })
+    this.setState({stats: stats})
+  }
+
   render() {
-    const { subject_num, series, report_num, years, series_element, series2, series_element2, topic_abb, blockIndex } = this.state
+    const {reports_num, subjects_num, serie, serie_element, serie2, serie_element2, topic_abb, year, stats, blockIndex } = this.state
     return (
       <Grid>
         <Sidebar
+          reports = {this.props.reports}
+          subjects = {this.props.subjects}
+          series = {this.props.series}
           onSelectFilter={this.onSelectFilter}
         />
-        <MainContainer 
-          years={years}
-          report_num = {report_num}
-          subject_num = {subject_num}
-          series = {series}
-          series_element = {series_element}
-          series2 = {series2}
-          series_element2 = {series_element2}
+        <MainContainer
+          years={this.props.years}
+          states={this.props.states}
+          stats = {stats}
+          year={year}
+          report_num = {reports_num}
+          subject_num = {subjects_num}
+          series = {serie}
+          series_element = {serie_element}
+          series2 = {serie2}
+          series_element2 = {serie_element2}
           topic_abb = {topic_abb}
-          blockIndex = {blockIndex}         
+          blockIndex = {blockIndex}
+          onSetYears = {this.onSelectYear}
+          onSetStates = {this.onSelectState}         
         />
       </Grid>
     )
