@@ -2,8 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types';
 import ReactHighcharts from 'react-highcharts'
 import HighchartsExporting from 'highcharts-exporting'
+import HighchartsExportCSV from 'highcharts-export-csv'
 
-HighchartsExporting(ReactHighcharts.Highcharts);
+HighchartsExporting(ReactHighcharts.Highcharts)
+HighchartsExportCSV(ReactHighcharts.Highcharts)
 
 export default class ChartGenerator extends React.Component {
   state = {
@@ -36,7 +38,7 @@ export default class ChartGenerator extends React.Component {
     this.setState({ config: Object.assign({}, config) })
   }
   render() {
-    return <ReactHighcharts config = {this.state.config}></ReactHighcharts>
+    return <ReactHighcharts config = {this.state.config} ref="chart" />
   }
 }
 
