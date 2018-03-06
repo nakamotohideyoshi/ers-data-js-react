@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { numberWithCommas } from '../../helpers/NumberWithCommas'
 import HelpImg from '../../images/help.png'
 import PinHideImg from '../../images/unin_hide.png'
 import PinShowImg from '../../images/unin_show.png'
@@ -167,8 +168,8 @@ class TableContainer extends React.Component {
                       return (
                         <td className="estimate-rse-td" key={`est-th-${pos}`}>
                           <div className='estimate_rse'>
-                            <div className="data-heading">ESTIMATE</div>
-                            <div className="data-heading">RSE</div>
+                            <div className="data-heading data-value">ESTIMATE</div>
+                            <div className="data-heading data-value">RSE</div>
                           </div>
                         </td>
                       )
@@ -184,8 +185,8 @@ class TableContainer extends React.Component {
                             return (
                               <td className="estimate-rse-td nowrap-div" key={`est-td-${pos}`}>
                                 <div className='estimate_rse'>
-                                  <div>{data.estimateList[pos]}</div>
-                                  <div>{data.rseList[pos]}</div>
+                                  <div className="data-value">{numberWithCommas(data.estimateList[pos])}</div>
+                                  <div className="data-value">{data.rseList[pos]}</div>
                                 </div>
                               </td>
                             )
