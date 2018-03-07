@@ -95,7 +95,7 @@ class MainContainer extends React.Component {
     const { yearsInfo, years, surveyData, showList } = this.state
 
     return (
-      <Col xs={12} md={9} sm={3}>
+      <Col xs={12} md={9} sm={9}>
         <h4 className="main-heading">Farm Business Balance Sheet Data 
         </h4>
         <FilterDropdown 
