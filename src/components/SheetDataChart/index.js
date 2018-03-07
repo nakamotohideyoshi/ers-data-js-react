@@ -47,7 +47,7 @@ class SheetDataChart extends Component {
       return (<div className="empty-data-notification">No data to display</div>)
     else
       return (
-        <div className="app">
+        <div className="chart-container col-xs-12">
           <ChartGenerator series={incomeArr} categories={years} title="Farm Business Balance Sheet Data" />
         </div>
       );
