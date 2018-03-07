@@ -3,35 +3,46 @@ import gql from 'graphql-tag';
 
   export default graphql(gql`
   query InitialQuery {
-    arms_year
-    arms_state{
-      id
-      code
-      name
-    }
-    arms_report(
+    arms_filter(
       survey_abb: "finance"
     ){
-      num
-      header
-    }
-    arms_subject(
-      survey_abb: "finance"
-    ){
-      num
-      header
-    }
-    arms_serie(
-      abb: ["farm", "grp", "sal", "ftypll", "age", "reg", "n5reg", "spec"]
-    ){
-      abb
-      header
-      element_dim {
+      year
+      state {
         id
         name
-        serie_abb
       }
-    }    
+      report {
+        num
+        header
+      }
+      subject {
+        num
+        header
+      }
+      topic {
+        abb
+        header
+        seq
+      }
+      serie {
+        abb
+        header
+        seq
+      }
+      serie_element {
+        id
+        name
+      }
+      serie2 {
+        abb
+        header
+        seq
+      }
+      serie2_element {
+        id
+        name
+      }   
+   }    
   }
 `, {
     name: 'initial',
