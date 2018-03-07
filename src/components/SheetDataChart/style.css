@@ -1,5 +1,6 @@
-.highcharts-container {
-  height: 350px
+.chart-container {
+  display: table-cell;
+  width: 100%;
 }
 .empty-data-notification {
   width: 100%;
