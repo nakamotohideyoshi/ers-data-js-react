@@ -10,7 +10,7 @@ const SidebarItem = ({ headingTitle, titles, visible, selectedIndex, isOpened, i
       visible && (
         <div className="dropdown_second">
 
-        <SidebarDropdown headingTitle={headingTitle} title={titles[selectedIndex]} isOpened={isOpened} isCategory={isCategory} onToggle={() => toggleCategoryOptions()} />
+        <SidebarDropdown headingTitle={headingTitle} title={titles[selectedIndex].header} isOpened={isOpened} isCategory={isCategory} onToggle={() => toggleCategoryOptions()} />
         <SlideDown className='my-dropdown-slidedown'>
           {
             isOpened && (
@@ -22,9 +22,9 @@ const SidebarItem = ({ headingTitle, titles, visible, selectedIndex, isOpened, i
                       <a>
                       {
                         selectedIndex === index && (
-                          <div className="checked-option"><i className="fa fa-check"></i>{titles[index]}</div>
+                          <div className="checked-option"><i className="fa fa-check"></i>{titles[index].header}</div>
                         ) || (
-                          <div className="right-padding-option">{titles[index]}</div>
+                          <div className="right-padding-option">{titles[index].header}</div>
                         )
                       }
                       
