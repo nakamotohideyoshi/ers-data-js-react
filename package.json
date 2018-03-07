@@ -43,6 +43,8 @@
     "react": "^16.2.0",
     "react-apollo": "^2.0.4",
     "react-bootstrap": "^0.32.1",
+    "react-csv": "^1.0.13",
+    "react-csv-creator": "^1.0.8",
     "react-dev-utils": "^5.0.0",
     "react-dom": "^16.2.0",
     "react-fa": "^5.0.0",

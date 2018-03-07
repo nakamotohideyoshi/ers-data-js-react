@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {CSVLink} from 'react-csv';
+import { Button } from 'react-bootstrap';
 import { numberWithCommas } from '../../helpers/NumberWithCommas'
+import DownloadImg from '../../images/download.png'
 import HelpImg from '../../images/help.png'
 import PinHideImg from '../../images/unin_hide.png'
 import PinShowImg from '../../images/unin_show.png'
@@ -47,6 +50,26 @@ class TableContainer extends React.Component {
       this.setState({ incomeArr })
     }
   }
+  generateCSV() {
+    const { incomeArr } = this.state
+    const { years } = this.props
+    
+    const data = [];
+    const header = ['', '']
+    years.forEach( year => {
+      header.push(year)
+    })
+    data.push(header)
+    incomeArr.forEach( element => {
+      let estRow = [element.header, 'Estimate']
+      let rseRow = ['', 'rse']
+      estRow = estRow.concat(element.estimateList)
+      rseRow = rseRow.concat(element.rseList)
+      data.push(estRow)
+      data.push(rseRow)
+    })
+    return data
+  }
   hideItem(dataId){
     this.props.hideItem(dataId)
   }
@@ -64,140 +87,151 @@ class TableContainer extends React.Component {
   render() {
     const { incomeArr, isShowItemAll } = this.state
     const { showList, years } = this.props
+
+    
     if (incomeArr.length === 0)
       return ( <div></div>)
     else
       return (
-        <div className="table-container">
-          <div className="col-width-4">
-            <table className="table table-sm table-responsive">
-              <thead>
-                <tr>
-                  <th>
-                    <div className="pin-container">
-                    <div><img src={PinShowImg} alt="" /></div>
-                    <div className="level-0">
-                      pin
-                    </div>
-                    </div>
-                  </th>
-                  <th>
-                    <div>
-                      {
-                      isShowItemAll && (
-                      <a onClick={() => this.hideAllItem()}><img src={ShownImg} alt="" /></a>
-                      ) || (
-                      <a onClick={() => this.showAllItem()}><img src={HideAllImg} alt="" /></a>
-                      )
-                      }
-                    </div>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>PINNED SERIES</td>
-                  <td></td>
-                </tr>
-                {
-                  incomeArr.map((data, index) => {
-                    return (
-                      <tr key={`ltr-${index}`}>
-                        <td>
-                          <div className="pin-container">
-                          <div>
-                            <a onClick={this.hidePin}>
-                              <img src={PinHideImg} alt="" />
-                            </a>
-                          </div>
-                          {
-                            data.level === 1 && ( <div className="level-1 nowrap-div">{data.header}</div>) ||
-                            data.level === 2 && ( <div className="level-2 nowrap-div">{data.header}</div>) ||
-                            data.level === 3 && ( <div className="level-3 nowrap-div">{data.header}</div>) ||
-                            data.level === 4 && ( <div className="level-4 nowrap-div">{data.header}</div>) ||
-                                                ( <div className="level-0 nowrap-div">{data.header}</div>)
-                          }
-                          </div>
-                        </td>
-                        <td>
-                          {
-                            <div className="nowrap-div">
-                              {
-                                showList && (
-                                  showList[data.id] === 1 && (
-                                    <a onClick={() => this.hideItem(data.id)}>
-                                      <img src={ShownImg} alt="" />
-                                    </a>
-                                    ) || (
-                                    <a onClick={() => this.showItem(data.id)}>
-                                      <img src={HiddenImg} alt="" />
-                                    </a>
-                                    )
-                                    ) || (
-                                    <a onClick={() => this.showItem(data.id)}>
-                                      <img src={HiddenImg} alt="" />
-                                    </a>
-                                )
-                              }
-                              &ensp;&ensp;Dollar per farm
-                            </div>
-                          }
-                        </td>
-                      </tr>
-                    )
-                  })
-                }
-              </tbody>
-            </table>
+        <div>
+          <div className="downloadbtn-container">
+            <CSVLink data={this.generateCSV()}>
+              <Button>
+                <img src={DownloadImg} alt="" /> Download CSV
+              </Button>
+            </CSVLink>
           </div>
-          <div className="col-width-6">              
-            <table className="table table-sm table-responsive">
-              <thead>
-                <tr>
+          <div className="table-container">
+            <div className="col-width-4">
+              <table className="table table-sm table-responsive">
+                <thead>
+                  <tr>
+                    <th>
+                      <div className="pin-container">
+                      <div><img src={PinShowImg} alt="" /></div>
+                      <div className="level-0">
+                        pin
+                      </div>
+                      </div>
+                    </th>
+                    <th>
+                      <div>
+                        {
+                        isShowItemAll && (
+                        <a onClick={() => this.hideAllItem()}><img src={ShownImg} alt="" /></a>
+                        ) || (
+                        <a onClick={() => this.showAllItem()}><img src={HideAllImg} alt="" /></a>
+                        )
+                        }
+                      </div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>PINNED SERIES</td>
+                    <td></td>
+                  </tr>
                   {
-                    years.map((year, pos) => {
-                      return <th scope="col" className="estimate-rse-th estimate-rse-td" key={`year-${pos}`}>{year}</th>
-                    })
-                  }
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  {
-                    years.map((year, pos) => {
+                    incomeArr.map((data, index) => {
                       return (
-                        <td className="estimate-rse-td" key={`est-th-${pos}`}>
-                          <div className='estimate_rse'>
-                            <div className="data-heading data-value">ESTIMATE</div>
-                            <div className="data-heading data-value">RSE</div>
-                          </div>
-                        </td>
+                        <tr key={`ltr-${index}`}>
+                          <td>
+                            <div className="pin-container">
+                            <div>
+                              <a onClick={this.hidePin}>
+                                <img src={PinHideImg} alt="" />
+                              </a>
+                            </div>
+                            {
+                              data.level === 1 && ( <div className="level-1 nowrap-div">{data.header}</div>) ||
+                              data.level === 2 && ( <div className="level-2 nowrap-div">{data.header}</div>) ||
+                              data.level === 3 && ( <div className="level-3 nowrap-div">{data.header}</div>) ||
+                              data.level === 4 && ( <div className="level-4 nowrap-div">{data.header}</div>) ||
+                                                  ( <div className="level-0 nowrap-div">{data.header}</div>)
+                            }
+                            </div>
+                          </td>
+                          <td>
+                            {
+                              <div className="nowrap-div">
+                                {
+                                  showList && (
+                                    showList[data.id] === 1 && (
+                                      <a onClick={() => this.hideItem(data.id)}>
+                                        <img src={ShownImg} alt="" />
+                                      </a>
+                                      ) || (
+                                      <a onClick={() => this.showItem(data.id)}>
+                                        <img src={HiddenImg} alt="" />
+                                      </a>
+                                      )
+                                      ) || (
+                                      <a onClick={() => this.showItem(data.id)}>
+                                        <img src={HiddenImg} alt="" />
+                                      </a>
+                                  )
+                                }
+                                &ensp;&ensp;Dollar per farm
+                              </div>
+                            }
+                          </td>
+                        </tr>
                       )
                     })
                   }
-                </tr>
-                {
-                  incomeArr.map((data, index) => {
-                    return (
-                      <tr key={`rtr-${index}`}>
-                        {
-                          years.map((year, pos) => {
-                            return (
-                              <td className="estimate-rse-td nowrap-div" key={`est-td-${pos}`}>
-                                <div className='estimate_rse'>
-                                  <div className="data-value">{numberWithCommas(data.estimateList[pos])}</div>
-                                  <div className="data-value">{data.rseList[pos]}</div>
-                                </div>
-                              </td>
-                            )
-                          })
-                        }
-                      </tr>
-                    )
-                  })
-                }
-              </tbody>
-            </table>
+                </tbody>
+              </table>
+            </div>
+            <div className="col-width-6">              
+              <table className="table table-sm table-responsive">
+                <thead>
+                  <tr>
+                    {
+                      years.map((year, pos) => {
+                        return <th scope="col" className="estimate-rse-th estimate-rse-td" key={`year-${pos}`}>{year}</th>
+                      })
+                    }
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    {
+                      years.map((year, pos) => {
+                        return (
+                          <td className="estimate-rse-td" key={`est-th-${pos}`}>
+                            <div className='estimate_rse'>
+                              <div className="data-heading data-value">ESTIMATE</div>
+                              <div className="data-heading data-value">RSE</div>
+                            </div>
+                          </td>
+                        )
+                      })
+                    }
+                  </tr>
+                  {
+                    incomeArr.map((data, index) => {
+                      return (
+                        <tr key={`rtr-${index}`}>
+                          {
+                            years.map((year, pos) => {
+                              return (
+                                <td className="estimate-rse-td nowrap-div" key={`est-td-${pos}`}>
+                                  <div className='estimate_rse'>
+                                    <div className="data-value">{numberWithCommas(data.estimateList[pos])}</div>
+                                    <div className="data-value">{data.rseList[pos]}</div>
+                                  </div>
+                                </td>
+                              )
+                            })
+                          }
+                        </tr>
+                      )
+                    })
+                  }
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       )
