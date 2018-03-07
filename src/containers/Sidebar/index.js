@@ -17,6 +17,7 @@ const categories = [[
     header: 'ARMS Data Analysis'
   }
 ]]
+const sidebarItem = [{isOpened: false, selectedIndex: 0, isCategory: true,  blockIndex: 0, visible: true,  headingTitle: ""}]
 
 let isReports = true
 let isDataReset = false
@@ -24,7 +25,7 @@ let isDataReset = false
 class Sidebar extends React.Component {
   state = {
     isCategoryOpened: false,
-    sidebarItems: [{isOpened: false, selectedIndex: 0, isCategory: true,  blockIndex: 0, visible: true,  headingTitle: ""}],
+    sidebarItems: sidebarItem,
     categoryTitles: categories,
     blockCount: 0
   }  
@@ -85,6 +86,7 @@ class Sidebar extends React.Component {
         if (categoryTitles[3][0].num !== 'farm') {
           sidebarItems[4].visible = true
         } else {
+          sidebarItems[4].isOpened = false
           sidebarItems[4].visible = false
         }
       }
@@ -132,25 +134,57 @@ class Sidebar extends React.Component {
   }
 
   resetFilter = ( blockIndex ) => {
-    const { sidebarItems } =this.state
-    for (let i=1; i< sidebarItems.length; i++) {
-      if ((i >0 && i<10) || (i>blockIndex*24+9 && i<(blockIndex+1)*24+10)) {
-        sidebarItems[i].visible = false
-        sidebarItems[i].selectedIndex = 0   
-        sidebarItems[i].isOpened = false
-        
-        if( (isReports && (i>=1 && i<=3)) || !isReports && ((i-10)%24 === 0 || (i-10)%24 === 1 || (i-10)%24 === 9 || (i-10)%24 === 10 || (i-10)%24 === 17)) {
-          sidebarItems[i].visible = true
-        }
-      }     
-    }
-    this.setState({ sidebarItems })
-    if (isReports) {
-      this.props.onSelectFilter(0, 0, blockIndex)
-    } else {
-      this.props.onSelectFilter(0, 1, blockIndex)
-    }
-        
+    let categoryTitles = [[
+      {
+        num: 0,
+        header: 'Tailored Reports'
+      },
+      {
+        num: 1,
+        header: 'ARMS Data Analysis'
+      }
+    ]]
+    let sidebarItems = [{isOpened: false, selectedIndex: 0, isCategory: true,  blockIndex: 0, visible: true,  headingTitle: ""}]
+    let reports = []
+    this.props.reports.forEach(report => {
+      const obj = {}
+      obj.num = report.num
+      obj.header = report.header
+      reports.push(obj)
+    })
+    categoryTitles.push(reports)
+    sidebarItems.push({isOpened: false, selectedIndex: 0, isCategory: false, blockIndex: 0, visible: true,  headingTitle: "Report"})
+
+    let subjects = []
+    this.props.subjects.forEach(subject => {
+      const obj = {}
+      obj.num = subject.num
+      obj.header = subject.header
+      subjects.push(obj)
+    })
+    categoryTitles.push(subjects)
+    sidebarItems.push({isOpened: false, selectedIndex: 0, isCategory: false, blockIndex: 0, visible: true,  headingTitle: "Subject"})
+
+    let series = []
+    this.props.series.forEach(serie => {
+      const obj = {}
+      obj.num = serie.abb
+      obj.header = serie.header
+      series.push(obj)
+    })
+    categoryTitles.push(series)
+    sidebarItems.push({isOpened: false, selectedIndex: 0, isCategory: false, blockIndex: 0, visible: true,  headingTitle: "Filter by"})
+
+    let series_element = []
+    this.props.series_element.forEach(serie_element => {
+      const obj = {}
+      obj.num = serie_element.id  
+      obj.header = serie_element.name
+      series_element.push(obj)     
+    })
+    categoryTitles.push(series_element)
+    sidebarItems.push({isOpened: false, selectedIndex: 0, isCategory: false, blockIndex: 0, visible: false,  headingTitle: ""})
+    this.setState({categoryTitles: categoryTitles, sidebarItems: sidebarItems}) 
   }
 
   
