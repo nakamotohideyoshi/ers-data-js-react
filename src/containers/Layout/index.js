@@ -13,8 +13,8 @@ export default class Layout extends React.Component {
     serie2: ["farm"],
     serie2_element: [0],
     topic_abb: [],
-    year: [],
-    stats: [],
+    selectedYears: [],
+    selectedStates: [],
     blockIndex: -1
   }
 
@@ -78,23 +78,23 @@ export default class Layout extends React.Component {
   }
 
   onSelectYear = (years) => {
-    let year = []
+    let selectedYears = []
     years.forEach(yearN => {
-      year.push(yearN)
+      selectedYears.push(yearN)
     });
-    this.setState({year: year})
+    this.setState({ selectedYears })
   }
 
   onSelectState = (states) => {
-    let stats = []
+    let selectedStates = []
     states.forEach(stateN => {
-      stats.push(stateN)
+      selectedStates.push(stateN)
     })
-    this.setState({stats: stats})
+    this.setState({ selectedStates })
   }
 
   render() {
-    const {report_num, subject_num, serie, serie_element, serie2, serie2_element, topic_abb, year, stats, blockIndex } = this.state
+    const {report_num, subject_num, serie, serie_element, serie2, serie2_element, topic_abb, selectedYears, selectedStates, blockIndex } = this.state
     return (
       <Grid>
         <Sidebar
@@ -115,8 +115,8 @@ export default class Layout extends React.Component {
         <MainContainer
           years={this.props.years}
           states={this.props.states}
-          stats = {stats}
-          year={year}
+          selectedStates = {selectedStates}
+          selectedYears={selectedYears}
           report_num = {report_num}
           subject_num = {subject_num}
           serie = {serie}
