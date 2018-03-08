@@ -6,10 +6,10 @@ import { filter } from 'async';
 
 export default class Layout extends React.Component {
   state = {
-    report_num: [1],
-    subject_num: [1],
-    serie: ['farm'],
-    serie_element: [0],
+    report_num: [],
+    subject_num: [],
+    serie: [],
+    serie_element: [],
     serie2: ["farm"],
     serie2_element: [0],
     topic_abb: [],
@@ -32,15 +32,16 @@ export default class Layout extends React.Component {
   }
  
   onSelectCategory = (isReport) => {
-    const report_num = [1]
-    const subject_num = [1]
-    const serie = ['farm']
-    const serie_element = [0]
-    const serie2 = ['farm']
-    const serie2_element = [0]
+    const report_num = []
+    const subject_num = []
+    const serie = []
+    const serie_element = []
+    
 
     if (isReport) {      
       const blockIndex = 0
+      const serie2 = ['farm']
+      const serie2_element = [0]
       let topic_abb = []      
       this.props.topics.forEach(topic => {
         topic_abb.push(topic.abb)
@@ -49,6 +50,8 @@ export default class Layout extends React.Component {
     } else {
       const topic_abb = ['kount']
       const blockIndex = 1
+      const serie2 = []
+      const serie2_element = []
       this.setState({report_num, subject_num, serie, serie_element, serie2, serie2_element, topic_abb, blockIndex})
     }
   }
@@ -101,11 +104,14 @@ export default class Layout extends React.Component {
           reports = {this.props.reports}
           subjects = {this.props.subjects}
           series = {this.props.series}
+          series_element = {this.props.series_element}
+          series2 = {this.props.series2}
+          series2_element = {this.props.series2_element}
+          topics = {this.props.topics}
           report_num = {report_num}
           subject_num = {subject_num}
           serie = {serie}
-          serie2 = {serie2}
-          series_element = {this.props.series_element}
+          serie2 = {serie2}       
           onSelectCategory={this.onSelectCategory}
           onSelectReport={this.onSelectReport}
           onSelectSubject={this.onSelectSubject}
