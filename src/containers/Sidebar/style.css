@@ -11,6 +11,11 @@
 .dropdown_up:not(:first-child) {
   margin-top: 2px;
 }
+.block {
+  margin: 10px 0px 10px 40px;
+  height: 5px;
+  background-color: #948e8e;
+}
 @media (max-width: 767px) and (min-width: 481px) {
   .dropdown_up {
     margin: 1px 0px 0px 0px;

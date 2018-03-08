@@ -399,7 +399,6 @@ class Sidebar extends React.Component {
     }
     
   }
-
   
   render() {
     const {sidebarItems, categoryTitles, blockCount} = this.state
@@ -408,10 +407,12 @@ class Sidebar extends React.Component {
     <Col sm={3} md={3} xs={12} className="sidebar-container">
       {        
         sidebarItems.map((val, i) => {
-          
+          let isBlock = false
           isDataReset = false
           if (i === 6){
             isDataReset = true
+          } else if ((i-4)%7 === 0) {
+            isBlock = true
           }
           return (
             <SidebarItem 
@@ -424,6 +425,7 @@ class Sidebar extends React.Component {
               isReports={isReports}
               isRemoval={isRemoval}
               isDataReset={isDataReset}
+              isBlock={isBlock}
               toggleCategoryOptions={() => this.toggleCategoryOptions(i)}
               updateFilter={(index) => this.updateFilter(i, index)}   
               resetFilter={() => this.resetFilter(val.blockIndex)}                 

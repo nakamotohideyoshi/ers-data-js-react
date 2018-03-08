@@ -4,7 +4,7 @@ import SidebarDropdown from '../SidebarDropdown'
 import { SlideDown } from 'react-slidedown'
 import Reset from '../../images/reset.png'
 
-const SidebarItem = ({ headingTitle, titles, visible, selectedIndex, isOpened, isCategory, isReports, isDataReset, isLast, toggleCategoryOptions, updateFilter, resetFilter }) => (
+const SidebarItem = ({ headingTitle, titles, visible, selectedIndex, isBlock, isOpened, isCategory, isReports, isDataReset, isLast, toggleCategoryOptions, updateFilter, resetFilter }) => (
   <div>
     {
       visible && (
@@ -54,10 +54,17 @@ const SidebarItem = ({ headingTitle, titles, visible, selectedIndex, isOpened, i
               </a>
             </div>
           )
-        }          
+        }              
         </div>
       )
     }
+    {
+      !isReports && isBlock && (
+        <div class="block">
+          
+        </div>
+      )
+    }    
   </div>
   
 );
@@ -70,6 +77,7 @@ SidebarItem.propTypes = {
   isReports: PropTypes.bool,
   isDataReset: PropTypes.bool,
   isLast: PropTypes.bool,
+  isBlock: PropTypes.boo,
   toggleCategoryOptions: PropTypes.func,
   updateFilter: PropTypes.func  
 };
