@@ -20,8 +20,8 @@ class TableContainer extends React.Component {
   componentWillReceiveProps(props) {
     const { surveyData } = props
     let originData = surveyData
+    let incomeArr = []
     if (originData) {
-      let incomeArr = []
       if (originData) {
         originData.forEach((element, index) => {
           let singleIncome = {}
@@ -47,8 +47,8 @@ class TableContainer extends React.Component {
           }
         })
       }
-      this.setState({ incomeArr })
     }
+    this.setState({ incomeArr })
   }
   generateCSV() {
     const { incomeArr } = this.state
@@ -88,7 +88,6 @@ class TableContainer extends React.Component {
     const { incomeArr, isShowItemAll } = this.state
     const { showList, years } = this.props
 
-    
     if (incomeArr.length === 0)
       return ( <div></div>)
     else
