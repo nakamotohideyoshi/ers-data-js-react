@@ -20,7 +20,6 @@ export default class Layout extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    console.log('------', props)
     let {topic_abb} = this.state
     if (props.topics) {
       props.topics.forEach(topic => {
@@ -34,13 +33,14 @@ export default class Layout extends React.Component {
   }
   
   onSelectCategory = (isReport) => {
-    if (isReport) {
-      const report_num = [1]
-      const subject_num = [1]
-      const serie = ['farm']
-      const serie_element = [0]
-      const serie2 = ['farm']
-      const serie2_element = [0]
+    const report_num = [1]
+    const subject_num = [1]
+    const serie = ['farm']
+    const serie_element = [0]
+    const serie2 = ['farm']
+    const serie2_element = [0]
+
+    if (isReport) {      
       const blockIndex = 0
       let topic_abb = []      
       this.props.topics.forEach(topic => {
@@ -48,14 +48,8 @@ export default class Layout extends React.Component {
       })
       this.setState({report_num, subject_num, serie, serie_element, serie2, serie2_element, topic_abb, blockIndex})
     } else {
-      const report_num = [1]
-      const subject_num = [1]
-      const serie = ['farm']
-      const serie_element = [0]
-      const serie2 = ['farm']
-      const serie2_element = [0]
       const topic_abb = ['kount']
-      const blockIndex = 0
+      const blockIndex = 1
       this.setState({report_num, subject_num, serie, serie_element, serie2, serie2_element, topic_abb, blockIndex})
     }
   }

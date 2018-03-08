@@ -7,33 +7,25 @@ import './style.css';
 import Reset from '../../images/reset.png'
 import armsfilter from '../../ApolloComponent/armsQuery'
 
-const categories = [[
-  {
-    num: 0,
-    header: 'Tailored Reports'
-  },
-  {
-    num: 1,
-    header: 'ARMS Data Analysis'
-  }
-]]
-const sidebarItem = [{isOpened: false, selectedIndex: 0, isCategory: true,  blockIndex: 0, visible: true,  headingTitle: ""}]
-
 let isReports = true
 let isDataReset = false
 
 class Sidebar extends React.Component {
   state = {
     isCategoryOpened: false,
-    sidebarItems: sidebarItem,
-    categoryTitles: categories,
+    sidebarItems: [],
+    categoryTitles: [],
     blockCount: 0
   }  
   
   componentWillReceiveProps(props) {
     let {categoryTitles, sidebarItems} = this.state
-    if (categoryTitles.length === 1) {
-      if (props.reports.length !== 0 && props.subjects.length !== 0  && props.series.length !== 0) {      
+    if (categoryTitles.length === 0) {
+      if (props.reports.length !== 0 && props.subjects.length !== 0  && props.series.length !== 0) {
+
+        categoryTitles.push([{num: 0, header: 'Tailored Reports'},{ num: 1, header: 'ARMS Data Analysis'}])
+        sidebarItems.push({isOpened: false, selectedIndex: 0, isCategory: true,  blockIndex: 0, visible: true,  headingTitle: ""})
+
         let reports = []
         props.reports.forEach(report => {
           const obj = {}
@@ -73,8 +65,10 @@ class Sidebar extends React.Component {
         })
         categoryTitles.push(series_element)
         sidebarItems.push({isOpened: false, selectedIndex: 0, isCategory: false, blockIndex: 0, visible: false,  headingTitle: ""})
-      }    
+      }
+
     } else if (categoryTitles.length !== 1 && !props.armsfilter.loading){
+
       if (props.armsfilter.arms_filter.serie_element.length !== 0) {
         categoryTitles[4] = []
         props.armsfilter.arms_filter.serie_element.forEach(serie_element => {
@@ -83,6 +77,7 @@ class Sidebar extends React.Component {
           obj.header = serie_element.name
           categoryTitles[4].push(obj)     
         })
+        sidebarItems[4].headingTitle = categoryTitles[3][0].header
         if (categoryTitles[3][0].num !== 'farm') {
           sidebarItems[4].visible = true
         } else {
@@ -90,8 +85,10 @@ class Sidebar extends React.Component {
           sidebarItems[4].visible = false
         }
       }
+
     }
     this.setState({categoryTitles: categoryTitles, sidebarItems: sidebarItems})
+
   }
 
   
@@ -134,17 +131,9 @@ class Sidebar extends React.Component {
   }
 
   resetFilter = ( blockIndex ) => {
-    let categoryTitles = [[
-      {
-        num: 0,
-        header: 'Tailored Reports'
-      },
-      {
-        num: 1,
-        header: 'ARMS Data Analysis'
-      }
-    ]]
+    let categoryTitles = [[{num: 0, header: 'Tailored Reports'},{ num: 1, header: 'ARMS Data Analysis'}]]
     let sidebarItems = [{isOpened: false, selectedIndex: 0, isCategory: true,  blockIndex: 0, visible: true,  headingTitle: ""}]
+
     let reports = []
     this.props.reports.forEach(report => {
       const obj = {}
@@ -184,12 +173,12 @@ class Sidebar extends React.Component {
     })
     categoryTitles.push(series_element)
     sidebarItems.push({isOpened: false, selectedIndex: 0, isCategory: false, blockIndex: 0, visible: false,  headingTitle: ""})
-    this.setState({categoryTitles: categoryTitles, sidebarItems: sidebarItems}) 
+
+    this.setState({categoryTitles: categoryTitles, sidebarItems: sidebarItems})
   }
 
   
   render() {
-    console.log(this.props.armsfilter, this.state)
     const {sidebarItems, categoryTitles} = this.state
     return (
     <Col sm={3} md={3} xs={12} className="sidebar-container">
