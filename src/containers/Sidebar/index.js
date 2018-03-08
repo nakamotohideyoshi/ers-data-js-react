@@ -11,6 +11,7 @@ import { selectLimit } from 'async';
 
 let isReports = true
 let isDataReset = false
+let isRemoval = false
 
 class Sidebar extends React.Component {
 
@@ -28,6 +29,7 @@ class Sidebar extends React.Component {
     let {categoryTitles, sidebarItems, blockCount, currentBlock} = this.state
     if (categoryTitles.length === 0) {
       if (props.reports.length !== 0 && props.subjects.length !== 0  && props.series.length !== 0) {
+        isRemoval = false
         blockCount++
         currentBlock++
         categoryTitles.push([{num: 0, header: 'Tailored Reports'},{ num: 1, header: 'ARMS Data Analysis'}])
@@ -203,7 +205,7 @@ class Sidebar extends React.Component {
       }
 
     }
-    this.setState({categoryTitles: categoryTitles, sidebarItems: sidebarItems, blockCount: blockCount})
+    this.setState({categoryTitles: categoryTitles, sidebarItems: sidebarItems, blockCount: blockCount, currentBlock: currentBlock})
 
   }
 
@@ -224,8 +226,9 @@ class Sidebar extends React.Component {
     sidebarItems[sidebarItemIndex].selectedIndex = selectedIndex
     sidebarItems[sidebarItemIndex].isOpened = false
     if (sidebarItemIndex === 0) {
+      const count = sidebarItems.length
       if (sidebarItems.length > 12) {
-        for (let i = 12; i<sidebarItems.length; i++) {
+        for (let i = 12; i<count; i++) {
           sidebarItems.pop()
           categoryTitles.pop()
         }        
@@ -294,9 +297,26 @@ class Sidebar extends React.Component {
     this.setState({sidebarItems, categoryTitles, currentBlock})
   }
 
+  removeDataSource () {
+    let {categoryTitles, sidebarItems, blockCount} = this.state
+    const count = sidebarItems.length
+    if (blockCount > 1) {
+      blockCount--
+      if (blockCount === 1){
+        isRemoval = false
+      }
+      for (let i=count-1; i>count-8; i--) {
+        sidebarItems.pop()
+        categoryTitles.pop()
+      }
+    }
+    this.setState({categoryTitles, sidebarItems, blockCount})
+  }
+
   addDataSource() {
     let {categoryTitles, sidebarItems, blockCount} = this.state
     blockCount++
+    isRemoval = true
     let datasource = []
     this.props.reports.forEach(report => {
       const obj = {}
@@ -371,21 +391,28 @@ class Sidebar extends React.Component {
   }
 
   resetFilter = ( blockIndex ) => {
-    this.updateFilter(0, 0)
+    console.log('block', blockIndex)
+    if(blockIndex === 0) {
+      this.updateFilter(0, 0)
+    } else {
+      this.updateFilter(0,1)
+    }
+    
   }
 
   
   render() {
-    const {sidebarItems, categoryTitles} = this.state
+    const {sidebarItems, categoryTitles, blockCount} = this.state
     console.log(this.state)
     return (
     <Col sm={3} md={3} xs={12} className="sidebar-container">
       {        
         sidebarItems.map((val, i) => {
+          
           isDataReset = false
           if (i === 6){
             isDataReset = true
-          } 
+          }
           return (
             <SidebarItem 
               headingTitle={val.headingTitle}
@@ -395,13 +422,23 @@ class Sidebar extends React.Component {
               isOpened={val.isOpened}
               isCategory={val.isCategory} 
               isReports={isReports}
+              isRemoval={isRemoval}
               isDataReset={isDataReset}
               toggleCategoryOptions={() => this.toggleCategoryOptions(i)}
               updateFilter={(index) => this.updateFilter(i, index)}   
-              resetFilter={() => this.resetFilter(val.blockIndex)}       
+              resetFilter={() => this.resetFilter(val.blockIndex)}                 
             />
           )
         })
+      }
+      {
+        !isReports && isRemoval && (
+          <div>
+            <a className="pull-right reset" onClick={() => this.removeDataSource()}>
+              <img src={Reset} alt="" />Remove
+            </a>
+          </div>
+        )
       }
       {
         !isReports && (
