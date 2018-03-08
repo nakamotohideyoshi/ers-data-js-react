@@ -4,13 +4,13 @@ import SidebarDropdown from '../SidebarDropdown'
 import { SlideDown } from 'react-slidedown'
 import Reset from '../../images/reset.png'
 
-const SidebarItem = ({ headingTitle, titles, visible, selectedIndex, isOpened, isCategory, toggleCategoryOptions, updateFilter, resetFilter }) => (
+const SidebarItem = ({ headingTitle, titles, visible, selectedIndex, isOpened, isCategory, isReports, isDataReset, isLast, toggleCategoryOptions, updateFilter, resetFilter }) => (
   <div>
     {
       visible && (
         <div className="dropdown_second">
 
-        <SidebarDropdown headingTitle={headingTitle} title={titles[selectedIndex]} isOpened={isOpened} isCategory={isCategory} onToggle={() => toggleCategoryOptions()} />
+        <SidebarDropdown headingTitle={headingTitle} title={titles[selectedIndex].header} isOpened={isOpened} isCategory={isCategory} onToggle={() => toggleCategoryOptions()} />
         <SlideDown className='my-dropdown-slidedown'>
           {
             isOpened && (
@@ -22,9 +22,9 @@ const SidebarItem = ({ headingTitle, titles, visible, selectedIndex, isOpened, i
                       <a>
                       {
                         selectedIndex === index && (
-                          <div className="checked-option"><i className="fa fa-check"></i>{titles[index]}</div>
+                          <div className="checked-option"><i className="fa fa-check"></i>{titles[index].header}</div>
                         ) || (
-                          <div className="right-padding-option">{titles[index]}</div>
+                          <div className="right-padding-option">{titles[index].header}</div>
                         )
                       }
                       
@@ -38,14 +38,23 @@ const SidebarItem = ({ headingTitle, titles, visible, selectedIndex, isOpened, i
           }
         </SlideDown> 
         {
-          isCategory && (
+          isCategory && isReports && (
             <div>
               <a className="pull-right reset" onClick={resetFilter}>
                 <img src={Reset} alt="" />Reset
               </a>
             </div>
           )
-        }   
+        }
+        {
+          isDataReset && (
+            <div>
+              <a className="pull-right reset" onClick={resetFilter}>
+                <img src={Reset} alt="" />Reset
+              </a>
+            </div>
+          )
+        }          
         </div>
       )
     }
@@ -58,6 +67,9 @@ SidebarItem.propTypes = {
   siebarItemIndex: PropTypes.number,
   isOpened: PropTypes.bool,   
   isCategory: PropTypes.bool,
+  isReports: PropTypes.bool,
+  isDataReset: PropTypes.bool,
+  isLast: PropTypes.bool,
   toggleCategoryOptions: PropTypes.func,
   updateFilter: PropTypes.func  
 };
@@ -66,7 +78,7 @@ SidebarItem.defaultProps = {
   titles: [],
   siebarItemIndex: 0,  
   isOpened: false,  
-  isCategory: false 
+  isCategory: false
 };
 
 export default SidebarItem;

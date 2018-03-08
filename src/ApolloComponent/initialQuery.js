@@ -1,49 +1,49 @@
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
-export default graphql(gql`
+  export default graphql(gql`
   query InitialQuery {
-    arms_year
+    arms_filter(
+      survey_abb: "finance"
+    ){
+      year
+      state {
+        id
+        name
+      }
+      report {
+        num
+        header
+      }
+      subject {
+        num
+        header
+      }
+      topic {
+        abb
+        header
+        seq
+      }
+      serie {
+        abb
+        header
+        seq
+      }
+      serie_element {
+        id
+        name
+      }
+      serie2 {
+        abb
+        header
+        seq
+      }
+      serie2_element {
+        id
+        name
+      }   
+   }    
   }
 `, {
     name: 'initial',
   });
-
-//   export default graphql(gql`
-//   query InitialQuery {
-//     arms_year
-//     arms_report(
-//       survey_abb: "finance"
-//     ) {
-//       num
-//       header
-//     }
-//     arms_serie(
-//       abb: ["farm", "grp", "sal", "ftypll", "age", "reg", "spec"]
-//     ){
-//       abb
-//       header
-//       seq
-//       element_dim{
-//         id
-//         invalid
-//         name
-//         serie_abb
-//       }
-//     }
-//     arms_subject (
-//       survey_abb: "finance"
-//     ){
-//       num
-//       header
-//       invalid
-//     }
-//     arms_state{
-//       id
-//       code
-//       name
-//     }
-//   }
-// `, {
-//     name: 'initial',
-//   });
