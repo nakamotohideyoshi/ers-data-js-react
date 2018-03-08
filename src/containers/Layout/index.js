@@ -40,19 +40,15 @@ export default class Layout extends React.Component {
     const subject_num = []
     const serie = []
     const serie_element = []
+    const topic_abb = [] 
     
 
     if (isReport) {      
       const blockIndex = 0
       const serie2 = ['farm']
       const serie2_element = [0]
-      let topic_abb = []      
-      this.props.topics.forEach(topic => {
-        topic_abb.push(topic.abb)
-      })
       this.setState({report_num, subject_num, serie, serie_element, serie2, serie2_element, topic_abb, blockIndex})
     } else {
-      const topic_abb = ['kount']
       const blockIndex = 1
       const serie2 = []
       const serie2_element = []
@@ -82,6 +78,14 @@ export default class Layout extends React.Component {
     let serie_element = []
     serie_element.push(filter_element)
     this.setState({serie_element})
+  }
+
+  onSelectTopic = (topics) => {
+    const topic_abb = []
+    topics.forEach(topic => {
+      topic_abb.push(topic)
+    })
+    this.setState({topic_abb})
   }
 
   onSelectYear = (years) => {
@@ -121,6 +125,7 @@ export default class Layout extends React.Component {
           onSelectSubject={this.onSelectSubject}
           onSelectFilterBy={this.onSelectFilterBy}
           onSelectSubFilterBy={this.onSelectSubFilterBy}
+          onSelectTopic={this.onSelectTopic}
           onSelectArmsFilter = {this.onSelectArmsFilter}
         />
         <MainContainer

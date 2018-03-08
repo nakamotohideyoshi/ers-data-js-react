@@ -151,6 +151,11 @@ class Sidebar extends React.Component {
     if (!props.armsfilter.loading && categoryTitles.length !== 0){
       if (props.armsfilter.arms_filter.serie_element.length !== 0 ) {
         if (currentBlock === 0) {
+          const topics = []
+          props.armsfilter.arms_filter.topic.forEach(topic => {
+            topics.push(topic.abb)
+          })
+          props.onSelectTopic(topics)
           categoryTitles[4] = []
           props.armsfilter.arms_filter.serie_element.forEach(serie_element => {
             const obj = {}
@@ -162,9 +167,10 @@ class Sidebar extends React.Component {
           sidebarItems[4].selectedIndex = -1
           if (categoryTitles[3][sidebarItems[3].selectedIndex].num !== 'farm') {
             sidebarItems[4].visible = true
-          } else {
+          } else {            
             sidebarItems[4].isOpened = false
             sidebarItems[4].visible = false
+            props.onSelectSubFilterBy(0)
           }
         } else {
           categoryTitles[7*(currentBlock-1) + 6] = []
