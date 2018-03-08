@@ -182,7 +182,7 @@ class Sidebar extends React.Component {
             obj.header = topic.header
             categoryTitles[7*(currentBlock-1) + 6].push(obj)
           })          
-          sidebarItems[7*(currentBlock-1) + 6].selectedIndex = -1
+          sidebarItems[7*(currentBlock-1) + 7].selectedIndex = -1
 
           categoryTitles[7*(currentBlock-1) + 9] = []
           props.armsfilter.arms_filter.serie_element.forEach(serie_element => {
@@ -191,7 +191,7 @@ class Sidebar extends React.Component {
             obj.header = serie_element.name
             categoryTitles[7*(currentBlock-1) + 9].push(obj)
           })
-          sidebarItems[7*(currentBlock-1) + 9].selectedIndex = -1
+          sidebarItems[7*(currentBlock-1) + 10].selectedIndex = -1
 
           categoryTitles[7*(currentBlock-1) + 11] = []
           props.armsfilter.arms_filter.serie2_element.forEach(serie2_element => {
@@ -200,7 +200,7 @@ class Sidebar extends React.Component {
             obj.header = serie2_element.name
             categoryTitles[7*(currentBlock-1) +11].push(obj)
           })
-          sidebarItems[7*(currentBlock-1) +11].selectedIndex = -1
+          sidebarItems[7*(currentBlock-1) +12].selectedIndex = -1
         }       
       }
 
@@ -273,23 +273,30 @@ class Sidebar extends React.Component {
       } else if (sidebarItemIndex === 4) {
         this.props.onSelectSubFilterBy(num)
       } else{
-        // let report_num, topic_abb, subject_num, serie, serie_element, serie2, serie2_element = []
-        // if (sidebarItems[5+7*(currentBlock-1)].selectedIndex > -1) {
-        //   report_num.push(categoryTitles[5+7*(currentBlock-1)][sidebarItems[5+7*(currentBlock-1)].selectedIndex].num)
-        // } else if (sidebarItems[6+7*(currentBlock-1)].selectedIndex > -1) {
-        //   topic_abb.push(categoryTitles[6+7*(currentBlock-1)][sidebarItems[6+7*(currentBlock-1)].selectedIndex].num)
-        // } else if (sidebarItems[7+7*(currentBlock-1)].selectedIndex > -1) {
-        //   report_num.push(categoryTitles[7+7*(currentBlock-1)][sidebarItems[7+7*(currentBlock-1)].selectedIndex].num)
-        // } else if (sidebarItems[8+7*(currentBlock-1)].selectedIndex > -1) {
-        //   report_num.push(categoryTitles[8+7*(currentBlock-1)][sidebarItems[8+7*(currentBlock-1)].selectedIndex].num)
-        // } else if (sidebarItems[9+7*(currentBlock-1)].selectedIndex > -1) {
-        //   report_num.push(categoryTitles[9+7*(currentBlock-1)][sidebarItems[9+7*(currentBlock-1)].selectedIndex].num)
-        // } else if (sidebarItems[10+7*(currentBlock-1)].selectedIndex > -1) {
-        //   report_num.push(categoryTitles[10+7*(currentBlock-1)][sidebarItems[10+7*(currentBlock-1)].selectedIndex].num)
-        // } else if (sidebarItems[11+7*(currentBlock-1)].selectedIndex > -1) {
-        //   report_num.push(categoryTitles[11+7*(currentBlock-1)][11].num)
-        // }
-        // this.onSelectArmsFilter(report_num, topic_abb, subject_num, serie, serie_element, serie2, serie2_element)
+        let report_num =[], topic_abb=[], subject_num=[], serie=[], serie_element=[], serie2=[], serie2_element = []
+        if (sidebarItems[5+7*(currentBlock-1)].selectedIndex > -1) {
+          report_num.push(categoryTitles[5+7*(currentBlock-1)][sidebarItems[5+7*(currentBlock-1)].selectedIndex].num)
+        } 
+        if (sidebarItems[6+7*(currentBlock-1)].selectedIndex > -1) {
+          topic_abb.push(categoryTitles[6+7*(currentBlock-1)][sidebarItems[6+7*(currentBlock-1)].selectedIndex].num)
+        } 
+        if (sidebarItems[7+7*(currentBlock-1)].selectedIndex > -1) {
+          console.log('ddd', categoryTitles[7+7*(currentBlock-1)][sidebarItems[7+7*(currentBlock-1)].selectedIndex])
+          subject_num.push(categoryTitles[7+7*(currentBlock-1)][sidebarItems[7+7*(currentBlock-1)].selectedIndex].num)
+        }
+        if (sidebarItems[8+7*(currentBlock-1)].selectedIndex > -1) {
+          serie.push(categoryTitles[8+7*(currentBlock-1)][sidebarItems[8+7*(currentBlock-1)].selectedIndex].num)
+        } 
+        if (sidebarItems[9+7*(currentBlock-1)].selectedIndex > -1) {
+          serie_element.push(categoryTitles[9+7*(currentBlock-1)][sidebarItems[9+7*(currentBlock-1)].selectedIndex].num)
+        }
+        if (sidebarItems[10+7*(currentBlock-1)].selectedIndex > -1) {
+          serie2.push(categoryTitles[10+7*(currentBlock-1)][sidebarItems[10+7*(currentBlock-1)].selectedIndex].num)
+        } 
+        if (sidebarItems[11+7*(currentBlock-1)].selectedIndex > -1) {
+          serie2_element.push(categoryTitles[11+7*(currentBlock-1)][sidebarItems[11+7*(currentBlock-1)].selectedIndex].num)
+        }
+        this.props.onSelectArmsFilter(report_num, topic_abb, subject_num, serie, serie_element, serie2, serie2_element)
 
       }
     }
