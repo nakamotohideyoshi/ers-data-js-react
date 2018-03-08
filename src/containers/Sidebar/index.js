@@ -9,51 +9,6 @@ import armsfilter from '../../ApolloComponent/armsQuery'
 import { selectLimit } from 'async';
 
 
-const categoryTitles = [
-  ['Tailored Reports', 'ARMS Data Analysis'],
-  [
-    'Farm Business Balance Sheet',
-    'Farm Business Income Statement',
-    'Farm Business Financial Ratios',
-    'Structural Characteristics',
-    'Farm Business Debt Repayment Capacity',
-    'Government Payments',
-    'Operator Household Income',
-    'Operator Household Balance Sheet'
-  ],
-  [
-    'All Farms', 'Farm Businesses', 'Farm Operator Households'
-  ],
-  [
-    'All Farms',
-    'Collapsed Farm Typology',
-    'Economic Class',
-    'Farm Typology',
-    'Operator Age',
-    'Farm Resource Region',
-    'Production Specialty'
-  ],
-  ['All Collapsed Typologies', 'Residence farms', 'Intermediate farms', 'Commercial farms'],
-  ['All Sales Classes', '$1,000,000 or more', '$500,000 to $999,999', '$250,000 to $499,999', '$100,000 to $249,999', 'Less than $100,000'],
-  ['All Typologies', 'Retirement farms', 'Residential/lifestyle farms', 'Farming occupation/lower-sales farms', 'Farming occupation/higher-sales farms', 'Large farms', 'Very large farms', 'Nonfamily farms', 'Retirement farms (New)', 'Off-farm occupation farms (New)', 'Farming-occupation/low-sales farms (New)', 'Farming-occupation/moderate-sales farms (New)', 'Midsize family farms (New)', 'Large farms (New)', 'Very large farms (New)', 'Nonfamily farms'],
-  ['All Operators', 'Operators 34 years or younger', 'Operators 35 to 44 years old', 'Operators 45 to 54 years old', 'Operators 55 to 64 years old', 'Operators 65 years or older'],
-  ['All ERS Regions', 'Heartland', 'Northern Crescent', 'Northern Great Plains', 'Prairie Gateway', 'Eastern Uplands', 'Southern Seaboard', 'Fruitful Rim', 'Basin and Range', 'Mississippi Portal'],
-  ['All Specialties', 'General Cash Grains', 'Wheat', 'Corn', 'Soybean', 'Tobacco, Cotton, Peanuts' ,'Other Field Crops', 'Specialty Crops (F,V,N)', 'Cattle', 'Hogs', 'Poultry', 'Dairy', 'Hogs, Poultry, Other', 'Fruits and Tree Nuts', 'Vegetables', 'Nursery and Greenhouse', 'All Cash Grains', 'All other livestock'],
-
-]
-
-const sidebarItems = [
-  {isOpened: false, selectedIndex: 0, isCategory: true,  visible: true,  headingTitle: ""},
-  {isOpened: false, selectedIndex: 0, isCategory: false, visible: true,  headingTitle: "Report"},
-  {isOpened: false, selectedIndex: 0, isCategory: false, visible: true,  headingTitle: "Subject"},
-  {isOpened: false, selectedIndex: 0, isCategory: false, visible: true,  headingTitle: "Filter by"},
-  {isOpened: false, selectedIndex: 0, isCategory: false, visible: false, headingTitle: "Collapsed Farm Typology"},
-  {isOpened: false, selectedIndex: 0, isCategory: false, visible: false, headingTitle: "Economic Class"},
-  {isOpened: false, selectedIndex: 0, isCategory: false, visible: false, headingTitle: "Farm Typology'"},
-  {isOpened: false, selectedIndex: 0, isCategory: false, visible: false, headingTitle: "Operator Age"},
-  {isOpened: false, selectedIndex: 0, isCategory: false, visible: false, headingTitle: "Farm Resource Region"},
-  {isOpened: false, selectedIndex: 0, isCategory: false, visible: false, headingTitle: "Production Specialty"}
-]
 let isReports = true
 let isDataReset = false
 
@@ -204,13 +159,41 @@ class Sidebar extends React.Component {
             categoryTitles[4].push(obj)     
           })
           sidebarItems[4].headingTitle = categoryTitles[3][sidebarItems[3].selectedIndex].header
+          sidebarItems[4].selectedIndex = -1
           if (categoryTitles[3][sidebarItems[3].selectedIndex].num !== 'farm') {
             sidebarItems[4].visible = true
           } else {
             sidebarItems[4].isOpened = false
             sidebarItems[4].visible = false
           }
-        }        
+        } else {
+          categoryTitles[7*(currentBlock-1) + 6] = []
+          props.armsfilter.arms_filter.topic.forEach(topic => {
+            const obj = {}
+            obj.num = topic.abb
+            obj.header = topic.header
+            categoryTitles[7*(currentBlock-1) + 6].push(obj)
+          })          
+          sidebarItems[7*(currentBlock-1) + 6].selectedIndex = -1
+
+          categoryTitles[7*(currentBlock-1) + 9] = []
+          props.armsfilter.arms_filter.serie_element.forEach(serie_element => {
+            const obj = {}
+            obj.num = serie_element.id  
+            obj.header = serie_element.name
+            categoryTitles[7*(currentBlock-1) + 9].push(obj)
+          })
+          sidebarItems[7*(currentBlock-1) + 9].selectedIndex = -1
+
+          categoryTitles[7*(currentBlock-1) + 11] = []
+          props.armsfilter.arms_filter.serie2_element.forEach(serie2_element => {
+            const obj = {}
+            obj.num = serie2_element.id  
+            obj.header = serie2_element.name
+            categoryTitles[7*(currentBlock-1) +11].push(obj)
+          })
+          sidebarItems[7*(currentBlock-1) +11].selectedIndex = -1
+        }       
       }
 
     }
@@ -241,22 +224,28 @@ class Sidebar extends React.Component {
           categoryTitles.pop()
         }        
       }
-      for (let i=1; i<12; i++) {
-        sidebarItems[i].isOpened = false
-        sidebarItems[i].selectedIndex = -1
-        if (i === 4 || i === 6 || i === 9 || i === 11) {
+      if (selectedIndex === 0) {
+        isReports = true
+        
+      } else {
+        isReports = false
+      }
+      for (let i =1; i<12; i++) {
+        
+          sidebarItems[i].isOpened = false          
           sidebarItems[i].selectedIndex = -2
           sidebarItems[i].visible = false
-        }
-      }      
-      if (selectedIndex === 0) {
-        this.props.onSelectCategory(true)
-      } else {
-        this.props.onSelectCategory(false)
-      }
-      sidebarItems[sidebarItemIndex].selectedIndex = selectedIndex
+          if((isReports && (i === 1 || i ===2 || i === 3)) || (!isReports && (i == 5 || i === 6 || i === 7 || i === 8 || i === 10))) {
+            sidebarItems[i].visible = true
+          }          
+          if (i === 1 || i === 2 || i === 5 || i === 7 || i === 8 || i === 10) {
+            sidebarItems[i].selectedIndex = -1            
+          }
+        
+      }    
+      
+      this.props.onSelectCategory(true)
     } else {
-      const header = categoryTitles[sidebarItemIndex][selectedIndex].header
       const num = categoryTitles[sidebarItemIndex][selectedIndex].num
 
       if (sidebarItemIndex === 1) {
@@ -274,21 +263,109 @@ class Sidebar extends React.Component {
         this.props.onSelectFilterBy(num)
       } else if (sidebarItemIndex === 4) {
         this.props.onSelectSubFilterBy(num)
+      } else{
+        // let report_num, topic_abb, subject_num, serie, serie_element, serie2, serie2_element = []
+        // if (sidebarItems[5+7*(currentBlock-1)].selectedIndex > -1) {
+        //   report_num.push(categoryTitles[5+7*(currentBlock-1)][sidebarItems[5+7*(currentBlock-1)].selectedIndex].num)
+        // } else if (sidebarItems[6+7*(currentBlock-1)].selectedIndex > -1) {
+        //   topic_abb.push(categoryTitles[6+7*(currentBlock-1)][sidebarItems[6+7*(currentBlock-1)].selectedIndex].num)
+        // } else if (sidebarItems[7+7*(currentBlock-1)].selectedIndex > -1) {
+        //   report_num.push(categoryTitles[7+7*(currentBlock-1)][sidebarItems[7+7*(currentBlock-1)].selectedIndex].num)
+        // } else if (sidebarItems[8+7*(currentBlock-1)].selectedIndex > -1) {
+        //   report_num.push(categoryTitles[8+7*(currentBlock-1)][sidebarItems[8+7*(currentBlock-1)].selectedIndex].num)
+        // } else if (sidebarItems[9+7*(currentBlock-1)].selectedIndex > -1) {
+        //   report_num.push(categoryTitles[9+7*(currentBlock-1)][sidebarItems[9+7*(currentBlock-1)].selectedIndex].num)
+        // } else if (sidebarItems[10+7*(currentBlock-1)].selectedIndex > -1) {
+        //   report_num.push(categoryTitles[10+7*(currentBlock-1)][sidebarItems[10+7*(currentBlock-1)].selectedIndex].num)
+        // } else if (sidebarItems[11+7*(currentBlock-1)].selectedIndex > -1) {
+        //   report_num.push(categoryTitles[11+7*(currentBlock-1)][11].num)
+        // }
+        // this.onSelectArmsFilter(report_num, topic_abb, subject_num, serie, serie_element, serie2, serie2_element)
+
       }
     }
     // this.toggleCategoryOptions(sidebarItemIndex)
     this.setState({sidebarItems, categoryTitles, currentBlock})
   }
 
-  resetFilter = ( blockIndex ) => {
-    let {sidebarItems} = this.state
-    sidebarItems.forEach((item, i) => {
-      if (i !== 0) {
-        item.selectedIndex = -1
-      }      
+  addDataSource() {
+    let {categoryTitles, sidebarItems, blockCount} = this.state
+    blockCount++
+    let datasource = []
+    this.props.reports.forEach(report => {
+      const obj = {}
+      obj.num = report.num
+      obj.header = report.header
+      datasource.push(obj)
     })
-    this.props.onSelectCategory(true)
-    this.setState({sidebarItems: sidebarItems})
+    categoryTitles.push(datasource)
+    sidebarItems.push({isOpened: false, selectedIndex: -1, isCategory: false, blockIndex: blockCount, visible: true,  headingTitle: "Data Source"})
+
+    let dataline = []
+    this.props.topics.forEach(topic => {
+      const obj = {}
+      obj.num = topic.abb
+      obj.header = topic.header
+      dataline.push(obj)
+    })
+    categoryTitles.push(dataline)
+    sidebarItems.push({isOpened: false, selectedIndex: -2, isCategory: false, blockIndex: blockCount, visible: true,  headingTitle: "Data Line"})
+
+    let farmtype = []
+    this.props.subjects.forEach(subject => {
+      const obj = {}
+      obj.num = subject.num
+      obj.header = subject.header
+      farmtype.push(obj)
+    })
+    categoryTitles.push(farmtype)
+    sidebarItems.push({isOpened: false, selectedIndex: -1, isCategory: false, blockIndex: blockCount, visible: true,  headingTitle: "Farm Type"})
+
+    let filter1 = []
+    this.props.series.forEach(serie => {
+      const obj = {}
+      obj.num = serie.abb
+      obj.header = serie.header
+      filter1.push(obj)
+    })
+    
+    categoryTitles.push(filter1)
+    sidebarItems.push({isOpened: false, selectedIndex: -1, isCategory: false, blockIndex: blockCount, visible: true,  headingTitle: "Filter1"})
+
+    let subfilter1= []
+    this.props.series_element.forEach(serie_element => {
+      const obj = {}
+      obj.num = serie_element.id
+      obj.header = serie_element.name
+      subfilter1.push(obj)
+    })
+    categoryTitles.push(subfilter1)
+    sidebarItems.push({isOpened: false, selectedIndex: -2, isCategory: false, blockIndex: blockCount, visible: false,  headingTitle: ""})
+
+    let filter2 = []
+    this.props.series2.forEach(serie2 => {
+      const obj = {}
+      obj.num = serie2.abb
+      obj.header = serie2.header
+      filter2.push(obj)
+    })
+    categoryTitles.push(filter2)
+    sidebarItems.push({isOpened: false, selectedIndex: -1, isCategory: false, blockIndex: blockCount, visible: true,  headingTitle: "Filter2"})
+
+    let subfilter2= []
+    this.props.series2_element.forEach(serie2_element => {
+      const obj = {}
+      obj.num = serie2_element.id
+      obj.header = serie2_element.name
+      subfilter2.push(obj)
+    })
+    categoryTitles.push(subfilter2)
+    sidebarItems.push({isOpened: false, selectedIndex: -2, isCategory: false, blockIndex: blockCount, visible: false,  headingTitle: ""})
+    this.setState({categoryTitles: categoryTitles, sidebarItems: sidebarItems, blockCount: blockCount})
+  }
+
+  resetFilter = ( blockIndex ) => {
+    this.updateFilter(0, 0)
   }
 
   
@@ -300,7 +377,7 @@ class Sidebar extends React.Component {
       {        
         sidebarItems.map((val, i) => {
           isDataReset = false
-          if (i%24 >= 11 && i%24 <= 18){
+          if (i === 6){
             isDataReset = true
           } 
           return (
