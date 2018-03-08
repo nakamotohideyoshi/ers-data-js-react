@@ -30,6 +30,10 @@ export default class Layout extends React.Component {
     
   onSelectFilter = (sidebarItemIndex, selectedIndex, blockIndex) => { 
   }
+
+  onSelectArmsFilter = (report_num, topic_abb, subject_num, serie, serie_element, serie2, serie2_element) => {
+    this.setState({report_num, topic_abb, subject_num, serie, serie_element, serie2, serie2_element})
+  }
  
   onSelectCategory = (isReport) => {
     const report_num = []
@@ -117,6 +121,7 @@ export default class Layout extends React.Component {
           onSelectSubject={this.onSelectSubject}
           onSelectFilterBy={this.onSelectFilterBy}
           onSelectSubFilterBy={this.onSelectSubFilterBy}
+          onSelectArmsFilter = {this.onSelectArmsFilter}
         />
         <MainContainer
           years={this.props.years}
