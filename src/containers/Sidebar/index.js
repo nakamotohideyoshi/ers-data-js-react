@@ -53,6 +53,9 @@ const sidebarItems = [
   {isOpened: false, selectedIndex: 0, isCategory: false, visible: false, headingTitle: "Farm Resource Region"},
   {isOpened: false, selectedIndex: 0, isCategory: false, visible: false, headingTitle: "Production Specialty"}
 ]
+let isReports = true
+let isDataReset = false
+
 class Sidebar extends React.Component {
 
   state = {
