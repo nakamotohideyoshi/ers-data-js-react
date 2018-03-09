@@ -43,7 +43,7 @@ class Sidebar extends React.Component {
           reports.push(obj)
         })
         categoryTitles.push(reports)
-        sidebarItems.push({isOpened: false, selectedIndex: -1, isCategory: false, blockIndex: blockCount, visible: true,  headingTitle: 'Report'})
+        sidebarItems.push({isOpened: false, selectedIndex: 0, isCategory: false, blockIndex: blockCount, visible: true,  headingTitle: 'Report'})
 
         let subjects = []
         props.subjects.forEach(subject => {
@@ -53,7 +53,7 @@ class Sidebar extends React.Component {
           subjects.push(obj)
         })
         categoryTitles.push(subjects)
-        sidebarItems.push({isOpened: false, selectedIndex: -1, isCategory: false, blockIndex: blockCount, visible: true,  headingTitle: "Subject"})
+        sidebarItems.push({isOpened: false, selectedIndex: 0, isCategory: false, blockIndex: blockCount, visible: true,  headingTitle: "Subject"})
 
         let series = []
         props.series.forEach(serie => {
@@ -63,7 +63,7 @@ class Sidebar extends React.Component {
           series.push(obj)
         })
         categoryTitles.push(series)
-        sidebarItems.push({isOpened: false, selectedIndex: -2, isCategory: false, blockIndex: blockCount, visible: true,  headingTitle: "Filter by"})
+        sidebarItems.push({isOpened: false, selectedIndex: 0, isCategory: false, blockIndex: blockCount, visible: true,  headingTitle: "Filter by"})
 
         let series_element = []
         props.series_element.forEach(serie_element => {
@@ -281,7 +281,6 @@ class Sidebar extends React.Component {
           topic_abb.push(categoryTitles[6+7*(currentBlock-1)][sidebarItems[6+7*(currentBlock-1)].selectedIndex].num)
         } 
         if (sidebarItems[7+7*(currentBlock-1)].selectedIndex > -1) {
-          console.log('ddd', categoryTitles[7+7*(currentBlock-1)][sidebarItems[7+7*(currentBlock-1)].selectedIndex])
           subject_num.push(categoryTitles[7+7*(currentBlock-1)][sidebarItems[7+7*(currentBlock-1)].selectedIndex].num)
         }
         if (sidebarItems[8+7*(currentBlock-1)].selectedIndex > -1) {
