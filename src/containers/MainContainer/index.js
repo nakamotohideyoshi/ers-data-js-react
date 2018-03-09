@@ -1,10 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Col } from 'react-bootstrap';
-import FilterDropdown from '../../components/FilterDropdown';
 import SheetDataChart from '../../components/SheetDataChart';
 import TableContainer from '../TableContainer';
-import Footnote from '../Footnote';
 import './style.css';
 import charts from '../../ApolloComponent/chartsQuery'
 
@@ -12,33 +9,12 @@ const defaultYears = [2014, 2015]
 
 class MainContainer extends React.Component {  
   state = {
-    showList: {},
-    yearsInfo: [],
-    statesInfo: [],
+    showList: {},    
     years: [],
     surveyData: []
   }
 
   componentWillReceiveProps(props) {
-    let {yearsInfo, statesInfo} = this.state
-    if (yearsInfo.length === 0) {
-      props.years.forEach(yearN => {
-        const infoObj = {}
-          infoObj.year = yearN
-          infoObj.checked = false
-          yearsInfo.push(infoObj)
-      })
-    }
-    
-    if (statesInfo.length === 0) {
-      props.states.forEach(stateN => {
-        const obj = {}
-        obj.name = stateN.name
-        obj.id = stateN.id
-        obj.checked = false
-        statesInfo.push(obj)
-      })
-    }
 
     let showList = {}
     if (props.charts.arms_surveydata) {
@@ -46,31 +22,10 @@ class MainContainer extends React.Component {
         showList[data.topic_abb] = 1
       })
     }
-    this.setState({ yearsInfo, statesInfo, showList })
+    this.setState({ showList })
     
   }
-  onSelectYear = (index) => {
-    let { yearsInfo } = this.state
-    let years = []
-    yearsInfo[index].checked = !yearsInfo[index].checked
-    yearsInfo.forEach(yearN => {
-      if (yearN.checked) {
-        years.push(yearN.year)
-      }
-    })
-    this.props.onSetYears(years)
-  }
-  onSelectState = (index) => {
-    let { statesInfo } = this.state
-    let states = []
-    statesInfo[index].checked = !statesInfo[index].checked
-    statesInfo.forEach(stateN => {
-      if (stateN.checked) {
-        states.push(stateN.id)
-      }
-    })
-    this.props.onSetStates(states)
-  }
+
   hideItem(dataId) {
     const { showList } = this.state
     showList[dataId] = 0
@@ -95,19 +50,10 @@ class MainContainer extends React.Component {
   }
 
   render() {
-
     console.log('updated', this.props.charts)
-    const { yearsInfo, statesInfo, years, surveyData, showList } = this.state
+    const { years, surveyData, showList } = this.state
     return (
-      <Col xs={12} md={9} sm={12}>
-        <h4 className="main-heading">Farm Business Balance Sheet Data 
-        </h4>
-        <FilterDropdown 
-          yearsInfo={yearsInfo} 
-          statesInfo={statesInfo} 
-          onSelectYear={this.onSelectYear} 
-          onSelectState={this.onSelectState}           
-        />
+      <div>
         <SheetDataChart 
           years={this.props.selectedYears}
           surveyData={this.props.charts.arms_surveydata} 
@@ -121,9 +67,8 @@ class MainContainer extends React.Component {
           showItem={(dataId) => this.showItem(dataId)}
           showAllItem={() => this.showAllItem()}
           hideAllItem={() => this.hideAllItem()}
-        />
-        <Footnote />
-      </Col>
+        />        
+      </div>
     )
   }
   
