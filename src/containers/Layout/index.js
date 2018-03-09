@@ -127,7 +127,7 @@ export default class Layout extends React.Component {
     let selectedYears = []
     yearsInfo.forEach(yearN => {
       if (yearN.checked) {
-        selectedYears.years.push(yearN.year)
+        selectedYears.push(yearN.year)
       }
     })
     this.setState({ selectedYears })
