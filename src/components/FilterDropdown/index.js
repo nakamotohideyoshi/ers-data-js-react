@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Col, DropdownButton } from 'react-bootstrap';
 import Checkbox from '../Checkbox';
+import RotateImg from '../../images/rotate.png'
+import './style.css'
 
 const FilterDropdown = ({ onSelectYear, yearsInfo, onSelectState, statesInfo }) => (
   <div className="filterDropdownContainer">
@@ -22,10 +24,13 @@ const FilterDropdown = ({ onSelectYear, yearsInfo, onSelectState, statesInfo }) 
         </DropdownButton>
       </Col>
     </Col>
-    <Col md={6} sm={6} xs={12}>
-        <Col md={1} sm={1} xs={1}>
-        </Col>
-        <Col md={7} sm={6} xs={11}>
+    <Col md={1} sm={1} xs={12}>
+      <div className='switchContainer'>
+        <img src={RotateImg} alt='rotate' />
+      </div>
+    </Col>
+    <Col md={5} sm={5} xs={12}>
+        <Col md={8} sm={6} xs={11}>
           <div className="top-title">FILTERED BY REGION</div>
           <DropdownButton
             bsStyle="default"
