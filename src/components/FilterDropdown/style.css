@@ -1,0 +1,9 @@
+.switchContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+.filterDropdownContainer {
+  display: flex;
+  align-items: center;
+}
