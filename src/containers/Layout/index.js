@@ -69,23 +69,22 @@ export default class Layout extends React.Component {
   }
  
   onSelectCategory = (isReport) => {
-    const report_num = []
-    const subject_num = []
-    const serie = []
-    const serie_element = []
+    const report_num = [1]
+    const subject_num = [1]
+    const serie = ['farm']
+    const serie_element = [0]
     const topic_abb = [] 
-    
+    const serie2 = ['farm']
+    const serie2_element = [0]
+    const selectedYears = [2014, 2015]
+    const selectedStates = ['00']
 
     if (isReport) {      
-      const blockIndex = 0
-      const serie2 = ['farm']
-      const serie2_element = [0]
-      this.setState({report_num, subject_num, serie, serie_element, serie2, serie2_element, topic_abb, blockIndex})
+      const blockIndex = 0      
+      this.setState({report_num, subject_num, serie, serie_element, serie2, serie2_element, topic_abb, blockIndex, selectedStates, selectedYears})
     } else {
       const blockIndex = 1
-      const serie2 = []
-      const serie2_element = []
-      this.setState({report_num, subject_num, serie, serie_element, serie2, serie2_element, topic_abb, blockIndex})
+      this.setState({report_num, subject_num, serie, serie_element, serie2, serie2_element, topic_abb, blockIndex, selectedStates, selectedYears})
     }
   }
 
