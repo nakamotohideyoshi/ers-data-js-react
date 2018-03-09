@@ -19,19 +19,16 @@ class Sidebar extends React.Component {
     isCategoryOpened: false,
     sidebarItems: [],
     categoryTitles: [],
-    blockCount: -1,
-    currentBlock: -1
-    
+    blockCount: 0,
+    currentBlock: 0    
   }  
   
   componentWillReceiveProps(props) {
     console.log('-------', props)
     let {categoryTitles, sidebarItems, blockCount, currentBlock} = this.state
     if (categoryTitles.length === 0) {
-      if (props.reports.length !== 0 && props.subjects.length !== 0  && props.series.length !== 0) {
+      if (props.reports.length !== 0 && props.subjects.length !== 0  && props.series.length !== 0 && !props.armsfilter.loading) {
         isRemoval = false
-        blockCount++
-        currentBlock++
         categoryTitles.push([{num: 0, header: 'Tailored Reports'},{ num: 1, header: 'ARMS Data Analysis'}])
         sidebarItems.push({isOpened: false, selectedIndex: 0, isCategory: true,  blockIndex: blockCount, visible: true,  headingTitle: ''})
 
@@ -66,14 +63,14 @@ class Sidebar extends React.Component {
         sidebarItems.push({isOpened: false, selectedIndex: 0, isCategory: false, blockIndex: blockCount, visible: true,  headingTitle: "Filter by"})
 
         let series_element = []
-        props.series_element.forEach(serie_element => {
+        props.armsfilter.arms_filter.serie_element.forEach(serie_element => {
           const obj = {}
           obj.num = serie_element.id  
           obj.header = serie_element.name
           series_element.push(obj)     
         })
         categoryTitles.push(series_element)
-        sidebarItems.push({isOpened: false, selectedIndex: -2, isCategory: false, blockIndex: blockCount, visible: false,  headingTitle: ""})
+        sidebarItems.push({isOpened: false, selectedIndex: 0, isCategory: false, blockIndex: blockCount, visible: false,  headingTitle: ""})
 
         blockCount++
         let datasource = []
@@ -87,7 +84,7 @@ class Sidebar extends React.Component {
         sidebarItems.push({isOpened: false, selectedIndex: -1, isCategory: false, blockIndex: blockCount, visible: false,  headingTitle: "Data Source"})
 
         let dataline = []
-        props.topics.forEach(topic => {
+        props.armsfilter.arms_filter.topic.forEach(topic => {
           const obj = {}
           obj.num = topic.abb
           obj.header = topic.header
@@ -118,7 +115,7 @@ class Sidebar extends React.Component {
         sidebarItems.push({isOpened: false, selectedIndex: -1, isCategory: false, blockIndex: blockCount, visible: false,  headingTitle: "Filter1"})
 
         let subfilter1= []
-        props.series_element.forEach(serie_element => {
+        props.armsfilter.arms_filter.serie_element.forEach(serie_element => {
           const obj = {}
           obj.num = serie_element.id
           obj.header = serie_element.name
@@ -138,7 +135,7 @@ class Sidebar extends React.Component {
         sidebarItems.push({isOpened: false, selectedIndex: -1, isCategory: false, blockIndex: blockCount, visible: false,  headingTitle: "Filter2"})
 
         let subfilter2= []
-        props.series2_element.forEach(serie2_element => {
+        props.armsfilter.arms_filter.serie2_element.forEach(serie2_element => {
           const obj = {}
           obj.num = serie2_element.id
           obj.header = serie2_element.name
@@ -166,14 +163,14 @@ class Sidebar extends React.Component {
             categoryTitles[4].push(obj)     
           })
           sidebarItems[4].headingTitle = categoryTitles[3][sidebarItems[3].selectedIndex].header
-          sidebarItems[4].selectedIndex = -1
+          sidebarItems[4].selectedIndex = 0
+          sidebarItems[4].isOpened = false
           if (categoryTitles[3][sidebarItems[3].selectedIndex].num !== 'farm') {
-            sidebarItems[4].visible = true
-          } else {            
-            sidebarItems[4].isOpened = false
+            sidebarItems[4].visible = true            
+          } else {
             sidebarItems[4].visible = false
-            props.onSelectSubFilterBy(0)
           }
+          props.onSelectSubFilterBy(categoryTitles[4][0].num)
         } else {
           categoryTitles[7*(currentBlock-1) + 6] = []
           props.armsfilter.arms_filter.topic.forEach(topic => {
@@ -214,59 +211,54 @@ class Sidebar extends React.Component {
     
     const { sidebarItems } =this.state
     console.log('toggle', sidebarItems[selectedItemIndex].selectedIndex)
-    if (sidebarItems[selectedItemIndex].selectedIndex === -1 || selectedItemIndex === 0) {
+    
       sidebarItems[selectedItemIndex].isOpened = !sidebarItems[selectedItemIndex].isOpened
-    }   
+       
     this.setState({ sidebarItems })
   }
 
   updateFilter = (sidebarItemIndex, selectedIndex) => {
     const { sidebarItems, categoryTitles } =this.state
-    const currentBlock = sidebarItems[sidebarItemIndex].blockIndex
+    let currentBlock = sidebarItems[sidebarItemIndex].blockIndex
     sidebarItems[sidebarItemIndex].selectedIndex = selectedIndex
-    sidebarItems[sidebarItemIndex].isOpened = false
     if (sidebarItemIndex === 0) {
       const count = sidebarItems.length
-      if (sidebarItems.length > 12) {
-        for (let i = 12; i<count; i++) {
-          sidebarItems.pop()
-          categoryTitles.pop()
-        }        
+      for (let i=0; i<count-12; i++) {
+        sidebarItems.pop()
+        categoryTitles.pop()
+      }
+      for (let i = 1; i<12; i++) {
+        sidebarItems[i].visible = false
       }
       if (selectedIndex === 0) {
         isReports = true
-        
-      } else {
-        isReports = false
-      }
-      for (let i =1; i<12; i++) {
-        
-          sidebarItems[i].isOpened = false          
-          sidebarItems[i].selectedIndex = -2
-          sidebarItems[i].visible = false
-          if((isReports && (i === 1 || i ===2 || i === 3)) || (!isReports && (i == 5 || i === 6 || i === 7 || i === 8 || i === 10))) {
+        currentBlock = 0
+        for (let i = 1; i<=4; i++) {
+          sidebarItems[i].selectedIndex = 0          
+          sidebarItems[i].isOpened = false
+          if (i !== 4) {
             sidebarItems[i].visible = true
           }          
-          if (i === 1 || i === 2 || i === 5 || i === 7 || i === 8 || i === 10) {
-            sidebarItems[i].selectedIndex = -1            
-          }
-        
-      }    
-      
+        }       
+      } else {
+        isReports = false
+        currentBlock = 1
+        for (let i = 5; i<=11; i++) {
+          sidebarItems[i].selectedIndex = 0          
+          sidebarItems[i].isOpened = false
+          if (i !== 9 || i !== 11) {
+            sidebarItems[i].visible = true
+          }       
+        }
+      }
+      this.setState({sidebarItems, categoryTitles, currentBlock}) 
       this.props.onSelectCategory(true)
     } else {
       const num = categoryTitles[sidebarItemIndex][selectedIndex].num
 
-      if (sidebarItemIndex === 1) {
-        if (sidebarItems[2].selectedIndex !== -1) {
-          sidebarItems[3].selectedIndex = -1
-        }        
-        this.props.onSelectReport(num)       
-        
+      if (sidebarItemIndex === 1) { 
+        this.props.onSelectReport(num)
       } else if (sidebarItemIndex === 2) {
-        if (sidebarItems[1].selectedIndex !== -1) {
-          sidebarItems[3].selectedIndex = -1
-        }
         this.props.onSelectSubject(num)
       } else if (sidebarItemIndex === 3) {
         this.props.onSelectFilterBy(num)
@@ -299,7 +291,7 @@ class Sidebar extends React.Component {
 
       }
     }
-    // this.toggleCategoryOptions(sidebarItemIndex)
+    this.toggleCategoryOptions(sidebarItemIndex)
     this.setState({sidebarItems, categoryTitles, currentBlock})
   }
 
@@ -397,12 +389,24 @@ class Sidebar extends React.Component {
   }
 
   resetFilter = ( blockIndex ) => {
-    console.log('block', blockIndex)
+    const { sidebarItems, categoryTitles } =this.state
+    const currentBlock = blockIndex
     if(blockIndex === 0) {
-      this.updateFilter(0, 0)
+      isReports = true
+      for (let i = 1; i<=4; i++) {
+        sidebarItems[i].selectedIndex = 0          
+        sidebarItems[i].isOpened = false
+        if (i !== 4) {
+          sidebarItems[i].visible = true
+        } else {
+          sidebarItems[i].visible = false
+        }    
+      }
+      this.props.onSelectCategory(isReports)
     } else {
       this.updateFilter(0,1)
     }
+    this.setState({categoryTitles: categoryTitles, sidebarItems: sidebarItems, blockCount: 1, currentBlock: currentBlock})
     
   }
   
