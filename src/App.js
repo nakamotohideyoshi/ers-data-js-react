@@ -9,25 +9,28 @@ class App extends Component {
     reports: [],
     subjects: [],
     series: [],
-    series_element: [],
     series2: [],
-    series2_element: [],
     topics: []
 
   }
   
   componentWillReceiveProps(props) {
     let {years, states, reports, subjects, series, series_element, series2, series2_element, topics} = this.state
-    if (!props.initial.loading) {
+    if (!props.initial.loading) {      
       years = props.initial.arms_filter.year
       states = props.initial.arms_filter.state
       reports = props.initial.arms_filter.report
       subjects = props.initial.arms_filter.subject
       series = props.initial.arms_filter.serie
       series2 = props.initial.arms_filter.serie2
-      series_element = props.initial.arms_filter.serie_element
-      series2_element = props.initial.arms_filter.serie2_element
-      topics = props.initial.arms_filter.topic
+      topics.push(props.initial.topic_1.topic)
+      topics.push(props.initial.topic_2.topic)
+      topics.push(props.initial.topic_3.topic)
+      topics.push(props.initial.topic_4.topic)
+      topics.push(props.initial.topic_5.topic)
+      topics.push(props.initial.topic_6.topic)
+      topics.push(props.initial.topic_7.topic)
+      topics.push(props.initial.topic_8.topic)
     }
     this.setState({years, states, reports, subjects, series, series_element, series2, series2_element, topics})
   }
