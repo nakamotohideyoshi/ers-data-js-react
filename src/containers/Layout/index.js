@@ -5,7 +5,7 @@ import MainContainer from '../MainContainer';
 import FilterDropdown from '../../components/FilterDropdown';
 import { Col } from 'react-bootstrap';
 import Footnote from '../Footnote';
-import { filter } from 'async';
+import { filter, concatSeries } from 'async';
 
 export default class Layout extends React.Component {
   state = {
@@ -18,18 +18,13 @@ export default class Layout extends React.Component {
     topic_abb: [],
     selectedYears: [2014, 2015],
     selectedStates: ['00'],
-    blockIndex: -1,
+    blockIndex: 0,
     yearsInfo: [],
     statesInfo: [],
   }
 
   componentWillReceiveProps(props) {
-    let {topic_abb, yearsInfo, statesInfo} = this.state
-    if (props.topics) {
-      props.topics.forEach(topic => {
-        topic_abb.push(topic.abb)
-      })
-    }
+    let {yearsInfo, statesInfo, topic_abb} = this.state
     if (props.years &&  yearsInfo.length === 0) {
       props.years.forEach(yearN => {
         const infoObj = {}
@@ -56,16 +51,32 @@ export default class Layout extends React.Component {
         statesInfo.push(obj)
       })
     }
-    this.setState({topic_abb: topic_abb, yearsInfo: yearsInfo, statesInfo: statesInfo})    
+    const topics = []
+
+    if (props.topics && topic_abb.length === 0) {
+      props.topics[0].forEach(topic => {
+        topics.push(topic.abb)
+      })
+    }
+
+    this.setState({yearsInfo: yearsInfo, statesInfo: statesInfo, topic_abb: topics})    
   }
 
 
-    
-  onSelectFilter = (sidebarItemIndex, selectedIndex, blockIndex) => { 
-  }
 
   onSelectArmsFilter = (report_num, topic_abb, subject_num, serie, serie_element, serie2, serie2_element) => {
-    this.setState({report_num, topic_abb, subject_num, serie, serie_element, serie2, serie2_element})
+    const report = report_num
+    const topic = topic_abb
+    const subject = subject_num
+    const ser = serie
+    const ser_element = serie_element
+    const ser2 = serie2
+    const ser2_element = serie2_element
+    this.setState({report_num: report, topic_abb: topic, subject_num: subject, serie: ser, serie_element: ser_element, serie2: ser2, serie2_element: ser2_element})
+  }
+
+  onSelectReportFilter = (report_num, topic_abb, subject_num, serie, serie_element) => {
+    this.setState({report_num: report_num, topic_abb: topic_abb, subject_num: subject_num, serie: serie, serie_element: serie_element})
   }
  
   onSelectCategory = (isReport) => {
@@ -80,9 +91,13 @@ export default class Layout extends React.Component {
     const selectedStates = ['00']
 
     if (isReport) {      
-      const blockIndex = 0      
+      const blockIndex = 0
+      this.props.topics[0].forEach(topic => {
+        topic_abb.push(topic.abb)
+      })     
       this.setState({report_num, subject_num, serie, serie_element, serie2, serie2_element, topic_abb, blockIndex, selectedStates, selectedYears})
     } else {
+      topic_abb.push(this.props.topics[0][0].abb)
       const blockIndex = 1
       this.setState({report_num, subject_num, serie, serie_element, serie2, serie2_element, topic_abb, blockIndex, selectedStates, selectedYears})
     }
@@ -145,23 +160,22 @@ export default class Layout extends React.Component {
   }
 
   render() {
+    console.log('////////', this.state)
     const {report_num, subject_num, serie, serie_element, serie2, serie2_element, topic_abb, selectedYears, selectedStates, blockIndex, yearsInfo, statesInfo } = this.state
     return (
       <Grid>
         <Sidebar
+          topics = {this.props.topics}
           reports = {this.props.reports}
           subjects = {this.props.subjects}
           series = {this.props.series}
-          series_element = {this.props.series_element}
           series2 = {this.props.series2}
-          series2_element = {this.props.series2_element}
-          topics = {this.props.topics}
           report_num = {report_num}
           subject_num = {subject_num}
           serie = {serie}
           serie2 = {serie2}       
           onSelectCategory={this.onSelectCategory}
-          onSelectReport={this.onSelectReport}
+          onSelectReportFilter={this.onSelectReportFilter}
           onSelectSubject={this.onSelectSubject}
           onSelectFilterBy={this.onSelectFilterBy}
           onSelectSubFilterBy={this.onSelectSubFilterBy}

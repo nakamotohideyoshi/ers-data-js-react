@@ -4,12 +4,20 @@ import SidebarDropdown from '../SidebarDropdown'
 import { SlideDown } from 'react-slidedown'
 import Reset from '../../images/reset.png'
 
-const SidebarItem = ({ headingTitle, titles, visible, selectedIndex, isBlock, isOpened, isCategory, isReports, isDataReset, isLast, toggleCategoryOptions, updateFilter, resetFilter }) => (
+const SidebarItem = ({ headingTitle, titles, visible, selectedIndex, isBlock, isOpened, isCategory, isReports, isDataReset, isRemoval, removeDataSource, isLast, toggleCategoryOptions, updateFilter, resetFilter }) => (
   <div>
     {
       visible && (
         <div className="dropdown_second">
-
+        {
+          !isReports && isRemoval && (
+            <div>
+              <a className="pull-right reset" onClick={() => removeDataSource()}>
+                <img src={Reset} alt="" />Remove
+              </a>
+            </div>
+          )
+        }
         <SidebarDropdown headingTitle={headingTitle} title={selectedIndex === -1 ||  selectedIndex === -2 ? 'Select' : titles[selectedIndex].header} isOpened={isOpened} isCategory={isCategory} onToggle={() => toggleCategoryOptions()} />
         <SlideDown className='my-dropdown-slidedown'>
           {
@@ -77,7 +85,9 @@ SidebarItem.propTypes = {
   isReports: PropTypes.bool,
   isDataReset: PropTypes.bool,
   isLast: PropTypes.bool,
-  isBlock: PropTypes.boo,
+  isBlock: PropTypes.bool,
+  isRemoval: PropTypes.bool,
+  removeDataSource: PropTypes.func,
   toggleCategoryOptions: PropTypes.func,
   updateFilter: PropTypes.func  
 };
