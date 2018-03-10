@@ -41,7 +41,7 @@ class SheetDataChart extends Component {
     }
     console.log(incomeArr)
     
-    this.setState({ incomeArr: [].concat(incomeArr) })
+    this.setState({ incomeArr: incomeArr.slice() })
   }
   render() {
     const { incomeArr } = this.state
