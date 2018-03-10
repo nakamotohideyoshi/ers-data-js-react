@@ -7,6 +7,8 @@ import { Col } from 'react-bootstrap';
 import Footnote from '../Footnote';
 import { filter } from 'async';
 
+const defaultYears = [2014, 2015]
+
 export default class Layout extends React.Component {
   state = {
     report_num: [1],
@@ -16,11 +18,12 @@ export default class Layout extends React.Component {
     serie2: ["farm"],
     serie2_element: [0],
     topic_abb: [],
-    selectedYears: [2014, 2015],
+    selectedYears: defaultYears,
     selectedStates: ['00'],
     blockIndex: -1,
     yearsInfo: [],
     statesInfo: [],
+    isYearsMultiple: true    
   }
 
   componentWillReceiveProps(props) {
@@ -76,7 +79,7 @@ export default class Layout extends React.Component {
     const topic_abb = [] 
     const serie2 = ['farm']
     const serie2_element = [0]
-    const selectedYears = [2014, 2015]
+    const selectedYears = defaultYears
     const selectedStates = ['00']
 
     if (isReport) {      
@@ -143,9 +146,25 @@ export default class Layout extends React.Component {
     })
     this.setState({ selectedStates })
   }
-
+  onSwitchMultiple = () => {
+    let { isYearsMultiple } = this.state
+    this.setState({ isYearsMultiple: !isYearsMultiple })
+  }
   render() {
-    const {report_num, subject_num, serie, serie_element, serie2, serie2_element, topic_abb, selectedYears, selectedStates, blockIndex, yearsInfo, statesInfo } = this.state
+    const {
+      report_num, 
+      subject_num, 
+      serie, 
+      serie_element, 
+      serie2, 
+      serie2_element, 
+      topic_abb, 
+      selectedYears, 
+      selectedStates, 
+      blockIndex, 
+      yearsInfo, 
+      statesInfo,
+      isYearsMultiple } = this.state
     return (
       <Grid>
         <Sidebar
@@ -175,7 +194,9 @@ export default class Layout extends React.Component {
             yearsInfo={yearsInfo} 
             statesInfo={statesInfo} 
             onSelectYear={this.onSelectYear} 
-            onSelectState={this.onSelectState}           
+            onSelectState={this.onSelectState}
+            onSwitchMultiple={this.onSwitchMultiple}
+            isYearsMultiple={isYearsMultiple}          
           />
           <MainContainer
             selectedStates = {selectedStates}

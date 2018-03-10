@@ -5,8 +5,6 @@ import TableContainer from '../TableContainer';
 import './style.css';
 import charts from '../../ApolloComponent/chartsQuery'
 
-const defaultYears = [2014, 2015]
-
 class MainContainer extends React.Component {  
   state = {
     showList: {},    
