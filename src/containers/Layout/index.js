@@ -208,7 +208,8 @@ export default class Layout extends React.Component {
             serie2 = {serie2}
             serie2_element = {serie2_element}
             topic_abb = {topic_abb}
-            blockIndex = {blockIndex}       
+            blockIndex = {blockIndex}      
+            isYearsMultiple={isYearsMultiple}          
           />        
           <Footnote />
         </Col>  
