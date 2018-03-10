@@ -67,7 +67,7 @@ class MainContainer extends React.Component {
           showItem={(dataId) => this.showItem(dataId)}
           showAllItem={() => this.showAllItem()}
           hideAllItem={() => this.hideAllItem()}
-        />        
+        />       
       </div>
     )
   }
