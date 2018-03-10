@@ -15,13 +15,8 @@ class FilterDropdown extends React.Component {
   state = {
     isYearsMultiple: true
   }
-  switchMultipleFilter() {
-    let { isYearsMultiple } = this.state
-    this.setState({ isYearsMultiple: !isYearsMultiple })
-  }
   render() {
-    const { onSelectYear, yearsInfo, onSelectState, statesInfo } = this.props
-    const { isYearsMultiple } = this.state
+    const { onSelectYear, yearsInfo, onSelectState, statesInfo, isYearsMultiple, onSwitchMultiple } = this.props
     
     return (
       <div className="filterDropdownContainer">
@@ -46,7 +41,7 @@ class FilterDropdown extends React.Component {
         </Col>
       </Col>
       <Col md={1} sm={1} xs={12}>
-        <div className='switchContainer' onClick={() => this.switchMultipleFilter()}>
+        <div className='switchContainer' onClick={() => onSwitchMultiple()}>
           <img src={RotateImg} alt='rotate' />
         </div>
       </Col>
@@ -78,8 +73,10 @@ class FilterDropdown extends React.Component {
 FilterDropdown.propTypes = {
   onSelectYear: PropTypes.func,
   onSelectState: PropTypes.func,
+  onSwitchMultiple: PropTypes.func,
   yearsInfo: PropTypes.array,
   statesInfo: PropTypes.array,
+  isYearsMultiple: PropTypes.bool
 };
 
 export default FilterDropdown;
