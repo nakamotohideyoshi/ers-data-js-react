@@ -10,7 +10,6 @@ class SheetDataChart extends Component {
   componentWillReceiveProps(props) {
     const { showList, surveyData } = props
     let incomeArr = []
-    console.log(surveyData)
     if (surveyData) {
       surveyData.forEach((element, index) => {
           let singleIncome = {}
@@ -39,8 +38,6 @@ class SheetDataChart extends Component {
           }
       })
     }
-    console.log(incomeArr)
-    
     this.setState({ incomeArr: incomeArr.slice() })
   }
   render() {
