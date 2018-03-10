@@ -48,8 +48,3 @@ ChartGenerator.propTypes = {
   title: PropTypes.string
 };
 
-ChartGenerator.defaultProps = {
-  series: [],
-  categories: [2014, 2015],
-  title: ""
-};
