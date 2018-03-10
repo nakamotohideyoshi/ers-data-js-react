@@ -56,9 +56,11 @@ class TableContainer extends React.Component {
     
     const data = [];
     const header = ['', '']
-    categories.forEach( category => {
-      header.push(category)
-    })
+    if (categories) {
+      categories.forEach( category => {
+        header.push(category)
+      })
+    }
     data.push(header)
     incomeArr.forEach( element => {
       let estRow = [element.header, 'Estimate']
@@ -187,25 +189,29 @@ class TableContainer extends React.Component {
                 <thead>
                   <tr>
                     {
-                      categories.map((category, pos) => {
-                        return <th scope="col" className="estimate-rse-th estimate-rse-td" key={`category-${pos}`}>{category}</th>
-                      })
+                      categories && (
+                        categories.map((category, pos) => {
+                          return <th scope="col" className="estimate-rse-th estimate-rse-td" key={`category-${pos}`}>{category}</th>
+                        })
+                      )
                     }
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
                     {
-                      categories.map((category, pos) => {
-                        return (
-                          <td className="estimate-rse-td" key={`est-th-${pos}`}>
-                            <div className='estimate_rse'>
-                              <div className="data-heading data-value">ESTIMATE</div>
-                              <div className="data-heading data-value">RSE</div>
-                            </div>
-                          </td>
-                        )
-                      })
+                      categories && (
+                        categories.map((category, pos) => {
+                          return (
+                            <td className="estimate-rse-td" key={`est-th-${pos}`}>
+                              <div className='estimate_rse'>
+                                <div className="data-heading data-value">ESTIMATE</div>
+                                <div className="data-heading data-value">RSE</div>
+                              </div>
+                            </td>
+                          )
+                        })
+                      )
                     }
                   </tr>
                   {
@@ -213,16 +219,18 @@ class TableContainer extends React.Component {
                       return (
                         <tr key={`rtr-${index}`}>
                           {
-                            categories.map((category, pos) => {
-                              return (
-                                <td className="estimate-rse-td nowrap-div" key={`est-td-${pos}`}>
-                                  <div className='estimate_rse'>
-                                    <div className="data-value">{numberWithCommas(data.estimateList[pos])}</div>
-                                    <div className="data-value">{data.rseList[pos]}</div>
-                                  </div>
-                                </td>
-                              )
-                            })
+                            categories && (
+                              categories.map((category, pos) => {
+                                return (
+                                  <td className="estimate-rse-td nowrap-div" key={`est-td-${pos}`}>
+                                    <div className='estimate_rse'>
+                                      <div className="data-value">{numberWithCommas(data.estimateList[pos])}</div>
+                                      <div className="data-value">{data.rseList[pos]}</div>
+                                    </div>
+                                  </td>
+                                )
+                              })
+                            )
                           }
                         </tr>
                       )
