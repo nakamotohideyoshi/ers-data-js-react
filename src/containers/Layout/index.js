@@ -20,7 +20,7 @@ export default class Layout extends React.Component {
     selectedStates: ['00'],
     blockIndex: 0,
     yearsInfo: [],
-    statesInfo: [],
+    statesInfo: []
   }
 
   componentWillReceiveProps(props) {
@@ -64,19 +64,26 @@ export default class Layout extends React.Component {
 
 
 
-  onSelectArmsFilter = (report_num, topic_abb, subject_num, serie, serie_element, serie2, serie2_element) => {
-    const report = report_num
-    const topic = topic_abb
-    const subject = subject_num
-    const ser = serie
-    const ser_element = serie_element
-    const ser2 = serie2
-    const ser2_element = serie2_element
-    this.setState({report_num: report, topic_abb: topic, subject_num: subject, serie: ser, serie_element: ser_element, serie2: ser2, serie2_element: ser2_element})
+  onSelectArmsFilter = (report_num, topic_abb, subject_num, serie) => {
+    this.setState({report_num: report_num, topic_abb: topic_abb, subject_num: subject_num, serie: serie})
   }
 
-  onSelectReportFilter = (report_num, topic_abb, subject_num, serie, serie_element) => {
+  onSleectSubFilter1 = (report_num, topic_abb, subject_num, serie, serie_element) => {
     this.setState({report_num: report_num, topic_abb: topic_abb, subject_num: subject_num, serie: serie, serie_element: serie_element})
+  }
+  onSelectFilter2 = (report_num, topic_abb, subject_num, serie, serie_element, serie2) => {
+    this.setState({report_num: report_num, topic_abb: topic_abb, subject_num: subject_num, serie: serie, serie_element: serie_element, serie2: serie2})
+  }
+  onSelectSubFilter2 = (report_num, topic_abb, subject_num, serie, serie_element, serie2, serie2_element) => {
+    this.setState({report_num: report_num, topic_abb: topic_abb, subject_num: subject_num, serie: serie, serie_element: serie_element, serie2: serie2, serie2_element: serie2_element})
+  }
+
+  onSelectReportFilter = (report_num, topic_abb, subject_num, serie) => {
+    this.setState({report_num: report_num, topic_abb: topic_abb, subject_num: subject_num, serie: serie})
+  }
+
+  onSelectSubFilterBy = (filter_element) => {
+    this.setState({serie_element: filter_element})
   }
  
   onSelectCategory = (isReport) => {
@@ -101,38 +108,6 @@ export default class Layout extends React.Component {
       const blockIndex = 1
       this.setState({report_num, subject_num, serie, serie_element, serie2, serie2_element, topic_abb, blockIndex, selectedStates, selectedYears})
     }
-  }
-
-  onSelectReport = (report) => {
-    let report_num = []
-    report_num.push(report)
-    this.setState({report_num})
-  }
-
-  onSelectSubject = (subject) => {
-    let subject_num = []
-    subject_num.push(subject)
-    this.setState({subject_num})
-  }
-
-  onSelectFilterBy = (filter) => {
-    let serie = []
-    serie.push(filter)
-    this.setState({serie})
-  }
-
-  onSelectSubFilterBy = (filter_element) => {
-    let serie_element = []
-    serie_element.push(filter_element)
-    this.setState({serie_element})
-  }
-
-  onSelectTopic = (topics) => {
-    const topic_abb = []
-    topics.forEach(topic => {
-      topic_abb.push(topic)
-    })
-    this.setState({topic_abb})
   }
 
   onSelectYear = (index) => {
@@ -160,7 +135,6 @@ export default class Layout extends React.Component {
   }
 
   render() {
-    console.log('////////', this.state)
     const {report_num, subject_num, serie, serie_element, serie2, serie2_element, topic_abb, selectedYears, selectedStates, blockIndex, yearsInfo, statesInfo } = this.state
     return (
       <Grid>
@@ -176,11 +150,11 @@ export default class Layout extends React.Component {
           serie2 = {serie2}       
           onSelectCategory={this.onSelectCategory}
           onSelectReportFilter={this.onSelectReportFilter}
-          onSelectSubject={this.onSelectSubject}
-          onSelectFilterBy={this.onSelectFilterBy}
           onSelectSubFilterBy={this.onSelectSubFilterBy}
-          onSelectTopic={this.onSelectTopic}
           onSelectArmsFilter = {this.onSelectArmsFilter}
+          onSleectSubFilter1={this.onSleectSubFilter1}
+          onSelectFilter2={this.onSelectFilter2}          
+          onSelectSubFilter2={this.onSelectSubFilter2}
         />
         <Col xs={12} md={9} sm={12}>
           <h4 className="main-heading">Farm Business Balance Sheet Data 
