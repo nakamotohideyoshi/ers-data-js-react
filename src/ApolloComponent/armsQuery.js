@@ -10,11 +10,6 @@ import gql from 'graphql-tag';
       serie: $serie,
       serie2: $serie2
     ){
-      topic {
-        abb
-        header
-        seq
-      }
       serie_element {
         id
         name
