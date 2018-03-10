@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Col, DropdownButton } from 'react-bootstrap';
+import ReactTooltip from 'react-tooltip'
+
 import Checkbox from '../Checkbox';
 import RotateImg from '../../images/rotate.png'
 import './style.css'
@@ -12,6 +14,18 @@ const REGIONS_CAPTION = "Regions"
 
 
 class FilterDropdown extends React.Component {
+  generateToolTipList(category, type) {
+    let categoryList = ''
+    if (category) {
+      category.forEach( Info => {
+        if (Info.checked)
+        categoryList += Info[type] + ', '
+      })
+      return categoryList.slice(0, -2)
+    } else {
+      return categoryList
+    }
+  }
   render() {
     const { onSelectYear, yearsInfo, onSelectState, statesInfo, isYearsMultiple, onSwitchMultiple } = this.props
     
@@ -24,6 +38,7 @@ class FilterDropdown extends React.Component {
             bsStyle="default"
             title={ isYearsMultiple ? YEARS_CAPTION:REGIONS_CAPTION }
             className="download-menu"
+            data-tip={this.generateToolTipList(isYearsMultiple ? yearsInfo:statesInfo, isYearsMultiple ? 'year':'name')}
           >
           {
             isYearsMultiple &&
@@ -49,6 +64,7 @@ class FilterDropdown extends React.Component {
               bsStyle="default"
               title={ isYearsMultiple ? REGIONS_CAPTION:YEARS_CAPTION }
               className="download-menu"
+              data-tip={this.generateToolTipList(isYearsMultiple ? statesInfo:yearsInfo, isYearsMultiple ? 'name':'year')}
             >
             {
               isYearsMultiple &&
@@ -62,6 +78,7 @@ class FilterDropdown extends React.Component {
             </DropdownButton>
           </Col>
       </Col>    
+      <ReactTooltip />
     </div>
     )
   }
