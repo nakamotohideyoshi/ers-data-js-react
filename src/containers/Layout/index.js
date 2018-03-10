@@ -20,6 +20,7 @@ export default class Layout extends React.Component {
     topic_abb: [],
     selectedYears: defaultYears,
     selectedStates: ['00'],
+    selectedStateNames: ['All Survey states'],    
     blockIndex: -1,
     yearsInfo: [],
     statesInfo: [],
@@ -124,31 +125,75 @@ export default class Layout extends React.Component {
   }
 
   onSelectYear = (index) => {
-    let { yearsInfo } = this.state
+    let { yearsInfo, isYearsMultiple } = this.state
     yearsInfo[index].checked = !yearsInfo[index].checked
+    if (!isYearsMultiple) {
+      yearsInfo.forEach((yearN, i) => {
+        if (i !== index) yearN.checked = false
+      })
+    }
     let selectedYears = []
     yearsInfo.forEach(yearN => {
       if (yearN.checked) {
         selectedYears.push(yearN.year)
       }
     })
-    this.setState({ selectedYears })
+    this.setState({ selectedYears, yearsInfo: yearsInfo.slice() })
   }
 
   onSelectState = (index) => {
-    let { statesInfo } = this.state
+    let { statesInfo, isYearsMultiple } = this.state
     let selectedStates = []
+    let selectedStateNames = []
     statesInfo[index].checked = !statesInfo[index].checked
+    if (isYearsMultiple) {
+      statesInfo.forEach((stateN, i) => {
+        if (i !== index) stateN.checked = false
+      })
+    }
     statesInfo.forEach(stateN => {
       if (stateN.checked) {
         selectedStates.push(stateN.id)
+        selectedStateNames.push(stateN.name)
       }
     })
-    this.setState({ selectedStates })
+    this.setState({ selectedStates, selectedStateNames, statesInfo: statesInfo.slice() })
   }
   onSwitchMultiple = () => {
-    let { isYearsMultiple } = this.state
-    this.setState({ isYearsMultiple: !isYearsMultiple })
+    let { 
+      isYearsMultiple,
+      selectedYears,
+      selectedStates,
+      selectedStateNames,
+      yearsInfo,
+      statesInfo
+    } = this.state
+
+    if (isYearsMultiple === true) {
+      selectedYears = selectedYears.slice(0, 1)
+      yearsInfo.forEach(yearN => {
+        if (yearN.year !== selectedYears[0]) {
+          yearN.checked = false
+        }
+      })
+    } else {
+      selectedStates = selectedStates.slice(0, 1)
+      selectedStateNames = selectedStateNames.slice(0, 1)
+      statesInfo.forEach(stateN => {
+        if (stateN.id !== selectedStates[0]) {
+          stateN.checked = false
+        }
+      })
+    }
+    this.setState({ 
+      isYearsMultiple: !isYearsMultiple,
+      selectedYears: selectedYears.slice(),
+      selectedStates: selectedStates.slice(),
+      selectedStateNames: selectedStateNames.slice(),
+      yearsInfo,
+      statesInfo
+    })
+    
   }
   render() {
     const {
@@ -161,6 +206,7 @@ export default class Layout extends React.Component {
       topic_abb, 
       selectedYears, 
       selectedStates, 
+      selectedStateNames,
       blockIndex, 
       yearsInfo, 
       statesInfo,
@@ -200,6 +246,7 @@ export default class Layout extends React.Component {
           />
           <MainContainer
             selectedStates = {selectedStates}
+            selectedStateNames = {selectedStateNames}
             selectedYears={selectedYears}
             report_num = {report_num}
             subject_num = {subject_num}

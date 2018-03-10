@@ -48,9 +48,9 @@ class MainContainer extends React.Component {
 
   render() {
     const { surveyData, showList } = this.state
-    const { selectedYears, selectedStates, charts, isYearsMultiple } = this.props
+    const { selectedYears, selectedStates, selectedStateNames, charts, isYearsMultiple } = this.props
     console.log('Survey Data Result', this.props)
-    const categories = isYearsMultiple ? selectedYears:selectedStates
+    const categories = isYearsMultiple ? selectedYears:selectedStateNames
 
     return (
       <div>
@@ -77,6 +77,7 @@ class MainContainer extends React.Component {
 MainContainer.propTypes = {
   selectedYears: PropTypes.array,
   selectedStates: PropTypes.array,
+  selectedStateNames: PropTypes.array,
   report_num: PropTypes.array,
   subject_num: PropTypes.array,
   serie: PropTypes.array,
