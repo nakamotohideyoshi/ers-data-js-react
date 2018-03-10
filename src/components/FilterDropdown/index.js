@@ -12,9 +12,6 @@ const REGIONS_CAPTION = "Regions"
 
 
 class FilterDropdown extends React.Component {
-  state = {
-    isYearsMultiple: true
-  }
   render() {
     const { onSelectYear, yearsInfo, onSelectState, statesInfo, isYearsMultiple, onSwitchMultiple } = this.props
     
