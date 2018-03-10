@@ -42,13 +42,13 @@ class SheetDataChart extends Component {
   }
   render() {
     const { incomeArr } = this.state
-    const { years } = this.props
+    const { categories } = this.props
     if (incomeArr.length === 0)
       return (<div className="empty-data-notification">No data to display</div>)
     else
       return (
         <div className="chart-container col-xs-12">
-          <ChartGenerator series={incomeArr} categories={years} title="Farm Business Balance Sheet Data" />
+          <ChartGenerator series={incomeArr} categories={categories} title="Farm Business Balance Sheet Data" />
         </div>
       );
   }
@@ -57,13 +57,7 @@ class SheetDataChart extends Component {
 SheetDataChart.propTypes = {
   showList: PropTypes.object,
   surveyData: PropTypes.array,
-  years: PropTypes.array
-};
-
-SheetDataChart.defaultProps = {
-  showList: {},
-  surveyData: [],
-  years: [2014, 2015]
+  categories: PropTypes.array
 };
 
 export default SheetDataChart;

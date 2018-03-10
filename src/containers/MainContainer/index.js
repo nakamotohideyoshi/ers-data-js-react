@@ -8,7 +8,6 @@ import charts from '../../ApolloComponent/chartsQuery'
 class MainContainer extends React.Component {  
   state = {
     showList: {},    
-    years: [],
     surveyData: []
   }
 
@@ -48,18 +47,21 @@ class MainContainer extends React.Component {
   }
 
   render() {
-    console.log('updated', this.props.charts)
-    const { years, surveyData, showList } = this.state
+    const { surveyData, showList } = this.state
+    const { selectedYears, selectedStates, charts, isYearsMultiple } = this.props
+    console.log('Survey Data Result', this.props)
+    const categories = isYearsMultiple ? selectedYears:selectedStates
+
     return (
       <div>
         <SheetDataChart 
-          years={this.props.selectedYears}
-          surveyData={this.props.charts.arms_surveydata} 
+          categories={categories}
+          surveyData={charts.arms_surveydata} 
           showList={showList}
         />
         <TableContainer 
-          years={this.props.selectedYears}
-          surveyData={this.props.charts.arms_surveydata}
+          categories={categories}
+          surveyData={charts.arms_surveydata}
           showList={showList}
           hideItem={(dataId) => this.hideItem(dataId)}
           showItem={(dataId) => this.showItem(dataId)}
@@ -73,19 +75,17 @@ class MainContainer extends React.Component {
 }
 
 MainContainer.propTypes = {
-  years: PropTypes.array,
-  series: PropTypes.string,
-  report_num: PropTypes.number,
-  subject_num: PropTypes.number,
-  series_element: PropTypes.number
-};
-
-MainContainer.defaultProps = {
-  years: [],
-  series: "farm",
-  report_num: 1,
-  subject_num: 1,
-  series_element: 0
+  selectedYears: PropTypes.array,
+  selectedStates: PropTypes.array,
+  report_num: PropTypes.array,
+  subject_num: PropTypes.array,
+  serie: PropTypes.array,
+  serie_element: PropTypes.array,
+  serie2: PropTypes.array,
+  serie2_element: PropTypes.array,
+  topic_abb: PropTypes.array,
+  blockIndex: PropTypes.number,
+  isYearsMultiple: PropTypes.bool
 };
 
 export default charts(MainContainer)

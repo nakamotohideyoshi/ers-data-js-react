@@ -52,12 +52,12 @@ class TableContainer extends React.Component {
   }
   generateCSV() {
     const { incomeArr } = this.state
-    const { years } = this.props
+    const { categories } = this.props
     
     const data = [];
     const header = ['', '']
-    years.forEach( year => {
-      header.push(year)
+    categories.forEach( category => {
+      header.push(category)
     })
     data.push(header)
     incomeArr.forEach( element => {
@@ -86,7 +86,7 @@ class TableContainer extends React.Component {
   }
   render() {
     const { incomeArr, isShowItemAll } = this.state
-    const { showList, years } = this.props
+    const { showList, categories } = this.props
 
     if (incomeArr.length === 0)
       return ( <div></div>)
@@ -187,8 +187,8 @@ class TableContainer extends React.Component {
                 <thead>
                   <tr>
                     {
-                      years.map((year, pos) => {
-                        return <th scope="col" className="estimate-rse-th estimate-rse-td" key={`year-${pos}`}>{year}</th>
+                      categories.map((category, pos) => {
+                        return <th scope="col" className="estimate-rse-th estimate-rse-td" key={`category-${pos}`}>{category}</th>
                       })
                     }
                   </tr>
@@ -196,7 +196,7 @@ class TableContainer extends React.Component {
                 <tbody>
                   <tr>
                     {
-                      years.map((year, pos) => {
+                      categories.map((category, pos) => {
                         return (
                           <td className="estimate-rse-td" key={`est-th-${pos}`}>
                             <div className='estimate_rse'>
@@ -213,7 +213,7 @@ class TableContainer extends React.Component {
                       return (
                         <tr key={`rtr-${index}`}>
                           {
-                            years.map((year, pos) => {
+                            categories.map((category, pos) => {
                               return (
                                 <td className="estimate-rse-td nowrap-div" key={`est-td-${pos}`}>
                                   <div className='estimate_rse'>
@@ -238,19 +238,13 @@ class TableContainer extends React.Component {
 }
 
 TableContainer.propTypes = {
-  years: PropTypes.array,
+  categories: PropTypes.array,
   surveyData: PropTypes.array,
   showList: PropTypes.object,
   hideItem: PropTypes.func,
   showItem: PropTypes.func,
   showAllItem: PropTypes.func,
   hideAllItem: PropTypes.func
-};
-
-TableContainer.defaultProps = {
-  years: [],
-  surveyData: [],
-  showList: {}
 };
 
 export default TableContainer
