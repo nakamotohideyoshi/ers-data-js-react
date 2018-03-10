@@ -251,7 +251,7 @@ class Sidebar extends React.Component {
           }
           isArmsFilter[currentBlock-1].isFitler2 = false
         }
-      this.setState({categoryTitles: categoryTitles, sidebarItems: sidebarItems, blockCount: blockCount, currentBlock: currentBlock, isArmsFilter: isArmsFilter})
+      this.setState({categoryTitles: categoryTitles, sidebarItems: sidebarItems, blockCount: blockCount, isArmsFilter: isArmsFilter})
       
 
       } 
@@ -445,8 +445,8 @@ class Sidebar extends React.Component {
   }
 
   resetFilter = ( blockIndex ) => {
-    const { sidebarItems, categoryTitles } =this.state
-    const currentBlock = blockIndex
+    const { sidebarItems, categoryTitles, isArmsFilter } =this.state
+   currentBlock = blockIndex
     if(blockIndex === 0) {
       isReports = true
       for (let i = 1; i<=4; i++) {
@@ -458,11 +458,27 @@ class Sidebar extends React.Component {
           sidebarItems[i].visible = false
         }    
       }
-      this.props.onSelectCategory(isReports)
+      this.setState({categoryTitles: categoryTitles, sidebarItems: sidebarItems, blockCount: 1}, this.props.onSelectCategory(isReports))
     } else {
-      this.updateFilter(0,1)
+      let report_num =[], topic_abb=[], subject_num=[], serie=[]
+      const index = 5+7*(currentBlock-1)        
+      report_num.push(categoryTitles[index][sidebarItems[index].selectedIndex].num)      
+      topic_abb.push(categoryTitles[index+1][sidebarItems[index+1].selectedIndex].num)
+      for (let i=2; i<=6; i++) {
+        sidebarItems[index+i].selectedIndex=0
+        sidebarItems[index+i].isOpened=false
+        sidebarItems[index+i].visible=true
+        if (i===4 || i===6){
+          sidebarItems[index+i].visible=false
+        }
+      }
+      subject_num.push(categoryTitles[index+2][sidebarItems[index+2].selectedIndex].num)
+      serie.push(categoryTitles[index+3][sidebarItems[index+3].selectedIndex].num)
+      isArmsFilter[currentBlock-1].isFilter1 = true, isArmsFilter[currentBlock-1].isSubFilter1 = false, isArmsFilter[currentBlock-1].isFitler2 = false, isArmsFilter[currentBlock-1].isSubFilter2=false
+      this.setState({sidebarItems, categoryTitles, isArmsFilter: isArmsFilter}, this.props.onSelectArmsFilter(report_num, topic_abb, subject_num, serie))
+      
     }
-    this.setState({categoryTitles: categoryTitles, sidebarItems: sidebarItems, blockCount: 1, currentBlock: currentBlock})
+    
     
   }
   

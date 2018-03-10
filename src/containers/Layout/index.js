@@ -147,6 +147,7 @@ export default class Layout extends React.Component {
           report_num = {report_num}
           subject_num = {subject_num}
           serie = {serie}
+          serie_element={serie_element}
           serie2 = {serie2}       
           onSelectCategory={this.onSelectCategory}
           onSelectReportFilter={this.onSelectReportFilter}
