@@ -10,6 +10,7 @@ class SheetDataChart extends Component {
   componentWillReceiveProps(props) {
     const { showList, surveyData } = props
     let incomeArr = []
+    console.log(surveyData)
     if (surveyData) {
       surveyData.forEach((element, index) => {
           let singleIncome = {}
@@ -38,11 +39,14 @@ class SheetDataChart extends Component {
           }
       })
     }
+    console.log(incomeArr)
+    
     this.setState({ incomeArr: [].concat(incomeArr) })
   }
   render() {
     const { incomeArr } = this.state
     const { categories } = this.props
+
     if (incomeArr.length === 0)
       return (<div className="empty-data-notification">No data to display</div>)
     else

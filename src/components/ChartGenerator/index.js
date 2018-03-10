@@ -30,6 +30,9 @@ export default class ChartGenerator extends React.Component {
       xAxis: {
         categories: categories
       },
+      yAxis: {
+        text: "123"
+      },
       series: []
     }
     series.forEach((element) => {
