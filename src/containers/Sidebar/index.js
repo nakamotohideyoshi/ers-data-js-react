@@ -397,7 +397,7 @@ class Sidebar extends React.Component {
             categoryTitles: categoryTitles,
             sidebarItems: sidebarItems,
             isArmsFilter: isArmsFilter
-          }, this.props.onSelectSubFilter2(report_num, topic_abb, subject_num, serie, serie_element, serie2, serie2_element))
+          }, this.props.onSelectSubFilter2(report_num, topic_abb, subject_num, serie, serie_element, serie2, serie2_element, currentBlock))
         }
       }
     }
@@ -498,7 +498,7 @@ class Sidebar extends React.Component {
             sidebarItems,
             categoryTitles,
             isArmsFilter: isArmsFilter
-          }, this.props.onSelectArmsFilter(report_num, topic_abb, subject_num, serie))
+          }, this.props.onSelectArmsFilter(report_num, topic_abb, subject_num, serie, currentBlock))
 
         } else if (sidebarItemIndex === index + 4) {
 
@@ -507,7 +507,7 @@ class Sidebar extends React.Component {
             sidebarItems,
             categoryTitles,
             isArmsFilter: isArmsFilter
-          }, this.props.onSleectSubFilter1(report_num, topic_abb, subject_num, serie, serie_element))
+          }, this.props.onSleectSubFilter1(report_num, topic_abb, subject_num, serie, serie_element, currentBlock))
 
         } else if (sidebarItemIndex === index + 5) {
 
@@ -516,7 +516,7 @@ class Sidebar extends React.Component {
             sidebarItems,
             categoryTitles,
             isArmsFilter: isArmsFilter
-          }, this.props.onSelectFilter2(report_num, topic_abb, subject_num, serie, serie_element, serie2))
+          }, this.props.onSelectFilter2(report_num, topic_abb, subject_num, serie, serie_element, serie2, currentBlock))
 
         } else if (sidebarItemIndex === index + 6 || sidebarItemIndex === index +1) {
           isArmsFilter[currentBlock-1].isFilter1 = false
@@ -526,7 +526,7 @@ class Sidebar extends React.Component {
             sidebarItems,
             categoryTitles,
             isArmsFilter: isArmsFilter
-          }, this.props.onSelectSubFilter2(report_num, topic_abb, subject_num, serie, serie_element, serie2, serie2_element))
+          }, this.props.onSelectSubFilter2(report_num, topic_abb, subject_num, serie, serie_element, serie2, serie2_element, currentBlock))
         }
       }      
     }
@@ -535,17 +535,22 @@ class Sidebar extends React.Component {
   }
 
   removeDataSource = (blockindex) => {
-    let {categoryTitles, sidebarItems} = this.state
+    let {categoryTitles, sidebarItems, isArmsFilter} = this.state
     const index = 5+7*(blockindex-1)
     for (let i=0; i<7; i++){
       sidebarItems[index+i].visible=false
     }
-    this.setState({categoryTitles, sidebarItems})
+    currentBlock = blockindex
+    isArmsFilter[currentBlock-1].isFilter1 = false
+    isArmsFilter[currentBlock-1].isSubFilter1 = false
+    isArmsFilter[currentBlock-1].isFitler2 = false
+    this.setState({categoryTitles, sidebarItems, isArmsFilter}, this.props.onSelectSubFilter2([], [], [], [], [], [], [], currentBlock))
   }
 
   addDataSource() {
     let {categoryTitles, sidebarItems, blockCount, isArmsFilter} = this.state
     blockCount++
+    currentBlock = blockCount
     let datasource = []
     this.props.reports.forEach(report => {
       const obj = {}
@@ -611,7 +616,7 @@ class Sidebar extends React.Component {
     categoryTitles.push(subfilter2)
     sidebarItems.push({isOpened: false, selectedIndex: 0, isCategory: false, blockIndex: blockCount, visible: false,  headingTitle: ""})
     isArmsFilter.push({isFilter1: false, isSubFilter1: false, isFitler2: false, isSubFilter2: false})
-    this.setState({categoryTitles: categoryTitles, sidebarItems: sidebarItems, blockCount: blockCount, isArmsFilter: isArmsFilter}, this.props.onSelectArmsFilter([1], ["kount"], [1], ['farm'], [0], ['farm'], [0]))
+    this.setState({categoryTitles: categoryTitles, sidebarItems: sidebarItems, blockCount: blockCount, isArmsFilter: isArmsFilter}, this.props.onSelectSubFilter2([1], ["kount"], [1], ['farm'], [0], ['farm'], [0], currentBlock))
   }
 
   resetFilter = ( blockIndex ) => {
@@ -645,7 +650,7 @@ class Sidebar extends React.Component {
       subject_num.push(categoryTitles[index+2][sidebarItems[index+2].selectedIndex].num)
       serie.push(categoryTitles[index+3][sidebarItems[index+3].selectedIndex].num)
       isArmsFilter[currentBlock-1].isFilter1 = true, isArmsFilter[currentBlock-1].isSubFilter1 = false, isArmsFilter[currentBlock-1].isFitler2 = false, isArmsFilter[currentBlock-1].isSubFilter2=false
-      this.setState({sidebarItems, categoryTitles, isArmsFilter: isArmsFilter}, this.props.onSelectArmsFilter(report_num, topic_abb, subject_num, serie))
+      this.setState({sidebarItems, categoryTitles, isArmsFilter: isArmsFilter}, this.props.onSelectArmsFilter(report_num, topic_abb, subject_num, serie, currentBlock))
       
     }
     

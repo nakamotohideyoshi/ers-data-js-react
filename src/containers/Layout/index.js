@@ -81,36 +81,28 @@ export default class Layout extends React.Component {
     })    
   }
 
-  onSelectArmsFilter = (report_num, topic_abb, subject_num, serie) => {
-    this.setState({
-      report_num: report_num,
-      topic_abb: topic_abb,
-      subject_num: subject_num,
-      serie: serie
-    })
-  }
-
-  onSleectSubFilter1 = (report_num, topic_abb, subject_num, serie, serie_element) => {
-    this.setState({
-      report_num: report_num,
-      topic_abb: topic_abb,
-      subject_num: subject_num,
-      serie: serie, serie_element:
-      serie_element
-    })
-  }
-
-  onSelectFilter2 = (report_num, topic_abb, subject_num, serie, serie_element, serie2) => {
+  onSelectArmsFilter = (report_num, topic_abb, subject_num, serie, blockIndex) => {
     this.setState({
       report_num: report_num,
       topic_abb: topic_abb,
       subject_num: subject_num,
       serie: serie,
-      serie_element: serie_element,
-      serie2: serie2})
+      blockIndex: blockIndex
+    })
   }
 
-  onSelectSubFilter2 = (report_num, topic_abb, subject_num, serie, serie_element, serie2, serie2_element) => {
+  onSleectSubFilter1 = (report_num, topic_abb, subject_num, serie, serie_element, blockIndex) => {
+    this.setState({
+      report_num: report_num,
+      topic_abb: topic_abb,
+      subject_num: subject_num,
+      serie: serie, serie_element:
+      serie_element,
+      blockIndex, blockIndex
+    })
+  }
+
+  onSelectFilter2 = (report_num, topic_abb, subject_num, serie, serie_element, serie2, blockIndex) => {
     this.setState({
       report_num: report_num,
       topic_abb: topic_abb,
@@ -118,7 +110,20 @@ export default class Layout extends React.Component {
       serie: serie,
       serie_element: serie_element,
       serie2: serie2,
-      serie2_element: serie2_element
+      blockIndex: blockIndex
+    })
+  }
+
+  onSelectSubFilter2 = (report_num, topic_abb, subject_num, serie, serie_element, serie2, serie2_element, blockIndex) => {
+    this.setState({
+      report_num: report_num,
+      topic_abb: topic_abb,
+      subject_num: subject_num,
+      serie: serie,
+      serie_element: serie_element,
+      serie2: serie2,
+      serie2_element: serie2_element,
+      blockIndex: blockIndex
     })
   }
 
@@ -127,12 +132,16 @@ export default class Layout extends React.Component {
       report_num: report_num,
       topic_abb: topic_abb,
       subject_num: subject_num,
-      serie: serie
+      serie: serie,
+      blockIndex: 0
     })
   }
 
   onSelectSubFilterBy = (filter_element) => {
-    this.setState({serie_element: filter_element})
+    this.setState({
+      serie_element: filter_element,
+      blockIndex: 0
+    })
   }
  
   onSelectCategory = (isReport) => {
@@ -172,8 +181,7 @@ export default class Layout extends React.Component {
       statesInfo.push(obj)
     })
 
-    if (isReport) {      
-      const blockIndex = 0
+    if (isReport) {
       this.props.topics[0].forEach(topic => {
         topic_abb.push(topic.abb)
       })     
@@ -193,7 +201,8 @@ export default class Layout extends React.Component {
       topic_abb: topic_abb,
       blockIndex: blockIndex,
       selectedYears: selectedYears,
-      selectedStates: selectedStates
+      selectedStates: selectedStates,
+      blockIndex: blockIndex
     })
   }
 
