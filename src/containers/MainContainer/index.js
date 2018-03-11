@@ -8,18 +8,47 @@ import charts from '../../ApolloComponent/chartsQuery'
 class MainContainer extends React.Component {  
   state = {
     showList: {},    
-    surveyData: []
+    years: [],
+    surveyData: [],
+    showData: []
   }
 
   componentWillReceiveProps(props) {
-
+    console.log('...........', this.state)
+    let {surveyData} = this.state
+    let showData = []
     let showList = {}
-    if (props.charts.arms_surveydata) {
-      props.charts.arms_surveydata.forEach(data => {
-        showList[data.topic_abb] = 1
-      })
+    if (!props.charts.loading) {
+      if(props.charts.arms_surveydata) {
+        props.charts.arms_surveydata.forEach(data => {
+          showList[data.topic_abb] = 1
+        })
+        if(props.blockIndex > surveyData.length) {
+          surveyData.push(props.charts.arms_surveydata)
+        } else {
+          surveyData[props.blockIndex] = props.charts.arms_surveydata
+        }
+      } else {
+        if(props.blockIndex > surveyData.length) {
+          surveyData.push([])
+        } else {
+          surveyData[props.blockIndex] = []
+        }
+      }
+      
+      if(props.blockIndex === 0){
+        showData = surveyData[0]
+      } else {
+        for (let i=1; i<surveyData.length; i++){
+          surveyData[i].forEach(data =>{
+            showData.push(data)
+            showList[data.topic_abb] = 1
+          })
+        }
+      }
+      
     }
-    this.setState({ showList })
+    this.setState({ showList, surveyData, showData })
     
   }
 
@@ -47,7 +76,7 @@ class MainContainer extends React.Component {
   }
 
   render() {
-    const { surveyData, showList } = this.state
+    const { surveyData, showList, showData } = this.state
     const { selectedYears, selectedStates, selectedStateNames, charts, isYearsMultiple } = this.props
     console.log('Survey Data Result', this.props)
     const categories = isYearsMultiple ? selectedYears:selectedStateNames
@@ -61,7 +90,7 @@ class MainContainer extends React.Component {
         />
         <TableContainer 
           categories={categories}
-          surveyData={charts.arms_surveydata}
+          surveyData={showData}
           showList={showList}
           hideItem={(dataId) => this.hideItem(dataId)}
           showItem={(dataId) => this.showItem(dataId)}

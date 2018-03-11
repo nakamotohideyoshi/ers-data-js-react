@@ -19,30 +19,90 @@ import gql from 'graphql-tag';
         num
         header
       }
-      topic {
-        abb
-        header
-        seq
-      }
       serie {
         abb
         header
         seq
       }
-      serie_element {
-        id
-        name
-      }
       serie2 {
         abb
         header
         seq
+      } 
+    }
+    topic_1: arms_filter(
+      survey_abb: "finance",
+      report_num: 1
+    ){
+      topic {
+        abb
+        header
       }
-      serie2_element {
-        id
-        name
-      }   
-   }    
+    }
+    topic_2: arms_filter(
+      survey_abb: "finance",
+      report_num: 2
+    ){
+      topic {
+        abb
+        header
+      }
+    }
+    topic_3: arms_filter(
+      survey_abb: "finance",
+      report_num: 3
+    ){
+      topic {
+        abb
+        header
+      }
+    }
+    topic_4: arms_filter(
+      survey_abb: "finance",
+      report_num: 4
+    ){
+      topic {
+        abb
+        header
+      }
+    }
+    topic_5: arms_filter(
+      survey_abb: "finance",
+      report_num: 5
+    ){
+      topic {
+        abb
+        header
+      }
+    }
+    topic_6: arms_filter(
+      survey_abb: "finance",
+      report_num: 6
+    ){
+      topic {
+        abb
+        header
+      }
+    }    
+    topic_7: arms_filter(
+      survey_abb: "finance",
+      report_num: 7
+    ){
+      topic {
+        abb
+        header
+      }
+    }
+    topic_8: arms_filter(
+      survey_abb: "finance",
+      report_num: 8
+    ){
+      topic {
+        abb
+        header
+      }
+    }
+
   }
 `, {
     name: 'initial',
