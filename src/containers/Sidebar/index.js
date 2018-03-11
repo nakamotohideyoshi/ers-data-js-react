@@ -273,7 +273,7 @@ class Sidebar extends React.Component {
       } else {
         const index = 7*(currentBlock-1)
         let report_num =props.report_num, topic_abb = [], subject_num = props.subject_num, serie=props.serie, serie_element=[], serie2=[], serie2_element = []
-        topic_abb.push(categoryTitles[index+6][sidebarItems[index+6].selectedIndex].num)
+        
         if (isArmsFilter[currentBlock-1].isFilter1) {    
 
           categoryTitles[index + 9] = []
@@ -393,6 +393,7 @@ class Sidebar extends React.Component {
           isArmsFilter[currentBlock-1].isFilter1 = false
           isArmsFilter[currentBlock-1].isSubFilter1 = false
           isArmsFilter[currentBlock-1].isFilter2 = false
+          topic_abb.push(categoryTitles[index+6][sidebarItems[index+6].selectedIndex].num)
           this.setState({
             categoryTitles: categoryTitles,
             sidebarItems: sidebarItems,
