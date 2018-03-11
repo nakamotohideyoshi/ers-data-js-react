@@ -535,18 +535,12 @@ class Sidebar extends React.Component {
   }
 
   removeDataSource = (blockindex) => {
-    let {categoryTitles, sidebarItems, blockCount} = this.state
-    const count = sidebarItems.length
-    if (blockCount > 1) {
-      blockCount--
-      if (blockCount === 1){
-      }
-      for (let i=count-1; i>count-8; i--) {
-        sidebarItems.pop()
-        categoryTitles.pop()
-      }
+    let {categoryTitles, sidebarItems} = this.state
+    const index = 5+7*(blockindex-1)
+    for (let i=0; i<7; i++){
+      sidebarItems[index+i].visible=false
     }
-    this.setState({categoryTitles, sidebarItems, blockCount})
+    this.setState({categoryTitles, sidebarItems})
   }
 
   addDataSource() {
@@ -693,7 +687,14 @@ class Sidebar extends React.Component {
             />
           )
         })
-      }      
+      }
+      {
+        !isReports && (
+        <div class="block">
+          
+        </div>
+      )
+    }      
       {
         !isReports && (
           <div>

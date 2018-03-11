@@ -4,8 +4,15 @@ import SidebarDropdown from '../SidebarDropdown'
 import { SlideDown } from 'react-slidedown'
 import Reset from '../../images/reset.png'
 
-const SidebarItem = ({ headingTitle, titles, visible, selectedIndex, isBlock, isOpened, isCategory, isReports, isDataReset, isRemoval, removeDataSource, isLast, toggleCategoryOptions, updateFilter, resetFilter }) => (
+const SidebarItem = ({ headingTitle, titles, visible, selectedIndex, isOpened, isCategory, isReports, isDataReset, isRemoval, removeDataSource, isLast, toggleCategoryOptions, updateFilter, resetFilter }) => (
   <div>
+    {
+      visible && !isReports && isRemoval && (
+        <div class="block">
+          
+        </div>
+      )
+    }
     {
       visible && (
         <div className="dropdown_second">
@@ -65,14 +72,7 @@ const SidebarItem = ({ headingTitle, titles, visible, selectedIndex, isBlock, is
         }              
         </div>
       )
-    }
-    {
-      !isReports && isBlock && (
-        <div class="block">
-          
-        </div>
-      )
-    }    
+    }   
   </div>
   
 );
@@ -85,7 +85,6 @@ SidebarItem.propTypes = {
   isReports: PropTypes.bool,
   isDataReset: PropTypes.bool,
   isLast: PropTypes.bool,
-  isBlock: PropTypes.bool,
   isRemoval: PropTypes.bool,
   removeDataSource: PropTypes.func,
   toggleCategoryOptions: PropTypes.func,
