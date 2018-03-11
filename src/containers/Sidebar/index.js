@@ -24,11 +24,23 @@ class Sidebar extends React.Component {
   }  
   
   componentWillReceiveProps(props) {
+
     let {categoryTitles, sidebarItems, blockCount, isSubFilterBy, isArmsFilter} = this.state
+
     if (categoryTitles.length === 0) {
-      if (props.reports.length !== 0 && props.subjects.length !== 0  && props.series.length !== 0) {
-        categoryTitles.push([{num: 0, header: 'Tailored Reports'},{ num: 1, header: 'ARMS Data Analysis'}])
-        sidebarItems.push({isOpened: false, selectedIndex: 0, isCategory: true,  blockIndex: blockCount, visible: true,  headingTitle: ''})
+      if (props.reports.length !== 0) {
+        
+        categoryTitles.push([
+          {num: 0, header: 'Tailored Reports'},
+          { num: 1, header: 'ARMS Data Analysis'}
+        ])
+        sidebarItems.push({
+          isOpened: false,
+          selectedIndex: 0,
+          isCategory: true,
+          blockIndex: blockCount,
+          visible: true,  headingTitle: ''
+        })
 
         let reports = []
         props.reports.forEach(report => {
@@ -38,7 +50,14 @@ class Sidebar extends React.Component {
           reports.push(obj)
         })
         categoryTitles.push(reports)
-        sidebarItems.push({isOpened: false, selectedIndex: 0, isCategory: false, blockIndex: blockCount, visible: true,  headingTitle: 'Report'})
+        sidebarItems.push({
+          isOpened: false,
+          selectedIndex: 0,
+          isCategory: false,
+          blockIndex: blockCount,
+          visible: true,
+          headingTitle: 'Report'
+        })
 
         let subjects = []
         props.subjects.forEach(subject => {
@@ -48,7 +67,14 @@ class Sidebar extends React.Component {
           subjects.push(obj)
         })
         categoryTitles.push(subjects)
-        sidebarItems.push({isOpened: false, selectedIndex: 0, isCategory: false, blockIndex: blockCount, visible: true,  headingTitle: "Subject"})
+        sidebarItems.push({
+          isOpened: false,
+          selectedIndex: 0,
+          isCategory: false,
+          blockIndex: blockCount,
+          visible: true,
+          headingTitle: 'Subject'
+        })
 
         let series = []
         props.series.forEach(serie => {
@@ -58,7 +84,14 @@ class Sidebar extends React.Component {
           series.push(obj)
         })
         categoryTitles.push(series)
-        sidebarItems.push({isOpened: false, selectedIndex: 0, isCategory: false, blockIndex: blockCount, visible: true,  headingTitle: "Filter by"})
+        sidebarItems.push({
+          isOpened: false,
+          selectedIndex: 0,
+          isCategory: false,
+          blockIndex: blockCount,
+          visible: true,
+          headingTitle: 'Filter by'
+        })
 
         let series_element = []
         const obj = {}
@@ -66,7 +99,14 @@ class Sidebar extends React.Component {
         obj.header = 'Total'
         series_element.push(obj)
         categoryTitles.push(series_element)
-        sidebarItems.push({isOpened: false, selectedIndex: 0, isCategory: false, blockIndex: blockCount, visible: false,  headingTitle: ""})
+        sidebarItems.push({
+          isOpened: false,
+          selectedIndex: 0,
+          isCategory: false,
+          blockIndex: blockCount,
+          visible: false,
+          headingTitle: ''
+        })
 
         blockCount++
         let datasource = []
@@ -77,7 +117,14 @@ class Sidebar extends React.Component {
           datasource.push(obj)
         })
         categoryTitles.push(datasource)
-        sidebarItems.push({isOpened: false, selectedIndex: 0, isCategory: false, blockIndex: blockCount, visible: false,  headingTitle: "Data Source"})
+        sidebarItems.push({
+          isOpened: false,
+          selectedIndex: 0,
+          isCategory: false,
+          blockIndex: blockCount,
+          visible: false,
+          headingTitle: 'Data Source'
+        })
 
         let dataline = []
         props.topics[0].forEach(topic => {
@@ -87,7 +134,13 @@ class Sidebar extends React.Component {
           dataline.push(obj)
         })
         categoryTitles.push(dataline)
-        sidebarItems.push({isOpened: false, selectedIndex: 0, isCategory: false, blockIndex: blockCount, visible: false,  headingTitle: "Data Line"})
+        sidebarItems.push({
+          isOpened: false,
+          selectedIndex: 0,
+          isCategory: false,
+          blockIndex: blockCount,
+          visible: false,
+          headingTitle: 'Data Line'})
 
         let farmtype = []
         props.subjects.forEach(subject => {
@@ -97,7 +150,14 @@ class Sidebar extends React.Component {
           farmtype.push(obj)
         })
         categoryTitles.push(farmtype)
-        sidebarItems.push({isOpened: false, selectedIndex: 0, isCategory: false, blockIndex: blockCount, visible: false,  headingTitle: "Farm Type"})
+        sidebarItems.push({
+          isOpened: false,
+          selectedIndex: 0,
+          isCategory: false,
+          blockIndex: blockCount,
+          visible: false,
+          headingTitle: 'Farm Type'
+        })
 
         let filter1 = []
         props.series.forEach(serie => {
@@ -108,12 +168,26 @@ class Sidebar extends React.Component {
         })
         
         categoryTitles.push(filter1)
-        sidebarItems.push({isOpened: false, selectedIndex: 0, isCategory: false, blockIndex: blockCount, visible: false,  headingTitle: "Filter1"})
+        sidebarItems.push({
+          isOpened: false,
+          selectedIndex: 0,
+          isCategory: false,
+          blockIndex: blockCount,
+          visible: false,
+          headingTitle: 'Filter1'
+        })
 
         let subfilter1= []
         subfilter1.push(obj)
         categoryTitles.push(subfilter1)
-        sidebarItems.push({isOpened: false, selectedIndex: 0, isCategory: false, blockIndex: blockCount, visible: false,  headingTitle: ""})
+        sidebarItems.push({
+          isOpened: false,
+          selectedIndex: 0,
+          isCategory: false,
+          blockIndex: blockCount,
+          visible: false,
+          headingTitle: ''
+        })
 
         let filter2 = []
         props.series2.forEach(serie2 => {
@@ -123,39 +197,81 @@ class Sidebar extends React.Component {
           filter2.push(obj)
         })
         categoryTitles.push(filter2)
-        sidebarItems.push({isOpened: false, selectedIndex: 0, isCategory: false, blockIndex: blockCount, visible: false,  headingTitle: "Filter2"})
+        sidebarItems.push({
+          isOpened: false,
+          selectedIndex: 0,
+          isCategory: false,
+          blockIndex: blockCount,
+          visible: false,
+          headingTitle: 'Filter2'
+        })
 
         let subfilter2= []
         subfilter2.push(obj)
         categoryTitles.push(subfilter2)
-        sidebarItems.push({isOpened: false, selectedIndex: 0, isCategory: false, blockIndex: blockCount, visible: false,  headingTitle: ""})  
-        let armsFilter = [{isFilter1: false, isSubFilter1: false, isFitler2: false, isSubFilter2: false}]
-        this.setState({categoryTitles: categoryTitles, sidebarItems: sidebarItems, blockCount: blockCount, currentBlock: currentBlock, isArmsFilter: armsFilter})      
+        sidebarItems.push({
+          isOpened: false,
+          selectedIndex: 0,
+          isCategory: false,
+          blockIndex: blockCount,
+          visible: false,
+          headingTitle: ''
+        })
+
+        let armsFilter = [{
+          isFilter1: false,
+          isSubFilter1: false,
+          isFitler2: false,
+          isSubFilter2: false
+        }]
+
+        this.setState({
+          categoryTitles: categoryTitles,
+          sidebarItems: sidebarItems,
+          blockCount: blockCount,
+          isArmsFilter: armsFilter
+        })      
       }
       
     } else if (!props.armsfilter.loading && categoryTitles.length !== 0){
+
       if (currentBlock === 0) {
         if (isSubFilterBy) {
-          categoryTitles[4] = []
+          const index = 3
+          let serie = []
+          let serie_element = []
+
+          categoryTitles[index+1] = []
           props.armsfilter.report.serie_element.forEach(serie_element => {
             const obj = {}
             obj.num = serie_element.id  
             obj.header = serie_element.name
-            categoryTitles[4].push(obj)     
+            categoryTitles[index+1].push(obj)     
           })
-          sidebarItems[4].headingTitle = categoryTitles[3][sidebarItems[3].selectedIndex].header
-          sidebarItems[4].selectedIndex = 0
-          sidebarItems[4].isOpened = false
-          if (categoryTitles[3][sidebarItems[3].selectedIndex].num !== 'farm' && categoryTitles[4].length !== 0) {
-            sidebarItems[4].visible = true
-            this.setState({categoryTitles: categoryTitles, sidebarItems: sidebarItems, blockCount: blockCount, currentBlock: currentBlock, iisSubFilterBy: false}, props.onSelectSubFilterBy(categoryTitles[4][0].num))            
+
+          sidebarItems[index+1].headingTitle = categoryTitles[index][sidebarItems[index].selectedIndex].header
+          sidebarItems[index+1].selectedIndex = 0
+          sidebarItems[index+1].isOpened = false
+
+          if (categoryTitles[index][sidebarItems[index].selectedIndex].num !== 'farm' && categoryTitles[4].length !== 0) {
+            sidebarItems[index+1].visible = true
+            this.setState({
+              categoryTitles: categoryTitles,
+              sidebarItems: sidebarItems,
+              blockCount: blockCount,
+              isSubFilterBy: false
+            }, props.onSelectSubFilterBy(categoryTitles[index+1][0].num))            
           } else {
-            sidebarItems[4].visible = false
-            this.setState({categoryTitles: categoryTitles, sidebarItems: sidebarItems, blockCount: blockCount, currentBlock: currentBlock, isSubFilterBy: false}, props.onSelectSubFilterBy(0))
+            sidebarItems[index+1].visible = false
+            this.setState({
+              categoryTitles: categoryTitles,
+              sidebarItems: sidebarItems,
+              blockCount: blockCount,
+              isSubFilterBy: false
+            }, props.onSelectSubFilterBy(0))
           }
         }       
-      }
-      else {
+      } else {
         const index = 7*(currentBlock-1)
         if (isArmsFilter[currentBlock-1].isFilter1) {
           categoryTitles[index + 9] = []
