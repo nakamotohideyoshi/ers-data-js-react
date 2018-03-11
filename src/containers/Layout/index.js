@@ -5,40 +5,48 @@ import MainContainer from '../MainContainer';
 import FilterDropdown from '../../components/FilterDropdown';
 import { Col } from 'react-bootstrap';
 import Footnote from '../Footnote';
-import { filter } from 'async';
+import { filter, concatSeries } from 'async';
+
+const default_filter = {
+  report_num: [1],
+  subject_num: [1],
+  serie: ['farm'],
+  serie_element: [0],
+  serie2: ['farm'],
+  serie2_element: [0],
+  topic_abb: [],
+  selectedYears: [2014, 2015],
+  selectedStates: ['00']
+
+}
 
 const defaultYears = [2014, 2015]
 
 export default class Layout extends React.Component {
   state = {
-    report_num: [1],
-    subject_num: [1],
-    serie: ["farm"],
-    serie_element: [0],
-    serie2: ["farm"],
-    serie2_element: [0],
-    topic_abb: [],
-    selectedYears: defaultYears,
-    selectedStates: ['00'],
-    selectedStateNames: ['All Survey states'],    
-    blockIndex: -1,
+    report_num: default_filter.report_num,
+    subject_num: default_filter.subject_num,
+    serie: default_filter.serie,
+    serie_element: default_filter.serie_element,
+    serie2: default_filter.serie2,
+    serie2_element: default_filter.serie2_element,
+    topic_abb: default_filter.topic_abb,
+    selectedYears: default_filter.selectedYears,
+    selectedStates: default_filter.selectedStates,
+    blockIndex: 0,
     yearsInfo: [],
-    statesInfo: [],
-    isYearsMultiple: true    
+    statesInfo: []
   }
 
   componentWillReceiveProps(props) {
-    let {topic_abb, yearsInfo, statesInfo} = this.state
-    if (props.topics) {
-      props.topics.forEach(topic => {
-        topic_abb.push(topic.abb)
-      })
-    }
+
+    let {yearsInfo, statesInfo, topic_abb} = this.state
+
     if (props.years &&  yearsInfo.length === 0) {
-      props.years.forEach(yearN => {
+      props.years.forEach(year => {
         const infoObj = {}
-          infoObj.year = yearN
-          if (yearN === 2014 || yearN === 2015) {
+          infoObj.year = year
+          if (year === 2014 || year === 2015) {
             infoObj.checked = true
           } else {
             infoObj.checked = false
@@ -60,68 +68,145 @@ export default class Layout extends React.Component {
         statesInfo.push(obj)
       })
     }
-    this.setState({topic_abb: topic_abb, yearsInfo: yearsInfo, statesInfo: statesInfo})    
-  }
 
-
-    
-  onSelectFilter = (sidebarItemIndex, selectedIndex, blockIndex) => { 
-  }
-
-  onSelectArmsFilter = (report_num, topic_abb, subject_num, serie, serie_element, serie2, serie2_element) => {
-    this.setState({report_num, topic_abb, subject_num, serie, serie_element, serie2, serie2_element})
-  }
- 
-  onSelectCategory = (isReport) => {
-    const report_num = [1]
-    const subject_num = [1]
-    const serie = ['farm']
-    const serie_element = [0]
-    const topic_abb = [] 
-    const serie2 = ['farm']
-    const serie2_element = [0]
-    const selectedYears = defaultYears
-    const selectedStates = ['00']
-
-    if (isReport) {      
-      const blockIndex = 0      
-      this.setState({report_num, subject_num, serie, serie_element, serie2, serie2_element, topic_abb, blockIndex, selectedStates, selectedYears})
-    } else {
-      const blockIndex = 1
-      this.setState({report_num, subject_num, serie, serie_element, serie2, serie2_element, topic_abb, blockIndex, selectedStates, selectedYears})
+    const topicabb = []
+    if (props.topics && topic_abb.length === 0) {
+      props.topics[0].forEach(topic => {
+        topicabb.push(topic.abb)
+      })
     }
+
+    this.setState({
+      yearsInfo: yearsInfo,
+      statesInfo: statesInfo,
+      topic_abb: topicabb
+    })    
   }
 
-  onSelectReport = (report) => {
-    let report_num = []
-    report_num.push(report)
-    this.setState({report_num})
+  onSelectArmsFilter = (report_num, topic_abb, subject_num, serie, blockIndex) => {
+    this.setState({
+      report_num: report_num,
+      topic_abb: topic_abb,
+      subject_num: subject_num,
+      serie: serie,
+      blockIndex: blockIndex
+    })
   }
 
-  onSelectSubject = (subject) => {
-    let subject_num = []
-    subject_num.push(subject)
-    this.setState({subject_num})
+
+  onSleectSubFilter1 = (report_num, topic_abb, subject_num, serie, serie_element, blockIndex) => {
+    this.setState({
+      report_num: report_num,
+      topic_abb: topic_abb,
+      subject_num: subject_num,
+      serie: serie, serie_element:
+      serie_element,
+      blockIndex, blockIndex
+    })
   }
 
-  onSelectFilterBy = (filter) => {
-    let serie = []
-    serie.push(filter)
-    this.setState({serie})
+  onSelectFilter2 = (report_num, topic_abb, subject_num, serie, serie_element, serie2, blockIndex) => {
+    this.setState({
+      report_num: report_num,
+      topic_abb: topic_abb,
+      subject_num: subject_num,
+      serie: serie,
+      serie_element: serie_element,
+      serie2: serie2,
+      blockIndex: blockIndex
+    })
+  }
+
+  onSelectSubFilter2 = (report_num, topic_abb, subject_num, serie, serie_element, serie2, serie2_element, blockIndex) => {
+    this.setState({
+      report_num: report_num,
+      topic_abb: topic_abb,
+      subject_num: subject_num,
+      serie: serie,
+      serie_element: serie_element,
+      serie2: serie2,
+      serie2_element: serie2_element,
+      blockIndex: blockIndex
+    })
+  }
+
+  onSelectReportFilter = (report_num, topic_abb, subject_num, serie) => {
+    this.setState({
+      report_num: report_num,
+      topic_abb: topic_abb,
+      subject_num: subject_num,
+      serie: serie,
+      blockIndex: 0
+    })
   }
 
   onSelectSubFilterBy = (filter_element) => {
-    let serie_element = []
-    serie_element.push(filter_element)
-    this.setState({serie_element})
-  }
-
-  onSelectTopic = (topics) => {
-    const topic_abb = []
-    topics.forEach(topic => {
-      topic_abb.push(topic)
+    this.setState({
+      serie_element: filter_element,
+      blockIndex: 0
     })
-    this.setState({topic_abb})
+  }
+ 
+  onSelectCategory = (isReport) => {
+    const report_num = default_filter.report_num
+    const subject_num = default_filter.subject_num
+    const serie = default_filter.serie
+    const serie_element = default_filter.serie_element
+    const topic_abb = [] 
+    const serie2 = default_filter.serie2
+    const serie2_element = default_filter.serie2_element
+    const selectedYears = default_filter.selectedYears
+    const selectedStates = default_filter.selectedStates
+    const yearsInfo = []
+    const statesInfo = []
+    let blockIndex = 0
+
+    this.props.years.forEach(year => {
+      const infoObj = {}
+        infoObj.year = year
+        if (year === 2014 || year === 2015) {
+          infoObj.checked = true
+        } else {
+          infoObj.checked = false
+        }          
+        yearsInfo.push(infoObj)
+    })
+
+    this.props.states.forEach(stateN => {
+      const obj = {}
+      obj.name = stateN.name
+      obj.id = stateN.id
+      if (stateN.id === '00') {
+        obj.checked = true
+      } else {
+        obj.checked = false
+      }        
+      statesInfo.push(obj)
+    })
+
+    if (isReport) {
+      this.props.topics[0].forEach(topic => {
+        topic_abb.push(topic.abb)
+      })     
+      
+    } else {
+      topic_abb.push(this.props.topics[0][0].abb)
+      blockIndex = 1      
+    }
+
+    this.setState({
+      report_num: report_num,
+      subject_num: subject_num,
+      serie: serie,
+      serie_element: serie_element,
+      serie2: serie2,
+      serie2_element: serie2_element,
+      topic_abb: topic_abb,
+      blockIndex: blockIndex,
+      selectedYears: selectedYears,
+      selectedStates: selectedStates,
+      blockIndex: blockIndex
+    })
   }
 
   onSelectYear = (index) => {
@@ -214,24 +299,23 @@ export default class Layout extends React.Component {
     return (
       <Grid>
         <Sidebar
+          topics = {this.props.topics}
           reports = {this.props.reports}
           subjects = {this.props.subjects}
           series = {this.props.series}
-          series_element = {this.props.series_element}
           series2 = {this.props.series2}
-          series2_element = {this.props.series2_element}
-          topics = {this.props.topics}
           report_num = {report_num}
           subject_num = {subject_num}
           serie = {serie}
+          serie_element={serie_element}
           serie2 = {serie2}       
           onSelectCategory={this.onSelectCategory}
-          onSelectReport={this.onSelectReport}
-          onSelectSubject={this.onSelectSubject}
-          onSelectFilterBy={this.onSelectFilterBy}
+          onSelectReportFilter={this.onSelectReportFilter}
           onSelectSubFilterBy={this.onSelectSubFilterBy}
-          onSelectTopic={this.onSelectTopic}
           onSelectArmsFilter = {this.onSelectArmsFilter}
+          onSleectSubFilter1={this.onSleectSubFilter1}
+          onSelectFilter2={this.onSelectFilter2}          
+          onSelectSubFilter2={this.onSelectSubFilter2}
         />
         <Col xs={12} md={9} sm={12}>
           <h4 className="main-heading">Farm Business Balance Sheet Data 
