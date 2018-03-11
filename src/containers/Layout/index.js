@@ -16,8 +16,8 @@ const default_filter = {
   serie2_element: [0],
   topic_abb: [],
   selectedYears: [2014, 2015],
-  selectedStates: ['00']
-
+  selectedStates: ['00'],
+  selectedStateNames: ['All Survey states'],    
 }
 
 const defaultYears = [2014, 2015]
