@@ -17,7 +17,8 @@ const default_filter = {
   topic_abb: [],
   selectedYears: [2014, 2015],
   selectedStates: ['00'],
-  selectedStateNames: ['All Survey states'],    
+  selectedStateNames: ['All Survey states'],
+  isYearsMultiple: true        
 }
 
 const defaultYears = [2014, 2015]
