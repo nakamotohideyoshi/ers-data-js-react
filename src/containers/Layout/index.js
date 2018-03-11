@@ -7,29 +7,44 @@ import { Col } from 'react-bootstrap';
 import Footnote from '../Footnote';
 import { filter, concatSeries } from 'async';
 
+const default_filter = {
+  report_num: [1],
+  subject_num: [1],
+  serie: ['farm'],
+  serie_element: [0],
+  serie2: ['farm'],
+  serie2_element: [0],
+  topic_abb: [],
+  selectedYears: [2014, 2015],
+  selectedStates: ['00']
+
+}
+
 export default class Layout extends React.Component {
   state = {
-    report_num: [1],
-    subject_num: [1],
-    serie: ["farm"],
-    serie_element: [0],
-    serie2: ["farm"],
-    serie2_element: [0],
-    topic_abb: [],
-    selectedYears: [2014, 2015],
-    selectedStates: ['00'],
+    report_num: default_filter.report_num,
+    subject_num: default_filter.subject_num,
+    serie: default_filter.serie,
+    serie_element: default_filter.serie_element,
+    serie2: default_filter.serie2,
+    serie2_element: default_filter.serie2_element,
+    topic_abb: default_filter.topic_abb,
+    selectedYears: default_filter.selectedYears,
+    selectedStates: default_filter.selectedStates,
     blockIndex: 0,
     yearsInfo: [],
     statesInfo: []
   }
 
   componentWillReceiveProps(props) {
+
     let {yearsInfo, statesInfo, topic_abb} = this.state
+
     if (props.years &&  yearsInfo.length === 0) {
-      props.years.forEach(yearN => {
+      props.years.forEach(year => {
         const infoObj = {}
-          infoObj.year = yearN
-          if (yearN === 2014 || yearN === 2015) {
+          infoObj.year = year
+          if (year === 2014 || year === 2015) {
             infoObj.checked = true
           } else {
             infoObj.checked = false
@@ -51,35 +66,69 @@ export default class Layout extends React.Component {
         statesInfo.push(obj)
       })
     }
-    const topics = []
 
+    const topicabb = []
     if (props.topics && topic_abb.length === 0) {
       props.topics[0].forEach(topic => {
-        topics.push(topic.abb)
+        topicabb.push(topic.abb)
       })
     }
 
-    this.setState({yearsInfo: yearsInfo, statesInfo: statesInfo, topic_abb: topics})    
+    this.setState({
+      yearsInfo: yearsInfo,
+      statesInfo: statesInfo,
+      topic_abb: topicabb
+    })    
   }
 
-
-
   onSelectArmsFilter = (report_num, topic_abb, subject_num, serie) => {
-    this.setState({report_num: report_num, topic_abb: topic_abb, subject_num: subject_num, serie: serie})
+    this.setState({
+      report_num: report_num,
+      topic_abb: topic_abb,
+      subject_num: subject_num,
+      serie: serie
+    })
   }
 
   onSleectSubFilter1 = (report_num, topic_abb, subject_num, serie, serie_element) => {
-    this.setState({report_num: report_num, topic_abb: topic_abb, subject_num: subject_num, serie: serie, serie_element: serie_element})
+    this.setState({
+      report_num: report_num,
+      topic_abb: topic_abb,
+      subject_num: subject_num,
+      serie: serie, serie_element:
+      serie_element
+    })
   }
+
   onSelectFilter2 = (report_num, topic_abb, subject_num, serie, serie_element, serie2) => {
-    this.setState({report_num: report_num, topic_abb: topic_abb, subject_num: subject_num, serie: serie, serie_element: serie_element, serie2: serie2})
+    this.setState({
+      report_num: report_num,
+      topic_abb: topic_abb,
+      subject_num: subject_num,
+      serie: serie,
+      serie_element: serie_element,
+      serie2: serie2})
   }
+
   onSelectSubFilter2 = (report_num, topic_abb, subject_num, serie, serie_element, serie2, serie2_element) => {
-    this.setState({report_num: report_num, topic_abb: topic_abb, subject_num: subject_num, serie: serie, serie_element: serie_element, serie2: serie2, serie2_element: serie2_element})
+    this.setState({
+      report_num: report_num,
+      topic_abb: topic_abb,
+      subject_num: subject_num,
+      serie: serie,
+      serie_element: serie_element,
+      serie2: serie2,
+      serie2_element: serie2_element
+    })
   }
 
   onSelectReportFilter = (report_num, topic_abb, subject_num, serie) => {
-    this.setState({report_num: report_num, topic_abb: topic_abb, subject_num: subject_num, serie: serie})
+    this.setState({
+      report_num: report_num,
+      topic_abb: topic_abb,
+      subject_num: subject_num,
+      serie: serie
+    })
   }
 
   onSelectSubFilterBy = (filter_element) => {
@@ -87,27 +136,65 @@ export default class Layout extends React.Component {
   }
  
   onSelectCategory = (isReport) => {
-    const report_num = [1]
-    const subject_num = [1]
-    const serie = ['farm']
-    const serie_element = [0]
+    const report_num = default_filter.report_num
+    const subject_num = default_filter.subject_num
+    const serie = default_filter.serie
+    const serie_element = default_filter.serie_element
     const topic_abb = [] 
-    const serie2 = ['farm']
-    const serie2_element = [0]
-    const selectedYears = [2014, 2015]
-    const selectedStates = ['00']
+    const serie2 = default_filter.serie2
+    const serie2_element = default_filter.serie2_element
+    const selectedYears = default_filter.selectedYears
+    const selectedStates = default_filter.selectedStates
+    const yearsInfo = []
+    const statesInfo = []
+    let blockIndex = 0
+
+    this.props.years.forEach(year => {
+      const infoObj = {}
+        infoObj.year = year
+        if (year === 2014 || year === 2015) {
+          infoObj.checked = true
+        } else {
+          infoObj.checked = false
+        }          
+        yearsInfo.push(infoObj)
+    })
+
+    this.props.states.forEach(stateN => {
+      const obj = {}
+      obj.name = stateN.name
+      obj.id = stateN.id
+      if (stateN.id === '00') {
+        obj.checked = true
+      } else {
+        obj.checked = false
+      }        
+      statesInfo.push(obj)
+    })
 
     if (isReport) {      
       const blockIndex = 0
       this.props.topics[0].forEach(topic => {
         topic_abb.push(topic.abb)
       })     
-      this.setState({report_num, subject_num, serie, serie_element, serie2, serie2_element, topic_abb, blockIndex, selectedStates, selectedYears})
+      
     } else {
       topic_abb.push(this.props.topics[0][0].abb)
-      const blockIndex = 1
-      this.setState({report_num, subject_num, serie, serie_element, serie2, serie2_element, topic_abb, blockIndex, selectedStates, selectedYears})
+      blockIndex = 1      
     }
+
+    this.setState({
+      report_num: report_num,
+      subject_num: subject_num,
+      serie: serie,
+      serie_element: serie_element,
+      serie2: serie2,
+      serie2_element: serie2_element,
+      topic_abb: topic_abb,
+      blockIndex: blockIndex,
+      selectedYears: selectedYears,
+      selectedStates: selectedStates
+    })
   }
 
   onSelectYear = (index) => {
