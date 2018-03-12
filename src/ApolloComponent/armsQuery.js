@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 
   export default graphql(gql`
   query ArmsFilterQuery ($report_num: [Int], $subject_num: [Int], $serie: [String], $serie_element: [Int], $serie2: [String]){
-    report: arms_filter(
+    arms_filter1: arms_filter(
       survey_abb: "finance",
       report_num: $report_num,
       subject_num: $subject_num,

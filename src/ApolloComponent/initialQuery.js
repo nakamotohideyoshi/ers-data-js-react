@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 
   export default graphql(gql`
   query InitialQuery {
-    arms_filter(
+    initial: arms_filter(
       survey_abb: "finance"
     ){
       year
