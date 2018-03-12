@@ -17,21 +17,21 @@ class SheetDataChart extends Component {
           if (element.topic_dim.level > 1) 
             return
           incomeArr.forEach((income, i) => {
-            if (income.id === element.topic_abb) {
+            if (income.id === element.report_num+element.topic_abb) {
               singleIncome = income
               currentIndex = i
               return
             }
           })
           if (!singleIncome.id) {
-            singleIncome.id = element.topic_abb
+            singleIncome.id = element.report_num+element.topic_abb
             singleIncome.header = element.topic_dim.header
-            if (showList[element.topic_abb] === 1) {
+            if (showList[element.report_num+element.topic_abb] === 1) {
               singleIncome.estimateList = [element.estimate]
               incomeArr.push(singleIncome)
             }
           } else {
-            if (showList[element.topic_abb] === 1) {
+            if (showList[element.report_num+element.topic_abb] === 1) {
               singleIncome.estimateList.push(element.estimate)          
               incomeArr[currentIndex] = singleIncome
             }
