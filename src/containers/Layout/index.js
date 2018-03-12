@@ -15,11 +15,9 @@ const default_filter = {
   serie2: ['farm'],
   serie2_element: [0],
   topic_abb: [],
-  selectedYears: [2014, 2015],
+  selectedYears: [2015, 2014],
   selectedStates: ['00'],
 }
-
-const defaultYears = [2014, 2015]
 
 export default class Layout extends React.Component {
   state = {
