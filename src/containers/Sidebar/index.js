@@ -24,11 +24,11 @@ class Sidebar extends React.Component {
   }  
   
   componentWillReceiveProps(props) {
-
     let {categoryTitles, sidebarItems, blockCount, isSubFilterBy, isArmsFilter} = this.state
 
     if (categoryTitles.length === 0) {
       if (props.reports.length !== 0) {
+        currentBlock = 0
         
         categoryTitles.push([
           {num: 0, header: 'Tailored Reports'},
@@ -241,7 +241,7 @@ class Sidebar extends React.Component {
           let serie_element = []
 
           categoryTitles[index+1] = []
-          props.armsfilter.report.serie_element.forEach(serie_element => {
+          props.armsfilter.arms_filter1.serie_element.forEach(serie_element => {
             const obj = {}
             obj.num = serie_element.id  
             obj.header = serie_element.name
@@ -274,10 +274,11 @@ class Sidebar extends React.Component {
         const index = 7*(currentBlock-1)
         let report_num =props.report_num, topic_abb = [], subject_num = props.subject_num, serie=props.serie, serie_element=[], serie2=[], serie2_element = []
         
-        if (isArmsFilter[currentBlock-1].isFilter1) {    
+        if (isArmsFilter[currentBlock-1].isFilter1) {  
+          
 
           categoryTitles[index + 9] = []
-          props.armsfilter.report.serie_element.forEach(serie_element => {
+          props.armsfilter.arms_filter1.serie_element.forEach(serie_element => {
             const obj = {}
             obj.num = serie_element.id  
             obj.header = serie_element.name
@@ -296,7 +297,7 @@ class Sidebar extends React.Component {
           }
 
           categoryTitles[index + 10] = []
-          props.armsfilter.report.serie2.forEach(serie2 => {
+          props.armsfilter.arms_filter1.serie2.forEach(serie2 => {
             const obj = {}
             obj.num = serie2.abb  
             obj.header = serie2.header
@@ -313,7 +314,7 @@ class Sidebar extends React.Component {
           }
 
           categoryTitles[index + 11] = []
-          props.armsfilter.report.serie2_element.forEach(serie2_element => {
+          props.armsfilter.arms_filter1.serie2_element.forEach(serie2_element => {
             const obj = {}
             obj.num = serie2_element.id  
             obj.header = serie2_element.name
@@ -457,7 +458,7 @@ class Sidebar extends React.Component {
           this.setState({sidebarItems, categoryTitles, isSubFilterBy: true}, () => this.props.onSelectReportFilter(report_num, topic_abb, subject_num, serie))
         } else {
           serie_element.push(categoryTitles[4][sidebarItems[4].selectedIndex].num)
-          this.setState({sidebarItems, categoryTitles, isSubFilterBy: true}, () => this.props.onSelectSubFilterBy(serie_element))
+          this.setState({sidebarItems, categoryTitles, isSubFilterBy: false}, () => this.props.onSelectSubFilterBy(serie_element))
         }
         
       }  else {
@@ -658,7 +659,7 @@ class Sidebar extends React.Component {
     
   }
   
-  render() {
+  render() {  
     const {sidebarItems, categoryTitles, blockCount} = this.state    
     return (
     <Col sm={3} md={3} xs={12} className="sidebar-container">

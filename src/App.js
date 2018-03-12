@@ -17,12 +17,12 @@ class App extends Component {
   componentWillReceiveProps(props) {
     let {years, states, reports, subjects, series, series_element, series2, series2_element, topics} = this.state
     if (!props.initial.loading) {      
-      years = props.initial.arms_filter.year
-      states = props.initial.arms_filter.state
-      reports = props.initial.arms_filter.report
-      subjects = props.initial.arms_filter.subject
-      series = props.initial.arms_filter.serie
-      series2 = props.initial.arms_filter.serie2
+      years = props.initial.initial.year
+      states = props.initial.initial.state
+      reports = props.initial.initial.report
+      subjects = props.initial.initial.subject
+      series = props.initial.initial.serie
+      series2 = props.initial.initial.serie2
       topics.push(props.initial.topic_1.topic)
       topics.push(props.initial.topic_2.topic)
       topics.push(props.initial.topic_3.topic)

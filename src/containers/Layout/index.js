@@ -102,7 +102,7 @@ export default class Layout extends React.Component {
       subject_num: subject_num,
       serie: serie, serie_element:
       serie_element,
-      blockIndex, blockIndex
+      blockIndex: blockIndex
     })
   }
 
@@ -203,7 +203,6 @@ export default class Layout extends React.Component {
       serie2: serie2,
       serie2_element: serie2_element,
       topic_abb: topic_abb,
-      blockIndex: blockIndex,
       selectedYears: selectedYears,
       selectedStates: selectedStates,
       blockIndex: blockIndex
