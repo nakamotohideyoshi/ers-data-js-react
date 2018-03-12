@@ -19,7 +19,16 @@ export default graphql(gql`
       year
       rse
       estimate
+      report_num
       topic_abb
+      report_dim{
+        header
+      }
+      state{
+        id
+        code
+        name
+      }
       topic_dim {
         level
         seq
