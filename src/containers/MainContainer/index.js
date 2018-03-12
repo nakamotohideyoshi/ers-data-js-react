@@ -21,7 +21,7 @@ class MainContainer extends React.Component {
     if (!props.charts.loading) {
       if(props.charts.arms_surveydata) {
         props.charts.arms_surveydata.forEach(data => {
-          showList[data.topic_abb] = 1
+          showList[data.report_num+data.topic_abb] = 1
         })
         if(props.blockIndex > surveyData.length) {
           surveyData.push(props.charts.arms_surveydata)
@@ -42,7 +42,7 @@ class MainContainer extends React.Component {
         for (let i=1; i<surveyData.length; i++){
           surveyData[i].forEach(data =>{
             showData.push(data)
-            showList[data.topic_abb] = 1
+            showList[data.report_num+data.topic_abb] = 1
           })
         }
       }
