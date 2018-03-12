@@ -27,14 +27,14 @@ class TableContainer extends React.Component {
           let singleIncome = {}
           let currentIndex = 0
           incomeArr.forEach((income, i) => {
-            if (income.id === element.topic_abb) {
+            if (income.id === element.report_num + element.topic_abb) {
               singleIncome = income
               currentIndex = i
               return
             }
           })
           if (!singleIncome.id) {
-            singleIncome.id = element.topic_abb
+            singleIncome.id = element.report_num+element.topic_abb
             singleIncome.header = element.topic_dim.header
             singleIncome.level = element.topic_dim.level
             singleIncome.estimateList = [element.estimate]
