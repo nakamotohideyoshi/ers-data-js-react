@@ -30,7 +30,7 @@ export default class Layout extends React.Component {
     topic_abb: default_filter.topic_abb,
     selectedYears: default_filter.selectedYears,
     selectedStates: default_filter.selectedStates,
-    selectedStateNames: ['All Survey states'],
+    selectedStateNames: ['All survey states'],
     isYearsMultiple: true,     
     blockIndex: 0,
     yearsInfo: [],

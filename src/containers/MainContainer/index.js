@@ -79,19 +79,21 @@ class MainContainer extends React.Component {
     const { surveyData, showList, showData } = this.state
     const { selectedYears, selectedStates, selectedStateNames, charts, isYearsMultiple } = this.props
     console.log('Survey Data Result', this.props)
-    const categories = isYearsMultiple ? selectedYears:selectedStateNames
+    const categories = isYearsMultiple ? selectedYears.sort(function(a, b){return b-a}) : selectedStateNames
 
     return (
       <div>
         <SheetDataChart 
           categories={categories}
-          surveyData={charts.arms_surveydata} 
+          surveyData={showData} 
           showList={showList}
+          isYearsMultiple={isYearsMultiple}
         />
         <TableContainer 
           categories={categories}
           surveyData={showData}
           showList={showList}
+          isYearsMultiple={isYearsMultiple}
           hideItem={(dataId) => this.hideItem(dataId)}
           showItem={(dataId) => this.showItem(dataId)}
           showAllItem={() => this.showAllItem()}

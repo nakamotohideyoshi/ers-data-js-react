@@ -18,36 +18,53 @@ class TableContainer extends React.Component {
     isShowItemAll: true
   }
   componentWillReceiveProps(props) {
-    const { surveyData } = props
+    const { surveyData, categories, isYearsMultiple } = props
     let originData = surveyData
     let incomeArr = []
+
     if (originData) {
-      if (originData) {
-        originData.forEach((element, index) => {
-          let singleIncome = {}
-          let currentIndex = 0
-          incomeArr.forEach((income, i) => {
-            if (income.id === element.report_num + element.topic_abb) {
-              singleIncome = income
-              currentIndex = i
-              return
-            }
-          })
-          if (!singleIncome.id) {
-            singleIncome.id = element.report_num+element.topic_abb
-            singleIncome.header = element.topic_dim.header
-            singleIncome.level = element.topic_dim.level
-            singleIncome.estimateList = [element.estimate]
-            singleIncome.rseList = [element.rse]
-            incomeArr.push(singleIncome)
-          } else {
-            singleIncome.estimateList.push(element.estimate)
-            singleIncome.rseList.push(element.rse)
-            incomeArr[currentIndex] = singleIncome
+      originData.forEach((element, index) => {
+        let singleIncome = {}
+        let currentIndex = 0
+        incomeArr.forEach((income, i) => {
+          if (income.id === element.report_num + element.topic_abb) {
+            singleIncome = income
+            currentIndex = i
+            return
           }
         })
-      }
+        if (!singleIncome.id) {
+          singleIncome.id = element.report_num + element.topic_abb
+          singleIncome.header = element.topic_dim.header
+          singleIncome.level = element.topic_dim.level
+          let estimateList = []
+          let rseList = []
+          categories.forEach(category => {
+            const comparedCategory = isYearsMultiple ? element.year: element.state.name
+            if (comparedCategory === category) {
+              estimateList.push(element.estimate)
+              rseList.push(element.rse)
+            } else {
+              estimateList.push(undefined)
+              rseList.push(undefined)
+            }
+          })
+          singleIncome.estimateList = estimateList
+          singleIncome.rseList = rseList
+          incomeArr.push(singleIncome)
+        } else {
+          categories.forEach((category, index) => {
+            const comparedCategory = isYearsMultiple ? element.year: element.state.name
+            if (comparedCategory === category) {
+              singleIncome.estimateList[index] = element.estimate
+              singleIncome.rseList[index] = element.rse
+            } 
+          })
+          incomeArr[currentIndex] = singleIncome
+        }
+      })
     }
+    console.log(incomeArr)
     this.setState({ incomeArr })
   }
   generateCSV() {
@@ -88,7 +105,7 @@ class TableContainer extends React.Component {
   }
   render() {
     const { incomeArr, isShowItemAll } = this.state
-    const { showList, categories } = this.props
+    const { showList, categories, selectedStateNames, isYearsMultiple } = this.props
 
     if (incomeArr.length === 0)
       return ( <div></div>)
