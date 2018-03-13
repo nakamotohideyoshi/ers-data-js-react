@@ -8,8 +8,9 @@ class SheetDataChart extends Component {
     incomeArr: []
   }
   componentWillReceiveProps(props) {
-    const { showList, surveyData } = props
+    const { showList, surveyData, categories, isYearsMultiple } = props
     let incomeArr = []
+
     if (surveyData) {
       surveyData.forEach((element, index) => {
           let singleIncome = {}
@@ -17,22 +18,36 @@ class SheetDataChart extends Component {
           if (element.topic_dim.level > 1) 
             return
           incomeArr.forEach((income, i) => {
-            if (income.id === element.report_num+element.topic_abb) {
+            if (income.id === element.report_num + element.topic_abb) {
               singleIncome = income
               currentIndex = i
               return
             }
           })
           if (!singleIncome.id) {
-            singleIncome.id = element.report_num+element.topic_abb
+            singleIncome.id = element.report_num + element.topic_abb
             singleIncome.header = element.topic_dim.header
-            if (showList[element.report_num+element.topic_abb] === 1) {
-              singleIncome.estimateList = [element.estimate]
+            if (showList[element.report_num + element.topic_abb] === 1) {
+              let estimateList = []
+              categories.forEach(category => {
+                const comparedCategory = isYearsMultiple ? element.year: element.state.name
+                if (comparedCategory === category) {
+                  estimateList.push(element.estimate)
+                } else {
+                  estimateList.push(0)
+                }
+              })
+              singleIncome.estimateList = estimateList
               incomeArr.push(singleIncome)
             }
           } else {
-            if (showList[element.report_num+element.topic_abb] === 1) {
-              singleIncome.estimateList.push(element.estimate)          
+            if (showList[element.report_num + element.topic_abb] === 1) {
+              categories.forEach((category, index) => {
+                const comparedCategory = isYearsMultiple ? element.year: element.state.name
+                if (comparedCategory === category) {
+                  singleIncome.estimateList[index] = element.estimate
+                } 
+              })
               incomeArr[currentIndex] = singleIncome
             }
           }
