@@ -34,7 +34,13 @@ export default class ChartGenerator extends React.Component {
         categories: categories
       },
       yAxis: {
-        text: "123"
+        title: {
+          text: '$Millions',
+          align: 'high',
+          offset: 0,
+          rotation: 0,
+          y: -20
+        }
       },
       series: []
     }
