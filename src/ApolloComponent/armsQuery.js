@@ -2,9 +2,11 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
   export default graphql(gql`
-  query ArmsFilterQuery ($report_num: [Int], $subject_num: [Int], $serie: [String], $serie_element: [Int], $serie2: [String]){
+  query ArmsFilterQuery ($report_num: [Int], $subject_num: [Int], $serie: [String], $serie_element: [Int], $serie2: [String], $selectedYears: [Int], $selectedStates: [String]){
     arms_filter1: arms_filter(
       survey_abb: "finance",
+      year: $selectedYears,
+      state_id: $selectedStates,
       report_num: $report_num,
       subject_num: $subject_num,
       serie: $serie
@@ -24,6 +26,8 @@ import gql from 'graphql-tag';
    }
    arms_filter2: arms_filter (
     survey_abb: "finance",
+    year: $selectedYears,
+    state_id: $selectedStates,
     report_num: $report_num,
     subject_num: $subject_num,
     serie: $serie,
@@ -41,6 +45,8 @@ import gql from 'graphql-tag';
    arms_subfilter2: arms_filter (
     survey_abb: "finance",
     report_num: $report_num,
+    year: $selectedYears,
+    state_id: $selectedStates,
     subject_num: $subject_num,
     serie: $serie,
     serie_element: $serie_element,
