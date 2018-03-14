@@ -15,8 +15,7 @@ class SheetDataChart extends Component {
       surveyData.forEach((element, index) => {
           let singleIncome = {}
           let currentIndex = 0
-          if (element.topic_dim.level > 1) 
-            return
+
           incomeArr.forEach((income, i) => {
             if (income.id === element.report_num + element.topic_abb) {
               singleIncome = income
