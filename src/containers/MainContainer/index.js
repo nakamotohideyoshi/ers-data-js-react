@@ -21,7 +21,11 @@ class MainContainer extends React.Component {
     if (!props.charts.loading) {
       if(props.charts.arms_surveydata) {
         props.charts.arms_surveydata.forEach(data => {
-          showList[data.report_num+data.topic_abb] = 1
+          if (data.topic_dim.level > 1) {
+            showList[data.report_num+data.topic_abb] = 0
+          } else {
+            showList[data.report_num+data.topic_abb] = 1
+          }
         })
         if(props.blockIndex > surveyData.length) {
           surveyData.push(props.charts.arms_surveydata)
