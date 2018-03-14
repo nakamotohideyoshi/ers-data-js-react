@@ -45,8 +45,8 @@ class TableContainer extends React.Component {
               estimateList.push(element.estimate)
               rseList.push(element.rse)
             } else {
-              estimateList.push(undefined)
-              rseList.push(undefined)
+              estimateList.push('NA')
+              rseList.push('NA')
             }
           })
           singleIncome.estimateList = estimateList
