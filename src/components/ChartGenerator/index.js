@@ -24,6 +24,9 @@ export default class ChartGenerator extends React.Component {
       title: {
         text: title
       },
+      credits: {
+        enabled: false
+      },
       chart: {
         type: 'column'
       },
