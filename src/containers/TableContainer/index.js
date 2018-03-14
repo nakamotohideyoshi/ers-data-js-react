@@ -42,7 +42,8 @@ class TableContainer extends React.Component {
           categories.forEach(category => {
             const comparedCategory = isYearsMultiple ? element.year: element.state.name
             if (comparedCategory === category) {
-              estimateList.push(element.estimate)
+              const asterix = element.unreliable_est === 0 ? '':'*'
+              estimateList.push(element.estimate + asterix)
               rseList.push(element.rse)
             } else {
               estimateList.push('NA')
@@ -56,7 +57,8 @@ class TableContainer extends React.Component {
           categories.forEach((category, index) => {
             const comparedCategory = isYearsMultiple ? element.year: element.state.name
             if (comparedCategory === category) {
-              singleIncome.estimateList[index] = element.estimate
+              const asterix = element.unreliable_est === 0 ? '':'*'
+              singleIncome.estimateList[index] = element.estimate + asterix
               singleIncome.rseList[index] = element.rse
             } 
           })
