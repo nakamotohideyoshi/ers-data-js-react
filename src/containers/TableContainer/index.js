@@ -105,7 +105,7 @@ class TableContainer extends React.Component {
   }
   render() {
     const { incomeArr, isShowItemAll } = this.state
-    const { showList, categories, selectedStateNames, isYearsMultiple } = this.props
+    const { showList, categories, selectedStateNames, isYearsMultiple, blockIndex } = this.props
 
     if (incomeArr.length === 0)
       return ( <div></div>)
@@ -162,11 +162,15 @@ class TableContainer extends React.Component {
                               </a>
                             </div>
                             {
-                              data.level === 1 && ( <div className="level-1 nowrap-div">{data.header}</div>) ||
-                              data.level === 2 && ( <div className="level-2 nowrap-div">{data.header}</div>) ||
-                              data.level === 3 && ( <div className="level-3 nowrap-div">{data.header}</div>) ||
-                              data.level === 4 && ( <div className="level-4 nowrap-div">{data.header}</div>) ||
-                                                  ( <div className="level-0 nowrap-div">{data.header}</div>)
+                              blockIndex < 1 && (
+                                data.level === 1 && ( <div className="level-1 nowrap-div">{data.header}</div>) ||
+                                data.level === 2 && ( <div className="level-2 nowrap-div">{data.header}</div>) ||
+                                data.level === 3 && ( <div className="level-3 nowrap-div">{data.header}</div>) ||
+                                data.level === 4 && ( <div className="level-4 nowrap-div">{data.header}</div>) ||
+                                                    ( <div className="level-0 nowrap-div">{data.header}</div>)
+                              ) || (
+                                <div className="level-1 nowrap-div">{data.header}</div>
+                              )
                             }
                             </div>
                           </td>
