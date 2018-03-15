@@ -17,6 +17,23 @@ class TableContainer extends React.Component {
     incomeArr: [],
     isShowItemAll: true
   }
+  formatEstimateRse(element) {
+    const asterix = element.unreliable_est === 0 ? '':'*'
+    let estimateVal = 'NA'
+    let rseVal = 'NA'
+    if (element.estimate > 0) {
+      estimateVal = element.estimate + asterix
+      rseVal = element.rse
+    }
+    if (element.rse !== 0) {
+      rseVal = element.rse
+    }
+
+    estimateVal = numberWithCommas(estimateVal)
+    rseVal = rseVal === 'NA' ? rseVal : rseVal.toFixed(1)
+
+    return { estimateVal, rseVal }
+  }
   componentWillReceiveProps(props) {
     const { surveyData, categories, isYearsMultiple } = props
     let originData = surveyData
@@ -42,11 +59,11 @@ class TableContainer extends React.Component {
           categories.forEach(category => {
             const comparedCategory = isYearsMultiple ? element.year: element.state.name
             if (comparedCategory === category) {
-              estimateList.push(element.estimate)
-              rseList.push(element.rse)
+              estimateList.push(this.formatEstimateRse(element).estimateVal)
+              rseList.push(this.formatEstimateRse(element).rseVal)
             } else {
-              estimateList.push(undefined)
-              rseList.push(undefined)
+              estimateList.push('NA')
+              rseList.push('NA')
             }
           })
           singleIncome.estimateList = estimateList
@@ -56,8 +73,8 @@ class TableContainer extends React.Component {
           categories.forEach((category, index) => {
             const comparedCategory = isYearsMultiple ? element.year: element.state.name
             if (comparedCategory === category) {
-              singleIncome.estimateList[index] = element.estimate
-              singleIncome.rseList[index] = element.rse
+              singleIncome.estimateList[index] = this.formatEstimateRse(element).estimateVal
+              singleIncome.rseList[index] = this.formatEstimateRse(element).rseVal
             } 
           })
           incomeArr[currentIndex] = singleIncome
@@ -105,7 +122,7 @@ class TableContainer extends React.Component {
   }
   render() {
     const { incomeArr, isShowItemAll } = this.state
-    const { showList, categories, selectedStateNames, isYearsMultiple } = this.props
+    const { showList, categories, selectedStateNames, isYearsMultiple, blockIndex } = this.props
 
     if (incomeArr.length === 0)
       return ( <div></div>)
@@ -162,11 +179,15 @@ class TableContainer extends React.Component {
                               </a>
                             </div>
                             {
-                              data.level === 1 && ( <div className="level-1 nowrap-div">{data.header}</div>) ||
-                              data.level === 2 && ( <div className="level-2 nowrap-div">{data.header}</div>) ||
-                              data.level === 3 && ( <div className="level-3 nowrap-div">{data.header}</div>) ||
-                              data.level === 4 && ( <div className="level-4 nowrap-div">{data.header}</div>) ||
-                                                  ( <div className="level-0 nowrap-div">{data.header}</div>)
+                              blockIndex < 1 && (
+                                data.level === 1 && ( <div className="level-1 nowrap-div">{data.header}</div>) ||
+                                data.level === 2 && ( <div className="level-2 nowrap-div">{data.header}</div>) ||
+                                data.level === 3 && ( <div className="level-3 nowrap-div">{data.header}</div>) ||
+                                data.level === 4 && ( <div className="level-4 nowrap-div">{data.header}</div>) ||
+                                                    ( <div className="level-0 nowrap-div">{data.header}</div>)
+                              ) || (
+                                <div className="level-1 nowrap-div">{data.header}</div>
+                              )
                             }
                             </div>
                           </td>
@@ -241,7 +262,7 @@ class TableContainer extends React.Component {
                                 return (
                                   <td className="estimate-rse-td nowrap-div" key={`est-td-${pos}`}>
                                     <div className='estimate_rse'>
-                                      <div className="data-value">{numberWithCommas(data.estimateList[pos])}</div>
+                                      <div className="data-value">{data.estimateList[pos]}</div>
                                       <div className="data-value">{data.rseList[pos]}</div>
                                     </div>
                                   </td>
