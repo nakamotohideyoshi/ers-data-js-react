@@ -35,6 +35,10 @@ export default graphql(gql`
         seq
         abb
         header
+      }
+      unit_dim{
+        num
+        desc
       }      
     }    
   }
