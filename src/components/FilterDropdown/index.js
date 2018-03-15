@@ -7,11 +7,10 @@ import Checkbox from '../Checkbox';
 import RotateImg from '../../images/rotate.png'
 import './style.css'
 
-const YEARS_HEADING = "VIEW MULTIPLE YEARS"
-const REGIONS_HEADING = "FILTERED BY REGION"
+const MULTIPLE_HEADING = "VIEW MULTIPLE"
+const FILTERED_HEADING = "FILTERED BY"
 const YEARS_CAPTION = "Years"
 const REGIONS_CAPTION = "Regions"
-
 
 class FilterDropdown extends React.Component {
   generateToolTipList(category, type) {
@@ -33,7 +32,7 @@ class FilterDropdown extends React.Component {
       <div className="filterDropdownContainer">
       <Col md={6} sm={6} xs={12}>
         <Col md={7} sm={6} xs={12} mdOffset={5} smOffset={6}>
-          <div className="top-title right-title">{ isYearsMultiple ? YEARS_HEADING:REGIONS_HEADING }</div>
+          <div className="top-title right-title">{ isYearsMultiple ? MULTIPLE_HEADING.concat(' ' + YEARS_CAPTION) : MULTIPLE_HEADING.concat(' ' + REGIONS_CAPTION) }</div>
           <DropdownButton
             bsStyle="default"
             title={ isYearsMultiple ? YEARS_CAPTION:REGIONS_CAPTION }
@@ -59,7 +58,7 @@ class FilterDropdown extends React.Component {
       </Col>
       <Col md={5} sm={5} xs={12}>
           <Col md={8} sm={6} xs={11}>
-            <div className="top-title">{ isYearsMultiple ? REGIONS_HEADING:YEARS_HEADING }</div>
+            <div className="top-title">{ isYearsMultiple ? FILTERED_HEADING.concat(' ' + REGIONS_CAPTION.slice(0, -1)) : FILTERED_HEADING.concat(' ' + YEARS_CAPTION.slice(0, -1)) }</div>
             <DropdownButton
               bsStyle="default"
               title={ isYearsMultiple ? REGIONS_CAPTION:YEARS_CAPTION }
