@@ -15,8 +15,7 @@ class SheetDataChart extends Component {
       surveyData.forEach((element, index) => {
           let singleIncome = {}
           let currentIndex = 0
-          if (element.topic_dim.level > 1) 
-            return
+
           incomeArr.forEach((income, i) => {
             if (income.id === element.report_num + element.topic_abb) {
               singleIncome = income
@@ -57,14 +56,15 @@ class SheetDataChart extends Component {
   }
   render() {
     const { incomeArr } = this.state
-    const { categories } = this.props
+    const { categories, blockIndex } = this.props
+    const chartTitle = blockIndex > 0 ? 'Arms Data Analysis' : 'Tailored Reports'
 
     if (incomeArr.length === 0)
       return (<div className="empty-data-notification">No data to display</div>)
     else
       return (
         <div className="chart-container col-xs-12">
-          <ChartGenerator series={incomeArr} categories={categories} title="Farm Business Balance Sheet Data" />
+          <ChartGenerator series={incomeArr} categories={categories} title={chartTitle} />
         </div>
       );
   }

@@ -19,6 +19,7 @@ export default graphql(gql`
       year
       rse
       estimate
+      unreliable_est
       report_num
       topic_abb
       report_dim{

@@ -154,34 +154,7 @@ export default class Layout extends React.Component {
     const topic_abb = [] 
     const serie2 = default_filter.serie2
     const serie2_element = default_filter.serie2_element
-    const selectedYears = default_filter.selectedYears
-    const selectedStates = default_filter.selectedStates
-    const yearsInfo = []
-    const statesInfo = []
     let blockIndex = 0
-
-    this.props.years.forEach(year => {
-      const infoObj = {}
-        infoObj.year = year
-        if (year === 2014 || year === 2015) {
-          infoObj.checked = true
-        } else {
-          infoObj.checked = false
-        }          
-        yearsInfo.push(infoObj)
-    })
-
-    this.props.states.forEach(stateN => {
-      const obj = {}
-      obj.name = stateN.name
-      obj.id = stateN.id
-      if (stateN.id === '00') {
-        obj.checked = true
-      } else {
-        obj.checked = false
-      }        
-      statesInfo.push(obj)
-    })
 
     if (isReport) {
       this.props.topics[0].forEach(topic => {
@@ -201,8 +174,6 @@ export default class Layout extends React.Component {
       serie2: serie2,
       serie2_element: serie2_element,
       topic_abb: topic_abb,
-      selectedYears: selectedYears,
-      selectedStates: selectedStates,
       blockIndex: blockIndex
     })
   }

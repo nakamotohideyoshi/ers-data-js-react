@@ -21,7 +21,11 @@ class MainContainer extends React.Component {
     if (!props.charts.loading) {
       if(props.charts.arms_surveydata) {
         props.charts.arms_surveydata.forEach(data => {
-          showList[data.report_num+data.topic_abb] = 1
+          if (data.topic_dim.level > 1) {
+            showList[data.report_num+data.topic_abb] = 0
+          } else {
+            showList[data.report_num+data.topic_abb] = 1
+          }
         })
         if(props.blockIndex > surveyData.length) {
           surveyData.push(props.charts.arms_surveydata)
@@ -77,7 +81,7 @@ class MainContainer extends React.Component {
 
   render() {
     const { surveyData, showList, showData } = this.state
-    const { selectedYears, selectedStates, selectedStateNames, charts, isYearsMultiple } = this.props
+    const { selectedYears, selectedStates, selectedStateNames, charts, isYearsMultiple, blockIndex } = this.props
     console.log('Survey Data Result', this.props)
     const categories = isYearsMultiple ? selectedYears.sort(function(a, b){return b-a}) : selectedStateNames
 
@@ -88,12 +92,14 @@ class MainContainer extends React.Component {
           surveyData={showData} 
           showList={showList}
           isYearsMultiple={isYearsMultiple}
+          blockIndex={blockIndex}          
         />
         <TableContainer 
           categories={categories}
           surveyData={showData}
           showList={showList}
           isYearsMultiple={isYearsMultiple}
+          blockIndex={blockIndex}
           hideItem={(dataId) => this.hideItem(dataId)}
           showItem={(dataId) => this.showItem(dataId)}
           showAllItem={() => this.showAllItem()}
