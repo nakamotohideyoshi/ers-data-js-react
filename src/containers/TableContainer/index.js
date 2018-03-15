@@ -28,6 +28,8 @@ class TableContainer extends React.Component {
     if (element.rse !== 0) {
       rseVal = element.rse
     }
+
+    estimateVal = numberWithCommas(estimateVal)
     rseVal = rseVal === 'NA' ? rseVal : rseVal.toFixed(1)
 
     return { estimateVal, rseVal }
