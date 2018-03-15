@@ -92,6 +92,7 @@ class MainContainer extends React.Component {
           surveyData={showData} 
           showList={showList}
           isYearsMultiple={isYearsMultiple}
+          blockIndex={blockIndex}          
         />
         <TableContainer 
           categories={categories}

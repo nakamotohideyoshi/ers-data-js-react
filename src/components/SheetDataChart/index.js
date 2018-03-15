@@ -56,14 +56,15 @@ class SheetDataChart extends Component {
   }
   render() {
     const { incomeArr } = this.state
-    const { categories } = this.props
+    const { categories, blockIndex } = this.props
+    const chartTitle = blockIndex > 0 ? 'Arms Data Analysis' : 'Tailored Reports'
 
     if (incomeArr.length === 0)
       return (<div className="empty-data-notification">No data to display</div>)
     else
       return (
         <div className="chart-container col-xs-12">
-          <ChartGenerator series={incomeArr} categories={categories} title="Farm Business Balance Sheet Data" />
+          <ChartGenerator series={incomeArr} categories={categories} title={chartTitle} />
         </div>
       );
   }
