@@ -12,14 +12,15 @@ export default class ChartGenerator extends React.Component {
     config: {}
   }
   componentWillMount() {
-    const { series, categories, title } = this.props
-    this.generateConfig(series, categories, title)
+    const { series, categories, title, chartType } = this.props
+    this.generateConfig(series, categories, title, chartType)
   }
   componentWillReceiveProps(props) {
-    const { series, categories, title } = props
-    this.generateConfig(series, categories, title)
+    const { series, categories, title, chartType } = props
+    this.generateConfig(series, categories, title, chartType)
   }
-  generateConfig(series, categories, title) {
+
+  generateConfig(series, categories, title, chartType) {
     const config = {
       title: {
         text: title
@@ -28,7 +29,7 @@ export default class ChartGenerator extends React.Component {
         enabled: false
       },
       chart: {
-        type: 'column'
+        type: chartType
       },
       xAxis: {
         categories: categories
