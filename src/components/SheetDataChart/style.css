@@ -13,8 +13,11 @@
 .chart-type-container {
   display: flex;
   align-items: center;
+  margin-left: 62px;
 }
-
+.chart-type-container .option-group {
+  margin-left: 15px;
+}
 .chart-type-container span {
   text-transform: uppercase;
   font-size: 12px;
