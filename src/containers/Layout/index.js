@@ -287,7 +287,8 @@ export default class Layout extends React.Component {
           onSelectSubFilter2={this.onSelectSubFilter2}
         />
         <Col xs={12} md={9} sm={12}>
-          <h4 className="main-heading">Farm Business Balance Sheet Data 
+          <h4 className="main-heading">
+            {blockIndex > 0 ? 'ARMS Data Analysis' : 'Tailored Reports'}
           </h4>
           <FilterDropdown 
             yearsInfo={yearsInfo} 
