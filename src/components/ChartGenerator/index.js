@@ -21,6 +21,9 @@ export default class ChartGenerator extends React.Component {
   }
 
   generateConfig(series, categories, title, chartType) {
+    if (title === '' && series) {
+      title = series[0].report
+    }
     const config = {
       title: {
         text: title

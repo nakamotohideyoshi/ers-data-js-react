@@ -33,6 +33,7 @@ class SheetDataChart extends Component {
           })
           if (!singleIncome.id) {
             singleIncome.id = element.report_num + element.topic_abb
+            singleIncome.report = element.report_dim.header
             singleIncome.header = element.topic_dim.header
             if (showList[element.report_num + element.topic_abb] === 1) {
               let estimateList = []
@@ -68,7 +69,7 @@ class SheetDataChart extends Component {
   render() {
     const { incomeArr, chartTypeIndex } = this.state
     const { categories, blockIndex } = this.props
-    const chartTitle = blockIndex > 0 ? 'Arms Data Analysis' : 'Tailored Reports'
+    const chartTitle = blockIndex > 0 ? 'Arms Data Analysis' : ''
     const chartType = chartTypes[chartTypeIndex].type
 
     if (incomeArr.length === 0)
