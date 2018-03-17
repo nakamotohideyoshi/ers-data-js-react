@@ -2,7 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {CSVLink} from 'react-csv';
 import { Button } from 'react-bootstrap';
+
+import OptionGroup from '../../components/OptionGroup'
 import { numberWithCommas } from '../../helpers/NumberWithCommas'
+
 import DownloadImg from '../../images/download.png'
 import HelpImg from '../../images/help.png'
 import PinHideImg from '../../images/unin_hide.png'
@@ -10,12 +13,21 @@ import PinShowImg from '../../images/unin_show.png'
 import HideAllImg from '../../images/hide_all.png'
 import HiddenImg from '../../images/hide.png'
 import ShownImg from '../../images/show.png'
+import LogoSmallImg from '../../images/logo-small.png'
+
 import './style.css'
+
+const indexingOptions = [
+  { label: 'None', type: 'none'},
+  { label: 'Percent', type: 'percent'},
+  { label: 'Value', type: 'value'},
+]
 
 class TableContainer extends React.Component {
   state = {
     incomeArr: [],
-    isShowItemAll: true
+    isShowItemAll: true,
+    optionsIndex: 0
   }
   formatEstimateRse(element) {
     const asterix = element.unreliable_est === 0 ? '':'*'
@@ -120,8 +132,11 @@ class TableContainer extends React.Component {
     this.setState({ isShowItemAll: true })
     this.props.showAllItem()
   }
+  switchIndexingOption(optionsIndex) {
+    this.setState({ optionsIndex })
+  }
   render() {
-    const { incomeArr, isShowItemAll } = this.state
+    const { incomeArr, isShowItemAll, optionsIndex } = this.state
     const { showList, categories, selectedStateNames, isYearsMultiple, blockIndex } = this.props
 
     if (incomeArr.length === 0)
@@ -135,6 +150,21 @@ class TableContainer extends React.Component {
                 <img src={DownloadImg} alt="" /> Download CSV
               </Button>
             </CSVLink>
+          </div>
+          <div className="heading-option-container">
+            <div className="indexing-option-container">
+              <span className="source">
+                <img src={HelpImg} />
+                <span className="indexing">CHART INDEXING OPTIONS:</span>
+              </span>
+              <OptionGroup options={indexingOptions} selectedIndex={optionsIndex} onSelect={(index) => this.switchIndexingOption(index)} />
+            </div>
+            <div className="logo-small-container">
+				       <span className="source">
+                <img src={LogoSmallImg} />
+                <span>Source: Economic Research Services, US Dept of Agriculture</span>
+               </span>
+            </div>
           </div>
           <div className="table-container">
             <div className="col-width-4">
