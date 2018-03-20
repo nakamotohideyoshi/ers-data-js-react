@@ -49,7 +49,7 @@ export default class ChartGenerator extends React.Component {
       series: []
     }
     series.forEach((element) => {
-      config.series.push({ data: element.estimateList, name: element.header })
+      config.series.push({ data: element.estimateList, name: element.header, visible: element.shown })
     })
     this.setState({ config: Object.assign({}, config) })
   }
