@@ -31,11 +31,11 @@ class SheetDataChart extends Component {
               return
             }
           })
+          singleIncome.shown = showList[element.report_num + element.topic_abb]
           if (!singleIncome.id) {
             singleIncome.id = element.report_num + element.topic_abb
             singleIncome.report = element.report_dim.header
             singleIncome.header = element.topic_dim.header
-            if (showList[element.report_num + element.topic_abb] === 1) {
               let estimateList = []
               categories.forEach(category => {
                 const comparedCategory = isYearsMultiple ? element.year: element.state.name
@@ -47,9 +47,7 @@ class SheetDataChart extends Component {
               })
               singleIncome.estimateList = estimateList
               incomeArr.push(singleIncome)
-            }
           } else {
-            if (showList[element.report_num + element.topic_abb] === 1) {
               categories.forEach((category, index) => {
                 const comparedCategory = isYearsMultiple ? element.year: element.state.name
                 if (comparedCategory === category) {
@@ -57,7 +55,6 @@ class SheetDataChart extends Component {
                 } 
               })
               incomeArr[currentIndex] = singleIncome
-            }
           }
       })
     }
