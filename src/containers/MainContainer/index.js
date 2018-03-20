@@ -22,9 +22,9 @@ class MainContainer extends React.Component {
       if(props.charts.arms_surveydata) {
         props.charts.arms_surveydata.forEach(data => {
           if (data.topic_dim.level > 1) {
-            showList[data.report_num+data.topic_abb] = 0
+            showList[data.report_num+data.topic_abb] = false
           } else {
-            showList[data.report_num+data.topic_abb] = 1
+            showList[data.report_num+data.topic_abb] = true
           }
         })
         if(props.blockIndex > surveyData.length) {
@@ -46,7 +46,7 @@ class MainContainer extends React.Component {
         for (let i=1; i<surveyData.length; i++){
           surveyData[i].forEach(data =>{
             showData.push(data)
-            showList[data.report_num+data.topic_abb] = 1
+            showList[data.report_num+data.topic_abb] = true
           })
         }
       }
@@ -58,24 +58,24 @@ class MainContainer extends React.Component {
 
   hideItem(dataId) {
     const { showList } = this.state
-    showList[dataId] = 0
+    showList[dataId] = false
     this.setState({ showList: Object.assign({}, showList) })
   }
   showItem(dataId) {
     const { showList } = this.state
-    showList[dataId] = 1
+    showList[dataId] = true
     this.setState({ showList: Object.assign({}, showList) })
   }
   hideAllItem() {
     const { showList } = this.state
     for (let key in showList) 
-      showList[key] = 0
+      showList[key] = false
     this.setState({ showList: Object.assign({}, showList) })
   }
   showAllItem() {
     const { showList } = this.state
     for (let key in showList) 
-      showList[key] = 1
+      showList[key] = true
     this.setState({ showList: Object.assign({}, showList) })
   }
 
