@@ -226,7 +226,7 @@ class TableContainer extends React.Component {
                               <div className="nowrap-div">
                                 {
                                   showList && (
-                                    showList[data.id] === 1 && (
+                                    showList[data.id] === true && (
                                       <a onClick={() => this.hideItem(data.id)}>
                                         <img src={ShownImg} alt="" />
                                       </a>
