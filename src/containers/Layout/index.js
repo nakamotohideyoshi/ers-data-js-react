@@ -131,7 +131,7 @@ export default class Layout extends React.Component {
     }
 
     let statesInfo = []
-    filters[blockIndex].selectedStates = states.slice(0, 1).id
+    filters[blockIndex].selectedStates = [states[0].id]
     if (states.length !== 0) {
       states.forEach(stateN => {
         const obj = {}
@@ -163,101 +163,120 @@ export default class Layout extends React.Component {
     })
   }
 
-  onSelectArmsFilter = (report_num, topic_abb, subject_num, serie, blockIndex) => {
+  onSelectReportFilter = (report_num, topic_abb) => {
+    let {filters, blockIndex} = this.state
+    filters[blockIndex].report_num = report_num
+    filters[blockIndex].topic_abb = topic_abb
     this.setState({
-      report_num: report_num,
-      topic_abb: topic_abb,
-      subject_num: subject_num,
-      serie: serie,
-      blockIndex: blockIndex
+      filters: filters,
+      runQuery: 'query00'
     })
   }
 
-
-  onSleectSubFilter1 = (report_num, topic_abb, subject_num, serie, serie_element, blockIndex) => {
+  onSelectSubjectFilter = (subject_num) => {
+    let {filters, blockIndex} = this.state
+    filters[blockIndex].subject_num = subject_num
     this.setState({
-      report_num: report_num,
-      topic_abb: topic_abb,
-      subject_num: subject_num,
-      serie: serie, serie_element:
-      serie_element,
-      blockIndex: blockIndex
+      filters: filters,
+      runQuery: 'query00'
     })
   }
 
-  onSelectFilter2 = (report_num, topic_abb, subject_num, serie, serie_element, serie2, blockIndex) => {
-    this.setState({
-      report_num: report_num,
-      topic_abb: topic_abb,
-      subject_num: subject_num,
-      serie: serie,
-      serie_element: serie_element,
-      serie2: serie2,
-      blockIndex: blockIndex
-    })
-  }
+  // onSelectArmsFilter = (report_num, topic_abb, subject_num, serie, blockIndex) => {
+  //   this.setState({
+  //     report_num: report_num,
+  //     topic_abb: topic_abb,
+  //     subject_num: subject_num,
+  //     serie: serie,
+  //     blockIndex: blockIndex
+  //   })
+  // }
 
-  onSelectSubFilter2 = (report_num, topic_abb, subject_num, serie, serie_element, serie2, serie2_element, blockIndex) => {
-    this.setState({
-      report_num: report_num,
-      topic_abb: topic_abb,
-      subject_num: subject_num,
-      serie: serie,
-      serie_element: serie_element,
-      serie2: serie2,
-      serie2_element: serie2_element,
-      blockIndex: blockIndex
-    })
-  }
 
-  onSelectReportFilter = (report_num, topic_abb, subject_num, serie) => {
-    this.setState({
-      report_num: report_num,
-      topic_abb: topic_abb,
-      subject_num: subject_num,
-      serie: serie,
-      blockIndex: 0
-    })
-  }
+  // onSleectSubFilter1 = (report_num, topic_abb, subject_num, serie, serie_element, blockIndex) => {
+  //   this.setState({
+  //     report_num: report_num,
+  //     topic_abb: topic_abb,
+  //     subject_num: subject_num,
+  //     serie: serie, serie_element:
+  //     serie_element,
+  //     blockIndex: blockIndex
+  //   })
+  // }
 
-  onSelectSubFilterBy = (filter_element) => {
-    this.setState({
-      serie_element: filter_element,
-      blockIndex: 0
-    })
-  }
+  // onSelectFilter2 = (report_num, topic_abb, subject_num, serie, serie_element, serie2, blockIndex) => {
+  //   this.setState({
+  //     report_num: report_num,
+  //     topic_abb: topic_abb,
+  //     subject_num: subject_num,
+  //     serie: serie,
+  //     serie_element: serie_element,
+  //     serie2: serie2,
+  //     blockIndex: blockIndex
+  //   })
+  // }
+
+  // onSelectSubFilter2 = (report_num, topic_abb, subject_num, serie, serie_element, serie2, serie2_element, blockIndex) => {
+  //   this.setState({
+  //     report_num: report_num,
+  //     topic_abb: topic_abb,
+  //     subject_num: subject_num,
+  //     serie: serie,
+  //     serie_element: serie_element,
+  //     serie2: serie2,
+  //     serie2_element: serie2_element,
+  //     blockIndex: blockIndex
+  //   })
+  // }
+
+  // onSelectReportFilter = (report_num, topic_abb, subject_num, serie) => {
+  //   this.setState({
+  //     report_num: report_num,
+  //     topic_abb: topic_abb,
+  //     subject_num: subject_num,
+  //     serie: serie,
+  //     blockIndex: 0
+  //   })
+  // }
+
+  // onSelectSubFilterBy = (filter_element) => {
+  //   this.setState({
+  //     serie_element: filter_element,
+  //     blockIndex: 0
+  //   })
+  // }
  
-  onSelectCategory = (isReport) => {
-    const report_num = default_filter.report_num
-    const subject_num = default_filter.subject_num
-    const serie = default_filter.serie
-    const serie_element = default_filter.serie_element
-    const topic_abb = [] 
-    const serie2 = default_filter.serie2
-    const serie2_element = default_filter.serie2_element
-    let blockIndex = 0
+  // onSelectCategory = (isReport) => {
+  //   const report_num = default_filter.report_num
+  //   const subject_num = default_filter.subject_num
+  //   const serie = default_filter.serie
+  //   const serie_element = default_filter.serie_element
+  //   const topic_abb = [] 
+  //   const serie2 = default_filter.serie2
+  //   const serie2_element = default_filter.serie2_element
+  //   let blockIndex = 0
 
-    if (isReport) {
-      this.props.topics[0].forEach(topic => {
-        topic_abb.push(topic.abb)
-      })     
+  //   if (isReport) {
+  //     this.props.topics[0].forEach(topic => {
+  //       topic_abb.push(topic.abb)
+  //     })     
       
-    } else {
-      topic_abb.push(this.props.topics[0][0].abb)
-      blockIndex = 1      
-    }
+  //   } else {
+  //     topic_abb.push(this.props.topics[0][0].abb)
+  //     blockIndex = 1      
+  //   }
 
-    this.setState({
-      report_num: report_num,
-      subject_num: subject_num,
-      serie: serie,
-      serie_element: serie_element,
-      serie2: serie2,
-      serie2_element: serie2_element,
-      topic_abb: topic_abb,
-      blockIndex: blockIndex
-    })
-  }
+  //   this.setState({
+  //     report_num: report_num,
+  //     subject_num: subject_num,
+  //     serie: serie,
+  //     serie_element: serie_element,
+  //     serie2: serie2,
+  //     serie2_element: serie2_element,
+  //     topic_abb: topic_abb,
+  //     blockIndex: blockIndex
+  //   })
+  // }
 
   onSelectYear = (index) => {
     let { yearsInfo, isYearsMultiple } = this.state
@@ -359,6 +378,8 @@ export default class Layout extends React.Component {
           onStaticSelect = {this.onStaticSelect}
           onResetFilter1 = {this.onResetFilter1}
           onResetFilter2 = {this.onResetFilter2}
+          onSelectReportFilter = {this.onSelectReportFilter}
+          onSelectSubjectFilter = {this.onSelectSubjectFilter}
         />
         <Col xs={12} md={9} sm={12}>
           <h4 className="main-heading">Farm Business Balance Sheet Data 
