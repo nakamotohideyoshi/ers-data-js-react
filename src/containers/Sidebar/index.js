@@ -104,6 +104,56 @@ class Sidebar extends React.Component {
         sidebarItems: sidebarItems
       }, this.props.onStaticSelect(report_num, subject_num))
      }
+    } else {
+      if (props.query00) {
+        if (!props.query00.loading && props.query00.query00.length !== 0) {
+          let series = []
+          const serie = props.query00.query00.serie[0].abb
+          props.query00.query00.serie.forEach(serie => {
+            const obj = {}
+            obj.num = serie.abb
+            obj.header = serie.header
+            series.push(obj)
+          })
+          categoryTitles.push(series)
+          sidebarItems.push({
+            isOpened: false,
+            selectedIndex: 0,
+            isCategory: false,
+            blockIndex: blockCount,
+            visible: true,
+            headingTitle: 'Filter by'
+          })
+          this.setState({
+            categoryTitles: categoryTitles,
+            sidebarItems: sidebarItems
+          }, this.props.onResetFilter1(serie, props.query00.query00.year, props.query00.query00.state))
+        }        
+      } else if (props.query12) {
+        if (!props.query12.loading && props.query12.query12.length !== 0) {
+          let series_element = []
+          const serie_element = props.query12.query12.serie_element[0].id
+          props.query12.query12.serie_element.forEach(element => {
+            const obj = {}
+            obj.num = element.id
+            obj.header = element.name
+            series_element.push(obj)
+          })
+          categoryTitles.push(series_element)
+          sidebarItems.push({
+            isOpened: false,
+            selectedIndex: 0,
+            isCategory: false,
+            blockIndex: blockCount,
+            visible: true,
+            headingTitle: ''
+          })
+          this.setState({
+            categoryTitles: categoryTitles,
+            sidebarItems: sidebarItems
+          }, this.props.onResetFilter2(serie_element))
+        }        
+      }
     }
 
     // if (categoryTitles.length === 0) {

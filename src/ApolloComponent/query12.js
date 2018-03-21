@@ -5,16 +5,16 @@ import gql from 'graphql-tag';
   query ArmsFilterQuery (
     $report_num: [Int],
     $subject_num: [Int],
-    $year: [Int],
-    $state_id: [String],
+    $selectedYears: [Int],
+    $selectedStates: [String],
     $serie: [String]
   ){
     query12: arms_filter(
       survey_abb: "finance",
       report_num: $report_num,
       subject_num: $subject_num,
-      year: $year,
-      state_id: $state_id,
+      year: $selectedYears,
+      state_id: $selectedStates,
       serie: $serie
     ){
       serie_element{
