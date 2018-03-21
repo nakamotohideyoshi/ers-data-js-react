@@ -26,5 +26,6 @@ import gql from 'graphql-tag';
     }     
   }
 `, {
+    skip: (ownProps) => ownProps.runQuery !== 'query13',
     name: 'query13',
   });
