@@ -115,15 +115,28 @@ class Sidebar extends React.Component {
             obj.header = serie.header
             series.push(obj)
           })
-          categoryTitles.push(series)
-          sidebarItems.push({
-            isOpened: false,
-            selectedIndex: 0,
-            isCategory: false,
-            blockIndex: blockCount,
-            visible: true,
-            headingTitle: 'Filter by'
-          })
+          if (categoryTitles.length<4) {
+            categoryTitles.push(series)
+            sidebarItems.push({
+              isOpened: false,
+              selectedIndex: 0,
+              isCategory: false,
+              blockIndex: blockCount,
+              visible: true,
+              headingTitle: 'Filter by'
+            })
+          } else {
+            categoryTitles[3] = series
+            sidebarItems[3] = {
+              isOpened: false,
+              selectedIndex: 0,
+              isCategory: false,
+              blockIndex: blockCount,
+              visible: true,
+              headingTitle: 'Filter by'
+            }
+          }
+          
           this.setState({
             categoryTitles: categoryTitles,
             sidebarItems: sidebarItems
@@ -139,15 +152,28 @@ class Sidebar extends React.Component {
             obj.header = element.name
             series_element.push(obj)
           })
-          categoryTitles.push(series_element)
-          sidebarItems.push({
-            isOpened: false,
-            selectedIndex: 0,
-            isCategory: false,
-            blockIndex: blockCount,
-            visible: true,
-            headingTitle: ''
-          })
+          if (categoryTitles.length < 5) {
+            categoryTitles.push(series_element)
+            sidebarItems.push({
+              isOpened: false,
+              selectedIndex: 0,
+              isCategory: false,
+              blockIndex: blockCount,
+              visible: true,
+              headingTitle: ''
+            })
+          } else {
+            categoryTitles[4] = serie_element
+            sidebarItems[4] = {
+              isOpened: false,
+              selectedIndex: 0,
+              isCategory: false,
+              blockIndex: blockCount,
+              visible: true,
+              headingTitle: ''
+            }
+          }
+          
           this.setState({
             categoryTitles: categoryTitles,
             sidebarItems: sidebarItems
@@ -576,91 +602,103 @@ class Sidebar extends React.Component {
       }
     } else {
 
-      let report_num =[], topic_abb=[], subject_num=[], serie=[], serie_element=[], serie2=[], serie2_element = []
-      if (sidebarItemIndex>=1 && sidebarItemIndex<=4) {
+      if (sidebarItemIndex === 1) {
+        const report_num = []
+        const topic_abb = []
         report_num.push(categoryTitles[1][sidebarItems[1].selectedIndex].num)
         this.props.topics[sidebarItems[1].selectedIndex].forEach(topic => {
           topic_abb.push(topic.abb)
         })
+        this.setState({sidebarItems, categoryTitles}, this.props.onSelectReportFilter(report_num, topic_abb)) 
+      } else if (sidebarItemIndex === 2) {
+        const subject_num = []
         subject_num.push(categoryTitles[2][sidebarItems[2].selectedIndex].num)
-        serie.push(categoryTitles[3][sidebarItems[3].selectedIndex].num)
-        if (sidebarItemIndex !== 4) {
-          this.setState({sidebarItems, categoryTitles, isSubFilterBy: true}, () => this.props.onSelectReportFilter(report_num, topic_abb, subject_num, serie))
-        } else {
-          serie_element.push(categoryTitles[4][sidebarItems[4].selectedIndex].num)
-          this.setState({sidebarItems, categoryTitles, isSubFilterBy: false}, () => this.props.onSelectSubFilterBy(serie_element))
-        }
+        this.setState({sidebarItems, categoryTitles}, this.props.onSelectSubjectFilter(subject_num)) 
+      }
+      // if (sidebarItemIndex>=1 && sidebarItemIndex<=4) {
+      //   report_num.push(categoryTitles[1][sidebarItems[1].selectedIndex].num)
+      //   this.props.topics[sidebarItems[1].selectedIndex].forEach(topic => {
+      //     topic_abb.push(topic.abb)
+      //   })
+      //   subject_num.push(categoryTitles[2][sidebarItems[2].selectedIndex].num)
+      //   serie.push(categoryTitles[3][sidebarItems[3].selectedIndex].num)
+      //   if (sidebarItemIndex !== 4) {
+      //     this.setState({sidebarItems, categoryTitles, isSubFilterBy: true}, () => this.props.onSelectReportFilter(report_num, topic_abb, subject_num, serie))
+      //   } else {
+      //     serie_element.push(categoryTitles[4][sidebarItems[4].selectedIndex].num)
+      //     this.setState({sidebarItems, categoryTitles, isSubFilterBy: false}, () => this.props.onSelectSubFilterBy(serie_element))
+      //   }
         
-      }  else {
-        const index = 5+7*(currentBlock-1)        
-        report_num.push(categoryTitles[index][sidebarItems[index].selectedIndex].num)
-        if (sidebarItemIndex === index) {
-          categoryTitles[index+1] =[]
-          this.props.topics[selectedIndex].forEach(topic => {
-            const obj = {}
-            obj.num = topic.abb
-            obj.header = topic.header
-            categoryTitles[index+1].push(obj)
-          })
-          sidebarItems[index+1].selectedIndex = 0
-        }
-        topic_abb.push(categoryTitles[index+1][sidebarItems[index+1].selectedIndex].num)
-        subject_num.push(categoryTitles[index+2][sidebarItems[index+2].selectedIndex].num)
-        serie.push(categoryTitles[index+3][sidebarItems[index+3].selectedIndex].num)
-        if(categoryTitles[index+4].length === 0) {
-          serie_element = [0]
-        } else {
-          serie_element.push(categoryTitles[index+4][sidebarItems[index+4].selectedIndex].num)
-        }
-        if (categoryTitles[index+5].length===0) {
-          serie2 = ['farm']
-        } else {
-          serie2.push(categoryTitles[index+5][sidebarItems[index+5].selectedIndex].num)
-        }
-        if (categoryTitles[index+6].length === 0) {
-          serie2_element = [0]
-        } else {
-          serie2_element.push(categoryTitles[index+6][sidebarItems[index+6].selectedIndex].num)
-        }
+      // }  else {
+      //   const index = 5+7*(currentBlock-1)        
+      //   report_num.push(categoryTitles[index][sidebarItems[index].selectedIndex].num)
+      //   if (sidebarItemIndex === index) {
+      //     categoryTitles[index+1] =[]
+      //     this.props.topics[selectedIndex].forEach(topic => {
+      //       const obj = {}
+      //       obj.num = topic.abb
+      //       obj.header = topic.header
+      //       categoryTitles[index+1].push(obj)
+      //     })
+      //     sidebarItems[index+1].selectedIndex = 0
+      //   }
+      //   topic_abb.push(categoryTitles[index+1][sidebarItems[index+1].selectedIndex].num)
+      //   subject_num.push(categoryTitles[index+2][sidebarItems[index+2].selectedIndex].num)
+      //   serie.push(categoryTitles[index+3][sidebarItems[index+3].selectedIndex].num)
+      //   if(categoryTitles[index+4].length === 0) {
+      //     serie_element = [0]
+      //   } else {
+      //     serie_element.push(categoryTitles[index+4][sidebarItems[index+4].selectedIndex].num)
+      //   }
+      //   if (categoryTitles[index+5].length===0) {
+      //     serie2 = ['farm']
+      //   } else {
+      //     serie2.push(categoryTitles[index+5][sidebarItems[index+5].selectedIndex].num)
+      //   }
+      //   if (categoryTitles[index+6].length === 0) {
+      //     serie2_element = [0]
+      //   } else {
+      //     serie2_element.push(categoryTitles[index+6][sidebarItems[index+6].selectedIndex].num)
+      //   }
         
-        if (sidebarItemIndex === index || sidebarItemIndex === index + 2 || sidebarItemIndex === index + 3) {
+      //   if (sidebarItemIndex === index || sidebarItemIndex === index + 2 || sidebarItemIndex === index + 3) {
 
-          isArmsFilter[currentBlock-1].isFilter1 = true
-          this.setState({
-            sidebarItems,
-            categoryTitles,
-            isArmsFilter: isArmsFilter
-          }, this.props.onSelectArmsFilter(report_num, topic_abb, subject_num, serie, currentBlock))
+      //     isArmsFilter[currentBlock-1].isFilter1 = true
+      //     this.setState({
+      //       sidebarItems,
+      //       categoryTitles,
+      //       isArmsFilter: isArmsFilter
+      //     }, this.props.onSelectArmsFilter(report_num, topic_abb, subject_num, serie, currentBlock))
 
-        } else if (sidebarItemIndex === index + 4) {
+      //   } else if (sidebarItemIndex === index + 4) {
 
-          isArmsFilter[currentBlock-1].isSubFilter1 = true
-          this.setState({
-            sidebarItems,
-            categoryTitles,
-            isArmsFilter: isArmsFilter
-          }, this.props.onSleectSubFilter1(report_num, topic_abb, subject_num, serie, serie_element, currentBlock))
+      //     isArmsFilter[currentBlock-1].isSubFilter1 = true
+      //     this.setState({
+      //       sidebarItems,
+      //       categoryTitles,
+      //       isArmsFilter: isArmsFilter
+      //     }, this.props.onSleectSubFilter1(report_num, topic_abb, subject_num, serie, serie_element, currentBlock))
 
-        } else if (sidebarItemIndex === index + 5) {
+      //   } else if (sidebarItemIndex === index + 5) {
 
-          isArmsFilter[currentBlock-1].isFitler2 = true
-          this.setState({
-            sidebarItems,
-            categoryTitles,
-            isArmsFilter: isArmsFilter
-          }, this.props.onSelectFilter2(report_num, topic_abb, subject_num, serie, serie_element, serie2, currentBlock))
+      //     isArmsFilter[currentBlock-1].isFitler2 = true
+      //     this.setState({
+      //       sidebarItems,
+      //       categoryTitles,
+      //       isArmsFilter: isArmsFilter
+      //     }, this.props.onSelectFilter2(report_num, topic_abb, subject_num, serie, serie_element, serie2, currentBlock))
 
-        } else if (sidebarItemIndex === index + 6 || sidebarItemIndex === index +1) {
-          isArmsFilter[currentBlock-1].isFilter1 = false
-          isArmsFilter[currentBlock-1].isSubFilter1 = false
-          isArmsFilter[currentBlock-1].isFitler2 = false
-          this.setState({
-            sidebarItems,
-            categoryTitles,
-            isArmsFilter: isArmsFilter
-          }, this.props.onSelectSubFilter2(report_num, topic_abb, subject_num, serie, serie_element, serie2, serie2_element, currentBlock))
-        }
-      }      
+      //   } else if (sidebarItemIndex === index + 6 || sidebarItemIndex === index +1) {
+      //     isArmsFilter[currentBlock-1].isFilter1 = false
+      //     isArmsFilter[currentBlock-1].isSubFilter1 = false
+      //     isArmsFilter[currentBlock-1].isFitler2 = false
+      //     this.setState({
+      //       sidebarItems,
+      //       categoryTitles,
+      //       isArmsFilter: isArmsFilter
+      //     }, this.props.onSelectSubFilter2(report_num, topic_abb, subject_num, serie, serie_element, serie2, serie2_element, currentBlock))
+      //   }
+      // }      
     }
     this.toggleCategoryOptions(sidebarItemIndex)
     
