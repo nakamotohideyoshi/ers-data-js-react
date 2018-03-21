@@ -6,7 +6,24 @@ import SidebarItem from '../../components/SidebarItem'
 import './style.css';
 import Reset from '../../images/reset.png'
 import armsfilter from '../../ApolloComponent/armsQuery'
-import { selectLimit } from 'async';
+// import { selectLimit } from 'async';
+import query00 from '../../ApolloComponent/query00'
+import query01 from '../../ApolloComponent/query01'
+import query02 from '../../ApolloComponent/query02'
+import query03 from '../../ApolloComponent/query03'
+import query04 from '../../ApolloComponent/query04'
+import query10 from '../../ApolloComponent/query10'
+import query11 from '../../ApolloComponent/query11'
+import query12 from '../../ApolloComponent/query12'
+import query13 from '../../ApolloComponent/query13'
+import query14 from '../../ApolloComponent/query14'
+import query20 from '../../ApolloComponent/query20'
+import query21 from '../../ApolloComponent/query21'
+import query22 from '../../ApolloComponent/query22'
+import query23 from '../../ApolloComponent/query23'
+import query24 from '../../ApolloComponent/query24'
+import { compose } from 'react-apollo'
+
 
 
 let isReports = true
@@ -24,385 +41,448 @@ class Sidebar extends React.Component {
   }  
   
   componentWillReceiveProps(props) {
+    console.log('****************', props, '****************')
     let {categoryTitles, sidebarItems, blockCount, isSubFilterBy, isArmsFilter} = this.state
 
     if (categoryTitles.length === 0) {
-      if (props.reports.length !== 0) {
-        currentBlock = 0
-        
-        categoryTitles.push([
-          {num: 0, header: 'Tailored Reports'},
-          { num: 1, header: 'ARMS Data Analysis'}
-        ])
-        sidebarItems.push({
-          isOpened: false,
-          selectedIndex: 0,
-          isCategory: true,
-          blockIndex: blockCount,
-          visible: true,  headingTitle: ''
-        })
 
-        let reports = []
-        props.reports.forEach(report => {
-          const obj = {}
-          obj.num = report.num
-          obj.header = report.header
-          reports.push(obj)
-        })
-        categoryTitles.push(reports)
-        sidebarItems.push({
-          isOpened: false,
-          selectedIndex: 0,
-          isCategory: false,
-          blockIndex: blockCount,
-          visible: true,
-          headingTitle: 'Report'
-        })
-
-        let subjects = []
-        props.subjects.forEach(subject => {
-          const obj = {}
-          obj.num = subject.num
-          obj.header = subject.header
-          subjects.push(obj)
-        })
-        categoryTitles.push(subjects)
-        sidebarItems.push({
-          isOpened: false,
-          selectedIndex: 0,
-          isCategory: false,
-          blockIndex: blockCount,
-          visible: true,
-          headingTitle: 'Subject'
-        })
-
-        let series = []
-        props.series.forEach(serie => {
-          const obj = {}
-          obj.num = serie.abb
-          obj.header = serie.header
-          series.push(obj)
-        })
-        categoryTitles.push(series)
-        sidebarItems.push({
-          isOpened: false,
-          selectedIndex: 0,
-          isCategory: false,
-          blockIndex: blockCount,
-          visible: true,
-          headingTitle: 'Filter by'
-        })
-
-        let series_element = []
-        const obj = {}
-        obj.num = 0
-        obj.header = 'Total'
-        series_element.push(obj)
-        categoryTitles.push(series_element)
-        sidebarItems.push({
-          isOpened: false,
-          selectedIndex: 0,
-          isCategory: false,
-          blockIndex: blockCount,
-          visible: false,
-          headingTitle: ''
-        })
-
-        blockCount++
-        let datasource = []
-        props.reports.forEach(report => {
-          const obj = {}
-          obj.num = report.num
-          obj.header = report.header
-          datasource.push(obj)
-        })
-        categoryTitles.push(datasource)
-        sidebarItems.push({
-          isOpened: false,
-          selectedIndex: 0,
-          isCategory: false,
-          blockIndex: blockCount,
-          visible: false,
-          headingTitle: 'Data Source'
-        })
-
-        let dataline = []
-        props.topics[0].forEach(topic => {
-          const obj = {}
-          obj.num = topic.abb
-          obj.header = topic.header
-          dataline.push(obj)
-        })
-        categoryTitles.push(dataline)
-        sidebarItems.push({
-          isOpened: false,
-          selectedIndex: 0,
-          isCategory: false,
-          blockIndex: blockCount,
-          visible: false,
-          headingTitle: 'Data Line'})
-
-        let farmtype = []
-        props.subjects.forEach(subject => {
-          const obj = {}
-          obj.num = subject.num
-          obj.header = subject.header
-          farmtype.push(obj)
-        })
-        categoryTitles.push(farmtype)
-        sidebarItems.push({
-          isOpened: false,
-          selectedIndex: 0,
-          isCategory: false,
-          blockIndex: blockCount,
-          visible: false,
-          headingTitle: 'Farm Type'
-        })
-
-        let filter1 = []
-        props.series.forEach(serie => {
-          const obj = {}
-          obj.num = serie.abb
-          obj.header = serie.header
-          filter1.push(obj)
-        })
-        
-        categoryTitles.push(filter1)
-        sidebarItems.push({
-          isOpened: false,
-          selectedIndex: 0,
-          isCategory: false,
-          blockIndex: blockCount,
-          visible: false,
-          headingTitle: 'Filter1'
-        })
-
-        let subfilter1= []
-        subfilter1.push(obj)
-        categoryTitles.push(subfilter1)
-        sidebarItems.push({
-          isOpened: false,
-          selectedIndex: 0,
-          isCategory: false,
-          blockIndex: blockCount,
-          visible: false,
-          headingTitle: ''
-        })
-
-        let filter2 = []
-        props.series2.forEach(serie2 => {
-          const obj = {}
-          obj.num = serie2.abb
-          obj.header = serie2.header
-          filter2.push(obj)
-        })
-        categoryTitles.push(filter2)
-        sidebarItems.push({
-          isOpened: false,
-          selectedIndex: 0,
-          isCategory: false,
-          blockIndex: blockCount,
-          visible: false,
-          headingTitle: 'Filter2'
-        })
-
-        let subfilter2= []
-        subfilter2.push(obj)
-        categoryTitles.push(subfilter2)
-        sidebarItems.push({
-          isOpened: false,
-          selectedIndex: 0,
-          isCategory: false,
-          blockIndex: blockCount,
-          visible: false,
-          headingTitle: ''
-        })
-
-        let armsFilter = [{
-          isFilter1: false,
-          isSubFilter1: false,
-          isFitler2: false
-        }]
-
-        this.setState({
-          categoryTitles: categoryTitles,
-          sidebarItems: sidebarItems,
-          blockCount: blockCount,
-          isArmsFilter: armsFilter
-        })      
-      }
+      // page initial loading
+     if (props.reports.length !== 0) {
+       // indicate `tailored report`
+      currentBlock = 0
       
-    } else if (!props.armsfilter.loading && categoryTitles.length !== 0){
+      // generate static LHS first
+      categoryTitles.push([
+        {num: 0, header: 'Tailored Reports'},
+        { num: 1, header: 'ARMS Data Analysis'}
+      ])
+      sidebarItems.push({
+        isOpened: false,
+        selectedIndex: 0,
+        isCategory: true,
+        blockIndex: blockCount,
+        visible: true,  headingTitle: ''
+      })
+      const report_num = props.reports[0].num
+      let reports = []
+      props.reports.forEach(report => {
+        const obj = {}
+        obj.num = report.num
+        obj.header = report.header
+        reports.push(obj)
+      })
+      categoryTitles.push(reports)
+      sidebarItems.push({
+        isOpened: false,
+        selectedIndex: 0,
+        isCategory: false,
+        blockIndex: blockCount,
+        visible: true,
+        headingTitle: 'Report'
+      })
 
-      if (currentBlock === 0) {
-        if (isSubFilterBy) {
-          const index = 3
-          let serie = []
-          let serie_element = []
+      const subject_num = props.subjects[0].num
+      let subjects = []
+      props.subjects.forEach(subject => {
+        const obj = {}
+        obj.num = subject.num
+        obj.header = subject.header
+        subjects.push(obj)
+      })
+      categoryTitles.push(subjects)
+      sidebarItems.push({
+        isOpened: false,
+        selectedIndex: 0,
+        isCategory: false,
+        blockIndex: blockCount,
+        visible: true,
+        headingTitle: 'Subject'
+      })
 
-          categoryTitles[index+1] = []
-          props.armsfilter.arms_filter1.serie_element.forEach(serie_element => {
-            const obj = {}
-            obj.num = serie_element.id  
-            obj.header = serie_element.name
-            categoryTitles[index+1].push(obj)     
-          })
+      this.setState({
+        categoryTitles: categoryTitles,
+        sidebarItems: sidebarItems
+      }, this.props.onStaticSelect(report_num, subject_num))
+     }
+    }
 
-          sidebarItems[index+1].headingTitle = categoryTitles[index][sidebarItems[index].selectedIndex].header
-          sidebarItems[index+1].selectedIndex = 0
-          sidebarItems[index+1].isOpened = false
-
-          if (categoryTitles[index][sidebarItems[index].selectedIndex].num !== 'farm' && categoryTitles[4].length !== 0) {
-            sidebarItems[index+1].visible = true
-            this.setState({
-              categoryTitles: categoryTitles,
-              sidebarItems: sidebarItems,
-              blockCount: blockCount,
-              isSubFilterBy: false
-            }, props.onSelectSubFilterBy(categoryTitles[index+1][0].num))            
-          } else {
-            sidebarItems[index+1].visible = false
-            this.setState({
-              categoryTitles: categoryTitles,
-              sidebarItems: sidebarItems,
-              blockCount: blockCount,
-              isSubFilterBy: false
-            }, props.onSelectSubFilterBy(0))
-          }
-        }       
-      } else {
-        const index = 7*(currentBlock-1)
-        let report_num =props.report_num, topic_abb = [], subject_num = props.subject_num, serie=props.serie, serie_element=[], serie2=[], serie2_element = []
+    // if (categoryTitles.length === 0) {
+    //   if (props.reports.length !== 0) {
+    //     currentBlock = 0
         
-        if (isArmsFilter[currentBlock-1].isFilter1) {  
+    //     categoryTitles.push([
+    //       {num: 0, header: 'Tailored Reports'},
+    //       { num: 1, header: 'ARMS Data Analysis'}
+    //     ])
+    //     sidebarItems.push({
+    //       isOpened: false,
+    //       selectedIndex: 0,
+    //       isCategory: true,
+    //       blockIndex: blockCount,
+    //       visible: true,  headingTitle: ''
+    //     })
+
+    //     let reports = []
+    //     props.reports.forEach(report => {
+    //       const obj = {}
+    //       obj.num = report.num
+    //       obj.header = report.header
+    //       reports.push(obj)
+    //     })
+    //     categoryTitles.push(reports)
+    //     sidebarItems.push({
+    //       isOpened: false,
+    //       selectedIndex: 0,
+    //       isCategory: false,
+    //       blockIndex: blockCount,
+    //       visible: true,
+    //       headingTitle: 'Report'
+    //     })
+
+    //     let subjects = []
+    //     props.subjects.forEach(subject => {
+    //       const obj = {}
+    //       obj.num = subject.num
+    //       obj.header = subject.header
+    //       subjects.push(obj)
+    //     })
+    //     categoryTitles.push(subjects)
+    //     sidebarItems.push({
+    //       isOpened: false,
+    //       selectedIndex: 0,
+    //       isCategory: false,
+    //       blockIndex: blockCount,
+    //       visible: true,
+    //       headingTitle: 'Subject'
+    //     })
+
+    //     let series = []
+    //     props.series.forEach(serie => {
+    //       const obj = {}
+    //       obj.num = serie.abb
+    //       obj.header = serie.header
+    //       series.push(obj)
+    //     })
+    //     categoryTitles.push(series)
+    //     sidebarItems.push({
+    //       isOpened: false,
+    //       selectedIndex: 0,
+    //       isCategory: false,
+    //       blockIndex: blockCount,
+    //       visible: true,
+    //       headingTitle: 'Filter by'
+    //     })
+
+    //     let series_element = []
+    //     const obj = {}
+    //     obj.num = 0
+    //     obj.header = 'Total'
+    //     series_element.push(obj)
+    //     categoryTitles.push(series_element)
+    //     sidebarItems.push({
+    //       isOpened: false,
+    //       selectedIndex: 0,
+    //       isCategory: false,
+    //       blockIndex: blockCount,
+    //       visible: false,
+    //       headingTitle: ''
+    //     })
+
+    //     blockCount++
+    //     let datasource = []
+    //     props.reports.forEach(report => {
+    //       const obj = {}
+    //       obj.num = report.num
+    //       obj.header = report.header
+    //       datasource.push(obj)
+    //     })
+    //     categoryTitles.push(datasource)
+    //     sidebarItems.push({
+    //       isOpened: false,
+    //       selectedIndex: 0,
+    //       isCategory: false,
+    //       blockIndex: blockCount,
+    //       visible: false,
+    //       headingTitle: 'Data Source'
+    //     })
+
+    //     let dataline = []
+    //     props.topics[0].forEach(topic => {
+    //       const obj = {}
+    //       obj.num = topic.abb
+    //       obj.header = topic.header
+    //       dataline.push(obj)
+    //     })
+    //     categoryTitles.push(dataline)
+    //     sidebarItems.push({
+    //       isOpened: false,
+    //       selectedIndex: 0,
+    //       isCategory: false,
+    //       blockIndex: blockCount,
+    //       visible: false,
+    //       headingTitle: 'Data Line'})
+
+    //     let farmtype = []
+    //     props.subjects.forEach(subject => {
+    //       const obj = {}
+    //       obj.num = subject.num
+    //       obj.header = subject.header
+    //       farmtype.push(obj)
+    //     })
+    //     categoryTitles.push(farmtype)
+    //     sidebarItems.push({
+    //       isOpened: false,
+    //       selectedIndex: 0,
+    //       isCategory: false,
+    //       blockIndex: blockCount,
+    //       visible: false,
+    //       headingTitle: 'Farm Type'
+    //     })
+
+    //     let filter1 = []
+    //     props.series.forEach(serie => {
+    //       const obj = {}
+    //       obj.num = serie.abb
+    //       obj.header = serie.header
+    //       filter1.push(obj)
+    //     })
+        
+    //     categoryTitles.push(filter1)
+    //     sidebarItems.push({
+    //       isOpened: false,
+    //       selectedIndex: 0,
+    //       isCategory: false,
+    //       blockIndex: blockCount,
+    //       visible: false,
+    //       headingTitle: 'Filter1'
+    //     })
+
+    //     let subfilter1= []
+    //     subfilter1.push(obj)
+    //     categoryTitles.push(subfilter1)
+    //     sidebarItems.push({
+    //       isOpened: false,
+    //       selectedIndex: 0,
+    //       isCategory: false,
+    //       blockIndex: blockCount,
+    //       visible: false,
+    //       headingTitle: ''
+    //     })
+
+    //     let filter2 = []
+    //     props.series2.forEach(serie2 => {
+    //       const obj = {}
+    //       obj.num = serie2.abb
+    //       obj.header = serie2.header
+    //       filter2.push(obj)
+    //     })
+    //     categoryTitles.push(filter2)
+    //     sidebarItems.push({
+    //       isOpened: false,
+    //       selectedIndex: 0,
+    //       isCategory: false,
+    //       blockIndex: blockCount,
+    //       visible: false,
+    //       headingTitle: 'Filter2'
+    //     })
+
+    //     let subfilter2= []
+    //     subfilter2.push(obj)
+    //     categoryTitles.push(subfilter2)
+    //     sidebarItems.push({
+    //       isOpened: false,
+    //       selectedIndex: 0,
+    //       isCategory: false,
+    //       blockIndex: blockCount,
+    //       visible: false,
+    //       headingTitle: ''
+    //     })
+
+    //     let armsFilter = [{
+    //       isFilter1: false,
+    //       isSubFilter1: false,
+    //       isFitler2: false
+    //     }]
+
+    //     this.setState({
+    //       categoryTitles: categoryTitles,
+    //       sidebarItems: sidebarItems,
+    //       blockCount: blockCount,
+    //       isArmsFilter: armsFilter
+    //     })      
+    //   }
+      
+    // } else if (!props.armsfilter.loading && categoryTitles.length !== 0){
+
+    //   if (currentBlock === 0) {
+    //     if (isSubFilterBy) {
+    //       const index = 3
+    //       let serie = []
+    //       let serie_element = []
+
+    //       categoryTitles[index+1] = []
+    //       props.armsfilter.arms_filter1.serie_element.forEach(serie_element => {
+    //         const obj = {}
+    //         obj.num = serie_element.id  
+    //         obj.header = serie_element.name
+    //         categoryTitles[index+1].push(obj)     
+    //       })
+
+    //       sidebarItems[index+1].headingTitle = categoryTitles[index][sidebarItems[index].selectedIndex].header
+    //       sidebarItems[index+1].selectedIndex = 0
+    //       sidebarItems[index+1].isOpened = false
+
+    //       if (categoryTitles[index][sidebarItems[index].selectedIndex].num !== 'farm' && categoryTitles[4].length !== 0) {
+    //         sidebarItems[index+1].visible = true
+    //         this.setState({
+    //           categoryTitles: categoryTitles,
+    //           sidebarItems: sidebarItems,
+    //           blockCount: blockCount,
+    //           isSubFilterBy: false
+    //         }, props.onSelectSubFilterBy(categoryTitles[index+1][0].num))            
+    //       } else {
+    //         sidebarItems[index+1].visible = false
+    //         this.setState({
+    //           categoryTitles: categoryTitles,
+    //           sidebarItems: sidebarItems,
+    //           blockCount: blockCount,
+    //           isSubFilterBy: false
+    //         }, props.onSelectSubFilterBy(0))
+    //       }
+    //     }       
+    //   } else {
+    //     const index = 7*(currentBlock-1)
+    //     let report_num =props.report_num, topic_abb = [], subject_num = props.subject_num, serie=props.serie, serie_element=[], serie2=[], serie2_element = []
+        
+    //     if (isArmsFilter[currentBlock-1].isFilter1) {  
           
 
-          categoryTitles[index + 9] = []
-          props.armsfilter.arms_filter1.serie_element.forEach(serie_element => {
-            const obj = {}
-            obj.num = serie_element.id  
-            obj.header = serie_element.name
-            categoryTitles[index + 9].push(obj)
-          })
+    //       categoryTitles[index + 9] = []
+    //       props.armsfilter.arms_filter1.serie_element.forEach(serie_element => {
+    //         const obj = {}
+    //         obj.num = serie_element.id  
+    //         obj.header = serie_element.name
+    //         categoryTitles[index + 9].push(obj)
+    //       })
 
-          sidebarItems[index + 9].selectedIndex = 0
-          sidebarItems[index + 9].isOpened = false
-          if (serie[0] !== 'farm' && categoryTitles[index + 9].length !== 0) {
-            sidebarItems[index + 9].visible = true
-            sidebarItems[index + 9].headingTitle = categoryTitles[index +8][sidebarItems[index+8].selectedIndex].header
-            serie_element.push(categoryTitles[index+9][0].num)          
-          } else {
-            sidebarItems[index + 9].visible = false
-            serie_element = [0]
-          }
+    //       sidebarItems[index + 9].selectedIndex = 0
+    //       sidebarItems[index + 9].isOpened = false
+    //       if (serie[0] !== 'farm' && categoryTitles[index + 9].length !== 0) {
+    //         sidebarItems[index + 9].visible = true
+    //         sidebarItems[index + 9].headingTitle = categoryTitles[index +8][sidebarItems[index+8].selectedIndex].header
+    //         serie_element.push(categoryTitles[index+9][0].num)          
+    //       } else {
+    //         sidebarItems[index + 9].visible = false
+    //         serie_element = [0]
+    //       }
 
-          categoryTitles[index + 10] = []
-          props.armsfilter.arms_filter1.serie2.forEach(serie2 => {
-            const obj = {}
-            obj.num = serie2.abb  
-            obj.header = serie2.header
-            categoryTitles[index + 10].push(obj)
-          })
-          sidebarItems[index + 10].selectedIndex = 0
-          sidebarItems[index + 10].isOpened = false
-          if (categoryTitles[index + 10].length !== 0) {
-            serie2.push(categoryTitles[index+10][0].num)
-            sidebarItems[index + 10].visible = true            
-          } else {
-            sidebarItems[index + 10].visible = false
-            serie2 = ['farm']
-          }
+    //       categoryTitles[index + 10] = []
+    //       props.armsfilter.arms_filter1.serie2.forEach(serie2 => {
+    //         const obj = {}
+    //         obj.num = serie2.abb  
+    //         obj.header = serie2.header
+    //         categoryTitles[index + 10].push(obj)
+    //       })
+    //       sidebarItems[index + 10].selectedIndex = 0
+    //       sidebarItems[index + 10].isOpened = false
+    //       if (categoryTitles[index + 10].length !== 0) {
+    //         serie2.push(categoryTitles[index+10][0].num)
+    //         sidebarItems[index + 10].visible = true            
+    //       } else {
+    //         sidebarItems[index + 10].visible = false
+    //         serie2 = ['farm']
+    //       }
 
-          categoryTitles[index + 11] = []
-          props.armsfilter.arms_filter1.serie2_element.forEach(serie2_element => {
-            const obj = {}
-            obj.num = serie2_element.id  
-            obj.header = serie2_element.name
-            categoryTitles[index +11].push(obj)
-          })
-          sidebarItems[index +11].selectedIndex = 0
-          sidebarItems[index + 11].isOpened = false
-          if (serie2[0] !== 'farm' && categoryTitles[index+11].length !== 0) {
-            sidebarItems[index + 11].visible = true
-            sidebarItems[index + 11].headingTitle = categoryTitles[index +10][0].header
-            serie2_element.push(categoryTitles[index+10][0].num)            
-          } else {
-            sidebarItems[index + 11].visible = false
-            serie2_element = [0]
-          }
+    //       categoryTitles[index + 11] = []
+    //       props.armsfilter.arms_filter1.serie2_element.forEach(serie2_element => {
+    //         const obj = {}
+    //         obj.num = serie2_element.id  
+    //         obj.header = serie2_element.name
+    //         categoryTitles[index +11].push(obj)
+    //       })
+    //       sidebarItems[index +11].selectedIndex = 0
+    //       sidebarItems[index + 11].isOpened = false
+    //       if (serie2[0] !== 'farm' && categoryTitles[index+11].length !== 0) {
+    //         sidebarItems[index + 11].visible = true
+    //         sidebarItems[index + 11].headingTitle = categoryTitles[index +10][0].header
+    //         serie2_element.push(categoryTitles[index+10][0].num)            
+    //       } else {
+    //         sidebarItems[index + 11].visible = false
+    //         serie2_element = [0]
+    //       }
 
-        } else if (isArmsFilter[currentBlock-1].isSubFilter1) {
-          serie_element = props.serie_element
-          categoryTitles[index + 10] = []
-          props.armsfilter.arms_filter2.serie2.forEach(serie2 => {
-            const obj = {}
-            obj.num = serie2.abb  
-            obj.header = serie2.header
-            categoryTitles[index + 10].push(obj)
-          })
-          sidebarItems[index + 10].selectedIndex = 0
-          sidebarItems[index + 10].isOpened = false
-          if (categoryTitles[index + 10].length !== 0) {
-            sidebarItems[index + 10].visible = true
-            serie2.push(categoryTitles[index+10][0].num)           
-          } else {
-            sidebarItems[index + 10].visible = false
-            serie2 = ['farm']
-          }
+    //     } else if (isArmsFilter[currentBlock-1].isSubFilter1) {
+    //       serie_element = props.serie_element
+    //       categoryTitles[index + 10] = []
+    //       props.armsfilter.arms_filter2.serie2.forEach(serie2 => {
+    //         const obj = {}
+    //         obj.num = serie2.abb  
+    //         obj.header = serie2.header
+    //         categoryTitles[index + 10].push(obj)
+    //       })
+    //       sidebarItems[index + 10].selectedIndex = 0
+    //       sidebarItems[index + 10].isOpened = false
+    //       if (categoryTitles[index + 10].length !== 0) {
+    //         sidebarItems[index + 10].visible = true
+    //         serie2.push(categoryTitles[index+10][0].num)           
+    //       } else {
+    //         sidebarItems[index + 10].visible = false
+    //         serie2 = ['farm']
+    //       }
 
-          categoryTitles[index + 11] = []
-          props.armsfilter.arms_filter2.serie2_element.forEach(serie2_element => {
-            const obj = {}
-            obj.num = serie2_element.id  
-            obj.header = serie2_element.name
-            categoryTitles[index +11].push(obj)
-          })
-          sidebarItems[index +11].selectedIndex = 0
-          sidebarItems[index + 11].isOpened = false
-          if (serie2[0] !== 'farm' && categoryTitles[index+11].length !== 0) {
-            sidebarItems[index + 11].visible = true
-            sidebarItems[index + 11].headingTitle = categoryTitles[index +10][0].header
-            serie2_element.push(categoryTitles[index+10][0].num)            
-          } else {
-            sidebarItems[index + 11].visible = false
-            serie2_element=[0]
-          }
-        } else if (isArmsFilter[currentBlock-1].isFitler2) {
-          serie_element = props.serie_element
-          serie2.push(categoryTitles[index+10][sidebarItems[index+10].selectedIndex].num)
+    //       categoryTitles[index + 11] = []
+    //       props.armsfilter.arms_filter2.serie2_element.forEach(serie2_element => {
+    //         const obj = {}
+    //         obj.num = serie2_element.id  
+    //         obj.header = serie2_element.name
+    //         categoryTitles[index +11].push(obj)
+    //       })
+    //       sidebarItems[index +11].selectedIndex = 0
+    //       sidebarItems[index + 11].isOpened = false
+    //       if (serie2[0] !== 'farm' && categoryTitles[index+11].length !== 0) {
+    //         sidebarItems[index + 11].visible = true
+    //         sidebarItems[index + 11].headingTitle = categoryTitles[index +10][0].header
+    //         serie2_element.push(categoryTitles[index+10][0].num)            
+    //       } else {
+    //         sidebarItems[index + 11].visible = false
+    //         serie2_element=[0]
+    //       }
+    //     } else if (isArmsFilter[currentBlock-1].isFitler2) {
+    //       serie_element = props.serie_element
+    //       serie2.push(categoryTitles[index+10][sidebarItems[index+10].selectedIndex].num)
 
-          categoryTitles[index + 11] = []
-          props.armsfilter.arms_subfilter2.serie2_element.forEach(serie2_element => {
-            const obj = {}
-            obj.num = serie2_element.id  
-            obj.header = serie2_element.name
-            categoryTitles[index +11].push(obj)
-          })
+    //       categoryTitles[index + 11] = []
+    //       props.armsfilter.arms_subfilter2.serie2_element.forEach(serie2_element => {
+    //         const obj = {}
+    //         obj.num = serie2_element.id  
+    //         obj.header = serie2_element.name
+    //         categoryTitles[index +11].push(obj)
+    //       })
 
-          sidebarItems[index +11].selectedIndex = 0
-          sidebarItems[index + 11].isOpened = false
-          if (serie2[0] !== 'farm' && categoryTitles[index+11].length !== 0) {
-            sidebarItems[index + 11].visible = true
-            sidebarItems[index + 11].headingTitle = categoryTitles[index +10][sidebarItems[index+10].selectedIndex].header
-            serie2_element.push(categoryTitles[index+11][0].num)           
-          } else {
-            sidebarItems[index + 11].visible = false
-            serie2_element = [0]
-          }
-        }
-        if(isArmsFilter[currentBlock-1].isFilter1 || isArmsFilter[currentBlock-1].isSubFilter1 || isArmsFilter[currentBlock-1].isFilter2) {
-          isArmsFilter[currentBlock-1].isFilter1 = false
-          isArmsFilter[currentBlock-1].isSubFilter1 = false
-          isArmsFilter[currentBlock-1].isFilter2 = false
-          topic_abb.push(categoryTitles[index+6][sidebarItems[index+6].selectedIndex].num)
-          this.setState({
-            categoryTitles: categoryTitles,
-            sidebarItems: sidebarItems,
-            isArmsFilter: isArmsFilter
-          }, this.props.onSelectSubFilter2(report_num, topic_abb, subject_num, serie, serie_element, serie2, serie2_element, currentBlock))
-        }
-      }
-    }
+    //       sidebarItems[index +11].selectedIndex = 0
+    //       sidebarItems[index + 11].isOpened = false
+    //       if (serie2[0] !== 'farm' && categoryTitles[index+11].length !== 0) {
+    //         sidebarItems[index + 11].visible = true
+    //         sidebarItems[index + 11].headingTitle = categoryTitles[index +10][sidebarItems[index+10].selectedIndex].header
+    //         serie2_element.push(categoryTitles[index+11][0].num)           
+    //       } else {
+    //         sidebarItems[index + 11].visible = false
+    //         serie2_element = [0]
+    //       }
+    //     }
+    //     if(isArmsFilter[currentBlock-1].isFilter1 || isArmsFilter[currentBlock-1].isSubFilter1 || isArmsFilter[currentBlock-1].isFilter2) {
+    //       isArmsFilter[currentBlock-1].isFilter1 = false
+    //       isArmsFilter[currentBlock-1].isSubFilter1 = false
+    //       isArmsFilter[currentBlock-1].isFilter2 = false
+    //       topic_abb.push(categoryTitles[index+6][sidebarItems[index+6].selectedIndex].num)
+    //       this.setState({
+    //         categoryTitles: categoryTitles,
+    //         sidebarItems: sidebarItems,
+    //         isArmsFilter: isArmsFilter
+    //       }, this.props.onSelectSubFilter2(report_num, topic_abb, subject_num, serie, serie_element, serie2, serie2_element, currentBlock))
+    //     }
+    //   }
+    // }
   }
 
   
@@ -716,5 +796,22 @@ class Sidebar extends React.Component {
   }
 }
 
-export default armsfilter(Sidebar)
+export default compose(
+  armsfilter,
+  query00,
+  query01,
+  query02,
+  query03,
+  query04,
+  query10,
+  query11,
+  query12,
+  query13,
+  query14,
+  query20,
+  query21,
+  query22,
+  query23,
+  query24
+)(Sidebar)
 

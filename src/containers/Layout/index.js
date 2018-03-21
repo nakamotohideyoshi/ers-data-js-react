@@ -5,13 +5,13 @@ import MainContainer from '../MainContainer';
 import FilterDropdown from '../../components/FilterDropdown';
 import { Col } from 'react-bootstrap';
 import Footnote from '../Footnote';
-import { filter, concatSeries } from 'async';
+// import { filter, concatSeries } from 'async';
 
 const default_filter = {
-  report_num: [1],
-  subject_num: [1],
-  serie: ['farm'],
-  serie_element: [0],
+  report_num: [],
+  subject_num: [],
+  serie: [],
+  serie_element: [],
   serie2: ['farm'],
   serie2_element: [0],
   topic_abb: [],
@@ -21,25 +21,36 @@ const default_filter = {
 
 export default class Layout extends React.Component {
   state = {
-    report_num: default_filter.report_num,
-    subject_num: default_filter.subject_num,
-    serie: default_filter.serie,
-    serie_element: default_filter.serie_element,
-    serie2: default_filter.serie2,
-    serie2_element: default_filter.serie2_element,
-    topic_abb: default_filter.topic_abb,
-    selectedYears: default_filter.selectedYears,
-    selectedStates: default_filter.selectedStates,
     selectedStateNames: ['All survey states'],
     isYearsMultiple: true,     
     blockIndex: 0,
     yearsInfo: [],
-    statesInfo: []
+    statesInfo: [],
+    filters: [],
+    runQuery: ''
+  }
+
+  componentWillMount() {
+
+    let {filters} = this.state
+    const obj = {}
+    obj.report_num = []
+    obj.subject_num = []
+    obj.serie = []
+    obj.serie_element = []
+    obj.serie2 = ["farm"]
+    obj.serie2_element = [0]
+    obj.topic_abb  = []
+    obj.selectedYears = [2015, 2014]
+    obj.selectedStates = ['00']
+    filters.push(obj)
+
+    this.setState({filters})
   }
 
   componentWillReceiveProps(props) {
 
-    let {yearsInfo, statesInfo, topic_abb} = this.state
+    let {yearsInfo, statesInfo, topic_abb, filters, blockIndex} = this.state
 
     if (props.years &&  yearsInfo.length === 0) {
       props.years.forEach(year => {
@@ -64,22 +75,35 @@ export default class Layout extends React.Component {
         } else {
           obj.checked = false
         }        
-        statesInfo.push(obj)
+        statesInfo.push(obj)     
       })
     }
 
     const topicabb = []
-    if (props.topics && topic_abb.length === 0) {
+    if (props.topics) {
       props.topics[0].forEach(topic => {
         topicabb.push(topic.abb)
       })
     }
 
+    if (filters[blockIndex].topic_abb.length === 0) {
+      filters[blockIndex].topic_abb = topicabb
+    }
+
     this.setState({
       yearsInfo: yearsInfo,
       statesInfo: statesInfo,
-      topic_abb: topicabb
+      topic_abb: topicabb,
+      filters: filters
     })    
+  }
+
+  // static filter selected in `tailored report`
+  onStaticSelect = (report_num, subject_num) => {
+    this.setState({
+      report_num: report_num,
+      subject_num: subject_num
+    })
   }
 
   onSelectArmsFilter = (report_num, topic_abb, subject_num, serie, blockIndex) => {
@@ -250,21 +274,16 @@ export default class Layout extends React.Component {
     
   }
   render() {
+    console.log('%%%%%%%%%%%%', this.state, '%%%%%%%%%%%')
     const {
-      report_num, 
-      subject_num, 
-      serie, 
-      serie_element, 
-      serie2, 
-      serie2_element, 
-      topic_abb, 
-      selectedYears, 
-      selectedStates, 
       selectedStateNames,
       blockIndex, 
       yearsInfo, 
       statesInfo,
-      isYearsMultiple } = this.state
+      isYearsMultiple,
+      filters,
+      runQuery
+    } = this.state
     return (
       <Grid>
         <Sidebar
@@ -273,20 +292,13 @@ export default class Layout extends React.Component {
           subjects = {this.props.subjects}
           series = {this.props.series}
           series2 = {this.props.series2}
-          report_num = {report_num}
-          subject_num = {subject_num}
-          serie = {serie}
-          serie_element={serie_element}
-          serie2 = {serie2}
-          selectedYears = {selectedYears}
-          selectedStates = {selectedStates}       
-          onSelectCategory={this.onSelectCategory}
-          onSelectReportFilter={this.onSelectReportFilter}
-          onSelectSubFilterBy={this.onSelectSubFilterBy}
-          onSelectArmsFilter = {this.onSelectArmsFilter}
-          onSleectSubFilter1={this.onSleectSubFilter1}
-          onSelectFilter2={this.onSelectFilter2}          
-          onSelectSubFilter2={this.onSelectSubFilter2}
+          report_num = {filters[blockIndex] ? filters[blockIndex].report_num : []}
+          subject_num = {filters[blockIndex] ? filters[blockIndex].subject_num : []}
+          serie = {filters[blockIndex] ? filters[blockIndex].serie : []}
+          serie_element={filters[blockIndex] ? filters[blockIndex].serie2 : []}
+          serie2 = {filters[blockIndex] ? filters[blockIndex].serie2 : []}
+          runQuery={runQuery}
+          onStaticSelect = {this.onStaticSelect}
         />
         <Col xs={12} md={9} sm={12}>
           <h4 className="main-heading">Farm Business Balance Sheet Data 
@@ -300,16 +312,16 @@ export default class Layout extends React.Component {
             isYearsMultiple={isYearsMultiple}          
           />
           <MainContainer
-            selectedStates = {selectedStates}
+            selectedStates = {filters[blockIndex] ? filters[blockIndex].selectedStates : []}
             selectedStateNames = {selectedStateNames}
-            selectedYears={selectedYears}
-            report_num = {report_num}
-            subject_num = {subject_num}
-            serie = {serie}
-            serie_element = {serie_element}
-            serie2 = {serie2}
-            serie2_element = {serie2_element}
-            topic_abb = {topic_abb}
+            selectedYears={filters[blockIndex] ? filters[blockIndex].selectedYears : []}
+            report_num = {filters[blockIndex] ? filters[blockIndex].report_num : []}
+            subject_num = {filters[blockIndex] ? filters[blockIndex].subject_num : []}
+            serie = {filters[blockIndex] ? filters[blockIndex].serie : []}
+            serie_element = {filters[blockIndex] ? filters[blockIndex].serie_element : []}
+            serie2 = {filters[blockIndex] ? filters[blockIndex].serie2 : []}
+            serie2_element = {filters[blockIndex] ? filters[blockIndex].serie2_element : []}
+            topic_abb = {filters[blockIndex] ? filters[blockIndex].topic_abb : []}
             blockIndex = {blockIndex}      
             isYearsMultiple={isYearsMultiple}          
           />        
