@@ -41,8 +41,8 @@ export default class Layout extends React.Component {
     obj.serie2 = ["farm"]
     obj.serie2_element = [0]
     obj.topic_abb  = []
-    obj.selectedYears = [2015, 2014]
-    obj.selectedStates = ['00']
+    obj.selectedYears = []
+    obj.selectedStates = []
     filters.push(obj)
 
     this.setState({filters})
@@ -50,7 +50,7 @@ export default class Layout extends React.Component {
 
   componentWillReceiveProps(props) {
 
-    let {yearsInfo, statesInfo, topic_abb, filters, blockIndex} = this.state
+    let {yearsInfo, statesInfo, filters, blockIndex} = this.state
 
     if (props.years &&  yearsInfo.length === 0) {
       props.years.forEach(year => {
@@ -98,11 +98,68 @@ export default class Layout extends React.Component {
     })    
   }
 
-  // static filter selected in `tailored report`
+  // static filter [report, subject] selected in `tailored report`
+  // run query to refresh [serie, year, state]
   onStaticSelect = (report_num, subject_num) => {
+    let {filters, blockIndex} = this.state
+
+    filters[blockIndex].report_num = [report_num]
+    filters[blockIndex].subject_num = [subject_num]
     this.setState({
-      report_num: report_num,
-      subject_num: subject_num
+      filters,
+      runQuery: 'query00'
+    })
+  }
+
+
+  // reset step 1
+  // run query to refresh [serie_element]
+  onResetFilter1 = (serie, years, states) => {
+    let {filters, blockIndex} = this.state
+    filters[blockIndex].serie = [serie]
+
+    let yearsInfo = []
+    filters[blockIndex].selectedYears = years.slice(-1)
+    if (years.length !== 0) {
+      years.forEach(year => {
+        const infoObj = {}
+          infoObj.year = year
+          infoObj.checked = false        
+          yearsInfo.push(infoObj)
+      })
+      yearsInfo[years.length-1].checked = true
+    }
+
+    let statesInfo = []
+    filters[blockIndex].selectedStates = states.slice(0, 1).id
+    if (states.length !== 0) {
+      states.forEach(stateN => {
+        const obj = {}
+        obj.name = stateN.name
+        obj.id = stateN.id
+        obj.checked = false      
+        statesInfo.push(obj)     
+      })
+      statesInfo[0].checked = true
+    }
+
+    this.setState({
+      filters: filters,
+      yearsInfo: yearsInfo,
+      statesInfo: statesInfo,
+      runQuery: 'query12'
+    })
+  }
+
+  // resest step 2
+  // set sereie_element
+  onResetFilter2 = (serie_element) => {
+    let {filters, blockIndex} = this.state
+    filters[blockIndex].serie_element = [serie_element]    
+
+    this.setState({
+      filters: filters,
+      runQuery: ''
     })
   }
 
@@ -290,15 +347,18 @@ export default class Layout extends React.Component {
           topics = {this.props.topics}
           reports = {this.props.reports}
           subjects = {this.props.subjects}
-          series = {this.props.series}
-          series2 = {this.props.series2}
           report_num = {filters[blockIndex] ? filters[blockIndex].report_num : []}
           subject_num = {filters[blockIndex] ? filters[blockIndex].subject_num : []}
           serie = {filters[blockIndex] ? filters[blockIndex].serie : []}
           serie_element={filters[blockIndex] ? filters[blockIndex].serie2 : []}
           serie2 = {filters[blockIndex] ? filters[blockIndex].serie2 : []}
+          serie2_element = {filters[blockIndex] ? filters[blockIndex].serie2_element : []}
+          selectedStates = {filters[blockIndex] ? filters[blockIndex].selectedStates : []}
+          selectedYears={filters[blockIndex] ? filters[blockIndex].selectedYears : []}
           runQuery={runQuery}
           onStaticSelect = {this.onStaticSelect}
+          onResetFilter1 = {this.onResetFilter1}
+          onResetFilter2 = {this.onResetFilter2}
         />
         <Col xs={12} md={9} sm={12}>
           <h4 className="main-heading">Farm Business Balance Sheet Data 
