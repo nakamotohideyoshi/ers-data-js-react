@@ -39,7 +39,7 @@ export default class ChartGenerator extends React.Component {
           formatter: function() {
               return categories[this.value];
           }
-        },
+        }
       },
       yAxis: {
         title: {
@@ -52,6 +52,21 @@ export default class ChartGenerator extends React.Component {
       },
       legend: {
         symbolRadius: 0
+      },
+      tooltip: {
+        useHTML: true,
+        formatter: function () {
+            let s = '<span style="font-size:14px; padding:5px;">'+categories[this.x]+'</span><br />'
+            s += '<div style="display: flex; flex-direction: column;  max-height: 350px; flex-wrap: no-wrap; margin-top: 5px;"><tr><th /><th /></tr>'
+            this.points.forEach((point, index) => {
+              s += '<div style="display: flex; justify-content: space-between"><div style="color:'+point.color+'; padding:2px 10px 2px 5px;">'+point.series.name+': </div>' +
+              '<div><b>'+(point.y/1000000).toFixed(1)+' million</b></div></div>'
+            });
+            s += '</div>'
+            console.log(s)
+            return s;
+        },
+        shared: true
       },
       series: []
     }
