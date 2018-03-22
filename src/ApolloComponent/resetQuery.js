@@ -2,8 +2,8 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
   export default graphql(gql`
-  query ArmsFilterQuery ($report_num: [Int], $subject_num: [Int]){
-    query00: arms_filter(
+  query resetQuery ($report_num: [Int], $subject_num: [Int]){
+    arms_filter(
       survey_abb: "finance",
       report_num: $report_num,
       subject_num: $subject_num
@@ -21,6 +21,6 @@ import gql from 'graphql-tag';
      
   }
 `, {
-    skip: (ownProps) => ownProps.runQuery !== 'query00',
-    name: 'query00',
+    skip: (ownProps) => ownProps.runQuery !== 'resetQuery',
+    name: 'resetQuery',
   });
