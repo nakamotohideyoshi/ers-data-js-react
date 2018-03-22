@@ -153,7 +153,7 @@ export default class Layout extends React.Component {
     })
   }
 
-  // resest step 2
+  // resest filter 2
   // set sereie_element
   onResetFilter2 = (serie_element) => {
     let {filters, blockIndex} = this.state
@@ -161,6 +161,251 @@ export default class Layout extends React.Component {
 
     this.setState({
       filters: filters,
+      runQuery: ''
+    })
+  }
+
+  // reset filter 3
+  // set serie_element, year, state
+  onResetFilter3 = (serie_element, years, states) => {
+    let {filters, blockIndex} = this.state
+    filters[blockIndex].serie_element = [serie_element]
+
+    let yearsInfo = []
+    filters[blockIndex].selectedYears = years.slice(-1)
+    if (years.length !== 0) {
+      years.forEach(year => {
+        const infoObj = {}
+          infoObj.year = year
+          infoObj.checked = false        
+          yearsInfo.push(infoObj)
+      })
+      yearsInfo[years.length-1].checked = true
+    }
+
+    let statesInfo = []
+    filters[blockIndex].selectedStates = [states[0].id]
+    if (states.length !== 0) {
+      states.forEach(stateN => {
+        const obj = {}
+        obj.name = stateN.name
+        obj.id = stateN.id
+        obj.checked = false      
+        statesInfo.push(obj)     
+      })
+      statesInfo[0].checked = true
+    }
+
+    this.setState({
+      filters: filters,
+      yearsInfo: yearsInfo,
+      statesInfo: statesInfo,
+      runQuery: ''
+    })
+
+  }
+
+  // reset filter 4
+  // set year, state
+  onResetFilter4 = (years, states) => {
+    let {filters, blockIndex} = this.state
+
+    let yearsInfo = []
+    filters[blockIndex].selectedYears = years.slice(-1)
+    if (years.length !== 0) {
+      years.forEach(year => {
+        const infoObj = {}
+          infoObj.year = year
+          infoObj.checked = false        
+          yearsInfo.push(infoObj)
+      })
+      yearsInfo[years.length-1].checked = true
+    }
+
+    let statesInfo = []
+    filters[blockIndex].selectedStates = [states[0].id]
+    if (states.length !== 0) {
+      states.forEach(stateN => {
+        const obj = {}
+        obj.name = stateN.name
+        obj.id = stateN.id
+        obj.checked = false      
+        statesInfo.push(obj)     
+      })
+      statesInfo[0].checked = true
+    }
+
+    this.setState({
+      filters: filters,
+      yearsInfo: yearsInfo,
+      statesInfo: statesInfo,
+      runQuery: ''
+    })
+
+  }
+
+  // reset filter 5
+  // set year
+  onResetFilter5 = (years) => {
+    let {filters, blockIndex} = this.state
+
+    let yearsInfo = []
+    filters[blockIndex].selectedYears = years.slice(-1)
+    if (years.length !== 0) {
+      years.forEach(year => {
+        const infoObj = {}
+          infoObj.year = year
+          infoObj.checked = false        
+          yearsInfo.push(infoObj)
+      })
+      yearsInfo[years.length-1].checked = true
+    }
+
+    this.setState({
+      filters: filters,
+      yearsInfo: yearsInfo,
+      runQuery: ''
+    })
+
+  }
+
+  // reset filter 6
+  // set state
+  onResetFilter6 = (states) => {
+    let {filters, blockIndex} = this.state
+
+    let statesInfo = []
+    filters[blockIndex].selectedStates = [states[0].id]
+    if (states.length !== 0) {
+      states.forEach(stateN => {
+        const obj = {}
+        obj.name = stateN.name
+        obj.id = stateN.id
+        obj.checked = false      
+        statesInfo.push(obj)     
+      })
+      statesInfo[0].checked = true
+    }
+
+    this.setState({
+      filters: filters,
+      statesInfo: statesInfo,
+      runQuery: ''
+    })
+
+  }
+
+  // reset filter 7 
+  // run query to refresh [serie_element]
+  onResetFilter7 = (serie, years) => {
+    let {filters, blockIndex} = this.state
+    filters[blockIndex].serie = [serie]
+
+    let yearsInfo = []
+    filters[blockIndex].selectedYears = years.slice(-1)
+    if (years.length !== 0) {
+      years.forEach(year => {
+        const infoObj = {}
+          infoObj.year = year
+          infoObj.checked = false        
+          yearsInfo.push(infoObj)
+      })
+      yearsInfo[years.length-1].checked = true
+    }
+
+    this.setState({
+      filters: filters,
+      yearsInfo: yearsInfo,
+      runQuery: 'tysQuery'
+    })
+  }
+
+  // reset filter 8
+  // set serie
+  onResetFilter8 = (serie) => {
+    let {filters, blockIndex} = this.state
+    filters[blockIndex].serie = [serie]
+
+    this.setState({
+      filters: filters,
+      runQuery: 'tysQuery'
+    })
+  }
+
+  // reset filter 9
+  // set serie_element, year
+  onResetFilter9 = (serie_element, years) => {
+    let {filters, blockIndex} = this.state
+    filters[blockIndex].serie_element = [serie_element]
+
+    let yearsInfo = []
+    filters[blockIndex].selectedYears = years.slice(-1)
+    if (years.length !== 0) {
+      years.forEach(year => {
+        const infoObj = {}
+          infoObj.year = year
+          infoObj.checked = false        
+          yearsInfo.push(infoObj)
+      })
+      yearsInfo[years.length-1].checked = true
+    }
+
+    this.setState({
+      filters: filters,
+      yearsInfo: yearsInfo,
+      runQuery: ''
+    })
+  }
+
+  // reset filter 10
+  // set serie, state
+  onResetFilter10 = (serie, states) => {
+    let {filters, blockIndex} = this.state
+    filters[blockIndex].serie = [serie]
+
+    let statesInfo = []
+    filters[blockIndex].selectedStates = [states[0].id]
+    if (states.length !== 0) {
+      states.forEach(stateN => {
+        const obj = {}
+        obj.name = stateN.name
+        obj.id = stateN.id
+        obj.checked = false      
+        statesInfo.push(obj)     
+      })
+      statesInfo[0].checked = true
+    }
+
+    this.setState({
+      filters: filters,
+      statesInfo: statesInfo,
+      runQuery: 'tysQuery'
+    })
+  }
+
+
+  // reset filter 11
+  // set serie_element, state
+  onResetFilter11 = (serie_element, states) => {
+    let {filters, blockIndex} = this.state
+    filters[blockIndex].serie_element = [serie_element]
+
+    let statesInfo = []
+    filters[blockIndex].selectedStates = [states[0].id]
+    if (states.length !== 0) {
+      states.forEach(stateN => {
+        const obj = {}
+        obj.name = stateN.name
+        obj.id = stateN.id
+        obj.checked = false      
+        statesInfo.push(obj)     
+      })
+      statesInfo[0].checked = true
+    }
+
+    this.setState({
+      filters: filters,
+      statesInfo: statesInfo,
       runQuery: ''
     })
   }
@@ -205,6 +450,34 @@ export default class Layout extends React.Component {
       runQuery = 'tsQuery'
     } else if (priority.indexOf('serie') === 2){
       // ... -> ... -> Serie
+      runQuery = 'tysQuery'
+    }
+    this.setState({
+      filters: filters,
+      priority: priority,
+      runQuery: runQuery
+    })
+  }
+
+  // serie_element selected
+  onSelectSubFilterByFilter = (serie_element) => {
+    let {filters, blockIndex, priority} = this.state
+    let runQuery = ''
+    if (priority.indexOf('serie') < 0) {
+      priority.push('serie')
+    }
+    filters[blockIndex].serie_element = serie_element
+    if (priority.indexOf('serie') === 0) {
+      // Serie/Serie_element -> ... -> ...
+      runQuery = 'seQuery'
+    } else if (priority.indexOf('serie') === 1 &&  priority.indexOf('year') === 0) {
+      // Year -> Serie/Serie_element -> ...
+      runQuery = 'seyQuery'
+    } else if (priority.indexOf('serie') === 1 &&  priority.indexOf('state') === 0) {
+      // State -> Serie/Serie_element -> ...
+      runQuery = 'setQuery'
+    } else if (priority.indexOf('serie') === 2){
+      // ... -> ... -> Serie/Serie_element
       runQuery = 'tysQuery'
     }
     this.setState({
@@ -462,9 +735,19 @@ export default class Layout extends React.Component {
           onStaticSelect = {this.onStaticSelect}
           onResetFilter1 = {this.onResetFilter1}
           onResetFilter2 = {this.onResetFilter2}
+          onResetFilter3 = {this.onResetFilter3}
+          onResetFilter4 = {this.onResetFilter4}
+          onResetFilter5 = {this.onResetFilter5}
+          onResetFilter6 = {this.onResetFilter6}
+          onResetFilter7 = {this.onResetFilter7}
+          onResetFilter8 = {this.onResetFilter8}
+          onResetFilter9 = {this.onResetFilter9}
+          onResetFilter10 = {this.onResetFilter10}
+          onResetFilter11 = {this.onResetFilter11}
           onSelectReportFilter = {this.onSelectReportFilter}
           onSelectSubjectFilter = {this.onSelectSubjectFilter}
           onSelectFilterByFilter = {this.onSelectFilterByFilter}
+          onSelectSubFilterByFilter = {this.onSelectSubFilterByFilter}
         />
         <Col xs={12} md={9} sm={12}>
           <h4 className="main-heading">Farm Business Balance Sheet Data 
