@@ -27,7 +27,8 @@ export default class Layout extends React.Component {
     yearsInfo: [],
     statesInfo: [],
     filters: [],
-    runQuery: ''
+    runQuery: '',
+    priority: []
   }
 
   componentWillMount() {
@@ -107,7 +108,8 @@ export default class Layout extends React.Component {
     filters[blockIndex].subject_num = [subject_num]
     this.setState({
       filters,
-      runQuery: 'query00'
+      priority: [],
+      runQuery: 'resetQuery'
     })
   }
 
@@ -147,7 +149,7 @@ export default class Layout extends React.Component {
       filters: filters,
       yearsInfo: yearsInfo,
       statesInfo: statesInfo,
-      runQuery: 'query12'
+      runQuery: 'tysQuery'
     })
   }
 
@@ -163,22 +165,138 @@ export default class Layout extends React.Component {
     })
   }
 
+  // report_num selected
   onSelectReportFilter = (report_num, topic_abb) => {
     let {filters, blockIndex} = this.state
     filters[blockIndex].report_num = report_num
     filters[blockIndex].topic_abb = topic_abb
     this.setState({
       filters: filters,
-      runQuery: 'query00'
+      runQuery: 'resetQuery'
     })
   }
 
+  // subject_num selected
   onSelectSubjectFilter = (subject_num) => {
     let {filters, blockIndex} = this.state
     filters[blockIndex].subject_num = subject_num
     this.setState({
       filters: filters,
-      runQuery: 'query00'
+      runQuery: 'resetQuery'
+    })
+  }
+
+  // serie selected
+  onSelectFilterByFilter = (serie) => {
+    let {filters, blockIndex, priority} = this.state
+    let runQuery = ''
+    if (priority.indexOf('serie') < 0) {
+      priority.push('serie')
+    }
+    filters[blockIndex].serie = serie
+    if (priority.indexOf('serie') === 0) {
+      // Serie -> ... -> ...
+      runQuery = 'sQuery'
+    } else if (priority.indexOf('serie') === 1 &&  priority.indexOf('year') === 0) {
+      // Year -> Serie -> ...
+      runQuery = 'ysQuery'
+    } else if (priority.indexOf('serie') === 1 &&  priority.indexOf('state') === 0) {
+      // State -> Serie -> ...
+      runQuery = 'tsQuery'
+    } else if (priority.indexOf('serie') === 2){
+      // ... -> ... -> Serie
+      runQuery = 'tysQuery'
+    }
+    this.setState({
+      filters: filters,
+      priority: priority,
+      runQuery: runQuery
+    })
+  }
+
+  // Year selected
+  onSelectYear = (index) => {
+    let { yearsInfo, isYearsMultiple, priority } = this.state
+    let runQuery = ''
+    if (priority.indexOf('year') < 0) {
+      priority.push('year')
+    }
+    yearsInfo[index].checked = !yearsInfo[index].checked
+    if (!isYearsMultiple) {
+      yearsInfo.forEach((yearN, i) => {
+        if (i !== index) yearN.checked = false
+      })
+    }
+    let selectedYears = []
+    yearsInfo.forEach(yearN => {
+      if (yearN.checked) {
+        selectedYears.push(yearN.year)
+      }
+    })
+
+    if (priority.indexOf('year') === 0) {
+
+      // Year -> ... -> ...
+      runQuery = 'yQuery'
+    } else if (priority.indexOf('year') === 1 &&  priority.indexOf('state') === 0) {
+      // State -> Year -> ...
+      runQuery = 'tyQuery'
+    } else if (priority.indexOf('year') === 1 &&  priority.indexOf('serie') === 0) {
+      // Serie -> Year -> ...
+      runQuery = 'seyQuery'
+    } else if (priority.indexOf('year') === 2){
+      // ... -> ... -> Year
+      runQuery = ''
+    }
+    this.setState({
+      selectedYears,
+      priority: priority,
+      yearsInfo: yearsInfo.slice(),
+      runQuery: runQuery
+    })
+  }
+
+  // state selected
+  onSelectState = (index) => {
+    let { statesInfo, isYearsMultiple, priority } = this.state
+    let runQuery = ''
+    if (priority.indexOf('state') < 0) {
+      priority.push('state')
+    }
+    let selectedStates = []
+    let selectedStateNames = []
+    statesInfo[index].checked = !statesInfo[index].checked
+    if (isYearsMultiple) {
+      statesInfo.forEach((stateN, i) => {
+        if (i !== index) stateN.checked = false
+      })
+    }
+    statesInfo.forEach(stateN => {
+      if (stateN.checked) {
+        selectedStates.push(stateN.id)
+        selectedStateNames.push(stateN.name)
+      }
+    })
+
+    if (priority.indexOf('state') === 0) {
+      // State -> ... -> ...
+      runQuery = 'tQuery'
+    } else if (priority.indexOf('state') === 1 &&  priority.indexOf('year') === 0) {
+      // Year -> State -> ...
+      runQuery = 'tyQuery'
+    } else if (priority.indexOf('state') === 1 &&  priority.indexOf('serie') === 0) {
+      // Serie -> State -> ...
+      runQuery = 'setQuery'
+    } else if (priority.indexOf('state') === 2) {
+      // ... -> ... -> State
+      runQuery = ''
+    }
+    this.setState({
+      selectedStates,
+      selectedStateNames,
+      priority: priority,
+      statesInfo: statesInfo.slice(),
+      runQuery: runQuery
     })
   }
 
@@ -278,41 +396,7 @@ export default class Layout extends React.Component {
   //   })
   // }
 
-  onSelectYear = (index) => {
-    let { yearsInfo, isYearsMultiple } = this.state
-    yearsInfo[index].checked = !yearsInfo[index].checked
-    if (!isYearsMultiple) {
-      yearsInfo.forEach((yearN, i) => {
-        if (i !== index) yearN.checked = false
-      })
-    }
-    let selectedYears = []
-    yearsInfo.forEach(yearN => {
-      if (yearN.checked) {
-        selectedYears.push(yearN.year)
-      }
-    })
-    this.setState({ selectedYears, yearsInfo: yearsInfo.slice() })
-  }
-
-  onSelectState = (index) => {
-    let { statesInfo, isYearsMultiple } = this.state
-    let selectedStates = []
-    let selectedStateNames = []
-    statesInfo[index].checked = !statesInfo[index].checked
-    if (isYearsMultiple) {
-      statesInfo.forEach((stateN, i) => {
-        if (i !== index) stateN.checked = false
-      })
-    }
-    statesInfo.forEach(stateN => {
-      if (stateN.checked) {
-        selectedStates.push(stateN.id)
-        selectedStateNames.push(stateN.name)
-      }
-    })
-    this.setState({ selectedStates, selectedStateNames, statesInfo: statesInfo.slice() })
-  }
+  
   onSwitchMultiple = () => {
     let { 
       isYearsMultiple,
@@ -369,7 +453,7 @@ export default class Layout extends React.Component {
           report_num = {filters[blockIndex] ? filters[blockIndex].report_num : []}
           subject_num = {filters[blockIndex] ? filters[blockIndex].subject_num : []}
           serie = {filters[blockIndex] ? filters[blockIndex].serie : []}
-          serie_element={filters[blockIndex] ? filters[blockIndex].serie2 : []}
+          serie_element={filters[blockIndex] ? filters[blockIndex].serie_element : []}
           serie2 = {filters[blockIndex] ? filters[blockIndex].serie2 : []}
           serie2_element = {filters[blockIndex] ? filters[blockIndex].serie2_element : []}
           selectedStates = {filters[blockIndex] ? filters[blockIndex].selectedStates : []}
@@ -380,6 +464,7 @@ export default class Layout extends React.Component {
           onResetFilter2 = {this.onResetFilter2}
           onSelectReportFilter = {this.onSelectReportFilter}
           onSelectSubjectFilter = {this.onSelectSubjectFilter}
+          onSelectFilterByFilter = {this.onSelectFilterByFilter}
         />
         <Col xs={12} md={9} sm={12}>
           <h4 className="main-heading">Farm Business Balance Sheet Data 
