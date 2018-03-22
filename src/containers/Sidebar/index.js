@@ -169,7 +169,7 @@ class Sidebar extends React.Component {
               headingTitle: ''
             })
           } else {
-            categoryTitles[4] = serie_element
+            categoryTitles[4] = series_element
             sidebarItems[4] = {
               isOpened: false,
               selectedIndex: 0,
@@ -212,7 +212,7 @@ class Sidebar extends React.Component {
               headingTitle: ''
             })
           } else {
-            categoryTitles[4] = serie_element
+            categoryTitles[4] = series_element
             sidebarItems[4] = {
               isOpened: false,
               selectedIndex: 0,
@@ -251,7 +251,7 @@ class Sidebar extends React.Component {
         // Serie/Serie_element -> Year
         if (!props.seyQuery.loading && props.seyQuery.arms_filter.length !== 0) {
            // Update [State] list       
-          this.props.onResetFilter4(props.seyQuery.arms_filter.state)
+          this.props.onResetFilter6(props.seyQuery.arms_filter.state)
         }  
 
       } else if (props.tQuery) {
@@ -363,7 +363,7 @@ class Sidebar extends React.Component {
               headingTitle: ''
             })
           } else {
-            categoryTitles[4] = serie_element
+            categoryTitles[4] = series_element
             sidebarItems[4] = {
               isOpened: false,
               selectedIndex: 0,
@@ -447,7 +447,7 @@ class Sidebar extends React.Component {
               headingTitle: ''
             })
           } else {
-            categoryTitles[4] = serie_element
+            categoryTitles[4] = series_element
             sidebarItems[4] = {
               isOpened: false,
               selectedIndex: 0,
