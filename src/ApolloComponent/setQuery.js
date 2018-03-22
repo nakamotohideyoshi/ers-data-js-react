@@ -6,7 +6,7 @@ import gql from 'graphql-tag';
     $report_num: [Int],
     $subject_num: [Int],
     $serie: [String],
-    $serie_elemnt: [Int],
+    $serie_element: [Int],
     $selectedStates: [String]
   ){
     arms_filter(

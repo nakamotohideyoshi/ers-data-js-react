@@ -113,6 +113,13 @@ export default class Layout extends React.Component {
     })
   }
 
+  onResetFilter = () => {
+    this.setState({
+      priority: [],
+      runQuery: 'resetQuery'
+    })
+  }
+
 
   // reset step 1
   // run query to refresh [serie_element]
@@ -489,7 +496,7 @@ export default class Layout extends React.Component {
 
   // Year selected
   onSelectYear = (index) => {
-    let { yearsInfo, isYearsMultiple, priority } = this.state
+    let { yearsInfo, isYearsMultiple, priority, filters, blockIndex } = this.state
     let runQuery = ''
     if (priority.indexOf('year') < 0) {
       priority.push('year')
@@ -506,7 +513,7 @@ export default class Layout extends React.Component {
         selectedYears.push(yearN.year)
       }
     })
-
+    filters[blockIndex].selectedYears = selectedYears
     if (priority.indexOf('year') === 0) {
 
       // Year -> ... -> ...
@@ -522,7 +529,7 @@ export default class Layout extends React.Component {
       runQuery = ''
     }
     this.setState({
-      selectedYears,
+      filters,
       priority: priority,
       yearsInfo: yearsInfo.slice(),
       runQuery: runQuery
@@ -531,7 +538,7 @@ export default class Layout extends React.Component {
 
   // state selected
   onSelectState = (index) => {
-    let { statesInfo, isYearsMultiple, priority } = this.state
+    let { statesInfo, isYearsMultiple, priority, filters, blockIndex } = this.state
     let runQuery = ''
     if (priority.indexOf('state') < 0) {
       priority.push('state')
@@ -550,6 +557,8 @@ export default class Layout extends React.Component {
         selectedStateNames.push(stateN.name)
       }
     })
+    
+    filters[blockIndex].selectedStates = selectedStates
 
     if (priority.indexOf('state') === 0) {
       // State -> ... -> ...
@@ -565,7 +574,7 @@ export default class Layout extends React.Component {
       runQuery = ''
     }
     this.setState({
-      selectedStates,
+      filters,
       selectedStateNames,
       priority: priority,
       statesInfo: statesInfo.slice(),
@@ -732,6 +741,7 @@ export default class Layout extends React.Component {
           selectedStates = {filters[blockIndex] ? filters[blockIndex].selectedStates : []}
           selectedYears={filters[blockIndex] ? filters[blockIndex].selectedYears : []}
           runQuery={runQuery}
+          onResetFilter = {this.onResetFilter}
           onStaticSelect = {this.onStaticSelect}
           onResetFilter1 = {this.onResetFilter1}
           onResetFilter2 = {this.onResetFilter2}
