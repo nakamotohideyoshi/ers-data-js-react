@@ -35,7 +35,11 @@ export default class ChartGenerator extends React.Component {
         type: chartType
       },
       xAxis: {
-        categories: categories
+        labels: {
+          formatter: function() {
+              return categories[this.value];
+          }
+        },
       },
       yAxis: {
         title: {
