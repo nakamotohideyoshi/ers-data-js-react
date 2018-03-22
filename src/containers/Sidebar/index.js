@@ -7,21 +7,17 @@ import './style.css';
 import Reset from '../../images/reset.png'
 import armsfilter from '../../ApolloComponent/armsQuery'
 // import { selectLimit } from 'async';
-import query00 from '../../ApolloComponent/query00'
-import query01 from '../../ApolloComponent/query01'
-import query02 from '../../ApolloComponent/query02'
-import query03 from '../../ApolloComponent/query03'
-import query04 from '../../ApolloComponent/query04'
-import query10 from '../../ApolloComponent/query10'
-import query11 from '../../ApolloComponent/query11'
-import query12 from '../../ApolloComponent/query12'
-import query13 from '../../ApolloComponent/query13'
-import query14 from '../../ApolloComponent/query14'
-import query20 from '../../ApolloComponent/query20'
-import query21 from '../../ApolloComponent/query21'
-import query22 from '../../ApolloComponent/query22'
-import query23 from '../../ApolloComponent/query23'
-import query24 from '../../ApolloComponent/query24'
+import resetQuery from '../../ApolloComponent/resetQuery'
+import sQuery from '../../ApolloComponent/sQuery'
+import seQuery from '../../ApolloComponent/seQuery'
+import setQuery from '../../ApolloComponent/setQuery'
+import seyQuery from '../../ApolloComponent/seyQuery'
+import tQuery from '../../ApolloComponent/tQuery'
+import tsQuery from '../../ApolloComponent/tsQuery'
+import tyQuery from '../../ApolloComponent/yQuery'
+import tysQuery from '../../ApolloComponent/tysQuery'
+import yQuery from '../../ApolloComponent/yQuery'
+import ysQuery from '../../ApolloComponent/ysQuery'
 import { compose } from 'react-apollo'
 
 
@@ -105,11 +101,11 @@ class Sidebar extends React.Component {
       }, this.props.onStaticSelect(report_num, subject_num))
      }
     } else {
-      if (props.query00) {
-        if (!props.query00.loading && props.query00.query00.length !== 0) {
+      if (props.resetQuery) {
+        if (!props.resetQuery.loading && props.resetQuery.arms_filter.length !== 0) {
           let series = []
-          const serie = props.query00.query00.serie[0].abb
-          props.query00.query00.serie.forEach(serie => {
+          const serie = props.resetQuery.arms_filter.serie[0].abb
+          props.resetQuery.arms_filter.serie.forEach(serie => {
             const obj = {}
             obj.num = serie.abb
             obj.header = serie.header
@@ -140,13 +136,13 @@ class Sidebar extends React.Component {
           this.setState({
             categoryTitles: categoryTitles,
             sidebarItems: sidebarItems
-          }, this.props.onResetFilter1(serie, props.query00.query00.year, props.query00.query00.state))
+          }, this.props.onResetFilter1(serie, props.resetQuery.arms_filter.year, props.resetQuery.arms_filter.state))
         }        
-      } else if (props.query12) {
-        if (!props.query12.loading && props.query12.query12.length !== 0) {
+      } else if (props.tysQuery) {
+        if (!props.tysQuery.loading && props.tysQuery.arms_filter.length !== 0) {
           let series_element = []
-          const serie_element = props.query12.query12.serie_element[0].id
-          props.query12.query12.serie_element.forEach(element => {
+          const serie_element = props.tysQuery.arms_filter.serie_element[0].id
+          props.tysQuery.arms_filter.serie_element.forEach(element => {
             const obj = {}
             obj.num = element.id
             obj.header = element.name
@@ -614,6 +610,10 @@ class Sidebar extends React.Component {
         const subject_num = []
         subject_num.push(categoryTitles[2][sidebarItems[2].selectedIndex].num)
         this.setState({sidebarItems, categoryTitles}, this.props.onSelectSubjectFilter(subject_num)) 
+      } else if (sidebarItemIndex === 3) {
+        const serie = []
+        serie.push(categoryTitles[3][sidebarItems[3].selectedIndex].num)
+        this.setState({sidebarItems, categoryTitles}, this.props.onSelectFilterByFilter(serie))
       }
       // if (sidebarItemIndex>=1 && sidebarItemIndex<=4) {
       //   report_num.push(categoryTitles[1][sidebarItems[1].selectedIndex].num)
@@ -886,20 +886,16 @@ class Sidebar extends React.Component {
 
 export default compose(
   armsfilter,
-  query00,
-  query01,
-  query02,
-  query03,
-  query04,
-  query10,
-  query11,
-  query12,
-  query13,
-  query14,
-  query20,
-  query21,
-  query22,
-  query23,
-  query24
+  resetQuery,
+  sQuery,
+  seQuery,
+  seyQuery,
+  setQuery,
+  tQuery,
+  tsQuery,
+  tyQuery,
+  tysQuery,
+  yQuery,
+  ysQuery
 )(Sidebar)
 
