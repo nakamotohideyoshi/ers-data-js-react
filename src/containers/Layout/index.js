@@ -224,7 +224,7 @@ export default class Layout extends React.Component {
     } = this.state
 
     if (isYearsMultiple === true) {
-      selectedYears = selectedYears.slice(0, 1)
+      selectedYears = selectedYears.slice(-1)
       yearsInfo.forEach(yearN => {
         if (yearN.year !== selectedYears[0]) {
           yearN.checked = false
@@ -247,8 +247,8 @@ export default class Layout extends React.Component {
       yearsInfo,
       statesInfo
     })
-    
   }
+
   render() {
     const {
       report_num, 
@@ -265,6 +265,8 @@ export default class Layout extends React.Component {
       yearsInfo, 
       statesInfo,
       isYearsMultiple } = this.state
+    let sortedYears = yearsInfo.sort(function(a, b){return parseInt(b.year, 10) - parseInt(a.year, 10)})
+    
     return (
       <Grid>
         <Sidebar
@@ -291,7 +293,7 @@ export default class Layout extends React.Component {
             {blockIndex > 0 ? 'ARMS Data Analysis' : 'Tailored Reports'}
           </h4>
           <FilterDropdown 
-            yearsInfo={yearsInfo} 
+            yearsInfo={sortedYears} 
             statesInfo={statesInfo} 
             onSelectYear={this.onSelectYear} 
             onSelectState={this.onSelectState}

@@ -83,7 +83,7 @@ class MainContainer extends React.Component {
     const { surveyData, showList, showData } = this.state
     const { selectedYears, selectedStates, selectedStateNames, charts, isYearsMultiple, blockIndex } = this.props
     console.log('Survey Data Result', this.props)
-    const categories = isYearsMultiple ? selectedYears.sort(function(a, b){return b-a}) : selectedStateNames
+    const categories = isYearsMultiple ? selectedYears.sort(function(a, b){return a-b}) : selectedStateNames
 
     return (
       <div>
