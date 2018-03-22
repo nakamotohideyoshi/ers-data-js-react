@@ -46,6 +46,9 @@ export default class ChartGenerator extends React.Component {
           y: -20
         }
       },
+      legend: {
+        symbolRadius: 0
+      },
       series: []
     }
     series.forEach((element) => {
