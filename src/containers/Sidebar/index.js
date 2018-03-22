@@ -42,12 +42,12 @@ class Sidebar extends React.Component {
 
     if (categoryTitles.length === 0) {
 
-      // page initial loading
+      // initial loading
      if (props.reports.length !== 0) {
-       // indicate `tailored report`
+       // `tailored report`
       currentBlock = 0
-      
-      // generate static LHS first
+            
+      // generate static LHS menu
       categoryTitles.push([
         {num: 0, header: 'Tailored Reports'},
         { num: 1, header: 'ARMS Data Analysis'}
@@ -95,14 +95,21 @@ class Sidebar extends React.Component {
         headingTitle: 'Subject'
       })
 
+      // get dynamic filter [Serie, Year, State]
       this.setState({
         categoryTitles: categoryTitles,
         sidebarItems: sidebarItems
       }, this.props.onStaticSelect(report_num, subject_num))
+
      }
+
     } else {
+
       if (props.resetQuery) {
+
+        // click reset or static filter updated
         if (!props.resetQuery.loading && props.resetQuery.arms_filter.length !== 0) {
+          // generate `Filter By` LHS menu
           let series = []
           const serie = props.resetQuery.arms_filter.serie[0].abb
           props.resetQuery.arms_filter.serie.forEach(serie => {
@@ -133,12 +140,15 @@ class Sidebar extends React.Component {
             }
           }
           
+          // update [Year, State] list, and get Serie_element
           this.setState({
             categoryTitles: categoryTitles,
             sidebarItems: sidebarItems
           }, this.props.onResetFilter1(serie, props.resetQuery.arms_filter.year, props.resetQuery.arms_filter.state))
         }        
       } else if (props.tysQuery) {
+
+        // update `Filter By/Sub` LHS menu
         if (!props.tysQuery.loading && props.tysQuery.arms_filter.length !== 0) {
           let series_element = []
           const serie_element = props.tysQuery.arms_filter.serie_element[0].id
@@ -170,11 +180,291 @@ class Sidebar extends React.Component {
             }
           }
           
+          // update serie_element filter
           this.setState({
             categoryTitles: categoryTitles,
             sidebarItems: sidebarItems
           }, this.props.onResetFilter2(serie_element))
-        }        
+        }   
+             
+      } else if (props.sQuery) {
+
+        // Serie -> 
+        if (!props.sQuery.loading && props.sQuery.arms_filter.length !== 0) {
+          let series_element = []
+          const serie_element = props.sQuery.arms_filter.serie_element[0].id
+
+          // generate `Filter By/Sub` LHS menu
+          props.sQuery.arms_filter.serie_element.forEach(element => {
+            const obj = {}
+            obj.num = element.id
+            obj.header = element.name
+            series_element.push(obj)
+          })
+          if (categoryTitles.length < 5) {
+            categoryTitles.push(series_element)
+            sidebarItems.push({
+              isOpened: false,
+              selectedIndex: 0,
+              isCategory: false,
+              blockIndex: blockCount,
+              visible: true,
+              headingTitle: ''
+            })
+          } else {
+            categoryTitles[4] = serie_element
+            sidebarItems[4] = {
+              isOpened: false,
+              selectedIndex: 0,
+              isCategory: false,
+              blockIndex: blockCount,
+              visible: true,
+              headingTitle: ''
+            }
+          }
+          
+          // update serie_element, [Year, State] list
+          this.setState({
+            categoryTitles: categoryTitles,
+            sidebarItems: sidebarItems
+          }, this.props.onResetFilter3(serie_element, props.sQuery.arms_filter.year, props.sQuery.arms_filter.state))
+        }
+
+      } else if (props.seQuery) {
+
+        // Serie/Serie_element -> 
+        if (!props.seQuery.loading && props.seQuery.arms_filter.length !== 0) {
+          // update [Year, State] list              
+          this.props.onResetFilter4(props.seQuery.arms_filter.year, props.seQuery.arms_filter.state)
+        }   
+
+      } else if (props.setQuery) {
+
+        // Serie/Serie_element -> State
+        if (!props.setQuery.loading && props.setQuery.arms_filter.length !== 0) {
+          // Update [year] list       
+          this.props.onResetFilter5(props.setQuery.arms_filter.year)
+        }  
+
+      } else if (props.seyQuery) {
+
+        // Serie/Serie_element -> Year
+        if (!props.seyQuery.loading && props.seyQuery.arms_filter.length !== 0) {
+           // Update [State] list       
+          this.props.onResetFilter4(props.seyQuery.arms_filter.state)
+        }  
+
+      } else if (props.tQuery) {
+
+        // State - > 
+        if (!props.tQuery.loading && props.tQuery.arms_filter.length !== 0) {
+          let series = []
+          const serie = props.tQuery.arms_filter.serie[0].abb
+
+          // Generate `Filter By` LHS menu
+          props.tQuery.arms_filter.serie.forEach(serie => {
+            const obj = {}
+            obj.num = serie.abb
+            obj.header = serie.header
+            series.push(obj)
+          })
+          if (categoryTitles.length<4) {
+            categoryTitles.push(series)
+            sidebarItems.push({
+              isOpened: false,
+              selectedIndex: 0,
+              isCategory: false,
+              blockIndex: blockCount,
+              visible: true,
+              headingTitle: 'Filter by'
+            })
+          } else {
+            categoryTitles[3] = series
+            sidebarItems[3] = {
+              isOpened: false,
+              selectedIndex: 0,
+              isCategory: false,
+              blockIndex: blockCount,
+              visible: true,
+              headingTitle: 'Filter by'
+            }
+          } 
+          
+          // update serie, [Year] list , get serie_element
+          this.setState({
+            categoryTitles: categoryTitles,
+            sidebarItems: sidebarItems
+          }, this.props.onResetFilter7(serie, props.tQuery.arms_filter.year))
+        }
+
+      } else if (props.tyQuery) {
+        // State -> Year
+        if (!props.tyQuery.loading && props.tyQuery.arms_filter.length !== 0) {
+          let series = []
+          const serie = props.tQuery.arms_filter.serie[0].abb
+
+          // Generate `Filter By` LHS menu
+          props.tyQuery.arms_filter.serie.forEach(serie => {
+            const obj = {}
+            obj.num = serie.abb
+            obj.header = serie.header
+            series.push(obj)
+          })
+          if (categoryTitles.length<4) {
+            categoryTitles.push(series)
+            sidebarItems.push({
+              isOpened: false,
+              selectedIndex: 0,
+              isCategory: false,
+              blockIndex: blockCount,
+              visible: true,
+              headingTitle: 'Filter by'
+            })
+          } else {
+            categoryTitles[3] = series
+            sidebarItems[3] = {
+              isOpened: false,
+              selectedIndex: 0,
+              isCategory: false,
+              blockIndex: blockCount,
+              visible: true,
+              headingTitle: 'Filter by'
+            }
+          }
+          
+          // update serie, and get serie_element
+          this.setState({
+            categoryTitles: categoryTitles,
+            sidebarItems: sidebarItems
+          }, this.props.onResetFilter8(serie))
+        }
+
+      } else if (props.tsQuery) {
+        // State -> Serie
+        if (!props.tsQuery.loading && props.tsQuery.arms_filter.length !== 0) {
+          let series_element = []
+
+          // Generate `Filter By/Sub` LHS menu
+          const serie_element = props.tsQuery.arms_filter.serie_element[0].id
+          props.tsQuery.arms_filter.serie_element.forEach(element => {
+            const obj = {}
+            obj.num = element.id
+            obj.header = element.name
+            series_element.push(obj)
+          })
+          if (categoryTitles.length < 5) {
+            categoryTitles.push(series_element)
+            sidebarItems.push({
+              isOpened: false,
+              selectedIndex: 0,
+              isCategory: false,
+              blockIndex: blockCount,
+              visible: true,
+              headingTitle: ''
+            })
+          } else {
+            categoryTitles[4] = serie_element
+            sidebarItems[4] = {
+              isOpened: false,
+              selectedIndex: 0,
+              isCategory: false,
+              blockIndex: blockCount,
+              visible: true,
+              headingTitle: ''
+            }
+          }
+          
+          // update serie_element, and [Year] list
+          this.setState({
+            categoryTitles: categoryTitles,
+            sidebarItems: sidebarItems
+          }, this.props.onResetFilter9(serie_element, props.tsQuery.arms_filter.year))
+        }
+
+      } else if (props.yQuery) {
+        // Year - > 
+        if (!props.yQuery.loading && props.yQuery.arms_filter.length !== 0) {
+          let series = []
+          const serie = props.yQuery.arms_filter.serie[0].abb
+
+          // Generate `Filter By` LHS menu
+          props.yQuery.arms_filter.serie.forEach(serie => {
+            const obj = {}
+            obj.num = serie.abb
+            obj.header = serie.header
+            series.push(obj)
+          })
+          if (categoryTitles.length<4) {
+            categoryTitles.push(series)
+            sidebarItems.push({
+              isOpened: false,
+              selectedIndex: 0,
+              isCategory: false,
+              blockIndex: blockCount,
+              visible: true,
+              headingTitle: 'Filter by'
+            })
+          } else {
+            categoryTitles[3] = series
+            sidebarItems[3] = {
+              isOpened: false,
+              selectedIndex: 0,
+              isCategory: false,
+              blockIndex: blockCount,
+              visible: true,
+              headingTitle: 'Filter by'
+            }
+          }
+          
+          // update serie, [state] list, and get serie_element
+          this.setState({
+            categoryTitles: categoryTitles,
+            sidebarItems: sidebarItems
+          }, this.props.onResetFilter10(serie, props.yQuery.arms_filter.state))
+        }
+
+      } else if (props.ysQuery) {
+        // Year -> Serie
+        if (!props.ysQuery.loading && props.ysQuery.arms_filter.length !== 0) {
+          let series_element = []
+          
+          // Generate `Filter By/Sub` LHS menu
+          const serie_element = props.ysQuery.arms_filter.serie_element[0].id
+          props.ysQuery.arms_filter.serie_element.forEach(element => {
+            const obj = {}
+            obj.num = element.id
+            obj.header = element.name
+            series_element.push(obj)
+          })
+          if (categoryTitles.length < 5) {
+            categoryTitles.push(series_element)
+            sidebarItems.push({
+              isOpened: false,
+              selectedIndex: 0,
+              isCategory: false,
+              blockIndex: blockCount,
+              visible: true,
+              headingTitle: ''
+            })
+          } else {
+            categoryTitles[4] = serie_element
+            sidebarItems[4] = {
+              isOpened: false,
+              selectedIndex: 0,
+              isCategory: false,
+              blockIndex: blockCount,
+              visible: true,
+              headingTitle: ''
+            }
+          }
+          
+          // update serie_element, [state] list
+          this.setState({
+            categoryTitles: categoryTitles,
+            sidebarItems: sidebarItems
+          }, this.props.onResetFilter11(serie_element, props.ysQuery.arms_filter.state))
+        }
+
       }
     }
 
@@ -614,6 +904,10 @@ class Sidebar extends React.Component {
         const serie = []
         serie.push(categoryTitles[3][sidebarItems[3].selectedIndex].num)
         this.setState({sidebarItems, categoryTitles}, this.props.onSelectFilterByFilter(serie))
+      } else if (sidebarItemIndex === 4) {
+        const serie_element = []
+        serie_element.push(categoryTitles[4][sidebarItems[4].selectedIndex].num)
+        this.setState({sidebarItems, categoryTitles}, this.props.onSelectSubFilterByFilter(serie_element))
       }
       // if (sidebarItemIndex>=1 && sidebarItemIndex<=4) {
       //   report_num.push(categoryTitles[1][sidebarItems[1].selectedIndex].num)
@@ -885,7 +1179,6 @@ class Sidebar extends React.Component {
 }
 
 export default compose(
-  armsfilter,
   resetQuery,
   sQuery,
   seQuery,
