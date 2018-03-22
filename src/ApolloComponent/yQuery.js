@@ -2,19 +2,21 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
   export default graphql(gql`
-  query Query11 (
+  query yQuery (
     $report_num: [Int],
     $subject_num: [Int],
-    $year: [Int]
-    $state_id: [String]
+    $selectedYears: [Int]
   ){
-    query11: arms_filter(
+    arms_filter(
       survey_abb: "finance",
       report_num: $report_num,
       subject_num: $subject_num,
-      year: $year,
-      state_id: $state_id
+      year: $selectedYears
     ){
+      state{
+        id
+        name
+      }
       serie{
         abb
         header
@@ -22,6 +24,6 @@ import gql from 'graphql-tag';
     }     
   }
 `, {
-    skip: (ownProps) => ownProps.runQuery !== 'query11',
-    name: 'query11',
+    skip: (ownProps) => ownProps.runQuery !== 'yQuery',
+    name: 'yQuery',
   });
