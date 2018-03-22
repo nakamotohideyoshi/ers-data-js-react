@@ -10,6 +10,9 @@
 }
 .filterDropdownContainer .download-menu,
 .filterDropdownContainer .open > .download-menu  {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   border-radius: 0px;
   background: #fafafa;
   box-shadow: none;
@@ -31,4 +34,10 @@
   padding-top: 15px;
   height: 200px;
   overflow-y: scroll;
+}
+.filterDropdownContainer .download-menu .selected-list
+{
+  overflow: hidden;
+  margin: 0 auto;
+  text-overflow: ellipsis;
 }
