@@ -12,7 +12,7 @@ import gql from 'graphql-tag';
       survey_abb: "finance",
       report_num: $report_num,
       subject_num: $subject_num,
-      yaer: $selectedYears,
+      year: $selectedYears,
       serie: $serie
     ){
       state{
@@ -20,8 +20,8 @@ import gql from 'graphql-tag';
         name
       }
       serie_element{
-        abb
-        header
+        id
+        name
       }
     }     
   }
