@@ -25,7 +25,7 @@ const SidebarItem = ({ headingTitle, titles, visible, selectedIndex, isOpened, i
             </div>
           )
         }
-        <SidebarDropdown headingTitle={headingTitle} title={selectedIndex === -1 ||  selectedIndex === -2 ? 'Select' : titles[selectedIndex].header} isOpened={isOpened} isCategory={isCategory} onToggle={() => toggleCategoryOptions()} />
+        <SidebarDropdown headingTitle={headingTitle} title={selectedIndex === -1 ? 'All' : titles[selectedIndex].header} isOpened={isOpened} isCategory={isCategory} onToggle={() => toggleCategoryOptions()} />
         <SlideDown className='my-dropdown-slidedown'>
           {
             isOpened && (

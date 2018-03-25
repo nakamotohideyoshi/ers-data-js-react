@@ -151,7 +151,7 @@ class Sidebar extends React.Component {
         // update `Filter By/Sub` LHS menu
         if (!props.tysQuery.loading && props.tysQuery.arms_filter.length !== 0) {
           let series_element = []
-          const serie_element = props.tysQuery.arms_filter.serie_element[0].id
+          const serie_element = 0
           props.tysQuery.arms_filter.serie_element.forEach(element => {
             const obj = {}
             obj.num = element.id
@@ -162,7 +162,7 @@ class Sidebar extends React.Component {
             categoryTitles.push(series_element)
             sidebarItems.push({
               isOpened: false,
-              selectedIndex: 0,
+              selectedIndex: -1,
               isCategory: false,
               blockIndex: blockCount,
               visible: true,
@@ -172,12 +172,16 @@ class Sidebar extends React.Component {
             categoryTitles[4] = series_element
             sidebarItems[4] = {
               isOpened: false,
-              selectedIndex: 0,
+              selectedIndex: -1,
               isCategory: false,
               blockIndex: blockCount,
               visible: true,
               headingTitle: ''
             }
+          }
+          sidebarItems[4].headingTitle = categoryTitles[3][sidebarItems[3].selectedIndex].header
+          if (props.tysQuery.arms_filter.serie_element.length === 1 && props.tysQuery.arms_filter.serie_element[0].id === 0) {
+            sidebarItems[4].visible = false
           }
           
           // update serie_element filter
@@ -192,7 +196,7 @@ class Sidebar extends React.Component {
         // Serie -> 
         if (!props.sQuery.loading && props.sQuery.arms_filter.length !== 0) {
           let series_element = []
-          const serie_element = props.sQuery.arms_filter.serie_element[0].id
+          const serie_element = 0
 
           // generate `Filter By/Sub` LHS menu
           props.sQuery.arms_filter.serie_element.forEach(element => {
@@ -205,7 +209,7 @@ class Sidebar extends React.Component {
             categoryTitles.push(series_element)
             sidebarItems.push({
               isOpened: false,
-              selectedIndex: 0,
+              selectedIndex: -1,
               isCategory: false,
               blockIndex: blockCount,
               visible: true,
@@ -215,12 +219,16 @@ class Sidebar extends React.Component {
             categoryTitles[4] = series_element
             sidebarItems[4] = {
               isOpened: false,
-              selectedIndex: 0,
+              selectedIndex: -1,
               isCategory: false,
               blockIndex: blockCount,
               visible: true,
               headingTitle: ''
             }
+          }
+          sidebarItems[4].headingTitle = categoryTitles[3][sidebarItems[3].selectedIndex].header
+          if (props.sQuery.arms_filter.serie_element.length === 1 && props.sQuery.arms_filter.serie_element[0].id === 0) {
+            sidebarItems[4].visible = false
           }
           
           // update serie_element, [Year, State] list
@@ -345,7 +353,7 @@ class Sidebar extends React.Component {
           let series_element = []
 
           // Generate `Filter By/Sub` LHS menu
-          const serie_element = props.tsQuery.arms_filter.serie_element[0].id
+          const serie_element = 0
           props.tsQuery.arms_filter.serie_element.forEach(element => {
             const obj = {}
             obj.num = element.id
@@ -356,7 +364,7 @@ class Sidebar extends React.Component {
             categoryTitles.push(series_element)
             sidebarItems.push({
               isOpened: false,
-              selectedIndex: 0,
+              selectedIndex: -1,
               isCategory: false,
               blockIndex: blockCount,
               visible: true,
@@ -366,12 +374,16 @@ class Sidebar extends React.Component {
             categoryTitles[4] = series_element
             sidebarItems[4] = {
               isOpened: false,
-              selectedIndex: 0,
+              selectedIndex: -1,
               isCategory: false,
               blockIndex: blockCount,
               visible: true,
               headingTitle: ''
             }
+          }
+          sidebarItems[4].headingTitle = categoryTitles[3][sidebarItems[3].selectedIndex].header
+          if (props.tsQuery.arms_filter.serie_element.length === 1 && props.tsQuery.arms_filter.serie_element[0].id === 0) {
+            sidebarItems[4].visible = false
           }
           
           // update serie_element, and [Year] list
@@ -429,7 +441,7 @@ class Sidebar extends React.Component {
           let series_element = []
           
           // Generate `Filter By/Sub` LHS menu
-          const serie_element = props.ysQuery.arms_filter.serie_element[0].id
+          const serie_element = 0
           props.ysQuery.arms_filter.serie_element.forEach(element => {
             const obj = {}
             obj.num = element.id
@@ -440,7 +452,7 @@ class Sidebar extends React.Component {
             categoryTitles.push(series_element)
             sidebarItems.push({
               isOpened: false,
-              selectedIndex: 0,
+              selectedIndex: -1,
               isCategory: false,
               blockIndex: blockCount,
               visible: true,
@@ -450,14 +462,17 @@ class Sidebar extends React.Component {
             categoryTitles[4] = series_element
             sidebarItems[4] = {
               isOpened: false,
-              selectedIndex: 0,
+              selectedIndex: -1,
               isCategory: false,
               blockIndex: blockCount,
               visible: true,
               headingTitle: ''
             }
           }
-          
+          sidebarItems[4].headingTitle = categoryTitles[3][sidebarItems[3].selectedIndex].header
+          if (props.ysQuery.arms_filter.serie_element.length === 1 && props.ysQuery.arms_filter.serie_element[0].id === 0) {
+            sidebarItems[4].visible = false
+          }
           // update serie_element, [state] list
           this.setState({
             categoryTitles: categoryTitles,
