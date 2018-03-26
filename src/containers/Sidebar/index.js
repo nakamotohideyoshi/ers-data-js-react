@@ -103,7 +103,7 @@ class Sidebar extends React.Component {
 
      }
 
-    } else {
+    } else if (categoryTitles.length !== 0 && currentBlock === 0) {
 
       if (props.resetQuery) {
 
@@ -481,6 +481,8 @@ class Sidebar extends React.Component {
         }
 
       }
+    } else if (categoryTitles.length !== 0 && currentBlock !== 0) {
+
     }
 
     // if (categoryTitles.length === 0) {
@@ -874,33 +876,31 @@ class Sidebar extends React.Component {
     currentBlock = sidebarItems[sidebarItemIndex].blockIndex
     sidebarItems[sidebarItemIndex].selectedIndex = selectedIndex
     if (sidebarItemIndex === 0) {
-      // const count = sidebarItems.length
-      // for (let i=0; i<count-12; i++) {
-      //   sidebarItems.pop()
-      //   categoryTitles.pop()
-      // }
-      // for (let i = 1; i<12; i++) {
-      //   sidebarItems[i].visible = false
-      //   sidebarItems[i].selectedIndex = 0          
-      //   sidebarItems[i].isOpened = false
-      // }
-      // if (selectedIndex === 0) {
-      //   currentBlock = 0
-      //   isReports = true
-      //   for (let i = 1; i<=3; i++) {  
-      //     sidebarItems[i].visible = true
-      //   }
-      //   this.setState({sidebarItems, categoryTitles}, this.props.onSelectCategory(isReports))        
-      // } else {        
-      //   currentBlock = 1
-      //   isReports = false
-      //   for (let i = 5; i<=11; i++) {
-      //     if (i !== 9 && i !== 11) {
-      //       sidebarItems[i].visible = true
-      //     }       
-      //   }
-      //   this.setState({sidebarItems, categoryTitles}, this.props.onSelectCategory(isReports)) 
-      // }
+      const count = sidebarItems.length
+      for (let i = 1; i<count; i++) {
+        sidebarItems[i].visible = false    
+        sidebarItems[i].isOpened = false
+      }
+      if (selectedIndex === 0) {
+        currentBlock = 0
+        isReports = true
+        
+        sidebarItems[1].visible = true
+        sidebarItems[2].visible = true
+        // const report_num = categoryTitles[1][sidebarItems[1].selectedIndex].num
+        // const subject_num = categoryTitles[2][sidebarItems[2].selectedIndex].num
+       
+        this.setState({sidebarItems}, this.props.onResetFilter())        
+      } else {        
+        // currentBlock = 1
+        // isReports = false
+        // for (let i = 5; i<=11; i++) {
+        //   if (i !== 9 && i !== 11) {
+        //     sidebarItems[i].visible = true
+        //   }       
+        // }
+        // this.setState({sidebarItems, categoryTitles}, this.props.onSelectCategory(isReports)) 
+      }
     } else {
 
       if (sidebarItemIndex === 1) {
