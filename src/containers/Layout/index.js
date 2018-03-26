@@ -174,7 +174,7 @@ export default class Layout extends React.Component {
   // set sereie_element
   onResetFilter2 = (serie_element) => {
     let {filters, blockIndex} = this.state
-    filters[blockIndex].serie_element = [serie_element]    
+    filters[blockIndex].serie_element = serie_element    
 
     this.setState({
       filters: filters,
@@ -186,7 +186,7 @@ export default class Layout extends React.Component {
   // set serie_element, year, state
   onResetFilter3 = (serie_element, years, states) => {
     let {filters, blockIndex} = this.state
-    filters[blockIndex].serie_element = [serie_element]
+    filters[blockIndex].serie_element = serie_element
 
     let yearsInfo = []
     const selectedYears = years.slice(-1)
@@ -408,7 +408,7 @@ export default class Layout extends React.Component {
   // set serie_element, state
   onResetFilter11 = (serie_element, states) => {
     let {filters, blockIndex} = this.state
-    filters[blockIndex].serie_element = [serie_element]
+    filters[blockIndex].serie_element = serie_element
 
     let statesInfo = []
     const selectedStates = [states[0].id]
@@ -668,7 +668,7 @@ export default class Layout extends React.Component {
 
   onSelectAnalysisSubFilter1 = (serie_element) => {
     let {filters, blockIndex} = this.state
-    filters[blockIndex].serie_element = [serie_element]
+    filters[blockIndex].serie_element = serie_element
     this.setState({
       filters: filters,
       runQuery: 'ytseAnalysis'
@@ -686,7 +686,7 @@ export default class Layout extends React.Component {
 
   onSelectAnalysisSubFilter2 = (serie2_element) => {
     let {filters, blockIndex} = this.state
-    filters[blockIndex].serie2_element = [serie2_element]
+    filters[blockIndex].serie2_element = serie2_element
     this.setState({
       filters: filters,
       runQuery: ''
