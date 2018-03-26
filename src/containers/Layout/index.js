@@ -114,7 +114,16 @@ export default class Layout extends React.Component {
   }
 
   onResetFilter = () => {
+
+    let {filters, blockIndex} = this.state
+
+    filters[blockIndex].serie = []
+    filters[blockIndex].serie_element = []
+    filters[blockIndex].selectedYears = []
+    filters[blockIndex].selectedStates = []
+    
     this.setState({
+      filters: filters,
       priority: [],
       runQuery: 'resetQuery'
     })
