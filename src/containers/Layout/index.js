@@ -596,6 +596,121 @@ export default class Layout extends React.Component {
       runQuery: runQuery
     })
   }
+  
+  onSelecetAnalysis = () => {
+    let {filters} = this.state
+    const blockIndex = 1
+    const obj = {}
+    obj.report_num = [1]
+    obj.subject_num = [1]
+    obj.serie = []
+    obj.serie_element = []
+    obj.serie2 = []
+    obj.serie2_element = []
+    obj.topic_abb  = []
+    filters.push(obj)
+    
+    let yearsInfo = []
+    let selectedYears = []
+
+    if (this.props.years) {
+      this.props.years.forEach(year => {
+        const infoObj = {}
+          infoObj.year = year
+          infoObj.checked = false
+
+          yearsInfo.push(infoObj)
+      })
+      yearsInfo[this.props.years.length-1].checked = true
+      selectedYears = this.props.years.slice(-1)
+    }
+    
+    let statesInfo = []
+    let selectedStates = []
+
+    if (this.props.states) {
+      this.props.states.forEach(stateN => {
+        const obj = {}
+        obj.name = stateN.name
+        obj.id = stateN.id
+        obj.checked = false     
+        statesInfo.push(obj)     
+      })
+      statesInfo[0].checked = true
+      selectedStates = [this.props.states[0].id]
+    }
+
+    const topic_abb = []
+    if (this.props.topics) {
+      topic_abb.push(this.props.topics[0][0].abb)
+    }
+    filters[blockIndex].topic_abb = topic_abb
+
+    this.setState({
+      yearsInfo: yearsInfo,
+      selectedYears: selectedYears,
+      statesInfo: statesInfo,
+      selectedStates: selectedStates,
+      filters: filters,
+      runQuery: 'initAnalysis',
+      blockIndex
+    })
+  }
+
+  onSelectAnalysisFilter1 = (serie) => {
+    let {filters, blockIndex} = this.state
+    filters[blockIndex].serie = [serie]
+    this.setState({
+      filters: filters,
+      runQuery: 'ytsAnalysis'
+    })
+  }
+
+  onSelectAnalysisSubFilter1 = (serie_element) => {
+    let {filters, blockIndex} = this.state
+    filters[blockIndex].serie_element = [serie_element]
+    this.setState({
+      filters: filters,
+      runQuery: 'ytseAnalysis'
+    })
+  }
+
+  onSelectAnalysisFilter2 = (serie2) => {
+    let {filters, blockIndex} = this.state
+    filters[blockIndex].serie2 = [serie2]
+    this.setState({
+      filters: filters,
+      runQuery: 'ytsesAnalysis'
+    })
+  }
+
+  onSelectAnalysisSubFilter2 = (serie2_element) => {
+    let {filters, blockIndex} = this.state
+    filters[blockIndex].serie2_element = [serie2_element]
+    this.setState({
+      filters: filters,
+      runQuery: ''
+    })
+  }
+
+  // Add Datasource
+  addDataSource = () => {
+    let {filters} = this.state
+
+    const obj = {}
+    obj.report_num = [1]
+    obj.subject_num = [1]
+    obj.serie = []
+    obj.serie_element = []
+    obj.serie2 = []
+    obj.serie2_element = []
+    obj.topic_abb  = []
+    filters.push(obj)
+
+    const runQuery = 'initAnalysis'
+
+    this.setState({filters, runQuery})
+  }
 
   // onSelectArmsFilter = (report_num, topic_abb, subject_num, serie, blockIndex) => {
   //   this.setState({
@@ -750,6 +865,7 @@ export default class Layout extends React.Component {
           reports = {this.props.reports}
           subjects = {this.props.subjects}
           report_num = {filters[blockIndex] ? filters[blockIndex].report_num : []}
+          topic_abb = {filters[blockIndex] ? filters[blockIndex].topic_abb : []}
           subject_num = {filters[blockIndex] ? filters[blockIndex].subject_num : []}
           serie = {filters[blockIndex] ? filters[blockIndex].serie : []}
           serie_element={filters[blockIndex] ? filters[blockIndex].serie_element : []}
@@ -775,6 +891,11 @@ export default class Layout extends React.Component {
           onSelectSubjectFilter = {this.onSelectSubjectFilter}
           onSelectFilterByFilter = {this.onSelectFilterByFilter}
           onSelectSubFilterByFilter = {this.onSelectSubFilterByFilter}
+          onSelecetAnalysis = {this.onSelecetAnalysis}
+          onSelectAnalysisFilter1 = {this.onSelectAnalysisFilter1}
+          onSelectAnalysisSubFilter1 = {this.onSelectAnalysisSubFilter1}
+          onSelectAnalysisFilter2 = {this.onSelectAnalysisFilter2}
+          onSelectAnalysisSubFilter2 = {this.onSelectAnalysisSubFilter2}
         />
         <Col xs={12} md={9} sm={12}>
           <h4 className="main-heading">Farm Business Balance Sheet Data 
