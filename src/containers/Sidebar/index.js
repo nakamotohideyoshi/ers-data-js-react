@@ -878,7 +878,8 @@ class Sidebar extends React.Component {
     if (sidebarItemIndex === 0) {
       const count = sidebarItems.length
       for (let i = 1; i<count; i++) {
-        sidebarItems[i].visible = false    
+        sidebarItems[i].visible = false
+        sidebarItems[i].selectedIndex = 0  
         sidebarItems[i].isOpened = false
       }
       if (selectedIndex === 0) {

@@ -15,8 +15,6 @@ const default_filter = {
   serie2: ['farm'],
   serie2_element: [0],
   topic_abb: [],
-  selectedYears: [2015, 2014],
-  selectedStates: ['00'],
 }
 
 export default class Layout extends React.Component {
@@ -26,6 +24,8 @@ export default class Layout extends React.Component {
     blockIndex: 0,
     yearsInfo: [],
     statesInfo: [],
+    selectedYears: [],
+    selectedStates: [],
     filters: [],
     runQuery: '',
     priority: []
@@ -42,8 +42,6 @@ export default class Layout extends React.Component {
     obj.serie2 = ["farm"]
     obj.serie2_element = [0]
     obj.topic_abb  = []
-    obj.selectedYears = []
-    obj.selectedStates = []
     filters.push(obj)
 
     this.setState({filters})
@@ -51,19 +49,18 @@ export default class Layout extends React.Component {
 
   componentWillReceiveProps(props) {
 
-    let {yearsInfo, statesInfo, filters, blockIndex} = this.state
+    let {yearsInfo, statesInfo, filters, blockIndex, selectedStates, selectedYears} = this.state
 
     if (props.years &&  yearsInfo.length === 0) {
       props.years.forEach(year => {
         const infoObj = {}
           infoObj.year = year
-          if (year === 2014 || year === 2015) {
-            infoObj.checked = true
-          } else {
-            infoObj.checked = false
-          }          
+          infoObj.checked = false
+
           yearsInfo.push(infoObj)
       })
+      yearsInfo[props.years.length-1].checked = true
+      selectedYears = props.years.slice(-1)
     }
 
     if (props.states && statesInfo.length === 0) {
@@ -71,13 +68,11 @@ export default class Layout extends React.Component {
         const obj = {}
         obj.name = stateN.name
         obj.id = stateN.id
-        if (stateN.id === '00') {
-          obj.checked = true
-        } else {
-          obj.checked = false
-        }        
+        obj.checked = false     
         statesInfo.push(obj)     
       })
+      statesInfo[0].checked = true
+      selectedStates = [props.states[0].id]
     }
 
     const topicabb = []
@@ -93,7 +88,9 @@ export default class Layout extends React.Component {
 
     this.setState({
       yearsInfo: yearsInfo,
+      selectedYears: selectedYears,
       statesInfo: statesInfo,
+      selectedStates: selectedStates,
       topic_abb: topicabb,
       filters: filters
     })    
@@ -119,15 +116,17 @@ export default class Layout extends React.Component {
 
     filters[blockIndex].serie = []
     filters[blockIndex].serie_element = []
-    filters[blockIndex].selectedYears = []
-    filters[blockIndex].selectedStates = []
-    
+    const selectedYears = []
+    const selectedStates = []
+
     this.setState({
       filters: filters,
+      selectedYears: selectedYears,
+      selectedStates: selectedStates,
       priority: [],
       runQuery: 'resetQuery'
     })
-  }
+  }  
 
 
   // reset step 1
@@ -137,7 +136,7 @@ export default class Layout extends React.Component {
     filters[blockIndex].serie = [serie]
 
     let yearsInfo = []
-    filters[blockIndex].selectedYears = years.slice(-1)
+    const selectedYears = years.slice(-1)
     if (years.length !== 0) {
       years.forEach(year => {
         const infoObj = {}
@@ -149,7 +148,7 @@ export default class Layout extends React.Component {
     }
 
     let statesInfo = []
-    filters[blockIndex].selectedStates = [states[0].id]
+    const selectedStates = [states[0].id]
     if (states.length !== 0) {
       states.forEach(stateN => {
         const obj = {}
@@ -164,7 +163,9 @@ export default class Layout extends React.Component {
     this.setState({
       filters: filters,
       yearsInfo: yearsInfo,
+      selectedYears: selectedYears,
       statesInfo: statesInfo,
+      selectedStates: selectedStates,
       runQuery: 'tysQuery'
     })
   }
@@ -188,7 +189,7 @@ export default class Layout extends React.Component {
     filters[blockIndex].serie_element = [serie_element]
 
     let yearsInfo = []
-    filters[blockIndex].selectedYears = years.slice(-1)
+    const selectedYears = years.slice(-1)
     if (years.length !== 0) {
       years.forEach(year => {
         const infoObj = {}
@@ -200,7 +201,7 @@ export default class Layout extends React.Component {
     }
 
     let statesInfo = []
-    filters[blockIndex].selectedStates = [states[0].id]
+    const selectedStates = [states[0].id]
     if (states.length !== 0) {
       states.forEach(stateN => {
         const obj = {}
@@ -215,7 +216,9 @@ export default class Layout extends React.Component {
     this.setState({
       filters: filters,
       yearsInfo: yearsInfo,
+      selectedYears,
       statesInfo: statesInfo,
+      selectedStates: selectedStates,
       runQuery: ''
     })
 
@@ -224,10 +227,9 @@ export default class Layout extends React.Component {
   // reset filter 4
   // set year, state
   onResetFilter4 = (years, states) => {
-    let {filters, blockIndex} = this.state
 
     let yearsInfo = []
-    filters[blockIndex].selectedYears = years.slice(-1)
+    const selectedYears = years.slice(-1)
     if (years.length !== 0) {
       years.forEach(year => {
         const infoObj = {}
@@ -239,7 +241,7 @@ export default class Layout extends React.Component {
     }
 
     let statesInfo = []
-    filters[blockIndex].selectedStates = [states[0].id]
+    const selectedStates = [states[0].id]
     if (states.length !== 0) {
       states.forEach(stateN => {
         const obj = {}
@@ -252,8 +254,9 @@ export default class Layout extends React.Component {
     }
 
     this.setState({
-      filters: filters,
       yearsInfo: yearsInfo,
+      selectedYears: selectedYears,
+      selectedStates: selectedStates,
       statesInfo: statesInfo,
       runQuery: ''
     })
@@ -263,10 +266,9 @@ export default class Layout extends React.Component {
   // reset filter 5
   // set year
   onResetFilter5 = (years) => {
-    let {filters, blockIndex} = this.state
 
     let yearsInfo = []
-    filters[blockIndex].selectedYears = years.slice(-1)
+    const selectedYears = years.slice(-1)
     if (years.length !== 0) {
       years.forEach(year => {
         const infoObj = {}
@@ -278,8 +280,8 @@ export default class Layout extends React.Component {
     }
 
     this.setState({
-      filters: filters,
       yearsInfo: yearsInfo,
+      selectedYears: selectedYears,
       runQuery: ''
     })
 
@@ -288,10 +290,9 @@ export default class Layout extends React.Component {
   // reset filter 6
   // set state
   onResetFilter6 = (states) => {
-    let {filters, blockIndex} = this.state
 
     let statesInfo = []
-    filters[blockIndex].selectedStates = [states[0].id]
+    const selectedStates = [states[0].id]
     if (states.length !== 0) {
       states.forEach(stateN => {
         const obj = {}
@@ -304,7 +305,7 @@ export default class Layout extends React.Component {
     }
 
     this.setState({
-      filters: filters,
+      selectedStates: selectedStates,
       statesInfo: statesInfo,
       runQuery: ''
     })
@@ -318,7 +319,7 @@ export default class Layout extends React.Component {
     filters[blockIndex].serie = [serie]
 
     let yearsInfo = []
-    filters[blockIndex].selectedYears = years.slice(-1)
+    const selectedYears = years.slice(-1)
     if (years.length !== 0) {
       years.forEach(year => {
         const infoObj = {}
@@ -332,6 +333,7 @@ export default class Layout extends React.Component {
     this.setState({
       filters: filters,
       yearsInfo: yearsInfo,
+      selectedYears: selectedYears,
       runQuery: 'tysQuery'
     })
   }
@@ -355,7 +357,7 @@ export default class Layout extends React.Component {
     filters[blockIndex].serie_element = [serie_element]
 
     let yearsInfo = []
-    filters[blockIndex].selectedYears = years.slice(-1)
+    const selectedYears = years.slice(-1)
     if (years.length !== 0) {
       years.forEach(year => {
         const infoObj = {}
@@ -369,6 +371,7 @@ export default class Layout extends React.Component {
     this.setState({
       filters: filters,
       yearsInfo: yearsInfo,
+      selectedYears: selectedYears,
       runQuery: ''
     })
   }
@@ -380,7 +383,7 @@ export default class Layout extends React.Component {
     filters[blockIndex].serie = [serie]
 
     let statesInfo = []
-    filters[blockIndex].selectedStates = [states[0].id]
+    const selectedStates = [states[0].id]
     if (states.length !== 0) {
       states.forEach(stateN => {
         const obj = {}
@@ -395,6 +398,7 @@ export default class Layout extends React.Component {
     this.setState({
       filters: filters,
       statesInfo: statesInfo,
+      selectedStates: selectedStates,
       runQuery: 'tysQuery'
     })
   }
@@ -407,7 +411,7 @@ export default class Layout extends React.Component {
     filters[blockIndex].serie_element = [serie_element]
 
     let statesInfo = []
-    filters[blockIndex].selectedStates = [states[0].id]
+    const selectedStates = [states[0].id]
     if (states.length !== 0) {
       states.forEach(stateN => {
         const obj = {}
@@ -422,6 +426,7 @@ export default class Layout extends React.Component {
     this.setState({
       filters: filters,
       statesInfo: statesInfo,
+      selectedStates: selectedStates,
       runQuery: ''
     })
   }
@@ -522,7 +527,7 @@ export default class Layout extends React.Component {
         selectedYears.push(yearN.year)
       }
     })
-    filters[blockIndex].selectedYears = selectedYears
+
     if (priority.indexOf('year') === 0) {
 
       // Year -> ... -> ...
@@ -541,6 +546,7 @@ export default class Layout extends React.Component {
       filters,
       priority: priority,
       yearsInfo: yearsInfo.slice(),
+      selectedYears: selectedYears,
       runQuery: runQuery
     })
   }
@@ -567,7 +573,6 @@ export default class Layout extends React.Component {
       }
     })
     
-    filters[blockIndex].selectedStates = selectedStates
 
     if (priority.indexOf('state') === 0) {
       // State -> ... -> ...
@@ -587,6 +592,7 @@ export default class Layout extends React.Component {
       selectedStateNames,
       priority: priority,
       statesInfo: statesInfo.slice(),
+      selectedStates: selectedStates,
       runQuery: runQuery
     })
   }
@@ -729,8 +735,10 @@ export default class Layout extends React.Component {
     const {
       selectedStateNames,
       blockIndex, 
-      yearsInfo, 
+      yearsInfo,
+      selectedYears,
       statesInfo,
+      selectedStates,
       isYearsMultiple,
       filters,
       runQuery
@@ -747,8 +755,8 @@ export default class Layout extends React.Component {
           serie_element={filters[blockIndex] ? filters[blockIndex].serie_element : []}
           serie2 = {filters[blockIndex] ? filters[blockIndex].serie2 : []}
           serie2_element = {filters[blockIndex] ? filters[blockIndex].serie2_element : []}
-          selectedStates = {filters[blockIndex] ? filters[blockIndex].selectedStates : []}
-          selectedYears={filters[blockIndex] ? filters[blockIndex].selectedYears : []}
+          selectedStates = {selectedStates}
+          selectedYears={selectedYears}
           runQuery={runQuery}
           onResetFilter = {this.onResetFilter}
           onStaticSelect = {this.onStaticSelect}
@@ -780,9 +788,9 @@ export default class Layout extends React.Component {
             isYearsMultiple={isYearsMultiple}          
           />
           <MainContainer
-            selectedStates = {filters[blockIndex] ? filters[blockIndex].selectedStates : []}
+            selectedStates = {selectedStates}
             selectedStateNames = {selectedStateNames}
-            selectedYears={filters[blockIndex] ? filters[blockIndex].selectedYears : []}
+            selectedYears={selectedYears}
             report_num = {filters[blockIndex] ? filters[blockIndex].report_num : []}
             subject_num = {filters[blockIndex] ? filters[blockIndex].subject_num : []}
             serie = {filters[blockIndex] ? filters[blockIndex].serie : []}
