@@ -155,12 +155,13 @@ class Sidebar extends React.Component {
         // update `Filter By/Sub` LHS menu
         if (!props.tysQuery.loading && props.tysQuery.arms_filter.length !== 0) {
           let series_element = []
-          const serie_element = 0
+          let serie_element = []
           props.tysQuery.arms_filter.serie_element.forEach(element => {
             const obj = {}
             obj.num = element.id
             obj.header = element.name
             series_element.push(obj)
+            serie_element.push(element.id)
           })
           if (categoryTitles.length < 5) {
             categoryTitles.push(series_element)
@@ -200,7 +201,7 @@ class Sidebar extends React.Component {
         // Serie -> 
         if (!props.sQuery.loading && props.sQuery.arms_filter.length !== 0) {
           let series_element = []
-          const serie_element = 0
+          let serie_element = []
 
           // generate `Filter By/Sub` LHS menu
           props.sQuery.arms_filter.serie_element.forEach(element => {
@@ -208,6 +209,7 @@ class Sidebar extends React.Component {
             obj.num = element.id
             obj.header = element.name
             series_element.push(obj)
+            serie_element.push(element.id)
           })
           if (categoryTitles.length < 5) {
             categoryTitles.push(series_element)
@@ -357,12 +359,13 @@ class Sidebar extends React.Component {
           let series_element = []
 
           // Generate `Filter By/Sub` LHS menu
-          const serie_element = 0
+          let serie_element = []
           props.tsQuery.arms_filter.serie_element.forEach(element => {
             const obj = {}
             obj.num = element.id
             obj.header = element.name
             series_element.push(obj)
+            serie_element.push(element.id)
           })
           if (categoryTitles.length < 5) {
             categoryTitles.push(series_element)
@@ -445,12 +448,13 @@ class Sidebar extends React.Component {
           let series_element = []
           
           // Generate `Filter By/Sub` LHS menu
-          const serie_element = 0
+          let serie_element = []
           props.ysQuery.arms_filter.serie_element.forEach(element => {
             const obj = {}
             obj.num = element.id
             obj.header = element.name
             series_element.push(obj)
+            serie_element.push(element.id)
           })
           if (categoryTitles.length < 5) {
             categoryTitles.push(series_element)
@@ -609,18 +613,19 @@ class Sidebar extends React.Component {
           let series_element = []
           
           // Generate `Filter By/Sub` LHS menu
-          const serie_element = 0
+          let serie_element = []
           props.ytsAnalysis.arms_filter.serie_element.forEach(element => {
             const obj = {}
             obj.num = element.id
             obj.header = element.name
             series_element.push(obj)
+            serie_element.push(element.id)
           })
           if (categoryTitles.length < 10) {
             categoryTitles.push(series_element)
             sidebarItems.push({
               isOpened: false,
-              selectedIndex: 0,
+              selectedIndex: -1,
               isCategory: false,
               blockIndex: blockCount,
               visible: true,
@@ -630,7 +635,7 @@ class Sidebar extends React.Component {
             categoryTitles[9] = series_element
             sidebarItems[9] = {
               isOpened: false,
-              selectedIndex: 0,
+              selectedIndex: -1,
               isCategory: false,
               blockIndex: blockCount,
               visible: true,
@@ -652,7 +657,7 @@ class Sidebar extends React.Component {
         if (!props.ytseAnalysis.loading && props.ytseAnalysis.arms_filter.length !== 0) {
           
           let series2 = []
-          const serie2 = props.ytseAnalysis.arms_filter.serie2[0].abb
+          let serie2 = props.ytseAnalysis.arms_filter.serie2[0].abb
           props.ytseAnalysis.arms_filter.serie2.forEach(serie => {
             const obj = {}
             obj.num = serie.abb
@@ -693,12 +698,13 @@ class Sidebar extends React.Component {
           let series2_element = []
           
           // Generate `Filter By/Sub` LHS menu
-          const serie2_element = 0
+          let serie2_element = []
           props.ytsesAnalysis.arms_filter.serie2_element.forEach(element => {
             const obj = {}
             obj.num = element.id
             obj.header = element.name
             series2_element.push(obj)
+            serie2_element.push(element.id)
           })
           if (categoryTitles.length < 12) {
             categoryTitles.push(series2_element)
