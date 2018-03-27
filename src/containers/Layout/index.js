@@ -499,7 +499,7 @@ export default class Layout extends React.Component {
       runQuery = 'setQuery'
     } else if (priority.indexOf('serie') === 2){
       // ... -> ... -> Serie/Serie_element
-      runQuery = 'tysQuery'
+      runQuery = ''
     }
     this.setState({
       filters: filters,
