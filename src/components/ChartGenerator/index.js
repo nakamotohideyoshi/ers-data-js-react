@@ -37,13 +37,11 @@ export default class ChartGenerator extends React.Component {
         type: chartType
       },
       xAxis: {
-        // labels: {
-        //     formatter: function() {
-        //       return categories[this.value];
-        //     }
-        // },
-        categories: categories,
-        crosshair: true
+        labels: {
+            formatter: function() {
+              return categories[this.value];
+            }
+        },
       },
       yAxis: [
         {
@@ -67,7 +65,7 @@ export default class ChartGenerator extends React.Component {
       tooltip: {
         useHTML: true,
         formatter: function () {
-            let s = '<span style="font-size:14px; padding:5px;">'+ this.x +'</span><br />'
+            let s = '<span style="font-size:14px; padding:5px;">'+ categories[this.x] +'</span><br />'
             s += '<div style="display: flex; flex-direction: column;  max-height: 350px; flex-wrap: no-wrap; margin-top: 5px;"><tr><th /><th /></tr>'
             this.points.forEach((point, index) => {
               s += '<div style="display: flex; justify-content: space-between"><div style="color:'+point.color+'; padding:2px 10px 2px 5px;">'+point.series.name+': </div>' +
