@@ -34,6 +34,9 @@
   width: 20px;
   border: solid 1px #23527c;
 }
+.checkmark.single {
+  border-radius: 50%;
+}
 
 /* When the checkbox is checked, add a blue background */
 .checkbox-container input:checked ~ .checkmark {
