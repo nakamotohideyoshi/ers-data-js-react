@@ -354,7 +354,7 @@ export default class Layout extends React.Component {
   // set serie_element, year
   onResetFilter9 = (serie_element, years) => {
     let {filters, blockIndex} = this.state
-    filters[blockIndex].serie_element = [serie_element]
+    filters[blockIndex].serie_element = serie_element
 
     let yearsInfo = []
     const selectedYears = years.slice(-1)
