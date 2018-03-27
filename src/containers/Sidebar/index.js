@@ -154,7 +154,10 @@ class Sidebar extends React.Component {
 
         // update `Filter By/Sub` LHS menu
         if (!props.tysQuery.loading && props.tysQuery.arms_filter.length !== 0) {
-          let series_element = []
+          let series_element = [{
+            num: 0,
+            header: 'All'
+          }]
           let serie_element = []
           props.tysQuery.arms_filter.serie_element.forEach(element => {
             const obj = {}
@@ -167,7 +170,7 @@ class Sidebar extends React.Component {
             categoryTitles.push(series_element)
             sidebarItems.push({
               isOpened: false,
-              selectedIndex: -1,
+              selectedIndex: 0,
               isCategory: false,
               blockIndex: blockCount,
               visible: true,
@@ -177,7 +180,7 @@ class Sidebar extends React.Component {
             categoryTitles[4] = series_element
             sidebarItems[4] = {
               isOpened: false,
-              selectedIndex: -1,
+              selectedIndex: 0,
               isCategory: false,
               blockIndex: blockCount,
               visible: true,
@@ -200,7 +203,10 @@ class Sidebar extends React.Component {
 
         // Serie -> 
         if (!props.sQuery.loading && props.sQuery.arms_filter.length !== 0) {
-          let series_element = []
+          let series_element = [{
+            num: 0,
+            header: 'All'
+          }]
           let serie_element = []
 
           // generate `Filter By/Sub` LHS menu
@@ -215,7 +221,7 @@ class Sidebar extends React.Component {
             categoryTitles.push(series_element)
             sidebarItems.push({
               isOpened: false,
-              selectedIndex: -1,
+              selectedIndex: 0,
               isCategory: false,
               blockIndex: blockCount,
               visible: true,
@@ -225,7 +231,7 @@ class Sidebar extends React.Component {
             categoryTitles[4] = series_element
             sidebarItems[4] = {
               isOpened: false,
-              selectedIndex: -1,
+              selectedIndex: 0,
               isCategory: false,
               blockIndex: blockCount,
               visible: true,
@@ -356,7 +362,10 @@ class Sidebar extends React.Component {
       } else if (props.tsQuery) {
         // State -> Serie
         if (!props.tsQuery.loading && props.tsQuery.arms_filter.length !== 0) {
-          let series_element = []
+          let series_element = [{
+            num: 0,
+            header: 'All'
+          }]
 
           // Generate `Filter By/Sub` LHS menu
           let serie_element = []
@@ -371,7 +380,7 @@ class Sidebar extends React.Component {
             categoryTitles.push(series_element)
             sidebarItems.push({
               isOpened: false,
-              selectedIndex: -1,
+              selectedIndex: 0,
               isCategory: false,
               blockIndex: blockCount,
               visible: true,
@@ -381,7 +390,7 @@ class Sidebar extends React.Component {
             categoryTitles[4] = series_element
             sidebarItems[4] = {
               isOpened: false,
-              selectedIndex: -1,
+              selectedIndex: 0,
               isCategory: false,
               blockIndex: blockCount,
               visible: true,
@@ -445,7 +454,10 @@ class Sidebar extends React.Component {
       } else if (props.ysQuery) {
         // Year -> Serie
         if (!props.ysQuery.loading && props.ysQuery.arms_filter.length !== 0) {
-          let series_element = []
+          let series_element = [{
+            num: 0,
+            header: 'All'
+          }]
           
           // Generate `Filter By/Sub` LHS menu
           let serie_element = []
@@ -460,7 +472,7 @@ class Sidebar extends React.Component {
             categoryTitles.push(series_element)
             sidebarItems.push({
               isOpened: false,
-              selectedIndex: -1,
+              selectedIndex: 0,
               isCategory: false,
               blockIndex: blockCount,
               visible: true,
@@ -470,7 +482,7 @@ class Sidebar extends React.Component {
             categoryTitles[4] = series_element
             sidebarItems[4] = {
               isOpened: false,
-              selectedIndex: -1,
+              selectedIndex: 0,
               isCategory: false,
               blockIndex: blockCount,
               visible: true,
@@ -1179,7 +1191,14 @@ class Sidebar extends React.Component {
         this.setState({sidebarItems, categoryTitles}, this.props.onSelectFilterByFilter(serie))
       } else if (sidebarItemIndex === 4) {
         const serie_element = []
-        serie_element.push(categoryTitles[4][sidebarItems[4].selectedIndex].num)
+        if (selectedIndex !== 0) {
+          serie_element.push(categoryTitles[4][sidebarItems[4].selectedIndex].num)
+        } else {
+          for (let i = 1; i<categoryTitles[4].length; i++) {
+            serie_element.push(categoryTitles[4][i].num)
+          }
+        }
+        
         this.setState({sidebarItems, categoryTitles}, this.props.onSelectSubFilterByFilter(serie_element))
       }
       // if (sidebarItemIndex>=1 && sidebarItemIndex<=4) {
