@@ -14,7 +14,7 @@ export default class OptionGroup extends React.Component {
               return (
                 <div className="single-option active" onClick={() => onSelect(index)}>
                   <a>
-                    <i class="fa fa-check"></i>{option.label}
+                    <i className="fa fa-check"></i>{option.label}
                   </a>
                 </div>
               )
