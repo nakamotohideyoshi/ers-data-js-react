@@ -65,6 +65,7 @@ class TableContainer extends React.Component {
         if (!singleIncome.id) {
           singleIncome.id = element.report_num + element.topic_abb
           singleIncome.header = element.topic_dim.header
+          singleIncome.unit_desc = element.topic_dim.unit_desc
           singleIncome.level = element.topic_dim.level
           let estimateList = []
           let rseList = []
@@ -241,7 +242,7 @@ class TableContainer extends React.Component {
                                       </a>
                                   )
                                 }
-                                &ensp;&ensp;Dollar per farm
+                                &ensp;&ensp;{data.unit_desc}
                               </div>
                             }
                           </td>
