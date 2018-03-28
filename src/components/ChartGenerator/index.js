@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import ReactHighcharts from 'react-highcharts'
 import HighchartsExporting from 'highcharts-exporting'
 import HighchartsExportCSV from 'highcharts-export-csv'
+import { numberWithCommas } from '../../helpers/NumberWithCommas'
 
 HighchartsExporting(ReactHighcharts.Highcharts)
 HighchartsExportCSV(ReactHighcharts.Highcharts)
@@ -46,7 +47,7 @@ export default class ChartGenerator extends React.Component {
       yAxis: [
         {
           title: {
-            text: '$Millions',
+            text: '',
             align: 'high',
             offset: 0,
             rotation: 0,
@@ -54,10 +55,25 @@ export default class ChartGenerator extends React.Component {
           },
           labels: {
             formatter: function () {
-                return this.value / 1000000 +'M';
+                return this.value;
             }
           }
         },
+        {
+          title: {
+            text: '',
+            align: 'high',
+            offset: 0,
+            rotation: 0,
+            y: -20
+          },
+          labels: {
+            formatter: function () {
+                return this.value;
+            }
+          },
+          opposite: true          
+        }
       ],
       legend: {
         symbolRadius: 0
@@ -68,8 +84,9 @@ export default class ChartGenerator extends React.Component {
             let s = '<span style="font-size:14px; padding:5px;">'+ categories[this.x] +'</span><br />'
             s += '<div style="display: flex; flex-direction: column;  max-height: 350px; flex-wrap: no-wrap; margin-top: 5px;"><tr><th /><th /></tr>'
             this.points.forEach((point, index) => {
+              let yVal = numberWithCommas(point.y)
               s += '<div style="display: flex; justify-content: space-between"><div style="color:'+point.color+'; padding:2px 10px 2px 5px;">'+point.series.name+': </div>' +
-              '<div><b>'+(point.y/1000000).toFixed(1)+' million</b></div></div>'
+              '<div><b>'+yVal+'</b></div></div>'
             });
             s += '</div>'
             return s;
@@ -80,7 +97,7 @@ export default class ChartGenerator extends React.Component {
     }
      
     seriesFarms.forEach((element) => {
-      config.series.push({ data: element.estimateList, name: element.header, visible: element.shown, showInLegend: element.shown, type: 'spline' })
+      config.series.push({ data: element.estimateList, name: element.header, visible: element.shown, showInLegend: element.shown, type: 'spline', yAxis: 1 })
     })
     seriesOthers.forEach((element) => {
       config.series.push({ data: element.estimateList, name: element.header, visible: element.shown, showInLegend: element.shown })
