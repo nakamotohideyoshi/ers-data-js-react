@@ -7,6 +7,7 @@ import { Col } from 'react-bootstrap';
 import Footnote from '../Footnote';
 import { filter, concatSeries } from 'async';
 
+const defaultYears = [2015, 2014, 2013, 2012, 2011]
 const default_filter = {
   report_num: [1],
   subject_num: [1],
@@ -15,7 +16,7 @@ const default_filter = {
   serie2: ['farm'],
   serie2_element: [0],
   topic_abb: [],
-  selectedYears: [2015, 2014],
+  selectedYears: defaultYears,
   selectedStates: ['00'],
 }
 
@@ -45,7 +46,7 @@ export default class Layout extends React.Component {
       props.years.forEach(year => {
         const infoObj = {}
           infoObj.year = year
-          if (year === 2014 || year === 2015) {
+          if (defaultYears.indexOf(year) >= 0) {
             infoObj.checked = true
           } else {
             infoObj.checked = false
