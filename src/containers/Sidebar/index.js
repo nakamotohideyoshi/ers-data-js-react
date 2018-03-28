@@ -532,7 +532,7 @@ class Sidebar extends React.Component {
           })
 
           let series = []
-          const serie = props.initAnalysis.arms_filter.serie[0].abb
+          const serie = [props.initAnalysis.arms_filter.serie[0].abb]
           props.initAnalysis.arms_filter.serie.forEach(serie => {
             const obj = {}
             obj.num = serie.abb
@@ -660,7 +660,7 @@ class Sidebar extends React.Component {
           sidebarItems[index].isOpened = false
           sidebarItems[index].selectedIndex = 0            
           
-          const serie = props.ytDLFAnalysis.arms_filter.serie[0].abb
+          const serie = [props.ytDLFAnalysis.arms_filter.serie[0].abb]
           this.setState({
             categoryTitles: categoryTitles,
             sidebarItems: sidebarItems
@@ -688,7 +688,7 @@ class Sidebar extends React.Component {
               isOpened: false,
               selectedIndex: -1,
               isCategory: false,
-              blockIndex: blockCount,
+              blockIndex: currentBlock,
               visible: true,
               headingTitle: ''
             })
@@ -698,7 +698,7 @@ class Sidebar extends React.Component {
               isOpened: false,
               selectedIndex: -1,
               isCategory: false,
-              blockIndex: blockCount,
+              blockIndex: currentBlock,
               visible: true,
               headingTitle: ''
             }
@@ -718,7 +718,7 @@ class Sidebar extends React.Component {
         if (!props.ytseAnalysis.loading && props.ytseAnalysis.arms_filter.length !== 0) {
           
           let series2 = []
-          let serie2 = props.ytseAnalysis.arms_filter.serie2[0].abb
+          let serie2 = [props.ytseAnalysis.arms_filter.serie2[0].abb]
           props.ytseAnalysis.arms_filter.serie2.forEach(serie => {
             const obj = {}
             obj.num = serie.abb
@@ -774,7 +774,7 @@ class Sidebar extends React.Component {
               isOpened: false,
               selectedIndex: 0,
               isCategory: false,
-              blockIndex: blockCount,
+              blockIndex: currentBlock,
               visible: true,
               headingTitle: ''
             })
@@ -784,7 +784,7 @@ class Sidebar extends React.Component {
               isOpened: false,
               selectedIndex: 0,
               isCategory: false,
-              blockIndex: blockCount,
+              blockIndex: currentBlock,
               visible: true,
               headingTitle: ''
             }
@@ -1310,19 +1310,30 @@ class Sidebar extends React.Component {
         // Arms Data Analysis/Filter1
         const serie = []
         serie.push(categoryTitles[sidebarItemIndex][sidebarItems[sidebarItemIndex].selectedIndex].num)
-        console.log('~~~~~~~Filter1~~~~~~')
-        this.setState({sidebarItems, categoryTitles})
+        this.setState({sidebarItems, categoryTitles}, this.props.onSelectAnalysisFilter1(serie, currentBlock))
 
       } else if ((sidebarItemIndex - 5)%7===4){
 
         // Arms Data Analaysis/Sub Filter1
+        const serie_element = []
+
+        serie_element.push(categoryTitles[sidebarItemIndex][sidebarItems[sidebarItemIndex].selectedIndex].num)
+        this.setState({sidebarItems, categoryTitles}, this.props.onSelectAnalysisSubFilter1(serie_element, currentBlock))
+
       } else if ((sidebarItemIndex - 5)%7===5){
 
         // Arms Data Analysis/Filter2
-        console.log('~~~~~~~Filter2~~~~~~')
+        const serie2 = []
+        serie2.push(categoryTitles[sidebarItemIndex][sidebarItems[sidebarItemIndex].selectedIndex].num)
+        this.setState({sidebarItems, categoryTitles}, this.props.onSelectAnalysisFilter2(serie2, currentBlock))
       } else if ((sidebarItemIndex - 5)%7===6){
 
         // Arms Data Analysis/Sub Filter2
+        const serie2_element = []
+
+        serie2_element.push(categoryTitles[sidebarItemIndex][sidebarItems[sidebarItemIndex].selectedIndex].num)
+        this.setState({sidebarItems, categoryTitles}, this.props.onSelectAnalysisSubFilter2(serie2_element, currentBlock))
+
       }
 
       // if (sidebarItemIndex>=1 && sidebarItemIndex<=4) {

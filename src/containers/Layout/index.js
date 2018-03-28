@@ -700,7 +700,7 @@ export default class Layout extends React.Component {
 
   onSelectAnalysisFilter1 = (serie, blockIndex) => {
     let {filters} = this.state
-    filters[blockIndex].serie = [serie]
+    filters[blockIndex].serie = serie
     this.setState({
       filters: filters,
       blockIndex: blockIndex,
@@ -713,14 +713,14 @@ export default class Layout extends React.Component {
     filters[blockIndex].serie_element = serie_element
     this.setState({
       filters: filters,
-      blockInde: blockIndex,
+      blockIndex: blockIndex,
       runQuery: 'ytseAnalysis'
     })
   }
 
   onSelectAnalysisFilter2 = (serie2, blockIndex) => {
     let {filters} = this.state
-    filters[blockIndex].serie2 = [serie2]
+    filters[blockIndex].serie2 = serie2
     this.setState({
       filters: filters,
       blockIndex: blockIndex,
