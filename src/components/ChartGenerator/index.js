@@ -168,8 +168,8 @@ export default class ChartGenerator extends React.Component {
             bsStyle="default"
             bsSize="sm"
             pullRight
-            title={<div>
-            <img src={DownloadImg} alt="" /> Download
+            title={<div className="btn-download-content">
+            <img src={DownloadImg} alt="" /> <span className="download-label">Download</span>
           </div>}
             noCaret
             id="dropdown-no-caret"
