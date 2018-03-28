@@ -674,6 +674,17 @@ export default class Layout extends React.Component {
     })
   }
 
+  onSleectDataLine = (topic_abb, blockIndex) => {
+    let {filters} = this.state
+
+    filters[blockIndex].topic_abb = topic_abb
+    this.setState({
+      filters: filters,
+      blockIndex: blockIndex,
+      runQuery: 'ytDLAnalysis'
+    })
+  }
+
 
   onSelectAnalysisFarm = (subject_num, blockIndex) => {
     let {filters} = this.state
@@ -942,6 +953,7 @@ export default class Layout extends React.Component {
           onSelectAnalysisFilter2 = {this.onSelectAnalysisFilter2}
           onSelectAnalysisSubFilter2 = {this.onSelectAnalysisSubFilter2}
           onSelectDatasource = {this.onSelectDatasource}
+          onSleectDataLine = {this.onSleectDataLine}
           onSelectAnalysisFarm = {this.onSelectAnalysisFarm}
         />
         <Col xs={12} md={9} sm={12}>
