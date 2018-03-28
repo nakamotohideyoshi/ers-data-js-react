@@ -540,19 +540,28 @@ export default class Layout extends React.Component {
       }
     })
 
-    if (priority.indexOf('year') === 0) {
+    if (blockIndex === 0) {
 
-      // Year -> ... -> ...
-      runQuery = 'yQuery'
-    } else if (priority.indexOf('year') === 1 &&  priority.indexOf('state') === 0) {
-      // State -> Year -> ...
-      runQuery = 'tyQuery'
-    } else if (priority.indexOf('year') === 1 &&  priority.indexOf('serie') === 0) {
-      // Serie -> Year -> ...
-      runQuery = 'seyQuery'
-    } else if (priority.indexOf('year') === 2){
-      // ... -> ... -> Year
-      runQuery = ''
+      if (priority.indexOf('year') === 0) {
+
+        // Year -> ... -> ...
+        runQuery = 'yQuery'
+      } else if (priority.indexOf('year') === 1 &&  priority.indexOf('state') === 0) {
+        // State -> Year -> ...
+        runQuery = 'tyQuery'
+      } else if (priority.indexOf('year') === 1 &&  priority.indexOf('serie') === 0) {
+        // Serie -> Year -> ...
+        runQuery = 'seyQuery'
+      } else if (priority.indexOf('year') === 2){
+        // ... -> ... -> Year
+        runQuery = ''
+      }
+    } else {
+      if (isYearsMultiple) {
+        runQuery = 'yAnalysis'
+      } else {
+        runQuery = 'ytDLAnalysis'
+      }
     }
     this.setState({
       filters,
@@ -585,19 +594,26 @@ export default class Layout extends React.Component {
       }
     })
     
-
-    if (priority.indexOf('state') === 0) {
-      // State -> ... -> ...
-      runQuery = 'tQuery'
-    } else if (priority.indexOf('state') === 1 &&  priority.indexOf('year') === 0) {
-      // Year -> State -> ...
-      runQuery = 'tyQuery'
-    } else if (priority.indexOf('state') === 1 &&  priority.indexOf('serie') === 0) {
-      // Serie -> State -> ...
-      runQuery = 'setQuery'
-    } else if (priority.indexOf('state') === 2) {
-      // ... -> ... -> State
-      runQuery = ''
+    if (blockIndex === 0) {
+      if (priority.indexOf('state') === 0) {
+        // State -> ... -> ...
+        runQuery = 'tQuery'
+      } else if (priority.indexOf('state') === 1 &&  priority.indexOf('year') === 0) {
+        // Year -> State -> ...
+        runQuery = 'tyQuery'
+      } else if (priority.indexOf('state') === 1 &&  priority.indexOf('serie') === 0) {
+        // Serie -> State -> ...
+        runQuery = 'setQuery'
+      } else if (priority.indexOf('state') === 2) {
+        // ... -> ... -> State
+        runQuery = ''
+      }
+    } else {
+      if (isYearsMultiple) {
+        runQuery = 'ytDLAnalysis'
+      } else {
+        runQuery = 'tAnalysis'
+      }
     }
     this.setState({
       filters,
@@ -659,6 +675,47 @@ export default class Layout extends React.Component {
       filters: filters,
       runQuery: 'initAnalysis',
       blockIndex
+    })
+  }
+
+  onResetYearAnalysis = (years) => {
+    
+    let yearsInfo = []
+    const selectedYears = years.slice(-1)
+    if (years.length !== 0) {
+      years.forEach(year => {
+        const infoObj = {}
+          infoObj.year = year
+          infoObj.checked = false        
+          yearsInfo.push(infoObj)
+      })
+      yearsInfo[years.length-1].checked = true
+    }
+
+    this.setState({
+      yearsInfo: yearsInfo,
+      selectedYears: selectedYears,
+      runQuery: 'ytDLAnalysis'
+    })
+  }
+
+  onResetStateAnalysis = (states) => {
+    let statesInfo = []
+    const selectedStates = [states[0].id]
+    if (states.length !== 0) {
+      states.forEach(stateN => {
+        const obj = {}
+        obj.name = stateN.name
+        obj.id = stateN.id
+        obj.checked = false      
+        statesInfo.push(obj)     
+      })
+      statesInfo[0].checked = true
+    }
+    this.setState({
+      statesInfo: statesInfo,
+      selectedStates: selectedStates,
+      runQuery: 'ytDLAnalysis'
     })
   }
 
@@ -861,7 +918,8 @@ export default class Layout extends React.Component {
       selectedStates,
       selectedStateNames,
       yearsInfo,
-      statesInfo
+      statesInfo,
+      blockIndex
     } = this.state
 
     if (isYearsMultiple === true) {
@@ -880,13 +938,18 @@ export default class Layout extends React.Component {
         }
       })
     }
+    let runQuery = ''
+    if (blockIndex !== 0) {
+      runQuery = 'ytDLAnalysis'
+    } 
     this.setState({ 
       isYearsMultiple: !isYearsMultiple,
       selectedYears: selectedYears.slice(),
       selectedStates: selectedStates.slice(),
       selectedStateNames: selectedStateNames.slice(),
       yearsInfo,
-      statesInfo
+      statesInfo,
+      runQuery
     })
     
   }
@@ -948,6 +1011,8 @@ export default class Layout extends React.Component {
           onSelectFilterByFilter = {this.onSelectFilterByFilter}
           onSelectSubFilterByFilter = {this.onSelectSubFilterByFilter}
           onSelecetAnalysis = {this.onSelecetAnalysis}
+          onResetYearAnalysis = {this.onResetYearAnalysis}
+          onResetStateAnalysis = {this.onResetStateAnalysis}
           onSelectAnalysisFilter1 = {this.onSelectAnalysisFilter1}
           onSelectAnalysisSubFilter1 = {this.onSelectAnalysisSubFilter1}
           onSelectAnalysisFilter2 = {this.onSelectAnalysisFilter2}
