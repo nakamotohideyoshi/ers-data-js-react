@@ -9,14 +9,13 @@
 	text-align:center;
 	
 }
-.btn-second{
+.btn-download{
 	background:#fafafa;
 	padding:10px 10px;
 	float:right;
 	font-size:12px;
 	font-weight:700px;
 	text-transform:uppercase;
-	margin-right:40px;
 	border:none;
 	letter-spacing:2px;
 	color:#447bac;

@@ -37,21 +37,26 @@ class SheetDataChart extends Component {
             singleIncome.report = element.report_dim.header
             singleIncome.header = element.topic_dim.header
               let estimateList = []
+              let rseList = []
               categories.forEach(category => {
                 const comparedCategory = isYearsMultiple ? element.year: element.state.name
                 if (comparedCategory === category) {
                   estimateList.push(element.estimate)
+                  rseList.push(element.rse)
                 } else {
                   estimateList.push(0)
+                  rseList.push(0)
                 }
               })
               singleIncome.estimateList = estimateList
+              singleIncome.rseList = rseList
               incomeArr.push(singleIncome)
           } else {
               categories.forEach((category, index) => {
                 const comparedCategory = isYearsMultiple ? element.year: element.state.name
                 if (comparedCategory === category) {
                   singleIncome.estimateList[index] = element.estimate
+                  singleIncome.rseList[index] = element.rse
                 } 
               })
               incomeArr[currentIndex] = singleIncome

@@ -1,12 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {CSVLink} from 'react-csv';
-import { Button } from 'react-bootstrap';
 
 import OptionGroup from '../../components/OptionGroup'
 import { numberWithCommas } from '../../helpers/NumberWithCommas'
 
-import DownloadImg from '../../images/download.png'
 import HelpImg from '../../images/help.png'
 import PinHideImg from '../../images/unin_hide.png'
 import PinShowImg from '../../images/unin_show.png'
@@ -97,28 +94,6 @@ class TableContainer extends React.Component {
     console.log(incomeArr)
     this.setState({ incomeArr })
   }
-  generateCSV() {
-    const { incomeArr } = this.state
-    const { categories } = this.props
-    
-    const data = [];
-    const header = ['', '']
-    if (categories) {
-      categories.forEach( category => {
-        header.push(category)
-      })
-    }
-    data.push(header)
-    incomeArr.forEach( element => {
-      let estRow = [element.header, 'Estimate']
-      let rseRow = ['', 'rse']
-      estRow = estRow.concat(element.estimateList)
-      rseRow = rseRow.concat(element.rseList)
-      data.push(estRow)
-      data.push(rseRow)
-    })
-    return data
-  }
   hideItem(dataId){
     this.props.hideItem(dataId)
   }
@@ -138,31 +113,24 @@ class TableContainer extends React.Component {
   }
   render() {
     const { incomeArr, isShowItemAll, optionsIndex } = this.state
-    const { showList, categories, selectedStateNames, isYearsMultiple, blockIndex } = this.props
+    const { showList, categories, blockIndex } = this.props
 
     if (incomeArr.length === 0)
       return ( <div></div>)
     else
       return (
         <div>
-          <div className="downloadbtn-container">
-            <CSVLink data={this.generateCSV()}>
-              <Button>
-                <img src={DownloadImg} alt="" /> Download CSV
-              </Button>
-            </CSVLink>
-          </div>
           <div className="heading-option-container">
             <div className="indexing-option-container">
               <span className="source">
-                <img src={HelpImg} />
+                <img src={HelpImg} alt="help" />
                 <span className="indexing">CHART INDEXING OPTIONS:</span>
               </span>
               <OptionGroup options={indexingOptions} selectedIndex={optionsIndex} onSelect={(index) => this.switchIndexingOption(index)} />
             </div>
             <div className="logo-small-container">
 				       <span className="source">
-                <img src={LogoSmallImg} />
+                <img src={LogoSmallImg} alt="logo" />
                 <span>Source: Economic Research Services, US Dept of Agriculture</span>
                </span>
             </div>
@@ -183,11 +151,12 @@ class TableContainer extends React.Component {
                     <th>
                       <div>
                         {
-                        isShowItemAll && (
-                        <a onClick={() => this.hideAllItem()}><img src={ShownImg} alt="" /></a>
-                        ) || (
-                        <a onClick={() => this.showAllItem()}><img src={HideAllImg} alt="" /></a>
-                        )
+                          isShowItemAll && 
+                            <a onClick={() => this.hideAllItem()}><img src={ShownImg} alt="" /></a>
+                        }
+                        {
+                          !isShowItemAll &&
+                            <a onClick={() => this.showAllItem()}><img src={HideAllImg} alt="" /></a>
                         }
                       </div>
                     </th>
@@ -211,14 +180,12 @@ class TableContainer extends React.Component {
                             </div>
                             {
                               blockIndex < 1 && (
-                                data.level === 1 && ( <div className="level-1 nowrap-div">{data.header}</div>) ||
-                                data.level === 2 && ( <div className="level-2 nowrap-div">{data.header}</div>) ||
-                                data.level === 3 && ( <div className="level-3 nowrap-div">{data.header}</div>) ||
-                                data.level === 4 && ( <div className="level-4 nowrap-div">{data.header}</div>) ||
-                                                    ( <div className="level-0 nowrap-div">{data.header}</div>)
-                              ) || (
-                                <div className="level-1 nowrap-div">{data.header}</div>
+                                <div className={`level-${data.level} nowrap-div`}>{data.header}</div>
                               )
+                            } 
+                            {
+                              blockIndex > 0 &&
+                                <div className="level-1 nowrap-div">{data.header}</div>
                             }
                             </div>
                           </td>
@@ -227,20 +194,10 @@ class TableContainer extends React.Component {
                               <div className="nowrap-div">
                                 {
                                   showList && (
-                                    showList[data.id] === true && (
-                                      <a onClick={() => this.hideItem(data.id)}>
-                                        <img src={ShownImg} alt="" />
-                                      </a>
-                                      ) || (
-                                      <a onClick={() => this.showItem(data.id)}>
-                                        <img src={HiddenImg} alt="" />
-                                      </a>
-                                      )
-                                      ) || (
-                                      <a onClick={() => this.showItem(data.id)}>
-                                        <img src={HiddenImg} alt="" />
-                                      </a>
-                                  )
+                                    <a onClick={() => showList[data.id] === true ? this.hideItem(data.id) : this.showItem(data.id)}>
+                                      <img src={showList[data.id] === true ? ShownImg : HiddenImg } alt="show-hide" />
+                                    </a>
+                                  ) 
                                 }
                                 &ensp;&ensp;{data.unit_desc}
                               </div>
