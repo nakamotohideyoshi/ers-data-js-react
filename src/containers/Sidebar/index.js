@@ -618,7 +618,7 @@ class Sidebar extends React.Component {
           this.setState({
             categoryTitles: categoryTitles,
             sidebarItems: sidebarItems
-          }, this.props.onSelectAnalysisFilter1(serie))
+          }, this.props.onSelectAnalysisFilter1(serie, 1))
 
         }
       } else if (props.ytDLAnalysis) {
@@ -650,7 +650,7 @@ class Sidebar extends React.Component {
           let series = []
           props.ytDLFAnalysis.arms_filter.serie.forEach(serie => {
             const obj = {}
-            obj.num = serie.num
+            obj.num = serie.abb
             obj.header = serie.header
             series.push(obj)
           })
@@ -664,7 +664,7 @@ class Sidebar extends React.Component {
           this.setState({
             categoryTitles: categoryTitles,
             sidebarItems: sidebarItems
-          }, this.props.onSelectAnalysisFilter1(serie))
+          }, this.props.onSelectAnalysisFilter1(serie, currentBlock))
 
         }
       } else if (props.ytsAnalysis) {
@@ -681,7 +681,8 @@ class Sidebar extends React.Component {
             series_element.push(obj)
             serie_element.push(element.id)
           })
-          if (categoryTitles.length < 10) {
+          const index = 7*(currentBlock-1) + 9
+          if (categoryTitles.length < index+1) {
             categoryTitles.push(series_element)
             sidebarItems.push({
               isOpened: false,
@@ -692,8 +693,8 @@ class Sidebar extends React.Component {
               headingTitle: ''
             })
           } else {
-            categoryTitles[9] = series_element
-            sidebarItems[9] = {
+            categoryTitles[index] = series_element
+            sidebarItems[index] = {
               isOpened: false,
               selectedIndex: -1,
               isCategory: false,
@@ -702,15 +703,15 @@ class Sidebar extends React.Component {
               headingTitle: ''
             }
           }
-          sidebarItems[9].headingTitle = categoryTitles[8][sidebarItems[8].selectedIndex].header
+          sidebarItems[index].headingTitle = categoryTitles[index-1][sidebarItems[index-1].selectedIndex].header
           if (props.ytsAnalysis.arms_filter.serie_element.length === 1 && props.ytsAnalysis.arms_filter.serie_element[0].id === 0) {
-            sidebarItems[9].visible = false
+            sidebarItems[index].visible = false
           }
           // update serie_element, [state] list
           this.setState({
             categoryTitles: categoryTitles,
             sidebarItems: sidebarItems
-          }, this.props.onSelectAnalysisSubFilter1(serie_element))
+          }, this.props.onSelectAnalysisSubFilter1(serie_element, currentBlock))
         }
 
       } else if (props.ytseAnalysis) {
@@ -724,8 +725,8 @@ class Sidebar extends React.Component {
             obj.header = serie.header
             series2.push(obj)
           })
-          
-          if (categoryTitles.length<11) {
+          const index = 7*(currentBlock-1) + 10
+          if (categoryTitles.length<index+1) {
             categoryTitles.push(series2)            
             sidebarItems.push({
               isOpened: false,
@@ -736,8 +737,8 @@ class Sidebar extends React.Component {
               headingTitle: 'Filter2'
             })
           } else {
-            categoryTitles[10] = series2            
-            sidebarItems[10] = {
+            categoryTitles[index] = series2            
+            sidebarItems[index] = {
               isOpened: false,
               selectedIndex: 0,
               isCategory: false,
@@ -749,7 +750,7 @@ class Sidebar extends React.Component {
           this.setState({
             categoryTitles: categoryTitles,
             sidebarItems: sidebarItems
-          }, this.props.onSelectAnalysisFilter2(serie2))
+          }, this.props.onSelectAnalysisFilter2(serie2, currentBlock))
 
         }
       } else if (props.ytsesAnalysis) {
@@ -766,7 +767,8 @@ class Sidebar extends React.Component {
             series2_element.push(obj)
             serie2_element.push(element.id)
           })
-          if (categoryTitles.length < 12) {
+          const index = 7*(currentBlock-1) + 11
+          if (categoryTitles.length < index+1) {
             categoryTitles.push(series2_element)
             sidebarItems.push({
               isOpened: false,
@@ -777,8 +779,8 @@ class Sidebar extends React.Component {
               headingTitle: ''
             })
           } else {
-            categoryTitles[11] = series2_element
-            sidebarItems[11] = {
+            categoryTitles[index] = series2_element
+            sidebarItems[index] = {
               isOpened: false,
               selectedIndex: 0,
               isCategory: false,
@@ -787,15 +789,15 @@ class Sidebar extends React.Component {
               headingTitle: ''
             }
           }
-          sidebarItems[11].headingTitle = categoryTitles[10][sidebarItems[10].selectedIndex].header
+          sidebarItems[index].headingTitle = categoryTitles[index-1][sidebarItems[index-1].selectedIndex].header
           if (props.ytsesAnalysis.arms_filter.serie2_element.length === 1 && props.ytsesAnalysis.arms_filter.serie2_element[0].id === 0) {
-            sidebarItems[11].visible = false
+            sidebarItems[index].visible = false
           }
           // update serie_element, [state] list
           this.setState({
             categoryTitles: categoryTitles,
             sidebarItems: sidebarItems
-          }, this.props.onSelectAnalysisSubFilter2(serie2_element))
+          }, this.props.onSelectAnalysisSubFilter2(serie2_element, currentBlock))
         }
 
       }
