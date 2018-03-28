@@ -1293,7 +1293,7 @@ class Sidebar extends React.Component {
 
         topic_abb.push(categoryTitles[sidebarItemIndex][sidebarItems[sidebarItemIndex].selectedIndex].num)
         console.log(topic_abb)
-        this.setState({sidebarItems, categoryTitles})
+        this.setState({sidebarItems, categoryTitles}, this.props.onSleectDataLine(topic_abb, currentBlock))
 
       } else if ((sidebarItemIndex - 5)%7===2){
 
