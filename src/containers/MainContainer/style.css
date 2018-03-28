@@ -9,17 +9,33 @@
 	text-align:center;
 	
 }
-.btn-download{
-	background:#fafafa;
-	padding:10px 10px;
-	float:right;
-	font-size:12px;
-	font-weight:700px;
-	text-transform:uppercase;
-	border:none;
-	letter-spacing:2px;
+.btn-download {
+	padding: 10px 10px;
+	float: right;
+	font-size: 12px;
+	font-weight: 700px;
+	text-transform: uppercase;
+	border: none;
+	letter-spacing: 2px;
 	color:#447bac;
 }
+.btn-download .btn-download-content {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1px 3px;
+}
+.btn-download .btn-download-content .download-label {
+	font-size: 14px;	
+	margin-left: 14px;
+}
+.btn-download .dropdown .dropdown-toggle {
+	border-radius: 0px;
+}
+.btn-download .dropdown .dropdown-menu {
+	border-radius: 0px;
+}
+
 
 
 .download-menu{
