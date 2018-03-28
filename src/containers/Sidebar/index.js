@@ -19,6 +19,8 @@ import tysQuery from '../../ApolloComponent/tysQuery'
 import yQuery from '../../ApolloComponent/yQuery'
 import ysQuery from '../../ApolloComponent/ysQuery'
 import initAnalysis from '../../ApolloComponent/initAnalysis'
+import ytDLAnalysis from '../../ApolloComponent/ytDLAnalysis'
+import ytDLFAnalysis from '../../ApolloComponent/ytDLFAnalysis'
 import ytsAnalysis from '../../ApolloComponent/ytsAnalysis'
 import ytseAnalysis from '../../ApolloComponent/ytseAnalysis'
 import ytsesAnalysis from '../../ApolloComponent/ytsesAnalysis'
@@ -619,6 +621,52 @@ class Sidebar extends React.Component {
           }, this.props.onSelectAnalysisFilter1(serie))
 
         }
+      } else if (props.ytDLAnalysis) {
+        if (!props.ytDLAnalysis.loading && props.ytDLAnalysis.arms_filter.length !== 0) {
+
+          let subjects = []
+          props.ytDLAnalysis.arms_filter.subject.forEach(subject => {
+            const obj = {}
+            obj.num = subject.num
+            obj.header = subject.header
+            subjects.push(obj)
+          })
+
+          const index = 7*(currentBlock-1) + 7
+          categoryTitles[index] = subjects
+          sidebarItems[index].isOpened = false
+          sidebarItems[index].selectedIndex = 0            
+          
+          const subject_num = [props.ytDLAnalysis.arms_filter.subject[0].num]
+          this.setState({
+            categoryTitles: categoryTitles,
+            sidebarItems: sidebarItems
+          }, this.props.onSelectAnalysisFarm(subject_num, currentBlock))
+
+        }
+      } else if (props.ytDLFAnalysis) {
+        if (!props.ytDLFAnalysis.loading && props.ytDLFAnalysis.arms_filter.length !== 0) {
+
+          let series = []
+          props.ytDLFAnalysis.arms_filter.serie.forEach(serie => {
+            const obj = {}
+            obj.num = serie.num
+            obj.header = serie.header
+            series.push(obj)
+          })
+
+          const index = 7*(currentBlock-1) + 8
+          categoryTitles[index] = series
+          sidebarItems[index].isOpened = false
+          sidebarItems[index].selectedIndex = 0            
+          
+          const serie = props.ytDLFAnalysis.arms_filter.serie[0].abb
+          this.setState({
+            categoryTitles: categoryTitles,
+            sidebarItems: sidebarItems
+          }, this.props.onSelectAnalysisFilter1(serie))
+
+        }
       } else if (props.ytsAnalysis) {
         // Year -> Serie
         if (!props.ytsAnalysis.loading && props.ytsAnalysis.arms_filter.length !== 0) {
@@ -1140,10 +1188,17 @@ class Sidebar extends React.Component {
   }
 
   updateFilter = (sidebarItemIndex, selectedIndex) => {
-    const { sidebarItems, categoryTitles, isArmsFilter} =this.state
+
+    const { sidebarItems, categoryTitles} =this.state
+
+    // current Block index
     currentBlock = sidebarItems[sidebarItemIndex].blockIndex
+
     sidebarItems[sidebarItemIndex].selectedIndex = selectedIndex
+
     if (sidebarItemIndex === 0) {
+
+      // Category
       const count = sidebarItems.length
       for (let i = 1; i<count; i++) {
         sidebarItems[i].visible = false
@@ -1151,45 +1206,50 @@ class Sidebar extends React.Component {
         sidebarItems[i].isOpened = false
       }
       if (selectedIndex === 0) {
+        // Tailored Report
         currentBlock = 0
         isReports = true
         
         sidebarItems[1].visible = true
         sidebarItems[2].visible = true
-        // const report_num = categoryTitles[1][sidebarItems[1].selectedIndex].num
-        // const subject_num = categoryTitles[2][sidebarItems[2].selectedIndex].num
        
         this.setState({sidebarItems}, this.props.onResetFilter())        
-      } else {        
+      } else {
+        // Arms Data Analaysis      
         currentBlock = 1
         this.props.onSelecetAnalysis()
         isReports = false
-        // for (let i = 5; i<=11; i++) {
-        //   if (i !== 9 && i !== 11) {
-        //     sidebarItems[i].visible = true
-        //   }       
-        // }
-        // this.setState({sidebarItems, categoryTitles}, this.props.onSelectCategory(isReports)) 
       }
     } else {
 
       if (sidebarItemIndex === 1) {
+
+        // Tailored Report/Report
         const report_num = []
         const topic_abb = []
         report_num.push(categoryTitles[1][sidebarItems[1].selectedIndex].num)
         this.props.topics[sidebarItems[1].selectedIndex].forEach(topic => {
           topic_abb.push(topic.abb)
         })
-        this.setState({sidebarItems, categoryTitles}, this.props.onSelectReportFilter(report_num, topic_abb)) 
+        this.setState({sidebarItems, categoryTitles}, this.props.onSelectReportFilter(report_num, topic_abb))
+
       } else if (sidebarItemIndex === 2) {
+
+        // Tailored Report/Subject
         const subject_num = []
         subject_num.push(categoryTitles[2][sidebarItems[2].selectedIndex].num)
-        this.setState({sidebarItems, categoryTitles}, this.props.onSelectSubjectFilter(subject_num)) 
+        this.setState({sidebarItems, categoryTitles}, this.props.onSelectSubjectFilter(subject_num))
+
       } else if (sidebarItemIndex === 3) {
+
+        // Tailored Report/Filter By
         const serie = []
         serie.push(categoryTitles[3][sidebarItems[3].selectedIndex].num)
         this.setState({sidebarItems, categoryTitles}, this.props.onSelectFilterByFilter(serie))
+
       } else if (sidebarItemIndex === 4) {
+
+        // Tailoared Reort/Sub Filter By
         const serie_element = []
         if (selectedIndex !== 0) {
           serie_element.push(categoryTitles[4][sidebarItems[4].selectedIndex].num)
@@ -1197,10 +1257,71 @@ class Sidebar extends React.Component {
           for (let i = 1; i<categoryTitles[4].length; i++) {
             serie_element.push(categoryTitles[4][i].num)
           }
-        }
-        
+        }        
         this.setState({sidebarItems, categoryTitles}, this.props.onSelectSubFilterByFilter(serie_element))
+
+      } else if ((sidebarItemIndex - 5)%7===0){
+        
+        // Arms Data Analaysis/Data Source
+        const report_num = []
+        const topic_abb = []
+
+        report_num.push(categoryTitles[sidebarItemIndex][sidebarItems[sidebarItemIndex].selectedIndex].num)
+
+        sidebarItems[sidebarItemIndex+1].selectedIndex=0
+        sidebarItems[sidebarItemIndex+1].isOpened = false
+
+        topic_abb.push(this.props.topics[sidebarItems[sidebarItemIndex].selectedIndex][0].abb)
+
+        let topics = []
+        this.props.topics[sidebarItems[sidebarItemIndex].selectedIndex].forEach(topic => {
+          const obj = {}
+          obj.num = topic.abb
+          obj.header = topic.header
+          topics.push(obj)
+        })
+        categoryTitles[sidebarItemIndex+1] = topics
+
+        this.setState({sidebarItems, categoryTitles}, this.props.onSelectDatasource(report_num, topic_abb, currentBlock))
+
+      } else if ((sidebarItemIndex - 5)%7===1){
+
+        // Arms Data Analysis/Data Line
+        const topic_abb = []
+
+        topic_abb.push(categoryTitles[sidebarItemIndex][sidebarItems[sidebarItemIndex].selectedIndex].num)
+        console.log(topic_abb)
+        this.setState({sidebarItems, categoryTitles})
+
+      } else if ((sidebarItemIndex - 5)%7===2){
+
+        // Arms Data Analaysis/Farm Type
+        const subject_num = []
+
+        subject_num.push(categoryTitles[sidebarItemIndex][sidebarItems[sidebarItemIndex].selectedIndex].num)        
+        console.log(subject_num)
+        this.setState({sidebarItems, categoryTitles})
+
+      } else if ((sidebarItemIndex - 5)%7===3){
+
+        // Arms Data Analysis/Filter1
+        const serie = []
+        serie.push(categoryTitles[sidebarItemIndex][sidebarItems[sidebarItemIndex].selectedIndex].num)
+        console.log('~~~~~~~Filter1~~~~~~')
+        this.setState({sidebarItems, categoryTitles})
+
+      } else if ((sidebarItemIndex - 5)%7===4){
+
+        // Arms Data Analaysis/Sub Filter1
+      } else if ((sidebarItemIndex - 5)%7===5){
+
+        // Arms Data Analysis/Filter2
+        console.log('~~~~~~~Filter2~~~~~~')
+      } else if ((sidebarItemIndex - 5)%7===6){
+
+        // Arms Data Analysis/Sub Filter2
       }
+
       // if (sidebarItemIndex>=1 && sidebarItemIndex<=4) {
       //   report_num.push(categoryTitles[1][sidebarItems[1].selectedIndex].num)
       //   this.props.topics[sidebarItems[1].selectedIndex].forEach(topic => {
@@ -1484,6 +1605,8 @@ export default compose(
   yQuery,
   ysQuery,
   initAnalysis,
+  ytDLAnalysis,
+  ytDLFAnalysis,
   ytsAnalysis,
   ytseAnalysis,
   ytsesAnalysis
