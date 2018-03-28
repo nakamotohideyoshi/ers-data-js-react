@@ -43,6 +43,15 @@ export default class Layout extends React.Component {
     obj.serie2_element = [0]
     obj.topic_abb  = []
     filters.push(obj)
+    const obj1 = {}
+    obj1.report_num = []
+    obj1.subject_num = []
+    obj1.serie = []
+    obj1.serie_element = []
+    obj1.serie2 = []
+    obj1.serie2_element = []
+    obj1.topic_abb  = []
+    filters.push(obj1)
 
     this.setState({filters})
   }
@@ -603,15 +612,8 @@ export default class Layout extends React.Component {
   onSelecetAnalysis = () => {
     let {filters} = this.state
     const blockIndex = 1
-    const obj = {}
-    obj.report_num = [1]
-    obj.subject_num = [1]
-    obj.serie = []
-    obj.serie_element = []
-    obj.serie2 = []
-    obj.serie2_element = []
-    obj.topic_abb  = []
-    filters.push(obj)
+    filters[blockIndex].report_num = [1]
+    filters[blockIndex].subject_num = [1]
     
     let yearsInfo = []
     let selectedYears = []
@@ -659,6 +661,31 @@ export default class Layout extends React.Component {
       blockIndex
     })
   }
+
+  onSelectDatasource = (report_num, topic_abb, blockIndex) => {
+    let {filters} = this.state
+    filters[blockIndex].report_num = report_num
+    filters[blockIndex].topic_abb = topic_abb
+    
+    this.setState({
+      filters: filters,
+      blockIndex: blockIndex,
+      runQuery: 'ytDLAnalysis'
+    })
+  }
+
+
+  onSelectAnalysisFarm = (subject_num, blockIndex) => {
+    let {filters} = this.state
+
+    filters[blockIndex].subject_num = subject_num
+    this.setState({
+      filters: filters,
+      blockIndex: blockIndex,
+      runQuery: 'ytDLFAnalysis'
+    })
+  }
+
 
   onSelectAnalysisFilter1 = (serie) => {
     let {filters, blockIndex} = this.state
@@ -910,6 +937,8 @@ export default class Layout extends React.Component {
           onSelectAnalysisSubFilter1 = {this.onSelectAnalysisSubFilter1}
           onSelectAnalysisFilter2 = {this.onSelectAnalysisFilter2}
           onSelectAnalysisSubFilter2 = {this.onSelectAnalysisSubFilter2}
+          onSelectDatasource = {this.onSelectDatasource}
+          onSelectAnalysisFarm = {this.onSelectAnalysisFarm}
         />
         <Col xs={12} md={9} sm={12}>
           <h4 className="main-heading">Farm Business Balance Sheet Data 
