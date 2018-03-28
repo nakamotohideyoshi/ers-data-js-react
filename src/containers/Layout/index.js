@@ -687,38 +687,42 @@ export default class Layout extends React.Component {
   }
 
 
-  onSelectAnalysisFilter1 = (serie) => {
-    let {filters, blockIndex} = this.state
+  onSelectAnalysisFilter1 = (serie, blockIndex) => {
+    let {filters} = this.state
     filters[blockIndex].serie = [serie]
     this.setState({
       filters: filters,
+      blockIndex: blockIndex,
       runQuery: 'ytsAnalysis'
     })
   }
 
-  onSelectAnalysisSubFilter1 = (serie_element) => {
-    let {filters, blockIndex} = this.state
+  onSelectAnalysisSubFilter1 = (serie_element, blockIndex) => {
+    let {filters} = this.state
     filters[blockIndex].serie_element = serie_element
     this.setState({
       filters: filters,
+      blockInde: blockIndex,
       runQuery: 'ytseAnalysis'
     })
   }
 
-  onSelectAnalysisFilter2 = (serie2) => {
-    let {filters, blockIndex} = this.state
+  onSelectAnalysisFilter2 = (serie2, blockIndex) => {
+    let {filters} = this.state
     filters[blockIndex].serie2 = [serie2]
     this.setState({
       filters: filters,
+      blockIndex: blockIndex,
       runQuery: 'ytsesAnalysis'
     })
   }
 
-  onSelectAnalysisSubFilter2 = (serie2_element) => {
-    let {filters, blockIndex} = this.state
+  onSelectAnalysisSubFilter2 = (serie2_element, blockIndex) => {
+    let {filters} = this.state
     filters[blockIndex].serie2_element = serie2_element
     this.setState({
       filters: filters,
+      blockIndex: blockIndex,
       runQuery: ''
     })
   }
