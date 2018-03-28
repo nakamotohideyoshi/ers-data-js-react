@@ -112,7 +112,9 @@ export default class Layout extends React.Component {
 
   onResetFilter = () => {
 
-    let {filters, blockIndex} = this.state
+    let {filters} = this.state
+
+    const blockIndex = 0
 
     filters[blockIndex].serie = []
     filters[blockIndex].serie_element = []
@@ -121,6 +123,7 @@ export default class Layout extends React.Component {
 
     this.setState({
       filters: filters,
+      blockIndex: blockIndex,
       selectedYears: selectedYears,
       selectedStates: selectedStates,
       priority: [],
@@ -858,6 +861,17 @@ export default class Layout extends React.Component {
       filters,
       runQuery
     } = this.state
+    let serie1 = []
+    let serie1_element = []
+    if (filters[blockIndex]){
+      if (filters[blockIndex].serie_element.length > 1){
+        serie1_element = [0]
+        serie1 = ['farm']
+      } else {
+        serie1 = filters[blockIndex].serie
+        serie1_element = filters[blockIndex].serie_element
+      }
+    }
     return (
       <Grid>
         <Sidebar
@@ -914,8 +928,8 @@ export default class Layout extends React.Component {
             selectedYears={selectedYears}
             report_num = {filters[blockIndex] ? filters[blockIndex].report_num : []}
             subject_num = {filters[blockIndex] ? filters[blockIndex].subject_num : []}
-            serie = {filters[blockIndex] ? filters[blockIndex].serie : []}
-            serie_element = {filters[blockIndex] ? filters[blockIndex].serie_element : []}
+            serie = {serie1}
+            serie_element = {serie1_element}
             serie2 = {filters[blockIndex] ? filters[blockIndex].serie2 : []}
             serie2_element = {filters[blockIndex] ? filters[blockIndex].serie2_element : []}
             topic_abb = {filters[blockIndex] ? filters[blockIndex].topic_abb : []}
