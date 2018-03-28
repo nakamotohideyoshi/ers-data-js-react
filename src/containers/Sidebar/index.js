@@ -1300,9 +1300,10 @@ class Sidebar extends React.Component {
         // Arms Data Analaysis/Farm Type
         const subject_num = []
 
-        subject_num.push(categoryTitles[sidebarItemIndex][sidebarItems[sidebarItemIndex].selectedIndex].num)        
+        subject_num.push(categoryTitles[sidebarItemIndex][sidebarItems[sidebarItemIndex].selectedIndex].num)
+
         console.log(subject_num)
-        this.setState({sidebarItems, categoryTitles})
+        this.setState({sidebarItems, categoryTitles}, this.props.onSelectAnalysisFarm(subject_num, currentBlock))
 
       } else if ((sidebarItemIndex - 5)%7===3){
 
