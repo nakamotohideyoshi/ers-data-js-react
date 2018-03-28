@@ -19,6 +19,8 @@ import tysQuery from '../../ApolloComponent/tysQuery'
 import yQuery from '../../ApolloComponent/yQuery'
 import ysQuery from '../../ApolloComponent/ysQuery'
 import initAnalysis from '../../ApolloComponent/initAnalysis'
+import yAnalysis from '../../ApolloComponent/yAnalysis'
+import tAnalysis from '../../ApolloComponent/tAnalysis'
 import ytDLAnalysis from '../../ApolloComponent/ytDLAnalysis'
 import ytDLFAnalysis from '../../ApolloComponent/ytDLFAnalysis'
 import ytsAnalysis from '../../ApolloComponent/ytsAnalysis'
@@ -619,6 +621,18 @@ class Sidebar extends React.Component {
             categoryTitles: categoryTitles,
             sidebarItems: sidebarItems
           }, this.props.onSelectAnalysisFilter1(serie, 1))
+
+        }
+      } else if (props.yAnalysis) {
+        if (!props.yAnalysis.loading && props.yAnalysis.arms_filter.length !== 0) {
+
+          this.props.onResetStateAnalysis(props.yAnalysis.arms_filter.state)
+
+        }
+      } else if (props.tAnalysis) {
+        if (!props.tAnalysis.loading && props.tAnalysis.arms_filter.length !== 0) {
+
+          this.props.onResetYearAnalysis(props.tAnalysis.arms_filter.year)
 
         }
       } else if (props.ytDLAnalysis) {
@@ -1292,7 +1306,7 @@ class Sidebar extends React.Component {
         const topic_abb = []
 
         topic_abb.push(categoryTitles[sidebarItemIndex][sidebarItems[sidebarItemIndex].selectedIndex].num)
-        console.log(topic_abb)
+
         this.setState({sidebarItems, categoryTitles}, this.props.onSleectDataLine(topic_abb, currentBlock))
 
       } else if ((sidebarItemIndex - 5)%7===2){
@@ -1301,8 +1315,7 @@ class Sidebar extends React.Component {
         const subject_num = []
 
         subject_num.push(categoryTitles[sidebarItemIndex][sidebarItems[sidebarItemIndex].selectedIndex].num)
-
-        console.log(subject_num)
+        
         this.setState({sidebarItems, categoryTitles}, this.props.onSelectAnalysisFarm(subject_num, currentBlock))
 
       } else if ((sidebarItemIndex - 5)%7===3){
@@ -1619,6 +1632,8 @@ export default compose(
   yQuery,
   ysQuery,
   initAnalysis,
+  yAnalysis,
+  tAnalysis,
   ytDLAnalysis,
   ytDLFAnalysis,
   ytsAnalysis,
