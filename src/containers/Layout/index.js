@@ -74,8 +74,8 @@ export default class Layout extends React.Component {
           }          
           yearsInfo.push(infoObj)
       })
-      yearsInfo[props.years.length-1].checked = true
-      selectedYears = props.years.slice(-1)
+      yearsInfo[0].checked = true
+      selectedYears = [props.years[0]]
     }
 
     if (props.states && statesInfo.length === 0) {
@@ -154,7 +154,7 @@ export default class Layout extends React.Component {
     filters[blockIndex].serie = [serie]
 
     let yearsInfo = []
-    const selectedYears = years.slice(-1)
+    const selectedYears = [years[0]]
     if (years.length !== 0) {
       years.forEach(year => {
         const infoObj = {}
@@ -162,7 +162,7 @@ export default class Layout extends React.Component {
           infoObj.checked = false        
           yearsInfo.push(infoObj)
       })
-      yearsInfo[years.length-1].checked = true
+      yearsInfo[0].checked = true
     }
 
     let statesInfo = []
@@ -207,7 +207,7 @@ export default class Layout extends React.Component {
     filters[blockIndex].serie_element = serie_element
 
     let yearsInfo = []
-    const selectedYears = years.slice(-1)
+    const selectedYears = [years[0]]
     if (years.length !== 0) {
       years.forEach(year => {
         const infoObj = {}
@@ -215,7 +215,7 @@ export default class Layout extends React.Component {
           infoObj.checked = false        
           yearsInfo.push(infoObj)
       })
-      yearsInfo[years.length-1].checked = true
+      yearsInfo[0].checked = true
     }
 
     let statesInfo = []
@@ -247,7 +247,7 @@ export default class Layout extends React.Component {
   onResetFilter4 = (years, states) => {
 
     let yearsInfo = []
-    const selectedYears = years.slice(-1)
+    const selectedYears = [years[0]]
     if (years.length !== 0) {
       years.forEach(year => {
         const infoObj = {}
@@ -255,7 +255,7 @@ export default class Layout extends React.Component {
           infoObj.checked = false        
           yearsInfo.push(infoObj)
       })
-      yearsInfo[years.length-1].checked = true
+      yearsInfo[0].checked = true
     }
 
     let statesInfo = []
@@ -286,7 +286,7 @@ export default class Layout extends React.Component {
   onResetFilter5 = (years) => {
 
     let yearsInfo = []
-    const selectedYears = years.slice(-1)
+    const selectedYears = [years[0]]
     if (years.length !== 0) {
       years.forEach(year => {
         const infoObj = {}
@@ -294,7 +294,7 @@ export default class Layout extends React.Component {
           infoObj.checked = false        
           yearsInfo.push(infoObj)
       })
-      yearsInfo[years.length-1].checked = true
+      yearsInfo[0].checked = true
     }
 
     this.setState({
@@ -337,7 +337,7 @@ export default class Layout extends React.Component {
     filters[blockIndex].serie = [serie]
 
     let yearsInfo = []
-    const selectedYears = years.slice(-1)
+    const selectedYears = [years[0]]
     if (years.length !== 0) {
       years.forEach(year => {
         const infoObj = {}
@@ -345,7 +345,7 @@ export default class Layout extends React.Component {
           infoObj.checked = false        
           yearsInfo.push(infoObj)
       })
-      yearsInfo[years.length-1].checked = true
+      yearsInfo[0].checked = true
     }
 
     this.setState({
@@ -375,7 +375,7 @@ export default class Layout extends React.Component {
     filters[blockIndex].serie_element = serie_element
 
     let yearsInfo = []
-    const selectedYears = years.slice(-1)
+    const selectedYears = [years[0]]
     if (years.length !== 0) {
       years.forEach(year => {
         const infoObj = {}
@@ -383,7 +383,7 @@ export default class Layout extends React.Component {
           infoObj.checked = false        
           yearsInfo.push(infoObj)
       })
-      yearsInfo[years.length-1].checked = true
+      yearsInfo[0].checked = true
     }
 
     this.setState({
@@ -456,7 +456,7 @@ export default class Layout extends React.Component {
     filters[blockIndex].topic_abb = topic_abb
     this.setState({
       filters: filters,
-      runQuery: 'resetQuery'
+      runQuery: 'reset1Query'
     })
   }
 
@@ -649,7 +649,7 @@ export default class Layout extends React.Component {
           yearsInfo.push(infoObj)
       })
       yearsInfo[this.props.years.length-1].checked = true
-      selectedYears = this.props.years.slice(-1)
+      selectedYears = [this.props.years[0]]
     }
     
     let statesInfo = []
@@ -687,7 +687,7 @@ export default class Layout extends React.Component {
   onResetYearAnalysis = (years) => {
     
     let yearsInfo = []
-    const selectedYears = years.slice(-1)
+    const selectedYears = [years[0]]
     if (years.length !== 0) {
       years.forEach(year => {
         const infoObj = {}
@@ -695,7 +695,7 @@ export default class Layout extends React.Component {
           infoObj.checked = false        
           yearsInfo.push(infoObj)
       })
-      yearsInfo[years.length-1].checked = true
+      yearsInfo[0].checked = true
     }
 
     this.setState({
@@ -832,7 +832,7 @@ export default class Layout extends React.Component {
     } = this.state
 
     if (isYearsMultiple === true) {
-      selectedYears = selectedYears.slice(-1)
+      selectedYears = [selectedYears[0]]
       yearsInfo.forEach(yearN => {
         if (yearN.year !== selectedYears[0]) {
           yearN.checked = false
