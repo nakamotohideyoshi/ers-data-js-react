@@ -971,7 +971,6 @@ export default class Layout extends React.Component {
       isYearsMultiple,
       filters,
       runQuery,
-      isYearsMultiple
     } = this.state
     let serie1 = []
     let serie1_element = []
