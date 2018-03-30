@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './style.css'
 
-const Checkbox = ({ title, checked, arrayIndex, onCheck }) => (
+const Checkbox = ({ title, checked, arrayIndex, isMultiple, onCheck }) => (
   <div className="checkboxlist-item">
-    <label class="checkbox-container">
+    <label className="checkbox-container">
       {title}
       <input type="checkbox" checked={checked} onChange={onCheck} />
-      <span class="checkmark"></span>
+      <span className={isMultiple ? "checkmark" : "checkmark single"}></span>
     </label>
   </div>
 );

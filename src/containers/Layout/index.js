@@ -7,6 +7,7 @@ import { Col } from 'react-bootstrap';
 import Footnote from '../Footnote';
 // import { filter, concatSeries } from 'async';
 
+const defaultYears = [2015, 2014, 2013, 2012, 2011]
 const default_filter = {
   report_num: [],
   subject_num: [],
@@ -15,6 +16,8 @@ const default_filter = {
   serie2: ['farm'],
   serie2_element: [0],
   topic_abb: [],
+  selectedYears: defaultYears,
+  selectedStates: ['00'],
 }
 
 export default class Layout extends React.Component {
@@ -64,8 +67,11 @@ export default class Layout extends React.Component {
       props.years.forEach(year => {
         const infoObj = {}
           infoObj.year = year
-          infoObj.checked = false
-
+          if (defaultYears.indexOf(year) >= 0) {
+            infoObj.checked = true
+          } else {
+            infoObj.checked = false
+          }          
           yearsInfo.push(infoObj)
       })
       yearsInfo[props.years.length-1].checked = true
@@ -923,7 +929,7 @@ export default class Layout extends React.Component {
     } = this.state
 
     if (isYearsMultiple === true) {
-      selectedYears = selectedYears.slice(0, 1)
+      selectedYears = selectedYears.slice(-1)
       yearsInfo.forEach(yearN => {
         if (yearN.year !== selectedYears[0]) {
           yearN.checked = false
@@ -951,8 +957,8 @@ export default class Layout extends React.Component {
       statesInfo,
       runQuery
     })
-    
   }
+
   render() {
     console.log('%%%%%%%%%%%%', this.state, '%%%%%%%%%%%')
     const {
@@ -964,7 +970,8 @@ export default class Layout extends React.Component {
       selectedStates,
       isYearsMultiple,
       filters,
-      runQuery
+      runQuery,
+      isYearsMultiple
     } = this.state
     let serie1 = []
     let serie1_element = []
@@ -977,6 +984,7 @@ export default class Layout extends React.Component {
         serie1_element = filters[blockIndex].serie_element
       }
     }
+    let sortedYears = yearsInfo.sort(function(a, b){return parseInt(b.year, 10) - parseInt(a.year, 10)})
     return (
       <Grid>
         <Sidebar
@@ -1022,10 +1030,11 @@ export default class Layout extends React.Component {
           onSelectAnalysisFarm = {this.onSelectAnalysisFarm}
         />
         <Col xs={12} md={9} sm={12}>
-          <h4 className="main-heading">Farm Business Balance Sheet Data 
+          <h4 className="main-heading">
+            {blockIndex > 0 ? 'ARMS Data Analysis' : 'Tailored Reports'}
           </h4>
           <FilterDropdown 
-            yearsInfo={yearsInfo} 
+            yearsInfo={sortedYears} 
             statesInfo={statesInfo} 
             onSelectYear={this.onSelectYear} 
             onSelectState={this.onSelectState}
