@@ -8,6 +8,7 @@ import Reset from '../../images/reset.png'
 import armsfilter from '../../ApolloComponent/armsQuery'
 // import { selectLimit } from 'async';
 import resetQuery from '../../ApolloComponent/resetQuery'
+import reset1Query from '../../ApolloComponent/reset1Query'
 import sQuery from '../../ApolloComponent/sQuery'
 import seQuery from '../../ApolloComponent/seQuery'
 import setQuery from '../../ApolloComponent/setQuery'
@@ -113,7 +114,48 @@ class Sidebar extends React.Component {
 
     } else if (categoryTitles.length !== 0 && currentBlock === 0) {
 
-      if (props.resetQuery) {
+      if (props.reset1Query) {
+
+        // click subject filter
+        if (!props.reset1Query.loading && props.reset1Query.arms_filter.length !== 0) {
+          // generate `subject` LHS menu
+          let subjects = []
+          const subject_num = [props.reset1Query.arms_filter.subject[0].num]
+          props.reset1Query.arms_filter.subject.forEach(subject => {
+            const obj = {}
+            obj.num = subject.num
+            obj.header = subject.header
+            subjects.push(obj)
+          })
+          if (categoryTitles.length<3) {
+            categoryTitles.push(subjects)
+            sidebarItems.push({
+              isOpened: false,
+              selectedIndex: 0,
+              isCategory: false,
+              blockIndex: blockCount,
+              visible: true,
+              headingTitle: 'Subject'
+            })
+          } else {
+            categoryTitles[2] = subjects
+            sidebarItems[2] = {
+              isOpened: false,
+              selectedIndex: 0,
+              isCategory: false,
+              blockIndex: blockCount,
+              visible: true,
+              headingTitle: 'Subject'
+            }
+          }
+          
+          // update subject
+          this.setState({
+            categoryTitles: categoryTitles,
+            sidebarItems: sidebarItems
+          }, this.props.onSelectSubjectFilter(subject_num))
+        }        
+      } else if (props.resetQuery) {
 
         // click reset or static filter updated
         if (!props.resetQuery.loading && props.resetQuery.arms_filter.length !== 0) {
@@ -1243,6 +1285,7 @@ class Sidebar extends React.Component {
 
 export default compose(
   resetQuery,
+  reset1Query,
   sQuery,
   seQuery,
   seyQuery,
