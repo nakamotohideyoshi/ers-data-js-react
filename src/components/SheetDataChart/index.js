@@ -70,7 +70,7 @@ class SheetDataChart extends Component {
   }
   render() {
     const { incomeArr, chartTypeIndex } = this.state
-    const { categories, blockIndex } = this.props
+    const { categories, blockIndex, isYearsMultiple } = this.props
     const chartTitle = blockIndex > 0 ? 'Arms Data Analysis' : ''
     const chartType = chartTypes[chartTypeIndex].type
 
@@ -79,7 +79,7 @@ class SheetDataChart extends Component {
     else
       return (
         <div className="chart-container col-xs-12">
-          <ChartGenerator series={incomeArr} categories={categories} title={chartTitle} chartType={chartType} />
+          <ChartGenerator series={incomeArr} categories={categories} title={chartTitle} chartType={chartType} isYearsMultiple={isYearsMultiple} />
           <div className="chart-type-container">
             <span>Chart Type:</span>
             <OptionGroup options={chartTypes} selectedIndex={chartTypeIndex} onSelect={(index) => this.switchChartType(index)} />
