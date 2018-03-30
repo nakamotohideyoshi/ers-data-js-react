@@ -1,0 +1,25 @@
+.option-group {
+  display: flex;
+}
+.option-group .single-option {
+  display: flex;
+  padding: 7px 15px;
+  margin-left: 10px;
+  color: #081827;
+  font-size: 12px;
+}
+.option-group .single-option a {
+  text-decoration: none;
+  cursor: pointer;
+}
+.option-group .active {
+  background: #edf5f8;
+}
+.option-group .active:hover {
+  color: red
+}
+.option-group .active i {
+  margin-right: 7px;
+  margin-top: 2px;
+}
+

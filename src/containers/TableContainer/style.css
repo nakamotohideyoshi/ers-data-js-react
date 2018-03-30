@@ -1,10 +1,36 @@
-.downloadbtn-container {
+.heading-option-container {
   display: flex;
+  justify-content: space-between;
   width: 100%;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  flex-direction: row-reverse;
+  padding: 10px 0px 10px 78px;
 }
+.heading-option-container .source span {
+  padding: 10px 0px 0px 10px;
+  width: 100%;
+  color: #cccccc;
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 20px;
+}
+.heading-option-container .source span.indexing {
+  font-size: 10px;
+  color: #081827;
+  margin: 0px;
+  padding: 5px 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.heading-option-container .indexing-option-container {
+  display: flex;
+  align-items: center;  
+}
+.heading-option-container .logo-small-container {
+  display: flex;
+  align-items: center;  
+}
+
+
 .table-container {
   display: flex;
   width: 100%

@@ -31,22 +31,32 @@ class FilterDropdown extends React.Component {
     return (
       <div className="filterDropdownContainer">
       <Col md={6} sm={6} xs={12}>
-        <Col md={7} sm={6} xs={12} mdOffset={5} smOffset={6}>
+        <Col md={10} sm={6} xs={12} mdOffset={2} smOffset={6}>
           <div className="top-title right-title">{ isYearsMultiple ? MULTIPLE_HEADING.concat(' ' + YEARS_CAPTION) : MULTIPLE_HEADING.concat(' ' + REGIONS_CAPTION) }</div>
           <DropdownButton
             bsStyle="default"
-            title={ isYearsMultiple ? YEARS_CAPTION:REGIONS_CAPTION }
+            title={ 
+                <span className='selected-list'>{
+                  isYearsMultiple ? 
+                  YEARS_CAPTION.concat(': '+this.generateToolTipList(yearsInfo, 'year')):
+                  REGIONS_CAPTION.concat(': '+this.generateToolTipList(statesInfo, 'name'))
+                }
+              </span>
+            }
             className="download-menu"
             data-tip={this.generateToolTipList(isYearsMultiple ? yearsInfo:statesInfo, isYearsMultiple ? 'year':'name')}
           >
           {
             isYearsMultiple &&
-            yearsInfo.map((infoObj, index) => {
-              return <Checkbox title={infoObj.year + ''} checked={infoObj.checked} onCheck={() => onSelectYear(index)} key={index} />
-            }) ||
-            statesInfo.map((obj, index) => {
-              return <Checkbox title={obj.name + ''} checked={obj.checked} onCheck={() => onSelectState(index)} key={index} />
-            })
+              yearsInfo.map((infoObj, index) => {
+                return <Checkbox title={infoObj.year + ''} checked={infoObj.checked} isMultiple={true} onCheck={() => onSelectYear(index)} key={index} />
+              })
+           }
+           {
+            !isYearsMultiple &&
+              statesInfo.map((obj, index) => {
+                return <Checkbox title={obj.name + ''} checked={obj.checked} isMultiple={true} onCheck={() => onSelectState(index)} key={index} />
+              })
           }
           </DropdownButton>
         </Col>
@@ -57,22 +67,32 @@ class FilterDropdown extends React.Component {
         </div>
       </Col>
       <Col md={5} sm={5} xs={12}>
-          <Col md={8} sm={6} xs={11}>
+          <Col md={10} sm={6} xs={11}>
             <div className="top-title">{ isYearsMultiple ? FILTERED_HEADING.concat(' ' + REGIONS_CAPTION.slice(0, -1)) : FILTERED_HEADING.concat(' ' + YEARS_CAPTION.slice(0, -1)) }</div>
             <DropdownButton
               bsStyle="default"
-              title={ isYearsMultiple ? REGIONS_CAPTION:YEARS_CAPTION }
+              title={ 
+                <span className='selected-list'> {
+                    isYearsMultiple ? 
+                    REGIONS_CAPTION.concat(': '+this.generateToolTipList(statesInfo, 'name')):
+                    YEARS_CAPTION.concat(': '+this.generateToolTipList(yearsInfo, 'year'))
+                  }
+                </span>
+              }
               className="download-menu"
               data-tip={this.generateToolTipList(isYearsMultiple ? statesInfo:yearsInfo, isYearsMultiple ? 'name':'year')}
             >
             {
-              isYearsMultiple &&
-              statesInfo.map((obj, index) => {
-                return <Checkbox title={obj.name + ''} checked={obj.checked} onCheck={() => onSelectState(index)} key={index} />
-              }) || 
-              yearsInfo.map((infoObj, index) => {
-                return <Checkbox title={infoObj.year + ''} checked={infoObj.checked} onCheck={() => onSelectYear(index)} key={index} />
-              }) 
+              isYearsMultiple && 
+                statesInfo.map((obj, index) => {
+                  return <Checkbox title={obj.name + ''} checked={obj.checked} isMultiple={false} onCheck={() => onSelectState(index)} key={index} />
+                }) 
+            }
+            {
+              !isYearsMultiple && 
+                yearsInfo.map((infoObj, index) => {
+                  return <Checkbox title={infoObj.year + ''} checked={infoObj.checked} isMultiple={false} onCheck={() => onSelectYear(index)} key={index} />
+                })
             }       	                 	
             </DropdownButton>
           </Col>
