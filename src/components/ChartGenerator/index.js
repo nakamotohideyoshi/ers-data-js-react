@@ -52,7 +52,7 @@ export default class ChartGenerator extends React.Component {
     csvTableArray.push(header)
     series.forEach( element => {
       let estRow = [element.header, 'Estimate']
-      let rseRow = ['', 'rse']
+      let rseRow = ['', 'RSEᵃ']
       estRow = estRow.concat(element.estimateList)
       rseRow = rseRow.concat(element.rseList)
       csvTableArray.push(estRow)
