@@ -232,7 +232,7 @@ class TableContainer extends React.Component {
                             <td className="estimate-rse-td" key={`est-th-${pos}`}>
                               <div className='estimate_rse'>
                                 <div className="data-heading data-value">ESTIMATE</div>
-                                <div className="data-heading data-value">RSE</div>
+                                <div className="data-heading data-value">RSEᵃ</div>
                               </div>
                             </td>
                           )
