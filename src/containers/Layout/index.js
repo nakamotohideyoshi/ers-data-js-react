@@ -142,9 +142,9 @@ export default class Layout extends React.Component {
 
   // reset step 1
   // run query to refresh [serie_element]
-  onResetFilter1 = (serie, years, states) => {
-    let {filters, blockIndex} = this.state
-    filters[blockIndex].serie = [serie]
+  onResetFilter1 = (serie, years, states, blockIndex) => {
+    let {filters} = this.state
+    filters[blockIndex].serie = serie
 
     let yearsInfo = []
     years.forEach(year => {
