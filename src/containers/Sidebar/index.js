@@ -114,10 +114,10 @@ class Sidebar extends React.Component {
 
     } else if (categoryTitles.length !== 0 && currentBlock === 0) {
 
-      if (props.reset1Query) {
+      if (props.runQuery === 'reset1Query') {
 
         // click subject filter
-        if (!props.reset1Query.loading && props.reset1Query.arms_filter.length !== 0) {
+        if ((props.reset1Query.networkStatus === 1 || props.reset1Query.networkStatus ===7) && props.reset1Query.arms_filter) {
           // generate `subject` LHS menu
           let subjects = []
           const subject_num = [props.reset1Query.arms_filter.subject[0].num]
@@ -155,7 +155,7 @@ class Sidebar extends React.Component {
             sidebarItems: sidebarItems
           }, this.props.onSelectSubjectFilter(subject_num))
         }        
-      } else if (props.resetQuery) {
+      } else if (props.runQuery === 'resetQuery') {
 
         // click reset or static filter updated
         if ((props.resetQuery.networkStatus
@@ -198,7 +198,7 @@ class Sidebar extends React.Component {
             sidebarItems: sidebarItems
           }, this.props.onResetFilter1(serie, props.resetQuery.arms_filter.year, props.resetQuery.arms_filter.state, currentBlock))
         }        
-      } else if (props.tysQuery) {
+      } else if (props.runQuery === 'tysQuery') {
 
         // update `Filter By/Sub` LHS menu
         if ((props.tysQuery.networkStatus
@@ -249,10 +249,10 @@ class Sidebar extends React.Component {
           }, this.props.onResetFilter2(serie_element))
         }   
              
-      } else if (props.sQuery) {
+      } else if (props.runQuery === 'sQuery') {
 
         // Serie -> 
-        if (!props.sQuery.loading && props.sQuery.arms_filter.length !== 0) {
+        if ((props.sQuery.networkStatus === 1 || props.sQuery.networkStatus === 7)  && props.sQuery.arms_filter) {
           let series_element = [{
             num: 0,
             header: 'All'
@@ -300,34 +300,34 @@ class Sidebar extends React.Component {
           }, this.props.onResetFilter3(serie_element, props.sQuery.arms_filter.year, props.sQuery.arms_filter.state))
         }
 
-      } else if (props.seQuery) {
+      } else if (props.runQuery === 'seQuery') {
 
         // Serie/Serie_element -> 
-        if (!props.seQuery.loading && props.seQuery.arms_filter.length !== 0) {
+        if ((props.seQuery.networkStatus === 1 || props.seQuery.networkStatus === 7) && props.seQuery.arms_filter) {
           // update [Year, State] list              
           this.props.onResetFilter4(props.seQuery.arms_filter.year, props.seQuery.arms_filter.state)
         }   
 
-      } else if (props.setQuery) {
+      } else if (props.runQuery === 'setQuery') {
 
         // Serie/Serie_element -> State
-        if (!props.setQuery.loading && props.setQuery.arms_filter.length !== 0) {
+        if ((props.setQuery.networkStatus === 1 || props.setQuery.networkStatus === 7) && props.setQuery.arms_filter) {
           // Update [year] list       
           this.props.onResetFilter5(props.setQuery.arms_filter.year)
         }  
 
-      } else if (props.seyQuery) {
+      } else if (props.runQuery === 'seyQuery') {
 
         // Serie/Serie_element -> Year
-        if (!props.seyQuery.loading && props.seyQuery.arms_filter.length !== 0) {
+        if ((props.seyQuery.networkStatus === 1 || props.seyQuery.networkStatus === 7) && props.seyQuery.arms_filter) {
            // Update [State] list       
           this.props.onResetFilter6(props.seyQuery.arms_filter.state)
         }  
 
-      } else if (props.tQuery) {
+      } else if (props.runQuery === 'tQuery') {
 
         // State - > 
-        if (!props.tQuery.loading && props.tQuery.arms_filter.length !== 0) {
+        if ((props.tQuery.networkStatus === 1 || props.tQuery.networkStatus ===7) && props.tQuery.arms_filter) {
           let series = []
           const serie = props.tQuery.arms_filter.serie[0].abb
 
@@ -367,9 +367,9 @@ class Sidebar extends React.Component {
           }, this.props.onResetFilter7(serie, props.tQuery.arms_filter.year))
         }
 
-      } else if (props.tyQuery) {
+      } else if (props.runQuery === 'tyQuery') {
         // State -> Year
-        if (!props.tyQuery.loading && props.tyQuery.arms_filter.length !== 0) {
+        if ((props.tyQuery.networkStatus === 1 || props.tyQuery.networkStatus === 7) && props.tyQuery.arms_filter) {
           let series = []
           const serie = props.tQuery.arms_filter.serie[0].abb
 
@@ -409,9 +409,9 @@ class Sidebar extends React.Component {
           }, this.props.onResetFilter8(serie))
         }
 
-      } else if (props.tsQuery) {
+      } else if (props.runQuery === 'tsQuery') {
         // State -> Serie
-        if (!props.tsQuery.loading && props.tsQuery.arms_filter.length !== 0) {
+        if ((props.tsQuery.networkStatus === 1 || props.tsQuery.networkStatus === 7) && props.tsQuery.arms_filter) {
           let series_element = [{
             num: 0,
             header: 'All'
@@ -459,9 +459,9 @@ class Sidebar extends React.Component {
           }, this.props.onResetFilter9(serie_element, props.tsQuery.arms_filter.year))
         }
 
-      } else if (props.yQuery) {
+      } else if (props.runQuery === 'yQuery') {
         // Year - > 
-        if (!props.yQuery.loading && props.yQuery.arms_filter.length !== 0) {
+        if ((props.yQuery.networkStatus === 1 || props.yQuery.networkStatus ===  7) && props.yQuery.arms_filter) {
           let series = []
           const serie = props.yQuery.arms_filter.serie[0].abb
 
@@ -501,9 +501,9 @@ class Sidebar extends React.Component {
           }, this.props.onResetFilter10(serie, props.yQuery.arms_filter.state))
         }
 
-      } else if (props.ysQuery) {
+      } else if (props.runQuery === 'ysQuery') {
         // Year -> Serie
-        if (!props.ysQuery.loading && props.ysQuery.arms_filter.length !== 0) {
+        if ((props.ysQuery.networkStatus === 1 || props.ysQuery.networkStatus === 7) && props.ysQuery.arms_filter) {
           let series_element = [{
             num: 0,
             header: 'All'
@@ -552,8 +552,8 @@ class Sidebar extends React.Component {
 
       }
     } else if (categoryTitles.length !== 0 && currentBlock !== 0) {
-      if (props.initAnalysis) {
-        if (!props.initAnalysis.loading && props.initAnalysis.arms_filter.length !== 0) {
+      if (props.runQuery === 'initAnalysis') {
+        if ((props.initAnalysis.networkStatus === 1 || props.initAnalysis.networkStatus === 7) && props.initAnalysis.arms_filter) {
           
           let reports = []
           props.reports.forEach(report => {
@@ -669,20 +669,20 @@ class Sidebar extends React.Component {
           }, this.props.onSelectAnalysisFilter1(serie, 1))
 
         }
-      } else if (props.yAnalysis) {
-        if (!props.yAnalysis.loading && props.yAnalysis.arms_filter.length !== 0) {
+      } else if (props.runQuery === 'yAnalysis') {
+        if ((props.yAnalysis.networkStatus === 1 || props.yAnalysis.networkStatus === 7) && props.yAnalysis.arms_filter) {
 
           this.props.onResetStateAnalysis(props.yAnalysis.arms_filter.state)
 
         }
-      } else if (props.tAnalysis) {
-        if (!props.tAnalysis.loading && props.tAnalysis.arms_filter.length !== 0) {
+      } else if (props.runQuery === 'tAnalysis') {
+        if ((props.tAnalysis.networkStatus === 1 || props.tAnalysis.networkStatus === 7) && props.tAnalysis.arms_filter) {
 
           this.props.onResetYearAnalysis(props.tAnalysis.arms_filter.year)
 
         }
-      } else if (props.ytDLAnalysis) {
-        if (!props.ytDLAnalysis.loading && props.ytDLAnalysis.arms_filter.length !== 0) {
+      } else if (props.runQuery === 'ytDLAnalysis') {
+        if ((props.ytDLAnalysis.networkStatus === 1 || props.ytDLAnalysis.networkStatus === 7) && props.ytDLAnalysis.arms_filter) {
 
           let subjects = []
           props.ytDLAnalysis.arms_filter.subject.forEach(subject => {
@@ -704,8 +704,8 @@ class Sidebar extends React.Component {
           }, this.props.onSelectAnalysisFarm(subject_num, currentBlock))
 
         }
-      } else if (props.ytDLFAnalysis) {
-        if (!props.ytDLFAnalysis.loading && props.ytDLFAnalysis.arms_filter.length !== 0) {
+      } else if (props.runQuery === 'ytDLFAnalysis') {
+        if ((props.ytDLFAnalysis.networkStatus === 1 || props.ytDLFAnalysis.networkStatus === 7) && props.ytDLFAnalysis.arms_filter) {
 
           let series = []
           props.ytDLFAnalysis.arms_filter.serie.forEach(serie => {
@@ -727,9 +727,9 @@ class Sidebar extends React.Component {
           }, this.props.onSelectAnalysisFilter1(serie, currentBlock))
 
         }
-      } else if (props.ytsAnalysis) {
+      } else if (props.runQuery === 'ytsAnalysis') {
         // Year -> Serie
-        if (!props.ytsAnalysis.loading && props.ytsAnalysis.arms_filter.length !== 0) {
+        if ((props.ytsAnalysis.networkStatus === 1 || props.ytsAnalysis.networkStatus === 7) && props.ytsAnalysis.arms_filter) {
           let series_element = []
           
           // Generate `Filter By/Sub` LHS menu
@@ -774,8 +774,8 @@ class Sidebar extends React.Component {
           }, this.props.onSelectAnalysisSubFilter1(serie_element, currentBlock))
         }
 
-      } else if (props.ytseAnalysis) {
-        if (!props.ytseAnalysis.loading && props.ytseAnalysis.arms_filter.length !== 0) {
+      } else if (props.runQuery === 'ytseAnalysis') {
+        if ((props.ytseAnalysis.networkStatus === 1 || props.ytseAnalysis.networkStatus === 7) && props.ytseAnalysis.arms_filter) {
           
           let series2 = []
           let serie2 = [props.ytseAnalysis.arms_filter.serie2[0].abb]
@@ -813,9 +813,9 @@ class Sidebar extends React.Component {
           }, this.props.onSelectAnalysisFilter2(serie2, currentBlock))
 
         }
-      } else if (props.ytsesAnalysis) {
+      } else if (props.runQuery === 'ytsesAnalysis') {
         // Year -> Serie
-        if (!props.ytsesAnalysis.loading && props.ytsesAnalysis.arms_filter.length !== 0) {
+        if ((props.ytsesAnalysis.networkStatus === 1 || props.ytsesAnalysis.networkStatus === 7) && props.ytsesAnalysis.arms_filter) {
           let series2_element = []
           
           // Generate `Filter By/Sub` LHS menu
