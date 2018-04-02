@@ -114,10 +114,10 @@ class Sidebar extends React.Component {
 
     } else if (categoryTitles.length !== 0 && currentBlock === 0) {
 
-      if (props.runQuery === 'reset1Query') {
+      if (props.reset1Query) {
 
         // click subject filter
-        if ((props.reset1Query.networkStatus === 1 || props.reset1Query.networkStatus ===7) && props.reset1Query.arms_filter) {
+        if ((props.reset1Query.networkStatus ===7) && props.reset1Query.arms_filter) {
           // generate `subject` LHS menu
           let subjects = []
           const subject_num = [props.reset1Query.arms_filter.subject[0].num]
@@ -161,7 +161,7 @@ class Sidebar extends React.Component {
             sidebarItems: sidebarItems
           }, this.props.onSelectSubjectFilter(subject_num, currentBlock))
         }        
-      } else if (props.runQuery === 'resetQuery') {
+      } else if (props.resetQuery) {
 
         // click reset or static filter updated
         if ((props.resetQuery.networkStatus
@@ -204,7 +204,7 @@ class Sidebar extends React.Component {
             sidebarItems: sidebarItems
           }, this.props.onResetFilter1(serie, props.resetQuery.arms_filter.year, props.resetQuery.arms_filter.state, currentBlock))
         }        
-      } else if (props.runQuery === 'tysQuery') {
+      } else if (props.tysQuery) {
 
         // update `Filter By/Sub` LHS menu
         if ((props.tysQuery.networkStatus
@@ -255,7 +255,7 @@ class Sidebar extends React.Component {
           }, this.props.onResetFilter2(serie_element, currentBlock))
         }   
              
-      } else if (props.runQuery === 'sQuery') {
+      } else if (props.sQuery) {
 
         // Serie -> 
         if ((props.sQuery.networkStatus === 1 || props.sQuery.networkStatus === 7)  && props.sQuery.arms_filter) {
@@ -306,7 +306,7 @@ class Sidebar extends React.Component {
           }, this.props.onResetFilter3(serie_element, props.sQuery.arms_filter.year, props.sQuery.arms_filter.state, currentBlock))
         }
 
-      } else if (props.runQuery === 'seQuery') {
+      } else if (props.seQuery) {
 
         // Serie/Serie_element -> 
         if ((props.seQuery.networkStatus === 1 || props.seQuery.networkStatus === 7) && props.seQuery.arms_filter) {
@@ -314,7 +314,7 @@ class Sidebar extends React.Component {
           this.props.onResetFilter4(props.seQuery.arms_filter.year, props.seQuery.arms_filter.state, currentBlock)
         }   
 
-      } else if (props.runQuery === 'setQuery') {
+      } else if (props.setQuery) {
 
         // Serie/Serie_element -> State
         if ((props.setQuery.networkStatus === 1 || props.setQuery.networkStatus === 7) && props.setQuery.arms_filter) {
@@ -322,7 +322,7 @@ class Sidebar extends React.Component {
           this.props.onResetFilter5(props.setQuery.arms_filter.year, currentBlock)
         }  
 
-      } else if (props.runQuery === 'seyQuery') {
+      } else if (props.seyQuery) {
 
         // Serie/Serie_element -> Year
         if ((props.seyQuery.networkStatus === 1 || props.seyQuery.networkStatus === 7) && props.seyQuery.arms_filter) {
@@ -330,7 +330,7 @@ class Sidebar extends React.Component {
           this.props.onResetFilter6(props.seyQuery.arms_filter.state, currentBlock)
         }  
 
-      } else if (props.runQuery === 'tQuery') {
+      } else if (props.tQuery) {
 
         // State - > 
         if ((props.tQuery.networkStatus === 1 || props.tQuery.networkStatus ===7) && props.tQuery.arms_filter) {
@@ -373,7 +373,7 @@ class Sidebar extends React.Component {
           }, this.props.onResetFilter7(serie, props.tQuery.arms_filter.year, currentBlock))
         }
 
-      } else if (props.runQuery === 'tyQuery') {
+      } else if (props.tyQuery) {
         // State -> Year
         if ((props.tyQuery.networkStatus === 1 || props.tyQuery.networkStatus === 7) && props.tyQuery.arms_filter) {
           let series = []
@@ -415,7 +415,7 @@ class Sidebar extends React.Component {
           }, this.props.onResetFilter8(serie, currentBlock))
         }
 
-      } else if (props.runQuery === 'tsQuery') {
+      } else if (props.tsQuery) {
         // State -> Serie
         if ((props.tsQuery.networkStatus === 1 || props.tsQuery.networkStatus === 7) && props.tsQuery.arms_filter) {
           let series_element = [{
@@ -465,7 +465,7 @@ class Sidebar extends React.Component {
           }, this.props.onResetFilter9(serie_element, props.tsQuery.arms_filter.year, currentBlock))
         }
 
-      } else if (props.runQuery === 'yQuery') {
+      } else if (props.yQuery) {
         // Year - > 
         if ((props.yQuery.networkStatus === 1 || props.yQuery.networkStatus ===  7) && props.yQuery.arms_filter) {
           let series = []
@@ -507,7 +507,7 @@ class Sidebar extends React.Component {
           }, this.props.onResetFilter10(serie, props.yQuery.arms_filter.state, currentBlock))
         }
 
-      } else if (props.runQuery === 'ysQuery') {
+      } else if (props.ysQuery) {
         // Year -> Serie
         if ((props.ysQuery.networkStatus === 1 || props.ysQuery.networkStatus === 7) && props.ysQuery.arms_filter) {
           let series_element = [{
@@ -558,7 +558,7 @@ class Sidebar extends React.Component {
 
       }
     } else if (categoryTitles.length !== 0 && currentBlock !== 0) {
-      if (props.runQuery === 'initAnalysis') {
+      if (props.initAnalysis) {
         if ((props.initAnalysis.networkStatus === 1 || props.initAnalysis.networkStatus === 7) && props.initAnalysis.arms_filter) {
           
           let reports = []
@@ -675,19 +675,19 @@ class Sidebar extends React.Component {
           }, this.props.onSelectAnalysisFilter1(serie, 1))
 
         }
-      } else if (props.runQuery === 'yAnalysis') {
+      } else if (props.yAnalysis) {
         if ((props.yAnalysis.networkStatus === 1 || props.yAnalysis.networkStatus === 7) && props.yAnalysis.arms_filter) {
 
           this.props.onResetStateAnalysis(props.yAnalysis.arms_filter.state, currentBlock)
 
         }
-      } else if (props.runQuery === 'tAnalysis') {
+      } else if (props.tAnalysis) {
         if ((props.tAnalysis.networkStatus === 1 || props.tAnalysis.networkStatus === 7) && props.tAnalysis.arms_filter) {
 
           this.props.onResetYearAnalysis(props.tAnalysis.arms_filter.year, currentBlock)
 
         }
-      } else if (props.runQuery === 'ytDLAnalysis') {
+      } else if (props.ytDLAnalysis) {
         if ((props.ytDLAnalysis.networkStatus === 1 || props.ytDLAnalysis.networkStatus === 7) && props.ytDLAnalysis.arms_filter) {
 
           let subjects = []
@@ -710,7 +710,7 @@ class Sidebar extends React.Component {
           }, this.props.onSelectAnalysisFarm(subject_num, currentBlock))
 
         }
-      } else if (props.runQuery === 'ytDLFAnalysis') {
+      } else if (props.ytDLFAnalysis) {
         if ((props.ytDLFAnalysis.networkStatus === 1 || props.ytDLFAnalysis.networkStatus === 7) && props.ytDLFAnalysis.arms_filter) {
 
           let series = []
@@ -733,7 +733,7 @@ class Sidebar extends React.Component {
           }, this.props.onSelectAnalysisFilter1(serie, currentBlock))
 
         }
-      } else if (props.runQuery === 'ytsAnalysis') {
+      } else if (props.ytsAnalysis) {
         // Year -> Serie
         if ((props.ytsAnalysis.networkStatus === 1 || props.ytsAnalysis.networkStatus === 7) && props.ytsAnalysis.arms_filter) {
           let series_element = []
@@ -780,7 +780,7 @@ class Sidebar extends React.Component {
           }, this.props.onSelectAnalysisSubFilter1(serie_element, currentBlock))
         }
 
-      } else if (props.runQuery === 'ytseAnalysis') {
+      } else if (props.ytseAnalysis) {
         if ((props.ytseAnalysis.networkStatus === 1 || props.ytseAnalysis.networkStatus === 7) && props.ytseAnalysis.arms_filter) {
           
           let series2 = []
@@ -819,7 +819,7 @@ class Sidebar extends React.Component {
           }, this.props.onSelectAnalysisFilter2(serie2, currentBlock))
 
         }
-      } else if (props.runQuery === 'ytsesAnalysis') {
+      } else if (props.ytsesAnalysis) {
         // Year -> Serie
         if ((props.ytsesAnalysis.networkStatus === 1 || props.ytsesAnalysis.networkStatus === 7) && props.ytsesAnalysis.arms_filter) {
           let series2_element = []
