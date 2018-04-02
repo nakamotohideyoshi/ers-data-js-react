@@ -19,12 +19,12 @@ export default class ChartGenerator extends React.Component {
     csvTableArray: [],    
   }
   componentWillMount() {
-    const { series, categories, title, chartType } = this.props
-    this.generateConfig(series, categories, title, chartType)
+    const { series, categories, title, chartType, isYearsMultiple } = this.props
+    this.generateConfig(series, categories, title, chartType, isYearsMultiple)
   }
   componentWillReceiveProps(props) {
-    const { series, categories, title, chartType } = props
-    this.generateConfig(series, categories, title, chartType)
+    const { series, categories, title, chartType, isYearsMultiple } = props
+    this.generateConfig(series, categories, title, chartType, isYearsMultiple)
   }
   generateCSVChart(series, categories) {
       let csvChartArray = [["Categories"]]
@@ -52,7 +52,7 @@ export default class ChartGenerator extends React.Component {
     csvTableArray.push(header)
     series.forEach( element => {
       let estRow = [element.header, 'Estimate']
-      let rseRow = ['', 'rse']
+      let rseRow = ['', 'RSEᵃ']
       estRow = estRow.concat(element.estimateList)
       rseRow = rseRow.concat(element.rseList)
       csvTableArray.push(estRow)
@@ -60,7 +60,7 @@ export default class ChartGenerator extends React.Component {
     })
     this.setState({csvTableArray})
   }
-  generateConfig(series, categories, title, chartType) {
+  generateConfig(series, categories, title, chartType, isYearsMultiple) {
     if (title === '' && series) {
       title = series[0].report
     }
@@ -70,6 +70,10 @@ export default class ChartGenerator extends React.Component {
 
     const seriesFarms = series.filter(single => single.header === 'Farms')
     const seriesOthers = series.filter(single => single.header !== 'Farms')
+
+    let farmsChartType = 'column'
+    if (isYearsMultiple && categories.length > 1)
+      farmsChartType = 'spline'
 
     const config = {
       title: {
@@ -144,7 +148,7 @@ export default class ChartGenerator extends React.Component {
     }
      
     seriesFarms.forEach((element, index) => {
-      config.series.push({ data: element.estimateList, name: element.header, visible: element.shown, showInLegend: element.shown, type: 'spline', zIndex: index+1, yAxis: 1 })
+      config.series.push({ data: element.estimateList, name: element.header, visible: element.shown, showInLegend: element.shown, type: farmsChartType, zIndex: index+1, yAxis: 1 })
     })
     seriesOthers.forEach((element) => {
       config.series.push({ data: element.estimateList, name: element.header, visible: element.shown, showInLegend: element.shown, zIndex: 0 })

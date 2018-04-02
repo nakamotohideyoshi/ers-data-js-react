@@ -13,13 +13,6 @@ import ShownImg from '../../images/show.png'
 import LogoSmallImg from '../../images/logo-small.png'
 
 import './style.css'
-
-const indexingOptions = [
-  { label: 'None', type: 'none'},
-  { label: 'Percent', type: 'percent'},
-  { label: 'Value', type: 'value'},
-]
-
 class TableContainer extends React.Component {
   state = {
     incomeArr: [],
@@ -108,9 +101,6 @@ class TableContainer extends React.Component {
     this.setState({ isShowItemAll: true })
     this.props.showAllItem()
   }
-  switchIndexingOption(optionsIndex) {
-    this.setState({ optionsIndex })
-  }
   render() {
     const { incomeArr, isShowItemAll, optionsIndex } = this.state
     const { showList, categories, blockIndex } = this.props
@@ -122,11 +112,6 @@ class TableContainer extends React.Component {
         <div>
           <div className="heading-option-container">
             <div className="indexing-option-container">
-              <span className="source">
-                <img src={HelpImg} alt="help" />
-                <span className="indexing">CHART INDEXING OPTIONS:</span>
-              </span>
-              <OptionGroup options={indexingOptions} selectedIndex={optionsIndex} onSelect={(index) => this.switchIndexingOption(index)} />
             </div>
             <div className="logo-small-container">
 				       <span className="source">
@@ -232,7 +217,7 @@ class TableContainer extends React.Component {
                             <td className="estimate-rse-td" key={`est-th-${pos}`}>
                               <div className='estimate_rse'>
                                 <div className="data-heading data-value">ESTIMATE</div>
-                                <div className="data-heading data-value">RSE</div>
+                                <div className="data-heading data-value">RSEᵃ</div>
                               </div>
                             </td>
                           )
