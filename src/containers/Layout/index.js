@@ -526,9 +526,23 @@ export default class Layout extends React.Component {
     let {filters} = this.state
     filters[blockIndex].report_num = report_num
     filters[blockIndex].topic_abb = topic_abb
+    filters[blockIndex].subject_num = []
+    filters[blockIndex].serie = []
+    filters[blockIndex].serie_element = []
+    const yearsInfo = []
+    const statesInfo = []
+    const selectedStateNames = []
+    const selectedYears = []
+    const selectedStates = []
+
     this.setState({
       filters: filters,
       blockIndex,
+      yearsInfo,
+      selectedYears,
+      statesInfo,
+      selectedStates,
+      selectedStateNames,
       runQuery: 'reset1Query'
     })
   }
@@ -537,9 +551,22 @@ export default class Layout extends React.Component {
   onSelectSubjectFilter = (subject_num, blockIndex) => {
     let {filters} = this.state
     filters[blockIndex].subject_num = subject_num
+    filters[blockIndex].serie = []
+    filters[blockIndex].serie_element = []
+    const yearsInfo = []
+    const statesInfo = []
+    const selectedStateNames = []
+    const selectedYears = []
+    const selectedStates = []
+
     this.setState({
       filters: filters,
       blockIndex,
+      yearsInfo,
+      selectedYears,
+      statesInfo,
+      selectedStates,
+      selectedStateNames,
       runQuery: 'resetQuery'
     })
   }
