@@ -105,6 +105,7 @@ export default class Layout extends React.Component {
       selectedStateNames: selectedStateNames,
       filters: filters
     })    
+    
   }
 
   // static filter [report, subject] selected in `tailored report`
@@ -926,6 +927,8 @@ export default class Layout extends React.Component {
       blockIndex
     } = this.state
 
+    selectedYears = selectedYears.sort(function(a, b){return parseInt(b, 10) - parseInt(a, 10)})
+    
     if (isYearsMultiple === true) {
       selectedYears = [selectedYears[0]]
       yearsInfo.forEach(yearN => {
