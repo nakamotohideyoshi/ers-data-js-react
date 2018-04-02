@@ -35,12 +35,16 @@
   border: solid 1px #23527c;
 }
 .checkmark.single {
-  border-radius: 50%;
+  border: none;
 }
+
 
 /* When the checkbox is checked, add a blue background */
 .checkbox-container input:checked ~ .checkmark {
   background-color: #23527c;
+}
+.checkbox-container input:checked ~ .checkmark.single {
+  background: none;
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */
@@ -62,6 +66,17 @@
   width: 5px;
   height: 10px;
   border: solid white;
+  border-width: 0 2px 2px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+.checkmark.single:after {
+  left: 7px;
+  top: 3px;
+  width: 5px;
+  height: 10px;
+  border: solid #304550;
   border-width: 0 2px 2px 0;
   -webkit-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
