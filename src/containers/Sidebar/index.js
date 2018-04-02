@@ -108,7 +108,7 @@ class Sidebar extends React.Component {
       this.setState({
         categoryTitles: categoryTitles,
         sidebarItems: sidebarItems
-      }, this.props.onStaticSelect(report_num, subject_num))
+      }, this.props.onStaticSelect(report_num, subject_num, currentBlock))
 
      }
 
@@ -148,12 +148,18 @@ class Sidebar extends React.Component {
               headingTitle: 'Subject'
             }
           }
+
+          if (props.reset1Query.arms_filter.subject.length === 1) {
+            sidebarItems[2].visible = false
+          } else {
+            sidebarItems[2].visible = true
+          } 
           
           // update subject
           this.setState({
             categoryTitles: categoryTitles,
             sidebarItems: sidebarItems
-          }, this.props.onSelectSubjectFilter(subject_num))
+          }, this.props.onSelectSubjectFilter(subject_num, currentBlock))
         }        
       } else if (props.runQuery === 'resetQuery') {
 
@@ -246,7 +252,7 @@ class Sidebar extends React.Component {
           this.setState({
             categoryTitles: categoryTitles,
             sidebarItems: sidebarItems
-          }, this.props.onResetFilter2(serie_element))
+          }, this.props.onResetFilter2(serie_element, currentBlock))
         }   
              
       } else if (props.runQuery === 'sQuery') {
@@ -297,7 +303,7 @@ class Sidebar extends React.Component {
           this.setState({
             categoryTitles: categoryTitles,
             sidebarItems: sidebarItems
-          }, this.props.onResetFilter3(serie_element, props.sQuery.arms_filter.year, props.sQuery.arms_filter.state))
+          }, this.props.onResetFilter3(serie_element, props.sQuery.arms_filter.year, props.sQuery.arms_filter.state, currentBlock))
         }
 
       } else if (props.runQuery === 'seQuery') {
@@ -305,7 +311,7 @@ class Sidebar extends React.Component {
         // Serie/Serie_element -> 
         if ((props.seQuery.networkStatus === 1 || props.seQuery.networkStatus === 7) && props.seQuery.arms_filter) {
           // update [Year, State] list              
-          this.props.onResetFilter4(props.seQuery.arms_filter.year, props.seQuery.arms_filter.state)
+          this.props.onResetFilter4(props.seQuery.arms_filter.year, props.seQuery.arms_filter.state, currentBlock)
         }   
 
       } else if (props.runQuery === 'setQuery') {
@@ -313,7 +319,7 @@ class Sidebar extends React.Component {
         // Serie/Serie_element -> State
         if ((props.setQuery.networkStatus === 1 || props.setQuery.networkStatus === 7) && props.setQuery.arms_filter) {
           // Update [year] list       
-          this.props.onResetFilter5(props.setQuery.arms_filter.year)
+          this.props.onResetFilter5(props.setQuery.arms_filter.year, currentBlock)
         }  
 
       } else if (props.runQuery === 'seyQuery') {
@@ -321,7 +327,7 @@ class Sidebar extends React.Component {
         // Serie/Serie_element -> Year
         if ((props.seyQuery.networkStatus === 1 || props.seyQuery.networkStatus === 7) && props.seyQuery.arms_filter) {
            // Update [State] list       
-          this.props.onResetFilter6(props.seyQuery.arms_filter.state)
+          this.props.onResetFilter6(props.seyQuery.arms_filter.state, currentBlock)
         }  
 
       } else if (props.runQuery === 'tQuery') {
@@ -364,7 +370,7 @@ class Sidebar extends React.Component {
           this.setState({
             categoryTitles: categoryTitles,
             sidebarItems: sidebarItems
-          }, this.props.onResetFilter7(serie, props.tQuery.arms_filter.year))
+          }, this.props.onResetFilter7(serie, props.tQuery.arms_filter.year, currentBlock))
         }
 
       } else if (props.runQuery === 'tyQuery') {
@@ -406,7 +412,7 @@ class Sidebar extends React.Component {
           this.setState({
             categoryTitles: categoryTitles,
             sidebarItems: sidebarItems
-          }, this.props.onResetFilter8(serie))
+          }, this.props.onResetFilter8(serie, currentBlock))
         }
 
       } else if (props.runQuery === 'tsQuery') {
@@ -456,7 +462,7 @@ class Sidebar extends React.Component {
           this.setState({
             categoryTitles: categoryTitles,
             sidebarItems: sidebarItems
-          }, this.props.onResetFilter9(serie_element, props.tsQuery.arms_filter.year))
+          }, this.props.onResetFilter9(serie_element, props.tsQuery.arms_filter.year, currentBlock))
         }
 
       } else if (props.runQuery === 'yQuery') {
@@ -498,7 +504,7 @@ class Sidebar extends React.Component {
           this.setState({
             categoryTitles: categoryTitles,
             sidebarItems: sidebarItems
-          }, this.props.onResetFilter10(serie, props.yQuery.arms_filter.state))
+          }, this.props.onResetFilter10(serie, props.yQuery.arms_filter.state, currentBlock))
         }
 
       } else if (props.runQuery === 'ysQuery') {
@@ -547,7 +553,7 @@ class Sidebar extends React.Component {
           this.setState({
             categoryTitles: categoryTitles,
             sidebarItems: sidebarItems
-          }, this.props.onResetFilter11(serie_element, props.ysQuery.arms_filter.state))
+          }, this.props.onResetFilter11(serie_element, props.ysQuery.arms_filter.state, currentBlock))
         }
 
       }
@@ -672,13 +678,13 @@ class Sidebar extends React.Component {
       } else if (props.runQuery === 'yAnalysis') {
         if ((props.yAnalysis.networkStatus === 1 || props.yAnalysis.networkStatus === 7) && props.yAnalysis.arms_filter) {
 
-          this.props.onResetStateAnalysis(props.yAnalysis.arms_filter.state)
+          this.props.onResetStateAnalysis(props.yAnalysis.arms_filter.state, currentBlock)
 
         }
       } else if (props.runQuery === 'tAnalysis') {
         if ((props.tAnalysis.networkStatus === 1 || props.tAnalysis.networkStatus === 7) && props.tAnalysis.arms_filter) {
 
-          this.props.onResetYearAnalysis(props.tAnalysis.arms_filter.year)
+          this.props.onResetYearAnalysis(props.tAnalysis.arms_filter.year, currentBlock)
 
         }
       } else if (props.runQuery === 'ytDLAnalysis') {
@@ -915,21 +921,21 @@ class Sidebar extends React.Component {
         this.props.topics[sidebarItems[1].selectedIndex].forEach(topic => {
           topic_abb.push(topic.abb)
         })
-        this.setState({sidebarItems, categoryTitles}, this.props.onSelectReportFilter(report_num, topic_abb))
+        this.setState({sidebarItems, categoryTitles}, this.props.onSelectReportFilter(report_num, topic_abb, currentBlock))
 
       } else if (sidebarItemIndex === 2) {
 
         // Tailored Report/Subject
         const subject_num = []
         subject_num.push(categoryTitles[2][sidebarItems[2].selectedIndex].num)
-        this.setState({sidebarItems, categoryTitles}, this.props.onSelectSubjectFilter(subject_num))
+        this.setState({sidebarItems, categoryTitles}, this.props.onSelectSubjectFilter(subject_num, currentBlock))
 
       } else if (sidebarItemIndex === 3) {
 
         // Tailored Report/Filter By
         const serie = []
         serie.push(categoryTitles[3][sidebarItems[3].selectedIndex].num)
-        this.setState({sidebarItems, categoryTitles}, this.props.onSelectFilterByFilter(serie))
+        this.setState({sidebarItems, categoryTitles}, this.props.onSelectFilterByFilter(serie, currentBlock))
 
       } else if (sidebarItemIndex === 4) {
 
@@ -942,7 +948,7 @@ class Sidebar extends React.Component {
             serie_element.push(categoryTitles[4][i].num)
           }
         }        
-        this.setState({sidebarItems, categoryTitles}, this.props.onSelectSubFilterByFilter(serie_element))
+        this.setState({sidebarItems, categoryTitles}, this.props.onSelectSubFilterByFilter(serie_element, currentBlock))
 
       } else if ((sidebarItemIndex - 5)%7===0){
         
@@ -1015,92 +1021,7 @@ class Sidebar extends React.Component {
         serie2_element.push(categoryTitles[sidebarItemIndex][sidebarItems[sidebarItemIndex].selectedIndex].num)
         this.setState({sidebarItems, categoryTitles}, this.props.onSelectAnalysisSubFilter2(serie2_element, currentBlock))
 
-      }
-
-      // if (sidebarItemIndex>=1 && sidebarItemIndex<=4) {
-      //   report_num.push(categoryTitles[1][sidebarItems[1].selectedIndex].num)
-      //   this.props.topics[sidebarItems[1].selectedIndex].forEach(topic => {
-      //     topic_abb.push(topic.abb)
-      //   })
-      //   subject_num.push(categoryTitles[2][sidebarItems[2].selectedIndex].num)
-      //   serie.push(categoryTitles[3][sidebarItems[3].selectedIndex].num)
-      //   if (sidebarItemIndex !== 4) {
-      //     this.setState({sidebarItems, categoryTitles, isSubFilterBy: true}, () => this.props.onSelectReportFilter(report_num, topic_abb, subject_num, serie))
-      //   } else {
-      //     serie_element.push(categoryTitles[4][sidebarItems[4].selectedIndex].num)
-      //     this.setState({sidebarItems, categoryTitles, isSubFilterBy: false}, () => this.props.onSelectSubFilterBy(serie_element))
-      //   }
-        
-      // }  else {
-      //   const index = 5+7*(currentBlock-1)        
-      //   report_num.push(categoryTitles[index][sidebarItems[index].selectedIndex].num)
-      //   if (sidebarItemIndex === index) {
-      //     categoryTitles[index+1] =[]
-      //     this.props.topics[selectedIndex].forEach(topic => {
-      //       const obj = {}
-      //       obj.num = topic.abb
-      //       obj.header = topic.header
-      //       categoryTitles[index+1].push(obj)
-      //     })
-      //     sidebarItems[index+1].selectedIndex = 0
-      //   }
-      //   topic_abb.push(categoryTitles[index+1][sidebarItems[index+1].selectedIndex].num)
-      //   subject_num.push(categoryTitles[index+2][sidebarItems[index+2].selectedIndex].num)
-      //   serie.push(categoryTitles[index+3][sidebarItems[index+3].selectedIndex].num)
-      //   if(categoryTitles[index+4].length === 0) {
-      //     serie_element = [0]
-      //   } else {
-      //     serie_element.push(categoryTitles[index+4][sidebarItems[index+4].selectedIndex].num)
-      //   }
-      //   if (categoryTitles[index+5].length===0) {
-      //     serie2 = ['farm']
-      //   } else {
-      //     serie2.push(categoryTitles[index+5][sidebarItems[index+5].selectedIndex].num)
-      //   }
-      //   if (categoryTitles[index+6].length === 0) {
-      //     serie2_element = [0]
-      //   } else {
-      //     serie2_element.push(categoryTitles[index+6][sidebarItems[index+6].selectedIndex].num)
-      //   }
-        
-      //   if (sidebarItemIndex === index || sidebarItemIndex === index + 2 || sidebarItemIndex === index + 3) {
-
-      //     isArmsFilter[currentBlock-1].isFilter1 = true
-      //     this.setState({
-      //       sidebarItems,
-      //       categoryTitles,
-      //       isArmsFilter: isArmsFilter
-      //     }, this.props.onSelectArmsFilter(report_num, topic_abb, subject_num, serie, currentBlock))
-
-      //   } else if (sidebarItemIndex === index + 4) {
-
-      //     isArmsFilter[currentBlock-1].isSubFilter1 = true
-      //     this.setState({
-      //       sidebarItems,
-      //       categoryTitles,
-      //       isArmsFilter: isArmsFilter
-      //     }, this.props.onSleectSubFilter1(report_num, topic_abb, subject_num, serie, serie_element, currentBlock))
-
-      //   } else if (sidebarItemIndex === index + 5) {
-
-      //     isArmsFilter[currentBlock-1].isFitler2 = true
-      //     this.setState({
-      //       sidebarItems,
-      //       categoryTitles,
-      //       isArmsFilter: isArmsFilter
-      //     }, this.props.onSelectFilter2(report_num, topic_abb, subject_num, serie, serie_element, serie2, currentBlock))
-
-      //   } else if (sidebarItemIndex === index + 6 || sidebarItemIndex === index +1) {
-      //     isArmsFilter[currentBlock-1].isFilter1 = false
-      //     isArmsFilter[currentBlock-1].isSubFilter1 = false
-      //     isArmsFilter[currentBlock-1].isFitler2 = false
-      //     this.setState({
-      //       sidebarItems,
-      //       categoryTitles,
-      //       isArmsFilter: isArmsFilter
-      //     }, this.props.onSelectSubFilter2(report_num, topic_abb, subject_num, serie, serie_element, serie2, serie2_element, currentBlock))
-      //   }
-      // }      
+      }      
     }
     this.toggleCategoryOptions(sidebarItemIndex)
     
