@@ -12,7 +12,7 @@ import gql from 'graphql-tag';
     $serie_element: [Int],
     $serie2: [String]
   ){
-    arms_filter(
+    ytsesAnalysis: arms_filter(
       survey_abb: "finance",
       report_num: $report_num,
       topic_abb: $topic_abb,
