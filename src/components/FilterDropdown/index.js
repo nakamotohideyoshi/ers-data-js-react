@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { Col, DropdownButton } from 'react-bootstrap';
 import ReactTooltip from 'react-tooltip'
 
+import { YEAR_SELECTED } from '../../helpers/constants'
+
 import Checkbox from '../Checkbox';
 import RotateImg from '../../images/rotate.png'
 import './style.css'
@@ -26,34 +28,34 @@ class FilterDropdown extends React.Component {
     }
   }
   render() {
-    const { onSelectYear, yearsInfo, onSelectState, statesInfo, isYearsMultiple, onSwitchMultiple } = this.props
+    const { onSelectYear, yearsInfo, onSelectState, statesInfo, whichOneMultiple, onSwitchMultiple } = this.props
     
     return (
       <div className="filterDropdownContainer">
       <Col md={6} sm={6} xs={12}>
         <Col md={10} sm={6} xs={12} mdOffset={2} smOffset={6}>
-          <div className="top-title right-title">{ isYearsMultiple ? MULTIPLE_HEADING.concat(' ' + YEARS_CAPTION) : MULTIPLE_HEADING.concat(' ' + REGIONS_CAPTION) }</div>
+          <div className="top-title right-title">{ whichOneMultiple === YEAR_SELECTED ? MULTIPLE_HEADING.concat(' ' + YEARS_CAPTION) : MULTIPLE_HEADING.concat(' ' + REGIONS_CAPTION) }</div>
           <DropdownButton
             bsStyle="default"
             title={ 
                 <span className='selected-list'>{
-                  isYearsMultiple ? 
+                  whichOneMultiple === YEAR_SELECTED ? 
                   YEARS_CAPTION.concat(': '+this.generateToolTipList(yearsInfo, 'year')):
                   REGIONS_CAPTION.concat(': '+this.generateToolTipList(statesInfo, 'name'))
                 }
               </span>
             }
             className="download-menu"
-            data-tip={this.generateToolTipList(isYearsMultiple ? yearsInfo:statesInfo, isYearsMultiple ? 'year':'name')}
+            data-tip={this.generateToolTipList(whichOneMultiple === YEAR_SELECTED ? yearsInfo:statesInfo, whichOneMultiple === YEAR_SELECTED ? 'year':'name')}
           >
           {
-            isYearsMultiple &&
+            whichOneMultiple === YEAR_SELECTED &&
               yearsInfo.map((infoObj, index) => {
                 return <Checkbox title={infoObj.year + ''} checked={infoObj.checked} isMultiple={true} onCheck={() => onSelectYear(index)} key={index} />
               })
            }
            {
-            !isYearsMultiple &&
+            whichOneMultiple !== YEAR_SELECTED &&
               statesInfo.map((obj, index) => {
                 return <Checkbox title={obj.name + ''} checked={obj.checked} isMultiple={true} onCheck={() => onSelectState(index)} key={index} />
               })
@@ -68,28 +70,28 @@ class FilterDropdown extends React.Component {
       </Col>
       <Col md={5} sm={5} xs={12}>
           <Col md={10} sm={6} xs={11}>
-            <div className="top-title">{ isYearsMultiple ? FILTERED_HEADING.concat(' ' + REGIONS_CAPTION.slice(0, -1)) : FILTERED_HEADING.concat(' ' + YEARS_CAPTION.slice(0, -1)) }</div>
+            <div className="top-title">{ whichOneMultiple === YEAR_SELECTED ? FILTERED_HEADING.concat(' ' + REGIONS_CAPTION.slice(0, -1)) : FILTERED_HEADING.concat(' ' + YEARS_CAPTION.slice(0, -1)) }</div>
             <DropdownButton
               bsStyle="default"
               title={ 
                 <span className='selected-list'> {
-                    isYearsMultiple ? 
+                    whichOneMultiple === YEAR_SELECTED ? 
                     REGIONS_CAPTION.concat(': '+this.generateToolTipList(statesInfo, 'name')):
                     YEARS_CAPTION.concat(': '+this.generateToolTipList(yearsInfo, 'year'))
                   }
                 </span>
               }
               className="download-menu"
-              data-tip={this.generateToolTipList(isYearsMultiple ? statesInfo:yearsInfo, isYearsMultiple ? 'name':'year')}
+              data-tip={this.generateToolTipList(whichOneMultiple === YEAR_SELECTED ? statesInfo:yearsInfo, whichOneMultiple === YEAR_SELECTED ? 'name':'year')}
             >
             {
-              isYearsMultiple && 
+              whichOneMultiple === YEAR_SELECTED && 
                 statesInfo.map((obj, index) => {
                   return <Checkbox title={obj.name + ''} checked={obj.checked} isMultiple={false} onCheck={() => onSelectState(index)} key={index} />
                 }) 
             }
             {
-              !isYearsMultiple && 
+              whichOneMultiple !== YEAR_SELECTED && 
                 yearsInfo.map((infoObj, index) => {
                   return <Checkbox title={infoObj.year + ''} checked={infoObj.checked} isMultiple={false} onCheck={() => onSelectYear(index)} key={index} />
                 })
@@ -109,7 +111,7 @@ FilterDropdown.propTypes = {
   onSwitchMultiple: PropTypes.func,
   yearsInfo: PropTypes.array,
   statesInfo: PropTypes.array,
-  isYearsMultiple: PropTypes.bool
+  whichOneMultiple: PropTypes.string
 };
 
 export default FilterDropdown;

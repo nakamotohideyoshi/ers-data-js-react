@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import './style.css'
 import ChartGenerator from '../ChartGenerator'
 import OptionGroup from '../OptionGroup'
+import { YEAR_SELECTED } from '../../helpers/constants'
 
 const chartTypes = [
   { label: 'Bar', type: 'column'},
@@ -16,7 +17,7 @@ class SheetDataChart extends Component {
     chartTypeIndex: 0
   }
   componentWillReceiveProps(props) {
-    const { showList, surveyData, categories, isYearsMultiple } = props
+    const { showList, surveyData, categories, whichOneMultiple } = props
     let incomeArr = []
 
     if (surveyData) {
@@ -39,7 +40,7 @@ class SheetDataChart extends Component {
               let estimateList = []
               let rseList = []
               categories.forEach(category => {
-                const comparedCategory = isYearsMultiple ? element.year: element.state.name
+                const comparedCategory = whichOneMultiple === YEAR_SELECTED ? element.year: element.state.name
                 if (comparedCategory === category) {
                   estimateList.push(element.estimate)
                   rseList.push(element.rse)
@@ -53,7 +54,7 @@ class SheetDataChart extends Component {
               incomeArr.push(singleIncome)
           } else {
               categories.forEach((category, index) => {
-                const comparedCategory = isYearsMultiple ? element.year: element.state.name
+                const comparedCategory = whichOneMultiple === YEAR_SELECTED ? element.year: element.state.name
                 if (comparedCategory === category) {
                   singleIncome.estimateList[index] = element.estimate
                   singleIncome.rseList[index] = element.rse
@@ -70,7 +71,7 @@ class SheetDataChart extends Component {
   }
   render() {
     const { incomeArr, chartTypeIndex } = this.state
-    const { categories, blockIndex, isYearsMultiple } = this.props
+    const { categories, blockIndex, whichOneMultiple } = this.props
     const chartTitle = blockIndex > 0 ? 'Arms Data Analysis' : ''
     const chartType = chartTypes[chartTypeIndex].type
 
@@ -79,7 +80,7 @@ class SheetDataChart extends Component {
     else
       return (
         <div className="chart-container col-xs-12">
-          <ChartGenerator series={incomeArr} categories={categories} title={chartTitle} chartType={chartType} isYearsMultiple={isYearsMultiple} />
+          <ChartGenerator series={incomeArr} categories={categories} title={chartTitle} chartType={chartType} whichOneMultiple={whichOneMultiple} />
           <div className="chart-type-container">
             <span>Chart Type:</span>
             <OptionGroup options={chartTypes} selectedIndex={chartTypeIndex} onSelect={(index) => this.switchChartType(index)} />

@@ -5,6 +5,7 @@ import TableContainer from '../TableContainer';
 import './style.css';
 import charts from '../../ApolloComponent/chartsQuery'
 
+import { YEAR_SELECTED } from '../../helpers/constants'
 class MainContainer extends React.Component {  
   state = {
     showList: {},    
@@ -81,9 +82,9 @@ class MainContainer extends React.Component {
 
   render() {
     const { surveyData, showList, showData } = this.state
-    const { selectedYears, selectedStates, selectedStateNames, charts, isYearsMultiple, blockIndex } = this.props
+    const { selectedYears, selectedStates, selectedStateNames, charts, whichOneMultiple, blockIndex } = this.props
     console.log('Survey Data Result', this.props)
-    const categories = isYearsMultiple ? selectedYears.sort(function(a, b){return a-b}) : selectedStateNames
+    const categories = whichOneMultiple === YEAR_SELECTED ? selectedYears.sort(function(a, b){return a-b}) : selectedStateNames
 
     return (
       <div>
@@ -91,14 +92,14 @@ class MainContainer extends React.Component {
           categories={categories}
           surveyData={showData} 
           showList={showList}
-          isYearsMultiple={isYearsMultiple}
+          whichOneMultiple={whichOneMultiple}
           blockIndex={blockIndex}          
         />
         <TableContainer 
           categories={categories}
           surveyData={showData}
           showList={showList}
-          isYearsMultiple={isYearsMultiple}
+          whichOneMultiple={whichOneMultiple}
           blockIndex={blockIndex}
           hideItem={(dataId) => this.hideItem(dataId)}
           showItem={(dataId) => this.showItem(dataId)}
@@ -123,7 +124,7 @@ MainContainer.propTypes = {
   serie2_element: PropTypes.array,
   topic_abb: PropTypes.array,
   blockIndex: PropTypes.number,
-  isYearsMultiple: PropTypes.bool
+  whichOneMultiple: PropTypes.string
 };
 
 export default charts(MainContainer)
