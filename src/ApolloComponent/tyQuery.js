@@ -8,7 +8,7 @@ import gql from 'graphql-tag';
     $selectedStates: [String],
     $selectedYears: [Int]
   ){
-    arms_filter(
+    tyQuery: arms_filter(
       survey_abb: "finance",
       report_num: $report_num,
       subject_num: $subject_num,
