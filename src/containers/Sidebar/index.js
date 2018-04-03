@@ -829,13 +829,16 @@ class Sidebar extends React.Component {
           
           let series2 = []
           let serie2 = [props.ytseAnalysis.ytseAnalysis.serie2[0].abb]
+
           props.ytseAnalysis.ytseAnalysis.serie2.forEach(serie => {
             const obj = {}
             obj.num = serie.abb
             obj.header = serie.header
             series2.push(obj)
           })
+
           const index = 7*(currentBlock-1) + 10
+
           if (categoryTitles.length<index+1) {
             categoryTitles.push(series2)            
             sidebarItems.push({
@@ -856,6 +859,10 @@ class Sidebar extends React.Component {
               visible: true,
               headingTitle: 'Filter2'
             }
+          }
+
+          if (series2.length === 1 && serie2[0] === 'farm') {
+            sidebarItems[index].visible = false
           }
           this.setState({
             categoryTitles: categoryTitles,

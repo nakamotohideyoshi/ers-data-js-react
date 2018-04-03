@@ -905,7 +905,9 @@ export default class Layout extends React.Component {
   onSelectAnalysisSubFilter1 = (serie_element, blockIndex) => {
     let {filters} = this.state
     filters[blockIndex].serie_element = serie_element
-    
+    filters[blockIndex].serie2 = []
+    filters[blockIndex].serie2_element = []
+
     this.setState({
       filters: filters,
       blockIndex: blockIndex,
@@ -916,6 +918,8 @@ export default class Layout extends React.Component {
   onSelectAnalysisFilter2 = (serie2, blockIndex) => {
     let {filters} = this.state
     filters[blockIndex].serie2 = serie2
+    filters[blockIndex].serie2_element = []
+    
     this.setState({
       filters: filters,
       blockIndex: blockIndex,
