@@ -968,8 +968,11 @@ export default class Layout extends React.Component {
       blockIndex
     } = this.state
 
+    const yearsCount = selectedYears.length
+    const statesCount = selectedStates.length
+
     if (isYearsMultiple === true) {
-      selectedYears = [selectedYears[0]]
+      selectedYears = selectedYears.slice(-1)
       yearsInfo.forEach(yearN => {
         if (yearN.year !== selectedYears[0]) {
           yearN.checked = false
@@ -985,9 +988,10 @@ export default class Layout extends React.Component {
       })
     }
     let runQuery = ''
-    if (blockIndex !== 0) {
+    if (blockIndex !== 0 && yearsCount !== 1 && statesCount !== 1) {
       runQuery = 'ytDLAnalysis'
-    } 
+    }
+
     this.setState({ 
       isYearsMultiple: !isYearsMultiple,
       selectedYears: selectedYears.slice(),
