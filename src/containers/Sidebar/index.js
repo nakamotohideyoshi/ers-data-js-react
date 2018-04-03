@@ -40,7 +40,7 @@ class Sidebar extends React.Component {
     isCategoryOpened: false,
     sidebarItems: [],
     categoryTitles: [],
-    blockCount: 0,
+    blockCount: 1,
     isSubFilterBy: false,
     isArmsFilter: []    
   }  
@@ -117,11 +117,11 @@ class Sidebar extends React.Component {
       if (props.reset1Query) {
 
         // click subject filter
-        if ((props.reset1Query.networkStatus ===7) && props.reset1Query.arms_filter) {
+        if (props.reset1Query.networkStatus ===7 && props.reset1Query.reset1Query) {
           // generate `subject` LHS menu
           let subjects = []
-          const subject_num = [props.reset1Query.arms_filter.subject[0].num]
-          props.reset1Query.arms_filter.subject.forEach(subject => {
+          const subject_num = [props.reset1Query.reset1Query.subject[0].num]
+          props.reset1Query.reset1Query.subject.forEach(subject => {
             const obj = {}
             obj.num = subject.num
             obj.header = subject.header
@@ -149,7 +149,7 @@ class Sidebar extends React.Component {
             }
           }
 
-          if (props.reset1Query.arms_filter.subject.length === 1) {
+          if (props.reset1Query.reset1Query.subject.length === 1) {
             sidebarItems[2].visible = false
           } else {
             sidebarItems[2].visible = true
@@ -164,13 +164,12 @@ class Sidebar extends React.Component {
       } else if (props.resetQuery) {
 
         // click reset or static filter updated
-        if ((props.resetQuery.networkStatus
-          === 1 || props.resetQuery.networkStatus
-          === 7) && props.resetQuery.arms_filter) {
+        if (props.resetQuery.networkStatus
+          === 7 && props.resetQuery.resetQuery) {
           // generate `Filter By` LHS menu
           let series = []
-          const serie = [props.resetQuery.arms_filter.serie[0].abb]
-          props.resetQuery.arms_filter.serie.forEach(serie => {
+          const serie = [props.resetQuery.resetQuery.serie[0].abb]
+          props.resetQuery.resetQuery.serie.forEach(serie => {
             const obj = {}
             obj.num = serie.abb
             obj.header = serie.header
@@ -202,20 +201,19 @@ class Sidebar extends React.Component {
           this.setState({
             categoryTitles: categoryTitles,
             sidebarItems: sidebarItems
-          }, this.props.onResetFilter1(serie, props.resetQuery.arms_filter.year, props.resetQuery.arms_filter.state, currentBlock))
+          }, this.props.onResetFilter1(serie, props.resetQuery.resetQuery.year, props.resetQuery.resetQuery.state, currentBlock))
         }        
       } else if (props.tysQuery) {
 
         // update `Filter By/Sub` LHS menu
-        if ((props.tysQuery.networkStatus
-          === 1 || props.tysQuery.networkStatus
-          === 7) && props.tysQuery.arms_filter) {
+        if (props.tysQuery.networkStatus
+          === 7 && props.tysQuery.tysQuery) {
           let series_element = [{
             num: 0,
             header: 'All'
           }]
           let serie_element = []
-          props.tysQuery.arms_filter.serie_element.forEach(element => {
+          props.tysQuery.tysQuery.serie_element.forEach(element => {
             const obj = {}
             obj.num = element.id
             obj.header = element.name
@@ -244,7 +242,7 @@ class Sidebar extends React.Component {
             }
           }
           sidebarItems[4].headingTitle = categoryTitles[3][sidebarItems[3].selectedIndex].header
-          if (props.tysQuery.arms_filter.serie_element.length === 1 && props.tysQuery.arms_filter.serie_element[0].id === 0) {
+          if (props.tysQuery.tysQuery.serie_element.length === 1 && props.tysQuery.tysQuery.serie_element[0].id === 0) {
             sidebarItems[4].visible = false
           }
           
@@ -258,7 +256,7 @@ class Sidebar extends React.Component {
       } else if (props.sQuery) {
 
         // Serie -> 
-        if ((props.sQuery.networkStatus === 1 || props.sQuery.networkStatus === 7)  && props.sQuery.arms_filter) {
+        if (props.sQuery.networkStatus === 7  && props.sQuery.sQuery) {
           let series_element = [{
             num: 0,
             header: 'All'
@@ -266,7 +264,7 @@ class Sidebar extends React.Component {
           let serie_element = []
 
           // generate `Filter By/Sub` LHS menu
-          props.sQuery.arms_filter.serie_element.forEach(element => {
+          props.sQuery.sQuery.serie_element.forEach(element => {
             const obj = {}
             obj.num = element.id
             obj.header = element.name
@@ -295,7 +293,7 @@ class Sidebar extends React.Component {
             }
           }
           sidebarItems[4].headingTitle = categoryTitles[3][sidebarItems[3].selectedIndex].header
-          if (props.sQuery.arms_filter.serie_element.length === 1 && props.sQuery.arms_filter.serie_element[0].id === 0) {
+          if (props.sQuery.sQuery.serie_element.length === 1 && props.sQuery.sQuery.serie_element[0].id === 0) {
             sidebarItems[4].visible = false
           }
           
@@ -303,42 +301,42 @@ class Sidebar extends React.Component {
           this.setState({
             categoryTitles: categoryTitles,
             sidebarItems: sidebarItems
-          }, this.props.onResetFilter3(serie_element, props.sQuery.arms_filter.year, props.sQuery.arms_filter.state, currentBlock))
+          }, this.props.onResetFilter3(serie_element, props.sQuery.sQuery.year, props.sQuery.sQuery.state, currentBlock))
         }
 
       } else if (props.seQuery) {
 
         // Serie/Serie_element -> 
-        if ((props.seQuery.networkStatus === 1 || props.seQuery.networkStatus === 7) && props.seQuery.arms_filter) {
+        if (props.seQuery.networkStatus === 7 && props.seQuery.seQuery) {
           // update [Year, State] list              
-          this.props.onResetFilter4(props.seQuery.arms_filter.year, props.seQuery.arms_filter.state, currentBlock)
+          this.props.onResetFilter4(props.seQuery.seQuery.year, props.seQuery.seQuery.state, currentBlock)
         }   
 
       } else if (props.setQuery) {
 
         // Serie/Serie_element -> State
-        if ((props.setQuery.networkStatus === 1 || props.setQuery.networkStatus === 7) && props.setQuery.arms_filter) {
+        if (props.setQuery.networkStatus === 7 && props.setQuery.setQuery) {
           // Update [year] list       
-          this.props.onResetFilter5(props.setQuery.arms_filter.year, currentBlock)
+          this.props.onResetFilter5(props.setQuery.setQuery.year, currentBlock)
         }  
 
       } else if (props.seyQuery) {
 
         // Serie/Serie_element -> Year
-        if ((props.seyQuery.networkStatus === 1 || props.seyQuery.networkStatus === 7) && props.seyQuery.arms_filter) {
+        if (props.seyQuery.networkStatus === 7 && props.seyQuery.seyQuery) {
            // Update [State] list       
-          this.props.onResetFilter6(props.seyQuery.arms_filter.state, currentBlock)
+          this.props.onResetFilter6(props.seyQuery.seyQuery.state, currentBlock)
         }  
 
       } else if (props.tQuery) {
 
         // State - > 
-        if ((props.tQuery.networkStatus === 1 || props.tQuery.networkStatus ===7) && props.tQuery.arms_filter) {
+        if (props.tQuery.networkStatus ===7 && props.tQuery.tQuery) {
           let series = []
-          const serie = props.tQuery.arms_filter.serie[0].abb
+          const serie = props.tQuery.tQuery.serie[0].abb
 
           // Generate `Filter By` LHS menu
-          props.tQuery.arms_filter.serie.forEach(serie => {
+          props.tQuery.tQuery.serie.forEach(serie => {
             const obj = {}
             obj.num = serie.abb
             obj.header = serie.header
@@ -370,17 +368,17 @@ class Sidebar extends React.Component {
           this.setState({
             categoryTitles: categoryTitles,
             sidebarItems: sidebarItems
-          }, this.props.onResetFilter7(serie, props.tQuery.arms_filter.year, currentBlock))
+          }, this.props.onResetFilter7(serie, props.tQuery.tQuery.year, currentBlock))
         }
 
       } else if (props.tyQuery) {
         // State -> Year
-        if ((props.tyQuery.networkStatus === 1 || props.tyQuery.networkStatus === 7) && props.tyQuery.arms_filter) {
+        if (props.tyQuery.networkStatus === 7 && props.tyQuery.tyQuery) {
           let series = []
-          const serie = props.tQuery.arms_filter.serie[0].abb
+          const serie = props.tQuery.tyQuery.serie[0].abb
 
           // Generate `Filter By` LHS menu
-          props.tyQuery.arms_filter.serie.forEach(serie => {
+          props.tyQuery.tyQuery.serie.forEach(serie => {
             const obj = {}
             obj.num = serie.abb
             obj.header = serie.header
@@ -417,7 +415,7 @@ class Sidebar extends React.Component {
 
       } else if (props.tsQuery) {
         // State -> Serie
-        if ((props.tsQuery.networkStatus === 1 || props.tsQuery.networkStatus === 7) && props.tsQuery.arms_filter) {
+        if (props.tsQuery.networkStatus === 7 && props.tsQuery.tsQuery) {
           let series_element = [{
             num: 0,
             header: 'All'
@@ -425,7 +423,7 @@ class Sidebar extends React.Component {
 
           // Generate `Filter By/Sub` LHS menu
           let serie_element = []
-          props.tsQuery.arms_filter.serie_element.forEach(element => {
+          props.tsQuery.tsQuery.serie_element.forEach(element => {
             const obj = {}
             obj.num = element.id
             obj.header = element.name
@@ -454,7 +452,7 @@ class Sidebar extends React.Component {
             }
           }
           sidebarItems[4].headingTitle = categoryTitles[3][sidebarItems[3].selectedIndex].header
-          if (props.tsQuery.arms_filter.serie_element.length === 1 && props.tsQuery.arms_filter.serie_element[0].id === 0) {
+          if (props.tsQuery.tsQuery.serie_element.length === 1 && props.tsQuery.tsQuery.serie_element[0].id === 0) {
             sidebarItems[4].visible = false
           }
           
@@ -462,17 +460,17 @@ class Sidebar extends React.Component {
           this.setState({
             categoryTitles: categoryTitles,
             sidebarItems: sidebarItems
-          }, this.props.onResetFilter9(serie_element, props.tsQuery.arms_filter.year, currentBlock))
+          }, this.props.onResetFilter9(serie_element, props.tsQuery.tsQuery.year, currentBlock))
         }
 
       } else if (props.yQuery) {
         // Year - > 
-        if ((props.yQuery.networkStatus === 1 || props.yQuery.networkStatus ===  7) && props.yQuery.arms_filter) {
+        if (props.yQuery.networkStatus ===  7 && props.yQuery.yQuery) {
           let series = []
-          const serie = props.yQuery.arms_filter.serie[0].abb
+          const serie = props.yQuery.yQuery.serie[0].abb
 
           // Generate `Filter By` LHS menu
-          props.yQuery.arms_filter.serie.forEach(serie => {
+          props.yQuery.yQuery.serie.forEach(serie => {
             const obj = {}
             obj.num = serie.abb
             obj.header = serie.header
@@ -504,12 +502,12 @@ class Sidebar extends React.Component {
           this.setState({
             categoryTitles: categoryTitles,
             sidebarItems: sidebarItems
-          }, this.props.onResetFilter10(serie, props.yQuery.arms_filter.state, currentBlock))
+          }, this.props.onResetFilter10(serie, props.yQuery.yQuery.state, currentBlock))
         }
 
       } else if (props.ysQuery) {
         // Year -> Serie
-        if ((props.ysQuery.networkStatus === 1 || props.ysQuery.networkStatus === 7) && props.ysQuery.arms_filter) {
+        if (props.ysQuery.networkStatus === 7 && props.ysQuery.ysQuery) {
           let series_element = [{
             num: 0,
             header: 'All'
@@ -517,7 +515,7 @@ class Sidebar extends React.Component {
           
           // Generate `Filter By/Sub` LHS menu
           let serie_element = []
-          props.ysQuery.arms_filter.serie_element.forEach(element => {
+          props.ysQuery.ysQuery.serie_element.forEach(element => {
             const obj = {}
             obj.num = element.id
             obj.header = element.name
@@ -546,20 +544,20 @@ class Sidebar extends React.Component {
             }
           }
           sidebarItems[4].headingTitle = categoryTitles[3][sidebarItems[3].selectedIndex].header
-          if (props.ysQuery.arms_filter.serie_element.length === 1 && props.ysQuery.arms_filter.serie_element[0].id === 0) {
+          if (props.ysQuery.ysQuery.serie_element.length === 1 && props.ysQuery.ysQuery.serie_element[0].id === 0) {
             sidebarItems[4].visible = false
           }
           // update serie_element, [state] list
           this.setState({
             categoryTitles: categoryTitles,
             sidebarItems: sidebarItems
-          }, this.props.onResetFilter11(serie_element, props.ysQuery.arms_filter.state, currentBlock))
+          }, this.props.onResetFilter11(serie_element, props.ysQuery.ysQuery.state, currentBlock))
         }
 
       }
     } else if (categoryTitles.length !== 0 && currentBlock !== 0) {
       if (props.initAnalysis) {
-        if ((props.initAnalysis.networkStatus === 1 || props.initAnalysis.networkStatus === 7) && props.initAnalysis.arms_filter) {
+        if (props.initAnalysis.networkStatus === 7 && props.initAnalysis.initAnalysis) {
           
           let reports = []
           props.reports.forEach(report => {
@@ -586,15 +584,17 @@ class Sidebar extends React.Component {
           })
 
           let series = []
-          const serie = [props.initAnalysis.arms_filter.serie[0].abb]
-          props.initAnalysis.arms_filter.serie.forEach(serie => {
+          const serie = [props.initAnalysis.initAnalysis.serie[0].abb]
+          props.initAnalysis.initAnalysis.serie.forEach(serie => {
             const obj = {}
             obj.num = serie.abb
             obj.header = serie.header
             series.push(obj)
           })
+
+          const index = 7*(currentBlock-1) + 5
           
-          if (categoryTitles.length<6) {
+          if (categoryTitles.length<index+1) {
             categoryTitles.push(reports)
             categoryTitles.push(topics)
             categoryTitles.push(subjects)
@@ -632,11 +632,11 @@ class Sidebar extends React.Component {
               headingTitle: 'Filter1'
             })
           } else {
-            categoryTitles[5] = reports
-            categoryTitles[6] = topics
-            categoryTitles[7] = subjects
-            categoryTitles[8] = series
-            sidebarItems[5] ={
+            categoryTitles[index] = reports
+            categoryTitles[index+1] = topics
+            categoryTitles[index+2] = subjects
+            categoryTitles[index+3] = series
+            sidebarItems[index] ={
               isOpened: false,
               selectedIndex: 0,
               isCategory: false,
@@ -644,7 +644,7 @@ class Sidebar extends React.Component {
               visible: true,
               headingTitle: 'Data Source'
             }
-            sidebarItems[6] = {
+            sidebarItems[index+1] = {
               isOpened: false,
               selectedIndex: 0,
               isCategory: false,
@@ -652,7 +652,7 @@ class Sidebar extends React.Component {
               visible: true,
               headingTitle: 'Data Line'
             }
-            sidebarItems[7] = {
+            sidebarItems[index+2] = {
               isOpened: false,
               selectedIndex: 0,
               isCategory: false,
@@ -660,7 +660,7 @@ class Sidebar extends React.Component {
               visible: true,
               headingTitle: 'Farm Type'
             }
-            sidebarItems[8] = {
+            sidebarItems[index+3] = {
               isOpened: false,
               selectedIndex: 0,
               isCategory: false,
@@ -669,29 +669,34 @@ class Sidebar extends React.Component {
               headingTitle: 'Filter1'
             }
           }
+
+          if (subjects.length === 1){
+            sidebarItems[index+2].visible = false
+          }
+
           this.setState({
             categoryTitles: categoryTitles,
             sidebarItems: sidebarItems
-          }, this.props.onSelectAnalysisFilter1(serie, 1))
+          }, this.props.onSelectAnalysisFilter1(serie, currentBlock))
 
         }
       } else if (props.yAnalysis) {
-        if ((props.yAnalysis.networkStatus === 1 || props.yAnalysis.networkStatus === 7) && props.yAnalysis.arms_filter) {
+        if (props.yAnalysis.networkStatus === 7 && props.yAnalysis.yAnalysis) {
 
-          this.props.onResetStateAnalysis(props.yAnalysis.arms_filter.state, currentBlock)
+          this.props.onResetStateAnalysis(props.yAnalysis.yAnalysis.state, currentBlock)
 
         }
       } else if (props.tAnalysis) {
-        if ((props.tAnalysis.networkStatus === 1 || props.tAnalysis.networkStatus === 7) && props.tAnalysis.arms_filter) {
+        if (props.tAnalysis.networkStatus === 7 && props.tAnalysis.tAnalysis) {
 
-          this.props.onResetYearAnalysis(props.tAnalysis.arms_filter.year, currentBlock)
+          this.props.onResetYearAnalysis(props.tAnalysis.tAnalysis.year, currentBlock)
 
         }
       } else if (props.ytDLAnalysis) {
-        if ((props.ytDLAnalysis.networkStatus === 1 || props.ytDLAnalysis.networkStatus === 7) && props.ytDLAnalysis.arms_filter) {
+        if (props.ytDLAnalysis.networkStatus === 7 && props.ytDLAnalysis.ytDLAnalysis) {
 
           let subjects = []
-          props.ytDLAnalysis.arms_filter.subject.forEach(subject => {
+          props.ytDLAnalysis.ytDLAnalysis.subject.forEach(subject => {
             const obj = {}
             obj.num = subject.num
             obj.header = subject.header
@@ -699,11 +704,35 @@ class Sidebar extends React.Component {
           })
 
           const index = 7*(currentBlock-1) + 7
-          categoryTitles[index] = subjects
-          sidebarItems[index].isOpened = false
-          sidebarItems[index].selectedIndex = 0            
+
+          if (categoryTitles.length<index+1) {
+            categoryTitles.push(subjects)
+            sidebarItems.push({
+              isOpened: false,
+              selectedIndex: 0,
+              isCategory: false,
+              blockIndex: currentBlock,
+              visible: true,
+              headingTitle: 'Farm Type'
+            })
+          } else {
+            categoryTitles[index] = subjects
+            sidebarItems[index] = {
+              isOpened: false,
+              selectedIndex: 0,
+              isCategory: false,
+              blockIndex: currentBlock,
+              visible: true,
+              headingTitle: 'Farm Type'
+            }
+          }
+
+          if (subjects.length === 1){
+            sidebarItems[index].visible = false
+          }
+                      
           
-          const subject_num = [props.ytDLAnalysis.arms_filter.subject[0].num]
+          const subject_num = [props.ytDLAnalysis.ytDLAnalysis.subject[0].num]
           this.setState({
             categoryTitles: categoryTitles,
             sidebarItems: sidebarItems
@@ -711,10 +740,10 @@ class Sidebar extends React.Component {
 
         }
       } else if (props.ytDLFAnalysis) {
-        if ((props.ytDLFAnalysis.networkStatus === 1 || props.ytDLFAnalysis.networkStatus === 7) && props.ytDLFAnalysis.arms_filter) {
+        if (props.ytDLFAnalysis.networkStatus === 7 && props.ytDLFAnalysis.ytDLFAnalysis) {
 
           let series = []
-          props.ytDLFAnalysis.arms_filter.serie.forEach(serie => {
+          props.ytDLFAnalysis.ytDLFAnalysis.serie.forEach(serie => {
             const obj = {}
             obj.num = serie.abb
             obj.header = serie.header
@@ -722,11 +751,30 @@ class Sidebar extends React.Component {
           })
 
           const index = 7*(currentBlock-1) + 8
-          categoryTitles[index] = series
-          sidebarItems[index].isOpened = false
-          sidebarItems[index].selectedIndex = 0            
+
+          if (categoryTitles.length < index+1) {
+            categoryTitles.push(series)
+            sidebarItems.push({
+              isOpened: false,
+              selectedIndex: 0,
+              isCategory: false,
+              blockIndex: currentBlock,
+              visible: true,
+              headingTitle: 'Filter1'
+            })
+          } else {
+            categoryTitles[index] = series
+            sidebarItems[index] = {
+              isOpened: false,
+              selectedIndex: 0,
+              isCategory: false,
+              blockIndex: currentBlock,
+              visible: true,
+              headingTitle: 'Filter1'
+            }
+          }                   
           
-          const serie = [props.ytDLFAnalysis.arms_filter.serie[0].abb]
+          const serie = [props.ytDLFAnalysis.ytDLFAnalysis.serie[0].abb]
           this.setState({
             categoryTitles: categoryTitles,
             sidebarItems: sidebarItems
@@ -735,24 +783,29 @@ class Sidebar extends React.Component {
         }
       } else if (props.ytsAnalysis) {
         // Year -> Serie
-        if ((props.ytsAnalysis.networkStatus === 1 || props.ytsAnalysis.networkStatus === 7) && props.ytsAnalysis.arms_filter) {
-          let series_element = []
+        if (props.ytsAnalysis.networkStatus === 7 && props.ytsAnalysis.ytsAnalysis) {
+          let series_element = [{
+            num: 0,
+            header: 'All'
+          }]
           
           // Generate `Filter By/Sub` LHS menu
           let serie_element = []
-          props.ytsAnalysis.arms_filter.serie_element.forEach(element => {
+
+          props.ytsAnalysis.ytsAnalysis.serie_element.forEach(element => {
             const obj = {}
             obj.num = element.id
             obj.header = element.name
             series_element.push(obj)
             serie_element.push(element.id)
           })
+
           const index = 7*(currentBlock-1) + 9
           if (categoryTitles.length < index+1) {
             categoryTitles.push(series_element)
             sidebarItems.push({
               isOpened: false,
-              selectedIndex: -1,
+              selectedIndex: 0,
               isCategory: false,
               blockIndex: currentBlock,
               visible: true,
@@ -762,7 +815,7 @@ class Sidebar extends React.Component {
             categoryTitles[index] = series_element
             sidebarItems[index] = {
               isOpened: false,
-              selectedIndex: -1,
+              selectedIndex: 0,
               isCategory: false,
               blockIndex: currentBlock,
               visible: true,
@@ -770,7 +823,7 @@ class Sidebar extends React.Component {
             }
           }
           sidebarItems[index].headingTitle = categoryTitles[index-1][sidebarItems[index-1].selectedIndex].header
-          if (props.ytsAnalysis.arms_filter.serie_element.length === 1 && props.ytsAnalysis.arms_filter.serie_element[0].id === 0) {
+          if (props.ytsAnalysis.ytsAnalysis.serie_element.length === 1 && props.ytsAnalysis.ytsAnalysis.serie_element[0].id === 0) {
             sidebarItems[index].visible = false
           }
           // update serie_element, [state] list
@@ -781,17 +834,20 @@ class Sidebar extends React.Component {
         }
 
       } else if (props.ytseAnalysis) {
-        if ((props.ytseAnalysis.networkStatus === 1 || props.ytseAnalysis.networkStatus === 7) && props.ytseAnalysis.arms_filter) {
+        if (props.ytseAnalysis.networkStatus === 7 && props.ytseAnalysis.ytseAnalysis) {
           
           let series2 = []
-          let serie2 = [props.ytseAnalysis.arms_filter.serie2[0].abb]
-          props.ytseAnalysis.arms_filter.serie2.forEach(serie => {
+          let serie2 = [props.ytseAnalysis.ytseAnalysis.serie2[0].abb]
+
+          props.ytseAnalysis.ytseAnalysis.serie2.forEach(serie => {
             const obj = {}
             obj.num = serie.abb
             obj.header = serie.header
             series2.push(obj)
           })
+
           const index = 7*(currentBlock-1) + 10
+
           if (categoryTitles.length<index+1) {
             categoryTitles.push(series2)            
             sidebarItems.push({
@@ -813,26 +869,35 @@ class Sidebar extends React.Component {
               headingTitle: 'Filter2'
             }
           }
+
+          if (series2.length === 1 && serie2[0] === 'farm') {
+            sidebarItems[index].visible = false
+          }
           this.setState({
             categoryTitles: categoryTitles,
             sidebarItems: sidebarItems
           }, this.props.onSelectAnalysisFilter2(serie2, currentBlock))
-
         }
+
       } else if (props.ytsesAnalysis) {
         // Year -> Serie
-        if ((props.ytsesAnalysis.networkStatus === 1 || props.ytsesAnalysis.networkStatus === 7) && props.ytsesAnalysis.arms_filter) {
-          let series2_element = []
+        if (props.ytsesAnalysis.networkStatus === 7 && props.ytsesAnalysis.ytsesAnalysis) {
+          let series2_element = [{
+            num: 0,
+            header: 'All'
+          }]
           
           // Generate `Filter By/Sub` LHS menu
           let serie2_element = []
-          props.ytsesAnalysis.arms_filter.serie2_element.forEach(element => {
+
+          props.ytsesAnalysis.ytsesAnalysis.serie2_element.forEach(element => {
             const obj = {}
             obj.num = element.id
             obj.header = element.name
             series2_element.push(obj)
             serie2_element.push(element.id)
           })
+          
           const index = 7*(currentBlock-1) + 11
           if (categoryTitles.length < index+1) {
             categoryTitles.push(series2_element)
@@ -856,7 +921,7 @@ class Sidebar extends React.Component {
             }
           }
           sidebarItems[index].headingTitle = categoryTitles[index-1][sidebarItems[index-1].selectedIndex].header
-          if (props.ytsesAnalysis.arms_filter.serie2_element.length === 1 && props.ytsesAnalysis.arms_filter.serie2_element[0].id === 0) {
+          if (props.ytsesAnalysis.ytsesAnalysis.serie2_element.length === 1 && props.ytsesAnalysis.ytsesAnalysis.serie2_element[0].id === 0) {
             sidebarItems[index].visible = false
           }
           // update serie_element, [state] list
@@ -907,7 +972,7 @@ class Sidebar extends React.Component {
       } else {
         // Arms Data Analaysis      
         currentBlock = 1
-        this.props.onSelecetAnalysis()
+        this.props.onSelectAnalysis()
         isReports = false
       }
     } else {
@@ -1028,126 +1093,37 @@ class Sidebar extends React.Component {
   }
 
   removeDataSource = (blockindex) => {
-    // let {categoryTitles, sidebarItems, isArmsFilter} = this.state
-    // const index = 5+7*(blockindex-1)
-    // for (let i=0; i<7; i++){
-    //   sidebarItems[index+i].visible=false
-    // }
-    // currentBlock = blockindex
-    // isArmsFilter[currentBlock-1].isFilter1 = false
-    // isArmsFilter[currentBlock-1].isSubFilter1 = false
-    // isArmsFilter[currentBlock-1].isFitler2 = false
-    // this.setState({categoryTitles, sidebarItems, isArmsFilter}, this.props.onSelectSubFilter2([], [], [], [], [], [], [], currentBlock))
+    let {categoryTitles, sidebarItems, blockCount} = this.state
+
+    blockCount--
+
+    for (let i=blockindex; i<blockCount; i++) {
+      const index = 7*(i-1) + 5
+      for (let j=0; j<7; j++) {
+        categoryTitles[index+j] = categoryTitles[index+j+7]
+        sidebarItems[index+j] = sidebarItems[index+j+7]
+        sidebarItems[index+j].blockIndex = i
+      }
+    }
+
+    for (let i=0; i<7; i++) {
+      categoryTitles.pop()
+      sidebarItems.pop()
+    }
+
+    this.setState({categoryTitles, sidebarItems, blockCount}, this.props.removeDataSource(blockindex))
   }
 
   addDataSource() {
-    // let {categoryTitles, sidebarItems, currentBlock, isArmsFilter} = this.state
-    // currentBlock++
-    // currentBlock = currentBlock
-    // let datasource = []
-    // this.props.reports.forEach(report => {
-    //   const obj = {}
-    //   obj.num = report.num
-    //   obj.header = report.header
-    //   datasource.push(obj)
-    // })
-    // categoryTitles.push(datasource)
-    // sidebarItems.push({isOpened: false, selectedIndex: 0, isCategory: false, blockIndex: currentBlock, visible: true,  headingTitle: "Data Source"})
+    let {blockCount} = this.state
+    blockCount++
 
-    // let dataline = []
-    // this.props.topics[0].forEach(topic => {
-    //   const obj = {}
-    //   obj.num = topic.abb
-    //   obj.header = topic.header
-    //   dataline.push(obj)
-    // })
-    // categoryTitles.push(dataline)
-    // sidebarItems.push({isOpened: false, selectedIndex: 0, isCategory: false, blockIndex: currentBlock, visible: true,  headingTitle: "Data Line"})
-
-    // let farmtype = []
-    // this.props.subjects.forEach(subject => {
-    //   const obj = {}
-    //   obj.num = subject.num
-    //   obj.header = subject.header
-    //   farmtype.push(obj)
-    // })
-    // categoryTitles.push(farmtype)
-    // sidebarItems.push({isOpened: false, selectedIndex: 0, isCategory: false, blockIndex: currentBlock, visible: true,  headingTitle: "Farm Type"})
-
-    // let filter1 = []
-    // this.props.series.forEach(serie => {
-    //   const obj = {}
-    //   obj.num = serie.abb
-    //   obj.header = serie.header
-    //   filter1.push(obj)
-    // })
-    
-    // categoryTitles.push(filter1)
-    // sidebarItems.push({isOpened: false, selectedIndex: -0, isCategory: false, blockIndex: currentBlock, visible: true,  headingTitle: "Filter1"})
-
-    // let subfilter1= []   
-    // const obj = {}
-    // obj.num = 0
-    // obj.header = 'Total'
-    // subfilter1.push(obj)
-    
-    // categoryTitles.push(subfilter1)
-    // sidebarItems.push({isOpened: false, selectedIndex: 0, isCategory: false, blockIndex: currentBlock, visible: false,  headingTitle: ""})
-
-    // let filter2 = []
-    // this.props.series2.forEach(serie2 => {
-    //   const obj = {}
-    //   obj.num = serie2.abb
-    //   obj.header = serie2.header
-    //   filter2.push(obj)
-    // })
-    // categoryTitles.push(filter2)
-    // sidebarItems.push({isOpened: false, selectedIndex: 0, isCategory: false, blockIndex: currentBlock, visible: true,  headingTitle: "Filter2"})
-
-    // let subfilter2= []
-    // subfilter2.push(obj)
-    // categoryTitles.push(subfilter2)
-    // sidebarItems.push({isOpened: false, selectedIndex: 0, isCategory: false, blockIndex: currentBlock, visible: false,  headingTitle: ""})
-    // isArmsFilter.push({isFilter1: false, isSubFilter1: false, isFitler2: false, isSubFilter2: false})
-    // this.setState({categoryTitles: categoryTitles, sidebarItems: sidebarItems, currentBlock: currentBlock, isArmsFilter: isArmsFilter}, this.props.onSelectSubFilter2([1], ["kount"], [1], ['farm'], [0], ['farm'], [0], currentBlock))
+    currentBlock = blockCount
+    this.setState({blockCount}, this.props.addDataSource(currentBlock))    
   }
 
   resetFilter = ( blockIndex ) => {
-    this.props.onResetFilter()
-  //   const { sidebarItems, categoryTitles, isArmsFilter } =this.state
-  //  currentBlock = blockIndex
-  //   if(blockIndex === 0) {
-  //     isReports = true
-  //     for (let i = 1; i<=4; i++) {
-  //       sidebarItems[i].selectedIndex = 0          
-  //       sidebarItems[i].isOpened = false
-  //       if (i !== 4) {
-  //         sidebarItems[i].visible = true
-  //       } else {
-  //         sidebarItems[i].visible = false
-  //       }    
-  //     }
-  //     this.setState({categoryTitles: categoryTitles, sidebarItems: sidebarItems, currentBlock: 1}, this.props.onSelectCategory(isReports))
-  //   } else {
-  //     let report_num =[], topic_abb=[], subject_num=[], serie=[]
-  //     const index = 5+7*(currentBlock-1)        
-  //     report_num.push(categoryTitles[index][sidebarItems[index].selectedIndex].num)      
-  //     topic_abb.push(categoryTitles[index+1][sidebarItems[index+1].selectedIndex].num)
-  //     for (let i=2; i<=6; i++) {
-  //       sidebarItems[index+i].selectedIndex=0
-  //       sidebarItems[index+i].isOpened=false
-  //       sidebarItems[index+i].visible=true
-  //       if (i===4 || i===6){
-  //         sidebarItems[index+i].visible=false
-  //       }
-  //     }
-  //     subject_num.push(categoryTitles[index+2][sidebarItems[index+2].selectedIndex].num)
-  //     serie.push(categoryTitles[index+3][sidebarItems[index+3].selectedIndex].num)
-  //     isArmsFilter[currentBlock-1].isFilter1 = true, isArmsFilter[currentBlock-1].isSubFilter1 = false, isArmsFilter[currentBlock-1].isFitler2 = false, isArmsFilter[currentBlock-1].isSubFilter2=false
-  //     this.setState({sidebarItems, categoryTitles, isArmsFilter: isArmsFilter}, this.props.onSelectArmsFilter(report_num, topic_abb, subject_num, serie, currentBlock))
-      
-  //   }
-    
+    this.props.onResetFilter(blockIndex)
     
   }
   

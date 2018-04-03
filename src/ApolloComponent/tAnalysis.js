@@ -5,7 +5,7 @@ import gql from 'graphql-tag';
   query tAnalysis (
     $selectedStates: [String]
   ){
-    arms_filter(
+    tAnalysis: arms_filter(
       survey_abb: "finance",
       state_id: $selectedStates
     ){

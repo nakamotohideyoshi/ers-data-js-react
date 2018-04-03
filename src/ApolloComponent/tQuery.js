@@ -7,7 +7,7 @@ import gql from 'graphql-tag';
     $subject_num: [Int],
     $selectedStates: [String]
   ){
-    arms_filter(
+    tQuery: arms_filter(
       survey_abb: "finance",
       report_num: $report_num,
       subject_num: $subject_num,

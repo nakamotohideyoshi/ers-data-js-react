@@ -8,7 +8,7 @@ import gql from 'graphql-tag';
     $selectedYears: [Int],
     $serie: [String]
   ){
-    arms_filter(
+    ysQuery: arms_filter(
       survey_abb: "finance",
       report_num: $report_num,
       subject_num: $subject_num,
