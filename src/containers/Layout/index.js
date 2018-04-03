@@ -930,7 +930,7 @@ export default class Layout extends React.Component {
   onSelectAnalysisSubFilter2 = (serie2_element, blockIndex) => {
     let {filters} = this.state
     filters[blockIndex].serie2_element = serie2_element
-    
+
     this.setState({
       filters: filters,
       blockIndex: blockIndex,
@@ -1012,15 +1012,26 @@ export default class Layout extends React.Component {
       filters,
       runQuery,
     } = this.state
-    let serie1 = []
-    let serie1_element = []
+    let serie = []
+    let serie_element = []
     if (filters[blockIndex]){
       if (filters[blockIndex].serie_element.length > 1){
-        serie1_element = [0]
-        serie1 = ['farm']
+        serie_element = [0]
+        serie = ['farm']
       } else {
-        serie1 = filters[blockIndex].serie
-        serie1_element = filters[blockIndex].serie_element
+        serie = filters[blockIndex].serie
+        serie_element = filters[blockIndex].serie_element
+      }
+    }
+    let serie2 = []
+    let serie2_element = []
+    if (filters[blockIndex]){
+      if (filters[blockIndex].serie2_element.length > 1){
+        serie2_element = [0]
+        serie2 = ['farm']
+      } else {
+        serie2 = filters[blockIndex].serie2
+        serie2_element = filters[blockIndex].serie2_element
       }
     }
     let sortedYears = yearsInfo.sort(function(a, b){return parseInt(b.year, 10) - parseInt(a.year, 10)})
@@ -1086,10 +1097,10 @@ export default class Layout extends React.Component {
             selectedYears={selectedYears}
             report_num = {filters[blockIndex] ? filters[blockIndex].report_num : []}
             subject_num = {filters[blockIndex] ? filters[blockIndex].subject_num : []}
-            serie = {serie1}
-            serie_element = {serie1_element}
-            serie2 = {filters[blockIndex] ? filters[blockIndex].serie2 : []}
-            serie2_element = {filters[blockIndex] ? filters[blockIndex].serie2_element : []}
+            serie = {serie}
+            serie_element = {serie_element}
+            serie2 = {serie2}
+            serie2_element = {serie2_element}
             topic_abb = {filters[blockIndex] ? filters[blockIndex].topic_abb : []}
             blockIndex = {blockIndex}      
             isYearsMultiple={isYearsMultiple}          

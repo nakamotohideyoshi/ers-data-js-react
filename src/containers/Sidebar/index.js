@@ -669,6 +669,11 @@ class Sidebar extends React.Component {
               headingTitle: 'Filter1'
             }
           }
+
+          if (subjects.length === 1){
+            sidebarItems[index+2].visible = false
+          }
+
           this.setState({
             categoryTitles: categoryTitles,
             sidebarItems: sidebarItems
@@ -720,6 +725,10 @@ class Sidebar extends React.Component {
               visible: true,
               headingTitle: 'Farm Type'
             }
+          }
+
+          if (subjects.length === 1){
+            sidebarItems[index].visible = false
           }
                       
           
