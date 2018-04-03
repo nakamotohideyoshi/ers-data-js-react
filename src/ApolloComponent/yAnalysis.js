@@ -5,7 +5,7 @@ import gql from 'graphql-tag';
   query yAnalysis (
     $selectedYears: [Int]
   ){
-    arms_filter(
+    yAnalysis: arms_filter(
       survey_abb: "finance",
       year: $selectedYears
     ){
