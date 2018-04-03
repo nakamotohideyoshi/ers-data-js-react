@@ -775,10 +775,14 @@ class Sidebar extends React.Component {
       } else if (props.ytsAnalysis) {
         // Year -> Serie
         if (props.ytsAnalysis.networkStatus === 7 && props.ytsAnalysis.ytsAnalysis) {
-          let series_element = []
+          let series_element = [{
+            num: 0,
+            header: 'All'
+          }]
           
           // Generate `Filter By/Sub` LHS menu
           let serie_element = []
+
           props.ytsAnalysis.ytsAnalysis.serie_element.forEach(element => {
             const obj = {}
             obj.num = element.id
@@ -786,12 +790,13 @@ class Sidebar extends React.Component {
             series_element.push(obj)
             serie_element.push(element.id)
           })
+
           const index = 7*(currentBlock-1) + 9
           if (categoryTitles.length < index+1) {
             categoryTitles.push(series_element)
             sidebarItems.push({
               isOpened: false,
-              selectedIndex: -1,
+              selectedIndex: 0,
               isCategory: false,
               blockIndex: currentBlock,
               visible: true,
@@ -801,7 +806,7 @@ class Sidebar extends React.Component {
             categoryTitles[index] = series_element
             sidebarItems[index] = {
               isOpened: false,
-              selectedIndex: -1,
+              selectedIndex: 0,
               isCategory: false,
               blockIndex: currentBlock,
               visible: true,
