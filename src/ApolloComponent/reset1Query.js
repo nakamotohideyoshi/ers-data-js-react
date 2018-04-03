@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 
   export default graphql(gql`
   query reset1Query ($report_num: [Int]){
-    arms_filter(
+    reset1Query: arms_filter(
       survey_abb: "finance",
       report_num: $report_num
     ){
