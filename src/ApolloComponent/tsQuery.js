@@ -8,7 +8,7 @@ import gql from 'graphql-tag';
     $selectedStates: [String],
     $serie: [String]
   ){
-    arms_filter(
+    tsQuery: arms_filter(
       survey_abb: "finance",
       report_num: $report_num,
       subject_num: $subject_num,

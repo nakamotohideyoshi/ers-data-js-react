@@ -16,7 +16,7 @@ class App extends Component {
   
   componentWillReceiveProps(props) {
     let {years, states, reports, subjects, series, series_element, series2, series2_element, topics} = this.state
-    if (!props.initial.loading) {      
+    if (props.initial.networkStatus ===7 && props.initial.initial) {      
       years = props.initial.initial.year
       states = props.initial.initial.state
       reports = props.initial.initial.report

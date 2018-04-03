@@ -8,7 +8,7 @@ import gql from 'graphql-tag';
     $serie: [String],
     $serie_element: [Int]
   ){
-    arms_filter(
+    seQuery: arms_filter(
       survey_abb: "finance",
       report_num: $report_num,
       subject_num: $subject_num,

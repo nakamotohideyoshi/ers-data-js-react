@@ -9,7 +9,7 @@ import gql from 'graphql-tag';
     $selectedStates: [String],
     $topic_abb: [String]
   ){
-    arms_filter(
+    initAnalysis: arms_filter(
       survey_abb: "finance",
       report_num: $report_num,
       subject_num: $subject_num,

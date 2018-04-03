@@ -10,7 +10,7 @@ import gql from 'graphql-tag';
     $selectedStates: [String],
     $serie: [String]
   ){
-    arms_filter(
+    ytsAnalysis: arms_filter(
       survey_abb: "finance",
       report_num: $report_num,
       topic_abb: $topic_abb,
