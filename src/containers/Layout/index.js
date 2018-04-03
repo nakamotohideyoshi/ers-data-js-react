@@ -11,6 +11,7 @@ const defaultYearCount = 5
 const defaultStateCount = 1
 const defaultSerie = 'farm'
 const defaultSerie_element = 0
+const dataSourceCounts = 8
 
 export default class Layout extends React.Component {
   state = {
@@ -27,26 +28,25 @@ export default class Layout extends React.Component {
   }
 
   componentWillMount() {
+    let filters = []
 
-    const filters = [
-      {
-        report_num: [],
-        subject_num: [],
-        serie: [],
-        serie_element: [],
-        serie2: [defaultSerie],
-        serie2_element: [defaultSerie_element],
-        topic_abb: []
-      }, {
-        report_num: [],
-        subject_num: [],
-        serie: [],
-        serie_element: [],
-        serie2: [],
-        serie2_element: [],
-        topic_abb: []
-      }
-    ]
+    for (let i=0; i<dataSourceCounts+1; i++) {
+      const obj = {}
+      obj.report_num = []
+      obj.subject_num = []
+      obj.serie = []
+      obj.serie_element = []
+      if (i === 0) {
+        obj.serie2 = [defaultSerie]
+        obj.serie2_element = [defaultSerie_element]
+      } else {
+        obj.serie2 = []
+        obj.serie2_element = []
+      }      
+      obj.topic_abb = []
+      filters.push(obj)
+    }
+
     this.setState({filters})
   }
 
@@ -733,7 +733,7 @@ export default class Layout extends React.Component {
     })
   }
   
-  onSelecetAnalysis = () => {
+  onSelectAnalysis = () => {
     let {filters, isYearsMultiple} = this.state
     const blockIndex = 1
     filters[blockIndex].report_num = [1]
@@ -866,7 +866,7 @@ export default class Layout extends React.Component {
     this.setState({
       filters: filters,
       blockIndex: blockIndex,
-      runQuery: 'ytDLAnalysis'
+      runQuery: ''
     })
   }
 
@@ -875,6 +875,11 @@ export default class Layout extends React.Component {
     let {filters} = this.state
 
     filters[blockIndex].subject_num = subject_num
+    filters[blockIndex].serie = []
+    filters[blockIndex].serie_element = []
+    filters[blockIndex].serie2 = []
+    filters[blockIndex].serie2_element = []
+
     this.setState({
       filters: filters,
       blockIndex: blockIndex,
@@ -1042,7 +1047,7 @@ export default class Layout extends React.Component {
           onSelectSubjectFilter = {this.onSelectSubjectFilter}
           onSelectFilterByFilter = {this.onSelectFilterByFilter}
           onSelectSubFilterByFilter = {this.onSelectSubFilterByFilter}
-          onSelecetAnalysis = {this.onSelecetAnalysis}
+          onSelectAnalysis = {this.onSelectAnalysis}
           onResetYearAnalysis = {this.onResetYearAnalysis}
           onResetStateAnalysis = {this.onResetStateAnalysis}
           onSelectAnalysisFilter1 = {this.onSelectAnalysisFilter1}

@@ -591,8 +591,10 @@ class Sidebar extends React.Component {
             obj.header = serie.header
             series.push(obj)
           })
+
+          const index = 7*(currentBlock-1) + 5
           
-          if (categoryTitles.length<6) {
+          if (categoryTitles.length<index+1) {
             categoryTitles.push(reports)
             categoryTitles.push(topics)
             categoryTitles.push(subjects)
@@ -630,11 +632,11 @@ class Sidebar extends React.Component {
               headingTitle: 'Filter1'
             })
           } else {
-            categoryTitles[5] = reports
-            categoryTitles[6] = topics
-            categoryTitles[7] = subjects
-            categoryTitles[8] = series
-            sidebarItems[5] ={
+            categoryTitles[index] = reports
+            categoryTitles[index+1] = topics
+            categoryTitles[index+2] = subjects
+            categoryTitles[index+3] = series
+            sidebarItems[index] ={
               isOpened: false,
               selectedIndex: 0,
               isCategory: false,
@@ -642,7 +644,7 @@ class Sidebar extends React.Component {
               visible: true,
               headingTitle: 'Data Source'
             }
-            sidebarItems[6] = {
+            sidebarItems[index+1] = {
               isOpened: false,
               selectedIndex: 0,
               isCategory: false,
@@ -650,7 +652,7 @@ class Sidebar extends React.Component {
               visible: true,
               headingTitle: 'Data Line'
             }
-            sidebarItems[7] = {
+            sidebarItems[index+2] = {
               isOpened: false,
               selectedIndex: 0,
               isCategory: false,
@@ -658,7 +660,7 @@ class Sidebar extends React.Component {
               visible: true,
               headingTitle: 'Farm Type'
             }
-            sidebarItems[8] = {
+            sidebarItems[index+3] = {
               isOpened: false,
               selectedIndex: 0,
               isCategory: false,
@@ -697,9 +699,29 @@ class Sidebar extends React.Component {
           })
 
           const index = 7*(currentBlock-1) + 7
-          categoryTitles[index] = subjects
-          sidebarItems[index].isOpened = false
-          sidebarItems[index].selectedIndex = 0            
+
+          if (categoryTitles.length<index+1) {
+            categoryTitles.push(subjects)
+            sidebarItems.push({
+              isOpened: false,
+              selectedIndex: 0,
+              isCategory: false,
+              blockIndex: currentBlock,
+              visible: true,
+              headingTitle: 'Farm Type'
+            })
+          } else {
+            categoryTitles[index] = subjects
+            sidebarItems[index] = {
+              isOpened: false,
+              selectedIndex: 0,
+              isCategory: false,
+              blockIndex: currentBlock,
+              visible: true,
+              headingTitle: 'Farm Type'
+            }
+          }
+                      
           
           const subject_num = [props.ytDLAnalysis.ytDLAnalysis.subject[0].num]
           this.setState({
@@ -720,9 +742,28 @@ class Sidebar extends React.Component {
           })
 
           const index = 7*(currentBlock-1) + 8
-          categoryTitles[index] = series
-          sidebarItems[index].isOpened = false
-          sidebarItems[index].selectedIndex = 0            
+
+          if (categoryTitles.length < index+1) {
+            categoryTitles.push(series)
+            sidebarItems.push({
+              isOpened: false,
+              selectedIndex: 0,
+              isCategory: false,
+              blockIndex: currentBlock,
+              visible: true,
+              headingTitle: 'Filter1'
+            })
+          } else {
+            categoryTitles[index] = series
+            sidebarItems[index] = {
+              isOpened: false,
+              selectedIndex: 0,
+              isCategory: false,
+              blockIndex: currentBlock,
+              visible: true,
+              headingTitle: 'Filter1'
+            }
+          }                   
           
           const serie = [props.ytDLFAnalysis.ytDLFAnalysis.serie[0].abb]
           this.setState({
@@ -905,7 +946,7 @@ class Sidebar extends React.Component {
       } else {
         // Arms Data Analaysis      
         currentBlock = 1
-        this.props.onSelecetAnalysis()
+        this.props.onSelectAnalysis()
         isReports = false
       }
     } else {
