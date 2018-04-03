@@ -8,7 +8,7 @@ import gql from 'graphql-tag';
     $selectedStates: [String],
     $topic_abb: [String]
   ){
-    arms_filter(
+    ytDLAnalysis: arms_filter(
       survey_abb: "finance",
       report_num: $report_num,
       state_id: $selectedStates,
