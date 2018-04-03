@@ -962,6 +962,24 @@ export default class Layout extends React.Component {
 
     this.setState({filters, blockIndex, runQuery})
   }
+
+  // remove DataSource
+
+  removeDataSource = (blockIndex) => {
+    let {filters} = this.state
+
+    for (let i=blockIndex; i<filters.length-2; i++) {
+      filters[i] = filters[i+1]
+    }
+    filters[filters.length-1].report_num = []
+    filters[filters.length-1].subject_num = []
+    filters[filters.length-1].serie = []
+    filters[filters.length-1].serie_element = []
+    filters[filters.length-1].serie2 = []
+    filters[filters.length-1].serie2_element = []
+
+    this.setState({filters})
+  }
   
   onSwitchMultiple = () => {
     let { 
@@ -1089,6 +1107,7 @@ export default class Layout extends React.Component {
           onSleectDataLine = {this.onSleectDataLine}
           onSelectAnalysisFarm = {this.onSelectAnalysisFarm}
           addDataSource = {this.addDataSource}
+          removeDataSource = {this.removeDataSource}
         />
         <Col xs={12} md={9} sm={12}>
           <h4 className="main-heading">

@@ -1093,16 +1093,25 @@ class Sidebar extends React.Component {
   }
 
   removeDataSource = (blockindex) => {
-    // let {categoryTitles, sidebarItems, isArmsFilter} = this.state
-    // const index = 5+7*(blockindex-1)
-    // for (let i=0; i<7; i++){
-    //   sidebarItems[index+i].visible=false
-    // }
-    // currentBlock = blockindex
-    // isArmsFilter[currentBlock-1].isFilter1 = false
-    // isArmsFilter[currentBlock-1].isSubFilter1 = false
-    // isArmsFilter[currentBlock-1].isFitler2 = false
-    // this.setState({categoryTitles, sidebarItems, isArmsFilter}, this.props.onSelectSubFilter2([], [], [], [], [], [], [], currentBlock))
+    let {categoryTitles, sidebarItems, blockCount} = this.state
+
+    blockCount--
+
+    for (let i=blockindex; i<blockCount; i++) {
+      const index = 7*(i-1) + 5
+      for (let j=0; j<7; j++) {
+        categoryTitles[index+j] = categoryTitles[index+j+7]
+        sidebarItems[index+j] = sidebarItems[index+j+7]
+        sidebarItems[index+j].blockIndex = i
+      }
+    }
+
+    for (let i=0; i<7; i++) {
+      categoryTitles.pop()
+      sidebarItems.pop()
+    }
+
+    this.setState({categoryTitles, sidebarItems, blockCount}, this.props.removeDataSource(blockindex))
   }
 
   addDataSource() {
