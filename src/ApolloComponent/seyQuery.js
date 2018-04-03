@@ -9,7 +9,7 @@ import gql from 'graphql-tag';
     $serie_element: [Int],
     $selectedYears: [Int]
   ){
-    arms_filter(
+    seyQuery: arms_filter(
       survey_abb: "finance",
       report_num: $report_num,
       subject_num: $subject_num,
