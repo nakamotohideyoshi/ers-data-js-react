@@ -666,9 +666,9 @@ export default class Layout extends React.Component {
       }
     } else {
       if (isYearsMultiple) {
-        runQuery = 'yAnalysis'
-      } else {
         runQuery = 'ytDLAnalysis'
+      } else {
+        runQuery = 'yAnalysis'
       }
     }
     this.setState({
@@ -718,9 +718,9 @@ export default class Layout extends React.Component {
       }
     } else {
       if (isYearsMultiple) {
-        runQuery = 'ytDLAnalysis'
-      } else {
         runQuery = 'tAnalysis'
+      } else {
+        runQuery = 'ytDLAnalysis'
       }
     }
     this.setState({
