@@ -946,22 +946,21 @@ export default class Layout extends React.Component {
   }
 
   // Add Datasource
-  addDataSource = () => {
+  addDataSource = (blockIndex) => {
     let {filters} = this.state
 
-    const obj = {}
-    obj.report_num = [1]
-    obj.subject_num = [1]
-    obj.serie = []
-    obj.serie_element = []
-    obj.serie2 = []
-    obj.serie2_element = []
-    obj.topic_abb  = []
-    filters.push(obj)
+    filters[blockIndex].report_num = [1]
+    filters[blockIndex].subject_num = [1]
+
+    const topic_abb = []
+    if (this.props.topics) {
+      topic_abb.push(this.props.topics[0][0].abb)
+    }
+    filters[blockIndex].topic_abb = topic_abb
 
     const runQuery = 'initAnalysis'
 
-    this.setState({filters, runQuery})
+    this.setState({filters, blockIndex, runQuery})
   }
   
   onSwitchMultiple = () => {
@@ -1089,6 +1088,7 @@ export default class Layout extends React.Component {
           onSelectDatasource = {this.onSelectDatasource}
           onSleectDataLine = {this.onSleectDataLine}
           onSelectAnalysisFarm = {this.onSelectAnalysisFarm}
+          addDataSource = {this.addDataSource}
         />
         <Col xs={12} md={9} sm={12}>
           <h4 className="main-heading">
