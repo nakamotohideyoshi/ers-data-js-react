@@ -919,7 +919,7 @@ export default class Layout extends React.Component {
     let {filters} = this.state
     filters[blockIndex].serie2 = serie2
     filters[blockIndex].serie2_element = []
-    
+
     this.setState({
       filters: filters,
       blockIndex: blockIndex,
@@ -930,6 +930,7 @@ export default class Layout extends React.Component {
   onSelectAnalysisSubFilter2 = (serie2_element, blockIndex) => {
     let {filters} = this.state
     filters[blockIndex].serie2_element = serie2_element
+    
     this.setState({
       filters: filters,
       blockIndex: blockIndex,
