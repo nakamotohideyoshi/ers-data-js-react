@@ -1178,7 +1178,7 @@ class Sidebar extends React.Component {
   }
 
   resetFilter = ( blockIndex ) => {
-    this.props.onResetFilter()
+    this.props.onResetFilter(blockIndex)
   //   const { sidebarItems, categoryTitles, isArmsFilter } =this.state
   //  currentBlock = blockIndex
   //   if(blockIndex === 0) {

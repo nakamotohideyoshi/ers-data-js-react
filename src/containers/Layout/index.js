@@ -122,24 +122,31 @@ export default class Layout extends React.Component {
     })
   }
 
-  onResetFilter = () => {
+  onResetFilter = (blockIndex) => {
 
-    let {filters} = this.state
+    let {filters, selectedYears, selectedStates} = this.state
+    let runQuery = ''
 
-    const blockIndex = 0
-
-    filters[blockIndex].serie = []
-    filters[blockIndex].serie_element = []
-    const selectedYears = []
-    const selectedStates = []
+    if (blockIndex === 0) {
+      filters[blockIndex].serie = []
+      filters[blockIndex].serie_element = []
+      runQuery = 'resetQuery'
+    } else {
+      filters[blockIndex].subject_num = []
+      filters[blockIndex].serie = []
+      filters[blockIndex].serie_element = []
+      filters[blockIndex].serie2 = []
+      filters[blockIndex].serie2_element = []
+      runQuery = 'ytDLAnalysis'
+    }
 
     this.setState({
       filters: filters,
       blockIndex: blockIndex,
-      selectedYears: selectedYears,
-      selectedStates: selectedStates,
+      selectedYears: blockIndex === 0 ? [] : selectedYears,
+      selectedStates: blockIndex === 0 ? [] : selectedStates,
       priority: [],
-      runQuery: 'resetQuery'
+      runQuery: runQuery
     })
   }  
 
