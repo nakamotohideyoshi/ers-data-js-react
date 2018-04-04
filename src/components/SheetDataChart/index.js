@@ -37,6 +37,7 @@ class SheetDataChart extends Component {
             singleIncome.id = element.report_num + element.topic_abb
             singleIncome.report = element.report_dim.header
             singleIncome.header = element.topic_dim.header
+            singleIncome.unit_desc = element.topic_dim.unit_desc
               let estimateList = []
               let rseList = []
               categories.forEach(category => {
