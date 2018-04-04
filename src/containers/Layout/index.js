@@ -27,11 +27,13 @@ export default class Layout extends React.Component {
     selectedStates: [],
     filters: [],
     runQuery: '',
-    priority: []
+    priority: [],
+    isRemoveDataSource: false
   }
 
   componentWillMount() {
     let filters = []
+    const isRemoveDataSource = false
 
     for (let i=0; i<dataSourceCounts+1; i++) {
       const obj = {}
@@ -50,7 +52,7 @@ export default class Layout extends React.Component {
       filters.push(obj)
     }
 
-    this.setState({filters})
+    this.setState({filters, isRemoveDataSource})
   }
 
   componentWillReceiveProps(props) {
@@ -100,13 +102,16 @@ export default class Layout extends React.Component {
       })
     }
 
+    const isRemoveDataSource = false
+
     this.setState({
       yearsInfo: yearsInfo,
       selectedYears: selectedYears,
       statesInfo: statesInfo,
       selectedStates: selectedStates,
       selectedStateNames: selectedStateNames,
-      filters: filters
+      filters: filters,
+      isRemoveDataSource
     })    
     
   }
@@ -116,10 +121,13 @@ export default class Layout extends React.Component {
   onStaticSelect = (report_num, subject_num, blockIndex) => {
     let {filters} = this.state
 
+    const isRemoveDataSource = false
+
     filters[blockIndex].report_num = [report_num]
     filters[blockIndex].subject_num = [subject_num]
     this.setState({
       filters,
+      isRemoveDataSource,
       priority: [],
       blockIndex,
       runQuery: 'resetQuery'
@@ -127,6 +135,8 @@ export default class Layout extends React.Component {
   }
 
   onResetFilter = (blockIndex) => {
+
+    const isRemoveDataSource = false
 
     let {filters, selectedYears, selectedStates} = this.state
     let runQuery = ''
@@ -146,6 +156,7 @@ export default class Layout extends React.Component {
 
     this.setState({
       filters: filters,
+      isRemoveDataSource,
       blockIndex: blockIndex,
       selectedYears: blockIndex === 0 ? [] : selectedYears,
       selectedStates: blockIndex === 0 ? [] : selectedStates,
@@ -682,8 +693,12 @@ export default class Layout extends React.Component {
         runQuery = 'yAnalysis'
       }
     }
+
+    const isRemoveDataSource = false
+
     this.setState({
       filters,
+      isRemoveDataSource,
       priority: priority,
       yearsInfo: yearsInfo.slice(),
       selectedYears: selectedYears,
@@ -734,8 +749,12 @@ export default class Layout extends React.Component {
         runQuery = 'ytDLAnalysis'
       }
     }
+
+    const isRemoveDataSource = false
+
     this.setState({
       filters,
+      isRemoveDataSource,
       selectedStateNames,
       priority: priority,
       statesInfo: statesInfo.slice(),
@@ -792,7 +811,10 @@ export default class Layout extends React.Component {
     }
     filters[blockIndex].topic_abb = topic_abb
 
+    const isRemoveDataSource = false
+
     this.setState({
+      isRemoveDataSource,
       yearsInfo: yearsInfo,
       selectedYears: selectedYears,
       statesInfo: statesInfo,
@@ -822,8 +844,10 @@ export default class Layout extends React.Component {
       }          
       yearsInfo.push(infoObj)
     })
+    const isRemoveDataSource = false
 
     this.setState({
+      isRemoveDataSource,
       blockIndex,
       yearsInfo: yearsInfo,
       selectedYears: selectedYears,
@@ -849,7 +873,10 @@ export default class Layout extends React.Component {
       statesInfo.push(obj)     
     })
 
+    const isRemoveDataSource = false
+
     this.setState({
+      isRemoveDataSource,
       blockIndex,
       statesInfo: statesInfo,
       selectedStates: selectedStates,
@@ -862,9 +889,12 @@ export default class Layout extends React.Component {
     let {filters} = this.state
     filters[blockIndex].report_num = report_num
     filters[blockIndex].topic_abb = topic_abb
+
+    const isRemoveDataSource = false
     
     this.setState({
       filters: filters,
+      isRemoveDataSource,
       blockIndex: blockIndex,
       runQuery: 'ytDLAnalysis'
     })
@@ -874,8 +904,12 @@ export default class Layout extends React.Component {
     let {filters} = this.state
 
     filters[blockIndex].topic_abb = topic_abb
+
+    const isRemoveDataSource = false
+
     this.setState({
       filters: filters,
+      isRemoveDataSource,
       blockIndex: blockIndex,
       runQuery: ''
     })
@@ -891,8 +925,11 @@ export default class Layout extends React.Component {
     filters[blockIndex].serie2 = []
     filters[blockIndex].serie2_element = []
 
+    const isRemoveDataSource = false
+
     this.setState({
       filters: filters,
+      isRemoveDataSource,
       blockIndex: blockIndex,
       runQuery: 'ytDLFAnalysis'
     })
@@ -906,8 +943,11 @@ export default class Layout extends React.Component {
     filters[blockIndex].serie2 = []
     filters[blockIndex].serie2_element = []
 
+    const isRemoveDataSource = false
+
     this.setState({
       filters: filters,
+      isRemoveDataSource,
       blockIndex: blockIndex,
       runQuery: 'ytsAnalysis'
     })
@@ -919,8 +959,11 @@ export default class Layout extends React.Component {
     filters[blockIndex].serie2 = []
     filters[blockIndex].serie2_element = []
 
+    const isRemoveDataSource = false
+
     this.setState({
       filters: filters,
+      isRemoveDataSource,
       blockIndex: blockIndex,
       runQuery: 'ytseAnalysis'
     })
@@ -931,8 +974,11 @@ export default class Layout extends React.Component {
     filters[blockIndex].serie2 = serie2
     filters[blockIndex].serie2_element = []
 
+    const isRemoveDataSource = false
+
     this.setState({
       filters: filters,
+      isRemoveDataSource,
       blockIndex: blockIndex,
       runQuery: 'ytsesAnalysis'
     })
@@ -942,8 +988,11 @@ export default class Layout extends React.Component {
     let {filters} = this.state
     filters[blockIndex].serie2_element = serie2_element
 
+    const isRemoveDataSource = false
+
     this.setState({
       filters: filters,
+      isRemoveDataSource,
       blockIndex: blockIndex,
       runQuery: ''
     })
@@ -964,7 +1013,14 @@ export default class Layout extends React.Component {
 
     const runQuery = 'initAnalysis'
 
-    this.setState({filters, blockIndex, runQuery})
+    const isRemoveDataSource = false
+
+    this.setState({
+      filters,
+      isRemoveDataSource,
+      blockIndex,
+      runQuery
+    })
   }
 
   // remove DataSource
@@ -982,7 +1038,13 @@ export default class Layout extends React.Component {
     filters[filters.length-1].serie2 = []
     filters[filters.length-1].serie2_element = []
 
-    this.setState({filters})
+    const isRemoveDataSource = true
+
+    this.setState({
+      filters,
+      blockIndex,
+      isRemoveDataSource
+    })
   }
   
   onSwitchMultiple = () => {
@@ -1020,6 +1082,8 @@ export default class Layout extends React.Component {
       runQuery = 'ytDLAnalysis'
     }
 
+    const isRemoveDataSource = false
+
     this.setState({ 
       whichOneMultiple: whichOneMultiple === YEAR_SELECTED ? 'NA':YEAR_SELECTED,
       selectedYears: selectedYears.slice(),
@@ -1027,6 +1091,7 @@ export default class Layout extends React.Component {
       selectedStateNames: selectedStateNames.slice(),
       yearsInfo,
       statesInfo,
+      isRemoveDataSource,
       runQuery
     })
   }
@@ -1043,6 +1108,7 @@ export default class Layout extends React.Component {
       whichOneMultiple,
       filters,
       runQuery,
+      isRemoveDataSource
     } = this.state
     let serie = []
     let serie_element = []
@@ -1137,7 +1203,8 @@ export default class Layout extends React.Component {
             serie2_element = {serie2_element}
             topic_abb = {filters[blockIndex] ? filters[blockIndex].topic_abb : []}
             blockIndex = {blockIndex}      
-            whichOneMultiple={whichOneMultiple}          
+            whichOneMultiple={whichOneMultiple}
+            isRemoveDataSource={isRemoveDataSource}          
           />        
           <Footnote />
         </Col>  

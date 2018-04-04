@@ -4,7 +4,7 @@ import SidebarDropdown from '../SidebarDropdown'
 import { SlideDown } from 'react-slidedown'
 import Reset from '../../images/reset.png'
 
-const SidebarItem = ({ headingTitle, titles, visible, selectedIndex, isOpened, isCategory, isReports, isDataReset, isRemoval, removeDataSource, isLast, toggleCategoryOptions, updateFilter, resetFilter }) => (
+const SidebarItem = ({ headingTitle, titles, visible, selectedIndex, isOpened, isCategory, isReports, isDataReset, isRemoval, isDataLine, removeDataSource, isLast, toggleCategoryOptions, updateFilter, resetFilter }) => (
   <div>
     {
       visible && !isReports && isRemoval && (
@@ -25,7 +25,7 @@ const SidebarItem = ({ headingTitle, titles, visible, selectedIndex, isOpened, i
             </div>
           )
         }
-        <SidebarDropdown headingTitle={headingTitle} title={selectedIndex === -1 ? 'All' : titles[selectedIndex].header} isOpened={isOpened} isCategory={isCategory} onToggle={() => toggleCategoryOptions()} />
+        <SidebarDropdown headingTitle={headingTitle} title={isDataLine ? 'Select' : titles[selectedIndex].header} isOpened={isOpened} isCategory={isCategory} onToggle={() => toggleCategoryOptions()} />
         <SlideDown className='my-dropdown-slidedown'>
           {
             isOpened && (
@@ -33,10 +33,10 @@ const SidebarItem = ({ headingTitle, titles, visible, selectedIndex, isOpened, i
               {
                 titles.map((val, index) => {
                   return (
-                    <li onClick={()=>updateFilter(index)} className={`${selectedIndex === index ? `active`:``}`}>
+                    <li onClick={()=>updateFilter(index)} className={`${(isDataLine ? selectedIndex.indexOf(index) > -1 : selectedIndex === index) ? `active`:``}`}>
                       <a>
                       {
-                        selectedIndex === index && (
+                        (isDataLine ? selectedIndex.indexOf(index) > -1 : selectedIndex === index) && (
                           <div className="checked-option li-option"><i className="fa fa-check"></i>{titles[index].header}</div>
                         ) || (
                           <div className="right-padding-option li-option">{titles[index].header}</div>
@@ -86,6 +86,7 @@ SidebarItem.propTypes = {
   isDataReset: PropTypes.bool,
   isLast: PropTypes.bool,
   isRemoval: PropTypes.bool,
+  isDataLine: PropTypes.bool,
   removeDataSource: PropTypes.func,
   toggleCategoryOptions: PropTypes.func,
   updateFilter: PropTypes.func  
