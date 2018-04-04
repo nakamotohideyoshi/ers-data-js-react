@@ -8,6 +8,9 @@
 .checked-option {
   display: flex;
 }
+.li-option {
+  cursor: pointer;
+}
 .dropdown_up:not(:first-child) {
   margin-top: 2px;
 }
