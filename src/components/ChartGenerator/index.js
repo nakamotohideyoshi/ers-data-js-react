@@ -7,6 +7,7 @@ import { DropdownButton, MenuItem } from 'react-bootstrap';
 import {CSVLink} from 'react-csv';
 
 import { numberWithCommas } from '../../helpers/NumberWithCommas'
+import { YEAR_SELECTED } from '../../helpers/constants'
 import DownloadImg from '../../images/download.png'
 
 HighchartsExporting(ReactHighcharts.Highcharts)
@@ -19,12 +20,12 @@ export default class ChartGenerator extends React.Component {
     csvTableArray: [],    
   }
   componentWillMount() {
-    const { series, categories, title, chartType, isYearsMultiple } = this.props
-    this.generateConfig(series, categories, title, chartType, isYearsMultiple)
+    const { series, categories, title, chartType, whichOneMultiple } = this.props
+    this.generateConfig(series, categories, title, chartType, whichOneMultiple)
   }
   componentWillReceiveProps(props) {
-    const { series, categories, title, chartType, isYearsMultiple } = props
-    this.generateConfig(series, categories, title, chartType, isYearsMultiple)
+    const { series, categories, title, chartType, whichOneMultiple } = props
+    this.generateConfig(series, categories, title, chartType, whichOneMultiple)
   }
   generateCSVChart(series, categories) {
       let csvChartArray = [["Categories"]]
@@ -60,7 +61,7 @@ export default class ChartGenerator extends React.Component {
     })
     this.setState({csvTableArray})
   }
-  generateConfig(series, categories, title, chartType, isYearsMultiple) {
+  generateConfig(series, categories, title, chartType, whichOneMultiple) {
     if (title === '' && series) {
       title = series[0].report
     }
@@ -72,7 +73,7 @@ export default class ChartGenerator extends React.Component {
     const seriesOthers = series.filter(single => single.header !== 'Farms')
 
     let farmsChartType = 'column'
-    if (isYearsMultiple && categories.length > 1)
+    if (whichOneMultiple === YEAR_SELECTED && categories.length > 1)
       farmsChartType = 'spline'
 
     const config = {

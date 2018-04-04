@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import OptionGroup from '../../components/OptionGroup'
 import { numberWithCommas } from '../../helpers/NumberWithCommas'
+import { YEAR_SELECTED } from '../../helpers/constants'
 
 import HelpImg from '../../images/help.png'
 import PinHideImg from '../../images/unin_hide.png'
@@ -37,7 +38,7 @@ class TableContainer extends React.Component {
     return { estimateVal, rseVal }
   }
   componentWillReceiveProps(props) {
-    const { surveyData, categories, isYearsMultiple } = props
+    const { surveyData, categories, whichOneMultiple } = props
     let originData = surveyData
     let incomeArr = []
 
@@ -60,7 +61,7 @@ class TableContainer extends React.Component {
           let estimateList = []
           let rseList = []
           categories.forEach(category => {
-            const comparedCategory = isYearsMultiple ? element.year: element.state.name
+            const comparedCategory = whichOneMultiple === YEAR_SELECTED ? element.year: element.state.name
             if (comparedCategory === category) {
               estimateList.push(this.formatEstimateRse(element).estimateVal)
               rseList.push(this.formatEstimateRse(element).rseVal)
@@ -74,7 +75,7 @@ class TableContainer extends React.Component {
           incomeArr.push(singleIncome)
         } else {
           categories.forEach((category, index) => {
-            const comparedCategory = isYearsMultiple ? element.year: element.state.name
+            const comparedCategory = whichOneMultiple === YEAR_SELECTED ? element.year: element.state.name
             if (comparedCategory === category) {
               singleIncome.estimateList[index] = this.formatEstimateRse(element).estimateVal
               singleIncome.rseList[index] = this.formatEstimateRse(element).rseVal
