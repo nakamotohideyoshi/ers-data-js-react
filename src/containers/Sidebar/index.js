@@ -1,5 +1,4 @@
 import React from 'react';
-import { Col } from 'react-bootstrap';
 import 'react-fa'
 import 'react-slidedown/lib/slidedown.css'
 import SidebarItem from '../../components/SidebarItem'
@@ -44,7 +43,7 @@ class Sidebar extends React.Component {
     isSubFilterBy: false,
     isArmsFilter: []    
   }  
-  
+
   componentWillReceiveProps(props) {
     console.log('****************', props, '****************')
     let {categoryTitles, sidebarItems, blockCount, isSubFilterBy, isArmsFilter} = this.state
@@ -1140,65 +1139,85 @@ class Sidebar extends React.Component {
     this.props.onResetFilter(blockIndex)
     
   }
-  
+
+  componentDidMount() {
+    document.addEventListener('mousedown', this.handleClickOutside);
+  }
+
+  componentWillUnmount() {
+      document.removeEventListener('mousedown', this.handleClickOutside);
+  }
+
+  handleClickOutside = (event) => {
+    if (this.sidebarWrapper && !this.sidebarWrapper.contains(event.target)) {
+      const { sidebarItems } = this.state    
+      sidebarItems.forEach((singleItem) => {
+        singleItem.isOpened = false
+      })
+      this.setState({ sidebarItems })
+    }
+}
+
   render() {  
     const {sidebarItems, categoryTitles, blockCount} = this.state    
     return (
-    <Col sm={3} md={3} xs={12} className="sidebar-container">
-      {        
-        sidebarItems.map((val, i) => {
-          let isBlock = false
-          let isDataReset = false
-          let isRemoval = false
-          let isDataLine = false
-          if ((i-11)%7 === 1) {
-            isRemoval = true
-          }else if ((i-4)%7 === 2){
-            isDataReset = true
-          } else if ((i-4)%7 === 0) {
-            isBlock = true
-          }
-          if ((i-5)%7===1) {
-            isDataLine = true
-          }
-          return (
-            <SidebarItem 
-              headingTitle={val.headingTitle}
-              titles={categoryTitles[i]}
-              visible={val.visible}              
-              selectedIndex={val.selectedIndex}
-              isOpened={val.isOpened}
-              isCategory={val.isCategory} 
-              isReports={isReports}
-              isRemoval={isRemoval}
-              isDataReset={isDataReset}
-              isBlock={isBlock}
-              isDataLine={isDataLine}
-              toggleCategoryOptions={() => this.toggleCategoryOptions(i)}
-              updateFilter={(index) => this.updateFilter(i, index)}   
-              resetFilter={() => this.resetFilter(val.blockIndex)}
-              removeDataSource={() => this.removeDataSource(val.blockIndex)}                 
-            />
-          )
-        })
-      }
-      {
-        !isReports && (
-        <div class="block">
-          
-        </div>
-      )
-    }      
-      {
-        !isReports && (
-          <div>
-            <a className="pull-right reset" onClick={() => this.addDataSource()}>
-              <img src={Reset} alt="" />Add Another DataSource
-            </a>
+    <div className="col-sm-3 col-md-3 col-xs-12">
+      <div className="sidebar-container" ref={node => this.sidebarWrapper = node}>
+        {        
+          sidebarItems.map((val, i) => {
+            let isBlock = false
+            let isDataReset = false
+            let isRemoval = false
+            let isDataLine = false
+            if ((i-11)%7 === 1) {
+              isRemoval = true
+            }else if ((i-4)%7 === 2){
+              isDataReset = true
+            } else if ((i-4)%7 === 0) {
+              isBlock = true
+            }
+            if ((i-5)%7===1) {
+              isDataLine = true
+            }
+            return (
+              <SidebarItem 
+                headingTitle={val.headingTitle}
+                titles={categoryTitles[i]}
+                visible={val.visible}              
+                selectedIndex={val.selectedIndex}
+                isOpened={val.isOpened}
+                isCategory={val.isCategory} 
+                isReports={isReports}
+                isRemoval={isRemoval}
+                isDataReset={isDataReset}
+                isBlock={isBlock}
+                isDataLine={isDataLine}
+                toggleCategoryOptions={() => this.toggleCategoryOptions(i)}
+                updateFilter={(index) => this.updateFilter(i, index)}   
+                resetFilter={() => this.resetFilter(val.blockIndex)}
+                removeDataSource={() => this.removeDataSource(val.blockIndex)}                 
+              />
+            )
+          })
+        }
+        {
+          !isReports && (
+          <div class="block">
+            
           </div>
         )
       }      
-      </Col>
+        {
+          !isReports && (
+            <div>
+              <a className="pull-right reset" onClick={() => this.addDataSource()}>
+                <img src={Reset} alt="" />Add Another DataSource
+              </a>
+            </div>
+          )
+        }      
+        </div>
+      </div>
     )
   }
 }
