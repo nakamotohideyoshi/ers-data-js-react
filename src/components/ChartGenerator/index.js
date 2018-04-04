@@ -69,12 +69,24 @@ export default class ChartGenerator extends React.Component {
     this.generateCSVChart(series, categories)
     this.generateCSVTable(series, categories)    
 
-    const seriesFarms = series.filter(single => single.header === 'Farms')
-    const seriesOthers = series.filter(single => single.header !== 'Farms')
+    const seriesFarms = series.filter((single, index) => {
+      if (single.header === 'Farms') {
+        single.originIndex = index
+        return single
+      }
+    })
+    const seriesOthers = series.filter((single, index) => {
+      if (single.header !== 'Farms') {
+        single.originIndex = index
+        return single
+      }
+    })
 
     let farmsChartType = 'column'
     if (whichOneMultiple === YEAR_SELECTED && categories.length > 1)
       farmsChartType = 'spline'
+
+    let colorSet = []
 
     const config = {
       title: {
@@ -94,35 +106,6 @@ export default class ChartGenerator extends React.Component {
         },
       },
       yAxis: [
-        {
-          title: {
-            text: '',
-            align: 'high',
-            offset: 0,
-            rotation: 0,
-            y: -20
-          },
-          labels: {
-            formatter: function () {
-                return this.value;
-            }
-          }
-        },
-        {
-          title: {
-            text: '',
-            align: 'high',
-            offset: 0,
-            rotation: 0,
-            y: -20
-          },
-          labels: {
-            formatter: function () {
-                return this.value;
-            }
-          },
-          opposite: true          
-        }
       ],
       legend: {
         symbolRadius: 0
@@ -136,6 +119,7 @@ export default class ChartGenerator extends React.Component {
             let s = '<span style="font-size:14px; padding:5px;">'+ categories[this.x] +'</span><br />'
             s += '<div style="display: flex; flex-direction: column;  max-height: 350px; flex-wrap: no-wrap; margin-top: 5px;"><tr><th /><th /></tr>'
             this.points.forEach((point, index) => {
+              colorSet.push(point.color)
               let yVal = numberWithCommas(point.y)
               s += '<div style="display: flex; justify-content: space-between"><div style="color:'+point.color+'; padding:2px 10px 2px 5px;">'+point.series.name+': </div>' +
               '<div><b>'+yVal+'</b></div></div>'
@@ -147,14 +131,55 @@ export default class ChartGenerator extends React.Component {
       },
       series: []
     }
-     
-    seriesFarms.forEach((element, index) => {
-      config.series.push({ data: element.estimateList, name: element.header, visible: element.shown, showInLegend: element.shown, type: farmsChartType, zIndex: index+1, yAxis: 1 })
-    })
-    seriesOthers.forEach((element) => {
-      config.series.push({ data: element.estimateList, name: element.header, visible: element.shown, showInLegend: element.shown, zIndex: 0 })
-    })
     
+    let unitDescs = []
+    if (seriesFarms.length > 0) {
+      const element = seriesFarms[0]
+      config.yAxis.push({
+        title: {
+          text: element.unit_desc,
+          align: 'high',
+          offset: 0,
+          rotation: 0,
+          y: -20,
+          x: 15
+        },
+        labels: {
+          formatter: function (i=0) {
+            return '<span style="color:'+this.chart.series[element.originIndex].color+'">'+ numberWithCommas(this.value) +'</span>';
+          }
+        },
+        opposite: true       
+      })
+      seriesFarms.forEach((element, index) => {
+        config.series.push({ data: element.estimateList, name: element.header, visible: element.shown, showInLegend: element.shown, type: farmsChartType, zIndex: index+1, yAxis: 0 })
+      })
+    }
+    if (seriesOthers.length > 0) {
+      seriesOthers.forEach((element, i) => {
+        if (unitDescs.indexOf(element.unit_desc) < 0) {
+          unitDescs.push(element.unit_desc)
+          config.yAxis.push({
+            title: {
+              text: element.unit_desc,
+              align: 'high'
+            },
+            labels: {
+              formatter: function () {
+                let axisFormat = numberWithCommas(this.value)
+                if (element.unit_desc === "Dollars per farm") axisFormat = '$' + axisFormat
+                return '<span style="color:'+this.chart.series[element.originIndex].color+'">'+ axisFormat +'</span>';
+              },
+            }
+          })
+        }
+          
+      })
+      seriesOthers.forEach((element, index) => {
+        config.series.push({ data: element.estimateList, name: element.header, visible: element.shown, showInLegend: element.shown, zIndex: 0, yAxis: seriesFarms.length + unitDescs.indexOf(element.unit_desc) })
+      })
+    }
+
     this.setState({ config: Object.assign({}, config) })
   }
   downloadFile(type) {
