@@ -5,6 +5,9 @@ import MainContainer from '../MainContainer';
 import FilterDropdown from '../../components/FilterDropdown';
 import { Col } from 'react-bootstrap';
 import Footnote from '../Footnote';
+
+import { YEAR_SELECTED } from '../../helpers/constants'
+
 // import { filter, concatSeries } from 'async';
 
 const defaultYearCount = 5
@@ -16,7 +19,7 @@ const dataSourceCounts = 8
 export default class Layout extends React.Component {
   state = {
     selectedStateNames: [],
-    isYearsMultiple: true,     
+    whichOneMultiple: YEAR_SELECTED,     
     blockIndex: 0,
     yearsInfo: [],
     statesInfo: [],
@@ -52,9 +55,9 @@ export default class Layout extends React.Component {
 
   componentWillReceiveProps(props) {
 
-    let {filters, isYearsMultiple} = this.state
+    let {filters, whichOneMultiple} = this.state
 
-    const yearCount = isYearsMultiple ? defaultYearCount : 1
+    const yearCount = whichOneMultiple === YEAR_SELECTED ? defaultYearCount : 1
 
     let yearsInfo = []
     let selectedYears = []
@@ -155,9 +158,9 @@ export default class Layout extends React.Component {
   // reset step 1
   // run query to refresh [serie_element]
   onResetFilter1 = (serie, years, states, blockIndex) => {
-    let {filters, isYearsMultiple} = this.state
+    let {filters, whichOneMultiple} = this.state
     filters[blockIndex].serie = serie
-    const yearCount = isYearsMultiple ? defaultYearCount : 1 
+    const yearCount = whichOneMultiple === YEAR_SELECTED ? defaultYearCount : 1 
 
     let yearsInfo = []
     let selectedYears = []
@@ -218,10 +221,10 @@ export default class Layout extends React.Component {
   // reset filter 3
   // set serie_element, year, state
   onResetFilter3 = (serie_element, years, states, blockIndex) => {
-    let {filters, isYearsMultiple} = this.state
+    let {filters, whichOneMultiple} = this.state
     filters[blockIndex].serie_element = serie_element
 
-    const yearCount = isYearsMultiple ? defaultYearCount : 1
+    const yearCount = whichOneMultiple === YEAR_SELECTED ? defaultYearCount : 1
 
     let yearsInfo = []
     let selectedYears = []
@@ -271,8 +274,8 @@ export default class Layout extends React.Component {
   // set year, state
   onResetFilter4 = (years, states, blockIndex) => {
 
-    let {isYearsMultiple} = this.state
-    const yearCount = isYearsMultiple ? defaultYearCount : 1
+    let {whichOneMultiple} = this.state
+    const yearCount = whichOneMultiple === YEAR_SELECTED ? defaultYearCount : 1
 
     let yearsInfo = []
     let selectedYears = []
@@ -323,8 +326,8 @@ export default class Layout extends React.Component {
   // set year
   onResetFilter5 = (years, blockIndex) => {
 
-    let {isYearsMultiple} = this.state
-    const yearCount = isYearsMultiple ? defaultYearCount : 1
+    let {whichOneMultiple} = this.state
+    const yearCount = whichOneMultiple === YEAR_SELECTED ? defaultYearCount : 1
 
     let yearsInfo = []
     let selectedYears = []
@@ -385,10 +388,10 @@ export default class Layout extends React.Component {
   // reset filter 7 
   // run query to refresh [serie_element]
   onResetFilter7 = (serie, years, blockIndex) => {
-    let {filters, isYearsMultiple} = this.state
+    let {filters, whichOneMultiple} = this.state
     filters[blockIndex].serie = [serie]
 
-    const yearCount = isYearsMultiple ? defaultYearCount : 1
+    const yearCount = whichOneMultiple === YEAR_SELECTED ? defaultYearCount : 1
 
     let yearsInfo = []
     let selectedYears = []
@@ -429,10 +432,10 @@ export default class Layout extends React.Component {
   // reset filter 9
   // set serie_element, year
   onResetFilter9 = (serie_element, years, blockIndex) => {
-    let {filters, isYearsMultiple} = this.state
+    let {filters, whichOneMultiple} = this.state
     filters[blockIndex].serie_element = serie_element
 
-    const yearCount = isYearsMultiple ? defaultYearCount : 1
+    const yearCount = whichOneMultiple === YEAR_SELECTED ? defaultYearCount : 1
 
     let yearsInfo = []
     let selectedYears = []
@@ -638,13 +641,13 @@ export default class Layout extends React.Component {
 
   // Year selected
   onSelectYear = (index) => {
-    let { yearsInfo, isYearsMultiple, priority, filters, blockIndex } = this.state
+    let { yearsInfo, whichOneMultiple, priority, filters, blockIndex } = this.state
     let runQuery = ''
     if (priority.indexOf('year') < 0) {
       priority.push('year')
     }
     yearsInfo[index].checked = !yearsInfo[index].checked
-    if (!isYearsMultiple) {
+    if (whichOneMultiple !== YEAR_SELECTED) {
       yearsInfo.forEach((yearN, i) => {
         if (i !== index) yearN.checked = false
       })
@@ -673,7 +676,7 @@ export default class Layout extends React.Component {
         runQuery = ''
       }
     } else {
-      if (isYearsMultiple) {
+      if (whichOneMultiple === YEAR_SELECTED) {
         runQuery = 'ytDLAnalysis'
       } else {
         runQuery = 'yAnalysis'
@@ -690,7 +693,7 @@ export default class Layout extends React.Component {
 
   // state selected
   onSelectState = (index) => {
-    let { statesInfo, isYearsMultiple, priority, filters, blockIndex } = this.state
+    let { statesInfo, whichOneMultiple, priority, filters, blockIndex } = this.state
     let runQuery = ''
     if (priority.indexOf('state') < 0) {
       priority.push('state')
@@ -698,7 +701,7 @@ export default class Layout extends React.Component {
     let selectedStates = []
     let selectedStateNames = []
     statesInfo[index].checked = !statesInfo[index].checked
-    if (isYearsMultiple) {
+    if (whichOneMultiple === YEAR_SELECTED) {
       statesInfo.forEach((stateN, i) => {
         if (i !== index) stateN.checked = false
       })
@@ -725,7 +728,7 @@ export default class Layout extends React.Component {
         runQuery = ''
       }
     } else {
-      if (isYearsMultiple) {
+      if (whichOneMultiple === YEAR_SELECTED) {
         runQuery = 'tAnalysis'
       } else {
         runQuery = 'ytDLAnalysis'
@@ -742,12 +745,12 @@ export default class Layout extends React.Component {
   }
   
   onSelectAnalysis = () => {
-    let {filters, isYearsMultiple} = this.state
+    let {filters, whichOneMultiple} = this.state
     const blockIndex = 1
     filters[blockIndex].report_num = [1]
     filters[blockIndex].subject_num = [1]
 
-    const yearCount = isYearsMultiple ? defaultYearCount : 1
+    const yearCount = whichOneMultiple === YEAR_SELECTED ? defaultYearCount : 1
     
     let yearsInfo = []
     let selectedYears = []
@@ -803,8 +806,8 @@ export default class Layout extends React.Component {
 
   onResetYearAnalysis = (years, blockIndex) => {
 
-    let {isYearsMultiple} = this.state
-    const yearCount = isYearsMultiple ? defaultYearCount : 1
+    let {whichOneMultiple} = this.state
+    const yearCount = whichOneMultiple === YEAR_SELECTED ? defaultYearCount : 1
     
     let yearsInfo = []
     let selectedYears = []
@@ -984,7 +987,7 @@ export default class Layout extends React.Component {
   
   onSwitchMultiple = () => {
     let { 
-      isYearsMultiple,
+      whichOneMultiple,
       selectedYears,
       selectedStates,
       selectedStateNames,
@@ -998,7 +1001,7 @@ export default class Layout extends React.Component {
     const yearsCount = selectedYears.length
     const statesCount = selectedStates.length
 
-    if (isYearsMultiple === true) {
+    if (whichOneMultiple === YEAR_SELECTED) {
       selectedYears = selectedYears.slice(-1)
       yearsInfo.forEach(yearN => {
         if (yearN.year !== selectedYears[0]) {
@@ -1020,7 +1023,7 @@ export default class Layout extends React.Component {
     }
 
     this.setState({ 
-      isYearsMultiple: !isYearsMultiple,
+      whichOneMultiple: whichOneMultiple === YEAR_SELECTED ? 'NA':YEAR_SELECTED,
       selectedYears: selectedYears.slice(),
       selectedStates: selectedStates.slice(),
       selectedStateNames: selectedStateNames.slice(),
@@ -1039,7 +1042,7 @@ export default class Layout extends React.Component {
       selectedYears,
       statesInfo,
       selectedStates,
-      isYearsMultiple,
+      whichOneMultiple,
       filters,
       runQuery,
     } = this.state
@@ -1122,7 +1125,7 @@ export default class Layout extends React.Component {
             onSelectYear={this.onSelectYear} 
             onSelectState={this.onSelectState}
             onSwitchMultiple={this.onSwitchMultiple}
-            isYearsMultiple={isYearsMultiple}          
+            whichOneMultiple={whichOneMultiple}          
           />
           <MainContainer
             selectedStates = {selectedStates}
@@ -1136,7 +1139,7 @@ export default class Layout extends React.Component {
             serie2_element = {serie2_element}
             topic_abb = {filters[blockIndex] ? filters[blockIndex].topic_abb : []}
             blockIndex = {blockIndex}      
-            isYearsMultiple={isYearsMultiple}          
+            whichOneMultiple={whichOneMultiple}          
           />        
           <Footnote />
         </Col>  
