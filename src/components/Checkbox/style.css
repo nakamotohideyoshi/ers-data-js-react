@@ -17,6 +17,9 @@
   -ms-user-select: none;
   user-select: none;
 }
+.checkbox-container:hover {
+  color: #7cb5ec
+}
 
 /* Hide the browser's default checkbox */
 .checkbox-container input {
