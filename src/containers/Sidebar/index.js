@@ -609,7 +609,7 @@ class Sidebar extends React.Component {
             })
             sidebarItems.push({
               isOpened: false,
-              selectedIndex: 0,
+              selectedIndex: [0],
               isCategory: false,
               blockIndex: currentBlock,
               visible: true,
@@ -646,7 +646,7 @@ class Sidebar extends React.Component {
             }
             sidebarItems[index+1] = {
               isOpened: false,
-              selectedIndex: 0,
+              selectedIndex: [0],
               isCategory: false,
               blockIndex: currentBlock,
               visible: true,
@@ -949,7 +949,9 @@ class Sidebar extends React.Component {
     // current Block index
     currentBlock = sidebarItems[sidebarItemIndex].blockIndex
 
-    sidebarItems[sidebarItemIndex].selectedIndex = selectedIndex
+    if ((sidebarItemIndex - 5)%7!==1) {
+      sidebarItems[sidebarItemIndex].selectedIndex = selectedIndex
+    }
 
     if (sidebarItemIndex === 0) {
 
@@ -1023,7 +1025,7 @@ class Sidebar extends React.Component {
 
         report_num.push(categoryTitles[sidebarItemIndex][sidebarItems[sidebarItemIndex].selectedIndex].num)
 
-        sidebarItems[sidebarItemIndex+1].selectedIndex=0
+        sidebarItems[sidebarItemIndex+1].selectedIndex=[0]
         sidebarItems[sidebarItemIndex+1].isOpened = false
 
         topic_abb.push(this.props.topics[sidebarItems[sidebarItemIndex].selectedIndex][0].abb)
@@ -1044,7 +1046,17 @@ class Sidebar extends React.Component {
         // Arms Data Analysis/Data Line
         const topic_abb = []
 
-        topic_abb.push(categoryTitles[sidebarItemIndex][sidebarItems[sidebarItemIndex].selectedIndex].num)
+        const index = sidebarItems[sidebarItemIndex].selectedIndex.indexOf(selectedIndex)
+        if (index > -1) {
+          if (sidebarItems[sidebarItemIndex].selectedIndex.length !== 1) {
+            sidebarItems[sidebarItemIndex].selectedIndex.splice(index, 1)
+          }          
+        } else {
+          sidebarItems[sidebarItemIndex].selectedIndex.push(selectedIndex)
+        }
+        for (let i=0; i<sidebarItems[sidebarItemIndex].selectedIndex.length; i++) {
+          topic_abb.push(categoryTitles[sidebarItemIndex][sidebarItems[sidebarItemIndex].selectedIndex[i]].num)
+        }        
 
         this.setState({sidebarItems, categoryTitles}, this.props.onSleectDataLine(topic_abb, currentBlock))
 
@@ -1088,7 +1100,9 @@ class Sidebar extends React.Component {
 
       }      
     }
-    this.toggleCategoryOptions(sidebarItemIndex)
+    if((sidebarItemIndex - 5)%7!==1) {
+      this.toggleCategoryOptions(sidebarItemIndex)
+    }
     
   }
 
@@ -1136,12 +1150,16 @@ class Sidebar extends React.Component {
           let isBlock = false
           let isDataReset = false
           let isRemoval = false
+          let isDataLine = false
           if ((i-11)%7 === 1) {
             isRemoval = true
           }else if ((i-4)%7 === 2){
             isDataReset = true
           } else if ((i-4)%7 === 0) {
             isBlock = true
+          }
+          if ((i-5)%7===1) {
+            isDataLine = true
           }
           return (
             <SidebarItem 
@@ -1155,6 +1173,7 @@ class Sidebar extends React.Component {
               isRemoval={isRemoval}
               isDataReset={isDataReset}
               isBlock={isBlock}
+              isDataLine={isDataLine}
               toggleCategoryOptions={() => this.toggleCategoryOptions(i)}
               updateFilter={(index) => this.updateFilter(i, index)}   
               resetFilter={() => this.resetFilter(val.blockIndex)}
