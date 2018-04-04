@@ -43,8 +43,8 @@ class SheetDataChart extends Component {
               categories.forEach(category => {
                 const comparedCategory = whichOneMultiple === YEAR_SELECTED ? element.year: element.state.name
                 if (comparedCategory === category) {
-                  estimateList.push(element.estimate)
-                  rseList.push(element.rse)
+                  estimateList.push(element.estimate < 0 ? 0 : element.estimate)
+                  rseList.push(element.rse < 0 ? 0 : element.rse)
                 } else {
                   estimateList.push(0)
                   rseList.push(0)
@@ -57,8 +57,8 @@ class SheetDataChart extends Component {
               categories.forEach((category, index) => {
                 const comparedCategory = whichOneMultiple === YEAR_SELECTED ? element.year: element.state.name
                 if (comparedCategory === category) {
-                  singleIncome.estimateList[index] = element.estimate
-                  singleIncome.rseList[index] = element.rse
+                  singleIncome.estimateList[index] = element.estimate < 0 ? 0 : element.estimate;
+                  singleIncome.rseList[index] = element.rse < 0 ? 0 : element.rse;
                 } 
               })
               incomeArr[currentIndex] = singleIncome
