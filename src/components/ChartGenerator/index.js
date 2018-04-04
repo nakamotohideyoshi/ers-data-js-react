@@ -176,7 +176,7 @@ export default class ChartGenerator extends React.Component {
           
       })
       seriesOthers.forEach((element, index) => {
-        config.series.push({ data: element.estimateList, name: element.header, visible: element.shown, showInLegend: element.shown, zIndex: 0, yAxis: seriesFarms.length + unitDescs.indexOf(element.unit_desc) })
+        config.series.push({ data: element.estimateList, name: element.header, visible: element.shown, showInLegend: element.shown, zIndex: 0, yAxis: 1 + unitDescs.indexOf(element.unit_desc) })
       })
     }
 
