@@ -996,8 +996,6 @@ export default class Layout extends React.Component {
       blockIndex
     } = this.state
 
-    selectedYears = selectedYears.sort(function(a, b){return parseInt(b, 10) - parseInt(a, 10)})
-    
     const yearsCount = selectedYears.length
     const statesCount = selectedStates.length
 
