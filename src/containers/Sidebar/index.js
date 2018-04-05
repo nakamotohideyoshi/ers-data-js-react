@@ -1161,7 +1161,7 @@ class Sidebar extends React.Component {
   render() {  
     const {sidebarItems, categoryTitles, blockCount} = this.state    
     return (
-    <div className="col-sm-3 col-md-3 col-xs-12">
+    <div className="col-lg-3 col-md-12 col-sm-12 col-xs-12">
       <div className="sidebar-container" ref={node => this.sidebarWrapper = node}>
         {        
           sidebarItems.map((val, i) => {

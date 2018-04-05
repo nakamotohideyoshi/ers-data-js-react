@@ -4,9 +4,10 @@
   margin-top: 40px;
 }
 .filterDropdownContainer {
-  display: flex;
-  align-items: center;
   margin-bottom: 20px;
+}
+.filterDropdownContainer .switchSection {
+  margin-top: 15px;
 }
 .filterDropdownContainer .download-menu,
 .filterDropdownContainer .open > .download-menu  {

@@ -32,8 +32,8 @@ class FilterDropdown extends React.Component {
     
     return (
       <div className="filterDropdownContainer">
-      <Col md={6} sm={6} xs={12}>
-        <Col md={10} sm={6} xs={12} mdOffset={2} smOffset={6}>
+      <Col md={6} sm={12} xs={12} lg={6}>
+        <Col md={10} sm={12} xs={12} lg={8} lgOffset={4} mdOffset={2}>
           <div className="top-title right-title">{ whichOneMultiple === YEAR_SELECTED ? MULTIPLE_HEADING.concat(' ' + YEARS_CAPTION) : MULTIPLE_HEADING.concat(' ' + REGIONS_CAPTION) }</div>
           <DropdownButton
             bsStyle="default"
@@ -63,13 +63,13 @@ class FilterDropdown extends React.Component {
           </DropdownButton>
         </Col>
       </Col>
-      <Col md={1} sm={1} xs={12}>
+      <Col md={1} sm={1} xs={1} lg={1} className="switchSection">
         <div className='switchContainer' onClick={() => onSwitchMultiple()}>
           <img src={RotateImg} alt='rotate' />
         </div>
       </Col>
-      <Col md={5} sm={5} xs={12}>
-          <Col md={10} sm={6} xs={11}>
+      <Col md={5} sm={11} xs={11} lg={5}>
+          <Col md={10} sm={12} xs={12} lg={9}>
             <div className="top-title">{ whichOneMultiple === YEAR_SELECTED ? FILTERED_HEADING.concat(' ' + REGIONS_CAPTION.slice(0, -1)) : FILTERED_HEADING.concat(' ' + YEARS_CAPTION.slice(0, -1)) }</div>
             <DropdownButton
               bsStyle="default"
