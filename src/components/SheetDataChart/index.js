@@ -7,8 +7,7 @@ import { YEAR_SELECTED } from '../../helpers/constants'
 
 const chartTypes = [
   { label: 'Bar', type: 'column'},
-  { label: 'Line', type: 'line'},
-  { label: 'Pie', type: 'pie'},
+  { label: 'Line', type: 'line'}
 ]
 
 class SheetDataChart extends Component {
