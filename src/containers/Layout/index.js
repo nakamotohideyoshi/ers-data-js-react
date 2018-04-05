@@ -1179,7 +1179,7 @@ export default class Layout extends React.Component {
           addDataSource = {this.addDataSource}
           removeDataSource = {this.removeDataSource}
         />
-        <Col xs={12} md={9} sm={12}>
+        <Col xs={12} md={12} sm={12} lg={9}>
           <h4 className="main-heading">
             {blockIndex > 0 ? 'ARMS Data Analysis' : 'Tailored Reports'}
           </h4>
