@@ -105,7 +105,20 @@ export default class ChartGenerator extends React.Component {
             }
         },
       },
-      yAxis: [
+      yAxis: [{
+          title: {
+            text: "Number of Farms",
+            rotation: 0,
+            offset: 30            
+          },
+          top: seriesOthers.length > 0 ? '80%' : '0%',
+          height: seriesOthers.length > 0 ? '20%' : '100%',
+          labels: {
+            formatter: function (i=0) {
+              return '<span style="color:'+this.chart.series[0].color+';margin-left:-30px">'+ numberWithCommas(this.value) +'</span>';
+            }
+          },
+        }
       ],
       legend: {
         symbolRadius: 0
@@ -134,25 +147,8 @@ export default class ChartGenerator extends React.Component {
     
     let unitDescs = []
     if (seriesFarms.length > 0) {
-      const element = seriesFarms[0]
-      config.yAxis.push({
-        title: {
-          text: element.unit_desc,
-          align: 'high',
-          offset: 0,
-          rotation: 0,
-          y: -20,
-          x: 15
-        },
-        labels: {
-          formatter: function (i=0) {
-            return '<span style="color:'+this.chart.series[element.originIndex].color+'">'+ numberWithCommas(this.value) +'</span>';
-          }
-        },
-        opposite: true       
-      })
       seriesFarms.forEach((element, index) => {
-        config.series.push({ data: element.estimateList, name: element.header, visible: element.shown, showInLegend: element.shown, type: farmsChartType, zIndex: index+1, yAxis: 0 })
+        config.series.push({ data: element.estimateList, name: element.header, visible: element.shown, showInLegend: element.shown, type: 'column', zIndex: index+1, yAxis: 0 })
       })
     }
     if (seriesOthers.length > 0) {
@@ -162,8 +158,9 @@ export default class ChartGenerator extends React.Component {
           config.yAxis.push({
             title: {
               text: element.unit_desc,
-              align: 'high'
             },
+            height: '75%',
+            offset: 0,
             labels: {
               formatter: function () {
                 let axisFormat = numberWithCommas(this.value)
