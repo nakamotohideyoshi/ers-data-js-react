@@ -64,11 +64,12 @@ export default class ChartGenerator extends React.Component {
     })
     this.setState({csvTableArray})
   }
-  getBreaingPoints(dataSource, breakSize, isMinBased) {
+  getBreaingPoints(dataSource, breakSize) {
     let breaksArr = []   
+    let minOverAll = 0
     if (dataSource.length > 0 && breakSize > 0) {
       const maxInitial = Math.max.apply(null, dataSource[0].estimateList)
-      let minOverAll = dataSource[0].estimateList[0]
+      minOverAll = dataSource[0].estimateList[0]
       for (let iBreak = 0; iBreak < breakSize; iBreak++) {
         const minRange = iBreak*maxInitial/breakSize + 1
         const maxRange = (iBreak+1)*maxInitial/breakSize
@@ -81,8 +82,6 @@ export default class ChartGenerator extends React.Component {
             minOverAll = est
           })
         })
-        if (maxRange < minOverAll && isMinBased)
-          isInRange = true
         if (!isInRange) {
           breaksArr.push({
             from: minRange,
@@ -91,7 +90,7 @@ export default class ChartGenerator extends React.Component {
         }
       }
     } 
-    return breaksArr
+    return { breaksArr, minOverAll }
   }
   generateConfig(series, categories, title, chartType, whichOneMultiple) {
  
@@ -121,6 +120,7 @@ export default class ChartGenerator extends React.Component {
 
     // Chart configuration
     let colorSet = []
+    const breakingInfo = this.getBreaingPoints(seriesFarms, 10)
     const config = {
       title: {
         text: title
@@ -140,13 +140,12 @@ export default class ChartGenerator extends React.Component {
       },
       yAxis: [{
           title: {
-            text: "Number of Farms",
-            rotation: 0,
-            offset: 35            
+            text: "Number of Farms"            
           },
-          breaks: this.getBreaingPoints(seriesFarms, 10, 0),          
+          breaks: breakingInfo.breaksArr,          
           top: seriesOthers.length > 0 ? '80%' : '0%',
           height: seriesOthers.length > 0 ? '20%' : '100%',
+          min: breakingInfo.minOverAll,
           labels: {
             formatter: function (i=0) {
               return '<span style="color:'+this.chart.series[0].color+';margin-left:-30px">'+ numberWithCommas(this.value) +'</span>';
@@ -216,7 +215,7 @@ export default class ChartGenerator extends React.Component {
             title: {
               text: element.unit_desc,
             },
-            breaks: this.getBreaingPoints(seriesOthers, 80, 1),
+            breaks: this.getBreaingPoints(seriesOthers, 100).breaksArr,
             height: '75%',
             offset: 0,
             labels: {
