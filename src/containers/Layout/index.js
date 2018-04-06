@@ -166,9 +166,9 @@ export default class Layout extends React.Component {
   }  
 
 
-  // reset step 1
+  // reset [Filter By, Year, State]
   // run query to refresh [serie_element]
-  onResetFilter1 = (serie, years, states, blockIndex) => {
+  resetSYTFilter = (serie, years, states, blockIndex) => {
     let {filters, whichOneMultiple} = this.state
     filters[blockIndex].serie = serie
     const yearCount = whichOneMultiple === YEAR_SELECTED ? defaultYearCount : 1 
@@ -1151,7 +1151,7 @@ export default class Layout extends React.Component {
           runQuery={runQuery}
           resetFilterByBlockIndex = {this.resetFilterByBlockIndex}
           initialLoadingTailor  = {this.initialLoadingTailor }
-          onResetFilter1 = {this.onResetFilter1}
+          resetSYTFilter = {this.resetSYTFilter}
           onResetFilter2 = {this.onResetFilter2}
           onResetFilter3 = {this.onResetFilter3}
           onResetFilter4 = {this.onResetFilter4}
