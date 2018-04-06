@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import ReactHighcharts from 'react-highcharts'
 import HighchartsExporting from 'highcharts-exporting'
 import HighchartsExportCSV from 'highcharts-export-csv'
+import BrokenAxis from 'highcharts/modules/broken-axis'
 import { DropdownButton, MenuItem } from 'react-bootstrap';
 import {CSVLink} from 'react-csv';
 
@@ -12,6 +13,7 @@ import DownloadImg from '../../images/download.png'
 
 HighchartsExporting(ReactHighcharts.Highcharts)
 HighchartsExportCSV(ReactHighcharts.Highcharts)
+BrokenAxis(ReactHighcharts.Highcharts)
 
 export default class ChartGenerator extends React.Component {
   state = {
@@ -97,13 +99,13 @@ export default class ChartGenerator extends React.Component {
       },
       chart: {
         type: chartType
-      },
+      },  
       xAxis: {
         labels: {
             formatter: function() {
               return categories[this.value];
             }
-        },
+        }
       },
       yAxis: [{
           title: {
@@ -120,6 +122,12 @@ export default class ChartGenerator extends React.Component {
           },
         }
       ],
+      plotOptions: {
+        series: {
+            pointPadding: 0,
+            groupPadding: 0.3
+        }
+      },
       legend: {
         symbolRadius: 0
       },
@@ -128,6 +136,7 @@ export default class ChartGenerator extends React.Component {
       },
       tooltip: {
         useHTML: true,
+        shared: true,        
         formatter: function () {
             let s = '<span style="font-size:14px; padding:5px;">'+ categories[this.x] +'</span><br />'
             s += '<div style="display: flex; flex-direction: column;  max-height: 350px; flex-wrap: no-wrap; margin-top: 5px;"><tr><th /><th /></tr>'
@@ -140,7 +149,13 @@ export default class ChartGenerator extends React.Component {
             s += '</div>'
             return s;
         },
-        shared: true
+        positioner: function(labelWidth, labelHeight, point) {
+          var tooltipX = point.plotX + 30;
+          return {
+              x: tooltipX,
+              y: 30
+          };
+        }
       },
       series: []
     }
@@ -154,9 +169,9 @@ export default class ChartGenerator extends React.Component {
           visible: element.shown, 
           showInLegend: element.shown, 
           type: 'column', 
-          zIndex: index+1, 
+          zIndex: index + 1, 
           yAxis: 0,
-          maxPointWidth: 32
+          maxPointWidth: 32,
         })
       })
     }
@@ -176,7 +191,7 @@ export default class ChartGenerator extends React.Component {
                 if (element.unit_desc === "Dollars per farm") axisFormat = '$' + axisFormat
                 return '<span style="color:'+this.chart.series[element.originIndex].color+'">'+ axisFormat +'</span>';
               },
-            }
+            },
           })
         }
           
@@ -188,8 +203,8 @@ export default class ChartGenerator extends React.Component {
           visible: element.shown, 
           showInLegend: element.shown, 
           zIndex: 0, 
-          yAxis: 1 + unitDescs.indexOf(element.unit_desc),
-          maxPointWidth: 32          
+          yAxis: seriesFarms.length + unitDescs.indexOf(element.unit_desc),
+          maxPointWidth: 32,
         })
       })
     }
