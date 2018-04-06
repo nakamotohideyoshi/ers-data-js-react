@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import OptionGroup from '../../components/OptionGroup'
 import { numberWithCommas } from '../../helpers/NumberWithCommas'
 import { YEAR_SELECTED } from '../../helpers/constants'
+import { REMOVING_ELEMENTS } from '../../helpers/constants'
 
 import HelpImg from '../../images/help.png'
 import HideAllImg from '../../images/hide_all.png'
@@ -51,6 +52,9 @@ class TableContainer extends React.Component {
             return
           }
         })
+        if (REMOVING_ELEMENTS.indexOf(element.topic_dim.header) > -1) {
+          return
+        }
         if (!singleIncome.id) {
           singleIncome.id = element.report_num + element.topic_abb
           singleIncome.header = element.topic_dim.header
