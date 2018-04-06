@@ -64,12 +64,17 @@ export default class ChartGenerator extends React.Component {
     this.setState({csvTableArray})
   }
   generateConfig(series, categories, title, chartType, whichOneMultiple) {
+ 
+    // CSV Generation for Chart/Table
+    this.generateCSVChart(series, categories)
+    this.generateCSVTable(series, categories)  
+
+    // Title Initialization
     if (title === '' && series) {
       title = series[0].report
     }
-    
-    this.generateCSVChart(series, categories)
-    this.generateCSVTable(series, categories)    
+
+    // Separate Farms and other series
 
     const seriesFarms = series.filter((single, index) => {
       if (single.header === 'Farms') {
@@ -84,12 +89,8 @@ export default class ChartGenerator extends React.Component {
       }
     })
 
-    let farmsChartType = 'column'
-    if (whichOneMultiple === YEAR_SELECTED && categories.length > 1)
-      farmsChartType = 'spline'
-
+    // Chart configuration
     let colorSet = []
-
     const config = {
       title: {
         text: title
@@ -160,6 +161,7 @@ export default class ChartGenerator extends React.Component {
       series: []
     }
     
+    // Populate dataset into the chart view
     let unitDescs = []
     if (seriesFarms.length > 0) {
       seriesFarms.forEach((element, index) => {
