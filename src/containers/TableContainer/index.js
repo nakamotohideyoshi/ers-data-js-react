@@ -6,8 +6,6 @@ import { numberWithCommas } from '../../helpers/NumberWithCommas'
 import { YEAR_SELECTED } from '../../helpers/constants'
 
 import HelpImg from '../../images/help.png'
-import PinHideImg from '../../images/unin_hide.png'
-import PinShowImg from '../../images/unin_show.png'
 import HideAllImg from '../../images/hide_all.png'
 import HiddenImg from '../../images/hide.png'
 import ShownImg from '../../images/show.png'
@@ -126,14 +124,7 @@ class TableContainer extends React.Component {
               <table className="table table-sm table-responsive">
                 <thead>
                   <tr>
-                    <th>
-                      <div className="pin-container">
-                      <div><img src={PinShowImg} alt="" /></div>
-                      <div className="level-0">
-                        pin
-                      </div>
-                      </div>
-                    </th>
+                    <th></th>
                     <th>
                       <div>
                         {
@@ -150,7 +141,7 @@ class TableContainer extends React.Component {
                 </thead>
                 <tbody>
                   <tr>
-                    <td>PINNED SERIES</td>
+                    <td>&nbsp;</td>
                     <td></td>
                   </tr>
                   {
@@ -160,9 +151,6 @@ class TableContainer extends React.Component {
                           <td>
                             <div className="pin-container">
                             <div>
-                              <a onClick={this.hidePin}>
-                                <img src={PinHideImg} alt="" />
-                              </a>
                             </div>
                             {
                               blockIndex < 1 && (
