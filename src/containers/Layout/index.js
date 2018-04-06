@@ -330,9 +330,8 @@ export default class Layout extends React.Component {
 
   }
 
-  // reset filter 5
-  // set year
-  onResetFilter5 = (years, blockIndex) => {
+  // reset [ Year ]
+  resetYFilter = (years, blockIndex) => {
 
     let {whichOneMultiple} = this.state
     const yearCount = whichOneMultiple === YEAR_SELECTED ? defaultYearCount : 1
@@ -1152,7 +1151,7 @@ export default class Layout extends React.Component {
           resetEFilter = {this.resetEFilter}
           resetEYRFilter = {this.resetEYRFilter}
           resetYRFilter = {this.resetYRFilter}
-          onResetFilter5 = {this.onResetFilter5}
+          resetYFilter = {this.resetYFilter}
           onResetFilter6 = {this.onResetFilter6}
           onResetFilter7 = {this.onResetFilter7}
           onResetFilter8 = {this.onResetFilter8}
