@@ -436,9 +436,8 @@ export default class Layout extends React.Component {
     })
   }
 
-  // reset filter 9
-  // set serie_element, year
-  onResetFilter9 = (serie_element, years, blockIndex) => {
+  // reset [ Filter By/Sub, Year ]
+  resetEYFilter = (serie_element, years, blockIndex) => {
     let {filters, whichOneMultiple} = this.state
     filters[blockIndex].serie_element = serie_element
 
@@ -1155,7 +1154,7 @@ export default class Layout extends React.Component {
           resetRFilter = {this.resetRFilter}
           resetSYFilter = {this.resetSYFilter}
           resetSFilter = {this.resetSFilter}
-          onResetFilter9 = {this.onResetFilter9}
+          resetEYFilter = {this.resetEYFilter}
           onResetFilter10 = {this.onResetFilter10}
           onResetFilter11 = {this.onResetFilter11}
           onSelectReportFilter = {this.onSelectReportFilter}
