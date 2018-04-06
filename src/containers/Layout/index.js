@@ -216,9 +216,8 @@ export default class Layout extends React.Component {
     })
   }
 
-  // resest filter 2
-  // set sereie_element
-  onResetFilter2 = (serie_element, blockIndex) => {
+  // resest [ Filter By/Sub ]
+  resetEFilter = (serie_element, blockIndex) => {
     let {filters} = this.state
     filters[blockIndex].serie_element = serie_element    
 
@@ -1152,7 +1151,7 @@ export default class Layout extends React.Component {
           resetFilterByBlockIndex = {this.resetFilterByBlockIndex}
           initialLoadingTailor  = {this.initialLoadingTailor }
           resetSYTFilter = {this.resetSYTFilter}
-          onResetFilter2 = {this.onResetFilter2}
+          resetEFilter = {this.resetEFilter}
           onResetFilter3 = {this.onResetFilter3}
           onResetFilter4 = {this.onResetFilter4}
           onResetFilter5 = {this.onResetFilter5}
