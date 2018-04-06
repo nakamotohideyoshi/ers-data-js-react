@@ -142,7 +142,7 @@ export default class ChartGenerator extends React.Component {
           title: {
             text: "Number of Farms",
             rotation: 0,
-            offset: 30            
+            offset: 35            
           },
           breaks: this.getBreaingPoints(seriesFarms, 10, 0),          
           top: seriesOthers.length > 0 ? '80%' : '0%',
