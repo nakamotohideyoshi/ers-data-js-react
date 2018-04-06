@@ -134,7 +134,7 @@ export default class Layout extends React.Component {
     })
   }
 
-  onResetFilter = (blockIndex) => {
+  resetFilterByBlockIndex = (blockIndex) => {
 
     const isRemoveDataSource = false
 
@@ -1149,7 +1149,7 @@ export default class Layout extends React.Component {
           selectedStates = {selectedStates}
           selectedYears={selectedYears}
           runQuery={runQuery}
-          onResetFilter = {this.onResetFilter}
+          resetFilterByBlockIndex = {this.resetFilterByBlockIndex}
           initialLoadingTailor  = {this.initialLoadingTailor }
           onResetFilter1 = {this.onResetFilter1}
           onResetFilter2 = {this.onResetFilter2}
