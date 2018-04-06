@@ -359,9 +359,9 @@ export default class Layout extends React.Component {
 
   }
 
-  // reset filter 6
+  // reset [ Region ]
   // set state
-  onResetFilter6 = (states, blockIndex) => {
+  resetRFilter = (states, blockIndex) => {
 
     let statesInfo = []
     let selectedStates = []
@@ -392,9 +392,9 @@ export default class Layout extends React.Component {
 
   }
 
-  // reset filter 7 
+  // reset [ Filter By, Year ]
   // run query to refresh [serie_element]
-  onResetFilter7 = (serie, years, blockIndex) => {
+  resetSYFilter = (serie, years, blockIndex) => {
     let {filters, whichOneMultiple} = this.state
     filters[blockIndex].serie = [serie]
 
@@ -1152,8 +1152,8 @@ export default class Layout extends React.Component {
           resetEYRFilter = {this.resetEYRFilter}
           resetYRFilter = {this.resetYRFilter}
           resetYFilter = {this.resetYFilter}
-          onResetFilter6 = {this.onResetFilter6}
-          onResetFilter7 = {this.onResetFilter7}
+          resetRFilter = {this.resetRFilter}
+          resetSYFilter = {this.resetSYFilter}
           onResetFilter8 = {this.onResetFilter8}
           onResetFilter9 = {this.onResetFilter9}
           onResetFilter10 = {this.onResetFilter10}
