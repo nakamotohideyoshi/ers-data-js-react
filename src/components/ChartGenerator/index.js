@@ -148,7 +148,16 @@ export default class ChartGenerator extends React.Component {
     let unitDescs = []
     if (seriesFarms.length > 0) {
       seriesFarms.forEach((element, index) => {
-        config.series.push({ data: element.estimateList, name: element.header, visible: element.shown, showInLegend: element.shown, type: 'column', zIndex: index+1, yAxis: 0 })
+        config.series.push({ 
+          data: element.estimateList, 
+          name: element.header, 
+          visible: element.shown, 
+          showInLegend: element.shown, 
+          type: 'column', 
+          zIndex: index+1, 
+          yAxis: 0,
+          maxPointWidth: 32
+        })
       })
     }
     if (seriesOthers.length > 0) {
@@ -173,7 +182,15 @@ export default class ChartGenerator extends React.Component {
           
       })
       seriesOthers.forEach((element, index) => {
-        config.series.push({ data: element.estimateList, name: element.header, visible: element.shown, showInLegend: element.shown, zIndex: 0, yAxis: 1 + unitDescs.indexOf(element.unit_desc) })
+        config.series.push({ 
+          data: element.estimateList, 
+          name: element.header, 
+          visible: element.shown, 
+          showInLegend: element.shown, 
+          zIndex: 0, 
+          yAxis: 1 + unitDescs.indexOf(element.unit_desc),
+          maxPointWidth: 32          
+        })
       })
     }
 
