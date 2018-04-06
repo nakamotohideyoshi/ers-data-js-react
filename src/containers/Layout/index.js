@@ -116,9 +116,9 @@ export default class Layout extends React.Component {
     
   }
 
-  // static filter [report, subject] selected in `tailored report`
+  // initial LHS loading in `tailored report`
   // run query to refresh [serie, year, state]
-  onStaticSelect = (report_num, subject_num, blockIndex) => {
+  initialLoadingTailor = (report_num, subject_num, blockIndex) => {
     let {filters} = this.state
 
     const isRemoveDataSource = false
@@ -1150,7 +1150,7 @@ export default class Layout extends React.Component {
           selectedYears={selectedYears}
           runQuery={runQuery}
           onResetFilter = {this.onResetFilter}
-          onStaticSelect = {this.onStaticSelect}
+          initialLoadingTailor  = {this.initialLoadingTailor }
           onResetFilter1 = {this.onResetFilter1}
           onResetFilter2 = {this.onResetFilter2}
           onResetFilter3 = {this.onResetFilter3}
