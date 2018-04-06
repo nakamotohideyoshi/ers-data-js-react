@@ -107,7 +107,7 @@ class Sidebar extends React.Component {
       this.setState({
         categoryTitles: categoryTitles,
         sidebarItems: sidebarItems
-      }, this.props.onStaticSelect(report_num, subject_num, currentBlock))
+      }, this.props.initialLoadingTailor(report_num, subject_num, currentBlock))
 
      }
 
