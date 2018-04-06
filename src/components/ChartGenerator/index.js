@@ -10,6 +10,7 @@ import {CSVLink} from 'react-csv';
 import { numberWithCommas } from '../../helpers/NumberWithCommas'
 import { YEAR_SELECTED } from '../../helpers/constants'
 import DownloadImg from '../../images/download.png'
+import { queue } from 'async';
 
 HighchartsExporting(ReactHighcharts.Highcharts)
 HighchartsExportCSV(ReactHighcharts.Highcharts)
@@ -63,6 +64,35 @@ export default class ChartGenerator extends React.Component {
     })
     this.setState({csvTableArray})
   }
+  getBreaingPoints(dataSource, breakSize, isMinBased) {
+    let breaksArr = []   
+    if (dataSource.length > 0 && breakSize > 0) {
+      const maxInitial = Math.max.apply(null, dataSource[0].estimateList)
+      let minOverAll = dataSource[0].estimateList[0]
+      for (let iBreak = 0; iBreak < breakSize; iBreak++) {
+        const minRange = iBreak*maxInitial/breakSize + 1
+        const maxRange = (iBreak+1)*maxInitial/breakSize
+        let isInRange = false
+        dataSource.forEach((element, i) => {
+          element.estimateList.forEach(est => {
+            if (est >= minRange && est < maxRange) 
+              isInRange = true
+            if (est < minOverAll)
+            minOverAll = est
+          })
+        })
+        if (maxRange < minOverAll && isMinBased)
+          isInRange = true
+        if (!isInRange) {
+          breaksArr.push({
+            from: minRange,
+            to: maxRange
+          })
+        }
+      }
+    } 
+    return breaksArr
+  }
   generateConfig(series, categories, title, chartType, whichOneMultiple) {
  
     // CSV Generation for Chart/Table
@@ -114,6 +144,7 @@ export default class ChartGenerator extends React.Component {
             rotation: 0,
             offset: 30            
           },
+          breaks: this.getBreaingPoints(seriesFarms, 10, 0),          
           top: seriesOthers.length > 0 ? '80%' : '0%',
           height: seriesOthers.length > 0 ? '20%' : '100%',
           labels: {
@@ -160,7 +191,7 @@ export default class ChartGenerator extends React.Component {
       },
       series: []
     }
-    
+
     // Populate dataset into the chart view
     let unitDescs = []
     if (seriesFarms.length > 0) {
@@ -185,6 +216,7 @@ export default class ChartGenerator extends React.Component {
             title: {
               text: element.unit_desc,
             },
+            breaks: this.getBreaingPoints(seriesOthers, 80, 1),
             height: '75%',
             offset: 0,
             labels: {
