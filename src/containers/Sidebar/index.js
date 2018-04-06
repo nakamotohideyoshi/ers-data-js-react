@@ -308,7 +308,7 @@ class Sidebar extends React.Component {
         // Serie/Serie_element -> 
         if (props.seQuery.networkStatus === 7 && props.seQuery.seQuery) {
           // update [Year, State] list              
-          this.props.onResetFilter4(props.seQuery.seQuery.year, props.seQuery.seQuery.state, currentBlock)
+          this.props.resetYRFilter(props.seQuery.seQuery.year, props.seQuery.seQuery.state, currentBlock)
         }   
 
       } else if (props.setQuery) {
