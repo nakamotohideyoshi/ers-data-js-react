@@ -969,7 +969,7 @@ class Sidebar extends React.Component {
         sidebarItems[1].visible = true
         sidebarItems[2].visible = true
        
-        this.setState({sidebarItems}, this.props.onResetFilter(0))        
+        this.setState({sidebarItems}, this.props.resetFilterByBlockIndex(0))        
       } else {
         // Arms Data Analaysis      
         currentBlock = 1
@@ -1136,7 +1136,7 @@ class Sidebar extends React.Component {
   }
 
   resetFilter = ( blockIndex ) => {
-    this.props.onResetFilter(blockIndex)
+    this.props.resetFilterByBlockIndex(blockIndex)
     
   }
 
