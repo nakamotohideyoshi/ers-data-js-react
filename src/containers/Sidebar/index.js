@@ -409,7 +409,7 @@ class Sidebar extends React.Component {
           this.setState({
             categoryTitles: categoryTitles,
             sidebarItems: sidebarItems
-          }, this.props.onResetFilter8(serie, currentBlock))
+          }, this.props.resetSFilter(serie, currentBlock))
         }
 
       } else if (props.tsQuery) {
