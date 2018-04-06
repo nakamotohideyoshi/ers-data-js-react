@@ -245,11 +245,11 @@ class Sidebar extends React.Component {
             sidebarItems[4].visible = false
           }
           
-          // update serie_element filter
+          // update [ Filter By/Sub ] filter
           this.setState({
             categoryTitles: categoryTitles,
             sidebarItems: sidebarItems
-          }, this.props.onResetFilter2(serie_element, currentBlock))
+          }, this.props.resetEFilter(serie_element, currentBlock))
         }   
              
       } else if (props.sQuery) {
