@@ -7,7 +7,7 @@ import gql from 'graphql-tag';
     $topic_abb: [String],
     $subject_num: [Int],
     $serie: [String],
-    $analysisserie_element: [Int],
+    $serie_element: [Int],
     $serie2: [String]
   ){
     dlfsesAnalysis: arms_filter(
