@@ -828,7 +828,7 @@ export default class Layout extends React.Component {
     this.setState({
       isRemoveDataSource,
       filters: filters,
-      runQuery: 'dlfAnalysis',
+      runQuery: 'dlfsAnalysis',
       blockIndex
     })
   }
@@ -839,6 +839,39 @@ export default class Layout extends React.Component {
 
     filters[blockIndex].serie_element = serie_element
     const isRemoveDataSource = false
+
+    this.setState({
+      isRemoveDataSource,
+      filters: filters,
+      runQuery: 'dlfseAnalysis',
+      blockIndex
+    })
+  }
+
+  // selected Filter2 in `Arms Data Analysis`
+  selectFilter2Analysis = (serie2, blockIndex) => {
+    let {filters} = this.state
+
+    filters[blockIndex].serie2 = serie2
+    const isRemoveDataSource = false
+
+    this.setState({
+      isRemoveDataSource,
+      filters: filters,
+      runQuery: 'dlfsesAnalysis',
+      blockIndex
+    })
+  }
+
+  // selected Filterw2/Sub in `Arms Data Analysis`
+  selectSubFilter2Analysis = (serie2_element, blockIndex) => {
+    let {filters, whichOneMultiple} = this.state
+
+    filters[blockIndex].serie2_element = serie2_element
+    const isRemoveDataSource = false
+
+    const runQuery = whichOneMultiple === YEAR_SELECTED ? 'dlfsesetAnalysis' : 'dlfseseyAnalsysis'
+
 
     this.setState({
       isRemoveDataSource,
@@ -1280,6 +1313,8 @@ export default class Layout extends React.Component {
           selectFarmTypeAnalsysis = {this.selectFarmTypeAnalsysis}
           selecteFilter1Analysis = {this.selecteFilter1Analysis}
           selectSubFilter1Analysis = {this.selectSubFilter1Analysis}
+          selectFilter2Analysis =  {this.selectFilter2Analysis}
+          selectSubFilter2Analysis = {this.selectSubFilter2Analysis}
 
           onResetStateAnalysis = {this.onResetStateAnalysis}
           onSelectAnalysisFilter1 = {this.onSelectAnalysisFilter1}
