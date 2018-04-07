@@ -19,6 +19,7 @@ import tysQuery from '../../ApolloComponent/tysQuery'
 import yQuery from '../../ApolloComponent/yQuery'
 import ysQuery from '../../ApolloComponent/ysQuery'
 import dAnalysis from '../../ApolloComponent/dAnalysis'
+import dlfAnalysis from '../../ApolloComponent/dlfAnalysis'
 import initAnalysis from '../../ApolloComponent/initAnalysis'
 import yAnalysis from '../../ApolloComponent/yAnalysis'
 import tAnalysis from '../../ApolloComponent/tAnalysis'
@@ -650,8 +651,8 @@ class Sidebar extends React.Component {
             sidebarItems[index+2].visible = false
           }
 
-          const topic_abb = [categoryTitles[index+1].num]
-          const subject_num = [categoryTitles[index+2].num]
+          const topic_abb = [categoryTitles[index+1][0].num]
+          const subject_num = [categoryTitles[index+2][0].num]
 
           this.setState({
             categoryTitles: categoryTitles,
@@ -1342,6 +1343,7 @@ export default compose(
   yQuery,
   ysQuery,
   dAnalysis,
+  dlfAnalysis,
   initAnalysis,
   yAnalysis,
   tAnalysis,
