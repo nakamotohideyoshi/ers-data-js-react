@@ -3,11 +3,11 @@ import gql from 'graphql-tag';
 
   export default graphql(gql`
   query dAnalysis (
-    $analysis.report_num: [Int]
+    $report_num: [Int]
   ){
     dAnalysis: arms_filter(
       survey_abb: "finance",
-      report_num: $analysis.report_num
+      report_num: $report_num
     ){
       topic{
         abb
