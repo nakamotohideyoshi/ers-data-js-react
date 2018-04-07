@@ -22,6 +22,7 @@ import dAnalysis from '../../ApolloComponent/dAnalysis'
 import dlfAnalysis from '../../ApolloComponent/dlfAnalysis'
 import dlfsAnalysis from '../../ApolloComponent/dlfsAnalysis'
 import dlfseAnalysis from '../../ApolloComponent/dlfseAnalysis'
+import dlfsesAnalysis from '../../ApolloComponent/dlfsesAnalysis'
 import initAnalysis from '../../ApolloComponent/initAnalysis'
 import yAnalysis from '../../ApolloComponent/yAnalysis'
 import tAnalysis from '../../ApolloComponent/tAnalysis'
@@ -762,7 +763,56 @@ class Sidebar extends React.Component {
 
         }
 
-      } 
+      } else if (props.dlfseAnalysis) {
+
+        if (props.dlfseAnalysis.networkStatus === 7 && props.dlfseAnalysis.dlfseAnalysis) {
+          // Generate `Filter2` LHS
+          let series2 = []
+          props.dlfseAnalysis.dlfseAnalysis.serie2.forEach(serie2 => {
+            const obj = {}
+            obj.num = serie2.abb
+            obj.header = serie2.header
+            series2.push(obj)
+          })
+
+          // Index based on Block
+          const index = 7*(currentBlock-1) + 10
+
+          if (categoryTitles.length<index+1) {
+            // LHS Generating (initailize)
+            categoryTitles.push(series2)
+
+            // Filter1
+            sidebarItems.push({
+              isOpened: false,
+              selectedIndex: 0,
+              isCategory: false,
+              blockIndex: currentBlock,
+              visible: true,
+              headingTitle: 'Filter2'
+            })
+          } else {
+            // LHS Generate (Update)
+            categoryTitles[index] = series2
+            sidebarItems[index].isOpened = false
+            sidebarItems[index].selectedIndex = 0
+            sidebarItems[index].visible = true
+          }
+
+          const serie2 = [categoryTitles[index][0].num]
+
+          if (series2.length === 1 && serie2[0] === 'farm') {
+            sidebarItems[index].visible = false
+          }
+          
+
+          this.setState({
+            categoryTitles: categoryTitles,
+            sidebarItems: sidebarItems
+          }, this.props.selectFilter2Analysis(serie2, currentBlock))
+        }
+
+      }
       // if (props.initAnalysis) {
       //   if (props.initAnalysis.networkStatus === 7 && props.initAnalysis.initAnalysis) {
           
@@ -1447,6 +1497,7 @@ export default compose(
   dlfAnalysis,
   dlfsAnalysis,
   dlfseAnalysis,
+  dlfsesAnalysis,
   initAnalysis,
   yAnalysis,
   tAnalysis,
