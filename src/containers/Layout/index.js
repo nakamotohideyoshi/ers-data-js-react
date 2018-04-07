@@ -819,10 +819,25 @@ export default class Layout extends React.Component {
   }
 
   // selected Filter1 in `Arms Data Analysis`
-  selectedFilter1Analysis = (serie, blockIndex) => {
+  selecteFilter1Analysis = (serie, blockIndex) => {
     let {filters} = this.state
 
     filters[blockIndex].serie = serie
+    const isRemoveDataSource = false
+
+    this.setState({
+      isRemoveDataSource,
+      filters: filters,
+      runQuery: 'dlfAnalysis',
+      blockIndex
+    })
+  }
+
+  // selected Filter1/Sub in `Arms Data Analysis`
+  selectSubFilter1Analysis = (serie_element, blockIndex) => {
+    let {filters} = this.state
+
+    filters[blockIndex].serie_element = serie_element
     const isRemoveDataSource = false
 
     this.setState({
@@ -1263,7 +1278,8 @@ export default class Layout extends React.Component {
           initialBlockLoadAnalysis = {this.initialBlockLoadAnalysis}
           selectDataLineAnalysis = {this.selectDataLineAnalysis}
           selectFarmTypeAnalsysis = {this.selectFarmTypeAnalsysis}
-          selectedFilter1Analysis = {this.selectedFilter1Analysis}
+          selecteFilter1Analysis = {this.selecteFilter1Analysis}
+          selectSubFilter1Analysis = {this.selectSubFilter1Analysis}
 
           onResetStateAnalysis = {this.onResetStateAnalysis}
           onSelectAnalysisFilter1 = {this.onSelectAnalysisFilter1}
