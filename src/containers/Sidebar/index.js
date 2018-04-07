@@ -18,6 +18,7 @@ import tyQuery from '../../ApolloComponent/yQuery'
 import tysQuery from '../../ApolloComponent/tysQuery'
 import yQuery from '../../ApolloComponent/yQuery'
 import ysQuery from '../../ApolloComponent/ysQuery'
+import dAnalysis from '../../ApolloComponent/dAnalysis'
 import initAnalysis from '../../ApolloComponent/initAnalysis'
 import yAnalysis from '../../ApolloComponent/yAnalysis'
 import tAnalysis from '../../ApolloComponent/tAnalysis'
@@ -555,9 +556,10 @@ class Sidebar extends React.Component {
 
       }
     } else if (categoryTitles.length !== 0 && currentBlock !== 0) {
-      if (props.initAnalysis) {
-        if (props.initAnalysis.networkStatus === 7 && props.initAnalysis.initAnalysis) {
+      if (props.dAnalysis) {
+        if (props.dAnalysis.networkStatus === 7 && props.dAnalysis.dAnalysis) {
           
+          // Generate `Data Source` LHS
           let reports = []
           props.reports.forEach(report => {
             const obj = {}
@@ -566,14 +568,16 @@ class Sidebar extends React.Component {
             reports.push(obj)
           })
 
+          // Generate `Data Line` LHS
           const topics = []
-          props.topics[0].forEach(topic => {
+          props.dAnalysis.dAnalysis.topic.forEach(topic => {
             const obj = {}
             obj.num = topic.abb
             obj.header = topic.header
             topics.push(obj)
           })
         
+          // Generate `Farm Type` LHS
           let subjects = []
           props.subjects.forEach(subject => {
             const obj = {}
@@ -582,30 +586,27 @@ class Sidebar extends React.Component {
             subjects.push(obj)
           })
 
-          let series = []
-          const serie = [props.initAnalysis.initAnalysis.serie[0].abb]
-          props.initAnalysis.initAnalysis.serie.forEach(serie => {
-            const obj = {}
-            obj.num = serie.abb
-            obj.header = serie.header
-            series.push(obj)
-          })
-
+          // Index based on Block
           const index = 7*(currentBlock-1) + 5
           
           if (categoryTitles.length<index+1) {
+
+            // LHS Generating (initailize)
             categoryTitles.push(reports)
             categoryTitles.push(topics)
             categoryTitles.push(subjects)
-            categoryTitles.push(series)
+
+            // Data Source
             sidebarItems.push({
               isOpened: false,
               selectedIndex: 0,
               isCategory: false,
               blockIndex: currentBlock,
               visible: true,
-              headingTitle: 'Data Source'
+              headingTitle: 'Data Source ' + currentBlock
             })
+
+            // Data Line
             sidebarItems.push({
               isOpened: false,
               selectedIndex: [0],
@@ -614,6 +615,8 @@ class Sidebar extends React.Component {
               visible: true,
               headingTitle: 'Data Line'
             })
+
+            // Farm Type
             sidebarItems.push({
               isOpened: false,
               selectedIndex: 0,
@@ -622,315 +625,418 @@ class Sidebar extends React.Component {
               visible: true,
               headingTitle: 'Farm Type'
             })
-            sidebarItems.push({
-              isOpened: false,
-              selectedIndex: 0,
-              isCategory: false,
-              blockIndex: currentBlock,
-              visible: true,
-              headingTitle: 'Filter1'
-            })
+
           } else {
+
+            // LHS Generate (Update)
             categoryTitles[index] = reports
             categoryTitles[index+1] = topics
             categoryTitles[index+2] = subjects
-            categoryTitles[index+3] = series
-            sidebarItems[index] ={
-              isOpened: false,
-              selectedIndex: 0,
-              isCategory: false,
-              blockIndex: currentBlock,
-              visible: true,
-              headingTitle: 'Data Source'
+
+            for (let i=0; i<3; i++) {
+              sidebarItems[index+i].isOpened = false
+              sidebarItems[index+i].selectedIndex = 0
+              sidebarItems[index+i].visible = true
+              if (i === 1) {
+                sidebarItems[index+i].selectedIndex = [0]
+              }              
             }
-            sidebarItems[index+1] = {
-              isOpened: false,
-              selectedIndex: [0],
-              isCategory: false,
-              blockIndex: currentBlock,
-              visible: true,
-              headingTitle: 'Data Line'
-            }
-            sidebarItems[index+2] = {
-              isOpened: false,
-              selectedIndex: 0,
-              isCategory: false,
-              blockIndex: currentBlock,
-              visible: true,
-              headingTitle: 'Farm Type'
-            }
-            sidebarItems[index+3] = {
-              isOpened: false,
-              selectedIndex: 0,
-              isCategory: false,
-              blockIndex: currentBlock,
-              visible: true,
-              headingTitle: 'Filter1'
-            }
+            
           }
+
+          // If `Farm Type` list contain only one item, invisible
 
           if (subjects.length === 1){
             sidebarItems[index+2].visible = false
           }
 
+          const topic_abb = [categoryTitles[index+1].num]
+          const subject_num = [categoryTitles[index+2].num]
+
           this.setState({
             categoryTitles: categoryTitles,
             sidebarItems: sidebarItems
-          }, this.props.onSelectAnalysisFilter1(serie, currentBlock))
+          }, this.props.initialBlockLoadAnalysis(topic_abb, subject_num, currentBlock))
+
 
         }
-      } else if (props.yAnalysis) {
-        if (props.yAnalysis.networkStatus === 7 && props.yAnalysis.yAnalysis) {
+      }
+      // if (props.initAnalysis) {
+      //   if (props.initAnalysis.networkStatus === 7 && props.initAnalysis.initAnalysis) {
+          
+      //     let reports = []
+      //     props.reports.forEach(report => {
+      //       const obj = {}
+      //       obj.num = report.num
+      //       obj.header = report.header
+      //       reports.push(obj)
+      //     })
 
-          this.props.onResetStateAnalysis(props.yAnalysis.yAnalysis.state, currentBlock)
+      //     const topics = []
+      //     props.topics[0].forEach(topic => {
+      //       const obj = {}
+      //       obj.num = topic.abb
+      //       obj.header = topic.header
+      //       topics.push(obj)
+      //     })
+        
+      //     let subjects = []
+      //     props.subjects.forEach(subject => {
+      //       const obj = {}
+      //       obj.num = subject.num
+      //       obj.header = subject.header
+      //       subjects.push(obj)
+      //     })
 
-        }
-      } else if (props.tAnalysis) {
-        if (props.tAnalysis.networkStatus === 7 && props.tAnalysis.tAnalysis) {
+      //     let series = []
+      //     const serie = [props.initAnalysis.initAnalysis.serie[0].abb]
+      //     props.initAnalysis.initAnalysis.serie.forEach(serie => {
+      //       const obj = {}
+      //       obj.num = serie.abb
+      //       obj.header = serie.header
+      //       series.push(obj)
+      //     })
 
-          this.props.onResetYearAnalysis(props.tAnalysis.tAnalysis.year, currentBlock)
+      //     const index = 7*(currentBlock-1) + 5
+          
+      //     if (categoryTitles.length<index+1) {
+      //       categoryTitles.push(reports)
+      //       categoryTitles.push(topics)
+      //       categoryTitles.push(subjects)
+      //       categoryTitles.push(series)
+      //       sidebarItems.push({
+      //         isOpened: false,
+      //         selectedIndex: 0,
+      //         isCategory: false,
+      //         blockIndex: currentBlock,
+      //         visible: true,
+      //         headingTitle: 'Data Source'
+      //       })
+      //       sidebarItems.push({
+      //         isOpened: false,
+      //         selectedIndex: [0],
+      //         isCategory: false,
+      //         blockIndex: currentBlock,
+      //         visible: true,
+      //         headingTitle: 'Data Line'
+      //       })
+      //       sidebarItems.push({
+      //         isOpened: false,
+      //         selectedIndex: 0,
+      //         isCategory: false,
+      //         blockIndex: currentBlock,
+      //         visible: true,
+      //         headingTitle: 'Farm Type'
+      //       })
+      //       sidebarItems.push({
+      //         isOpened: false,
+      //         selectedIndex: 0,
+      //         isCategory: false,
+      //         blockIndex: currentBlock,
+      //         visible: true,
+      //         headingTitle: 'Filter1'
+      //       })
+      //     } else {
+      //       categoryTitles[index] = reports
+      //       categoryTitles[index+1] = topics
+      //       categoryTitles[index+2] = subjects
+      //       categoryTitles[index+3] = series
+      //       sidebarItems[index] ={
+      //         isOpened: false,
+      //         selectedIndex: 0,
+      //         isCategory: false,
+      //         blockIndex: currentBlock,
+      //         visible: true,
+      //         headingTitle: 'Data Source'
+      //       }
+      //       sidebarItems[index+1] = {
+      //         isOpened: false,
+      //         selectedIndex: [0],
+      //         isCategory: false,
+      //         blockIndex: currentBlock,
+      //         visible: true,
+      //         headingTitle: 'Data Line'
+      //       }
+      //       sidebarItems[index+2] = {
+      //         isOpened: false,
+      //         selectedIndex: 0,
+      //         isCategory: false,
+      //         blockIndex: currentBlock,
+      //         visible: true,
+      //         headingTitle: 'Farm Type'
+      //       }
+      //       sidebarItems[index+3] = {
+      //         isOpened: false,
+      //         selectedIndex: 0,
+      //         isCategory: false,
+      //         blockIndex: currentBlock,
+      //         visible: true,
+      //         headingTitle: 'Filter1'
+      //       }
+      //     }
 
-        }
-      } else if (props.ytDLAnalysis) {
-        if (props.ytDLAnalysis.networkStatus === 7 && props.ytDLAnalysis.ytDLAnalysis) {
+      //     if (subjects.length === 1){
+      //       sidebarItems[index+2].visible = false
+      //     }
 
-          let subjects = []
-          props.ytDLAnalysis.ytDLAnalysis.subject.forEach(subject => {
-            const obj = {}
-            obj.num = subject.num
-            obj.header = subject.header
-            subjects.push(obj)
-          })
+      //     this.setState({
+      //       categoryTitles: categoryTitles,
+      //       sidebarItems: sidebarItems
+      //     }, this.props.onSelectAnalysisFilter1(serie, currentBlock))
 
-          const index = 7*(currentBlock-1) + 7
+      //   }
+      // } else if (props.yAnalysis) {
+      //   if (props.yAnalysis.networkStatus === 7 && props.yAnalysis.yAnalysis) {
 
-          if (categoryTitles.length<index+1) {
-            categoryTitles.push(subjects)
-            sidebarItems.push({
-              isOpened: false,
-              selectedIndex: 0,
-              isCategory: false,
-              blockIndex: currentBlock,
-              visible: true,
-              headingTitle: 'Farm Type'
-            })
-          } else {
-            categoryTitles[index] = subjects
-            sidebarItems[index] = {
-              isOpened: false,
-              selectedIndex: 0,
-              isCategory: false,
-              blockIndex: currentBlock,
-              visible: true,
-              headingTitle: 'Farm Type'
-            }
-          }
+      //     this.props.onResetStateAnalysis(props.yAnalysis.yAnalysis.state, currentBlock)
 
-          if (subjects.length === 1){
-            sidebarItems[index].visible = false
-          }
+      //   }
+      // } else if (props.tAnalysis) {
+      //   if (props.tAnalysis.networkStatus === 7 && props.tAnalysis.tAnalysis) {
+
+      //     this.props.onResetYearAnalysis(props.tAnalysis.tAnalysis.year, currentBlock)
+
+      //   }
+      // } else if (props.ytDLAnalysis) {
+      //   if (props.ytDLAnalysis.networkStatus === 7 && props.ytDLAnalysis.ytDLAnalysis) {
+
+      //     let subjects = []
+      //     props.ytDLAnalysis.ytDLAnalysis.subject.forEach(subject => {
+      //       const obj = {}
+      //       obj.num = subject.num
+      //       obj.header = subject.header
+      //       subjects.push(obj)
+      //     })
+
+      //     const index = 7*(currentBlock-1) + 7
+
+      //     if (categoryTitles.length<index+1) {
+      //       categoryTitles.push(subjects)
+      //       sidebarItems.push({
+      //         isOpened: false,
+      //         selectedIndex: 0,
+      //         isCategory: false,
+      //         blockIndex: currentBlock,
+      //         visible: true,
+      //         headingTitle: 'Farm Type'
+      //       })
+      //     } else {
+      //       categoryTitles[index] = subjects
+      //       sidebarItems[index] = {
+      //         isOpened: false,
+      //         selectedIndex: 0,
+      //         isCategory: false,
+      //         blockIndex: currentBlock,
+      //         visible: true,
+      //         headingTitle: 'Farm Type'
+      //       }
+      //     }
+
+      //     if (subjects.length === 1){
+      //       sidebarItems[index].visible = false
+      //     }
                       
           
-          const subject_num = [props.ytDLAnalysis.ytDLAnalysis.subject[0].num]
-          this.setState({
-            categoryTitles: categoryTitles,
-            sidebarItems: sidebarItems
-          }, this.props.onSelectAnalysisFarm(subject_num, currentBlock))
+      //     const subject_num = [props.ytDLAnalysis.ytDLAnalysis.subject[0].num]
+      //     this.setState({
+      //       categoryTitles: categoryTitles,
+      //       sidebarItems: sidebarItems
+      //     }, this.props.onSelectAnalysisFarm(subject_num, currentBlock))
 
-        }
-      } else if (props.ytDLFAnalysis) {
-        if (props.ytDLFAnalysis.networkStatus === 7 && props.ytDLFAnalysis.ytDLFAnalysis) {
+      //   }
+      // } else if (props.ytDLFAnalysis) {
+      //   if (props.ytDLFAnalysis.networkStatus === 7 && props.ytDLFAnalysis.ytDLFAnalysis) {
 
-          let series = []
-          props.ytDLFAnalysis.ytDLFAnalysis.serie.forEach(serie => {
-            const obj = {}
-            obj.num = serie.abb
-            obj.header = serie.header
-            series.push(obj)
-          })
+      //     let series = []
+      //     props.ytDLFAnalysis.ytDLFAnalysis.serie.forEach(serie => {
+      //       const obj = {}
+      //       obj.num = serie.abb
+      //       obj.header = serie.header
+      //       series.push(obj)
+      //     })
 
-          const index = 7*(currentBlock-1) + 8
+      //     const index = 7*(currentBlock-1) + 8
 
-          if (categoryTitles.length < index+1) {
-            categoryTitles.push(series)
-            sidebarItems.push({
-              isOpened: false,
-              selectedIndex: 0,
-              isCategory: false,
-              blockIndex: currentBlock,
-              visible: true,
-              headingTitle: 'Filter1'
-            })
-          } else {
-            categoryTitles[index] = series
-            sidebarItems[index] = {
-              isOpened: false,
-              selectedIndex: 0,
-              isCategory: false,
-              blockIndex: currentBlock,
-              visible: true,
-              headingTitle: 'Filter1'
-            }
-          }                   
+      //     if (categoryTitles.length < index+1) {
+      //       categoryTitles.push(series)
+      //       sidebarItems.push({
+      //         isOpened: false,
+      //         selectedIndex: 0,
+      //         isCategory: false,
+      //         blockIndex: currentBlock,
+      //         visible: true,
+      //         headingTitle: 'Filter1'
+      //       })
+      //     } else {
+      //       categoryTitles[index] = series
+      //       sidebarItems[index] = {
+      //         isOpened: false,
+      //         selectedIndex: 0,
+      //         isCategory: false,
+      //         blockIndex: currentBlock,
+      //         visible: true,
+      //         headingTitle: 'Filter1'
+      //       }
+      //     }                   
           
-          const serie = [props.ytDLFAnalysis.ytDLFAnalysis.serie[0].abb]
-          this.setState({
-            categoryTitles: categoryTitles,
-            sidebarItems: sidebarItems
-          }, this.props.onSelectAnalysisFilter1(serie, currentBlock))
+      //     const serie = [props.ytDLFAnalysis.ytDLFAnalysis.serie[0].abb]
+      //     this.setState({
+      //       categoryTitles: categoryTitles,
+      //       sidebarItems: sidebarItems
+      //     }, this.props.onSelectAnalysisFilter1(serie, currentBlock))
 
-        }
-      } else if (props.ytsAnalysis) {
-        // Year -> Serie
-        if (props.ytsAnalysis.networkStatus === 7 && props.ytsAnalysis.ytsAnalysis) {
-          let series_element = [{
-            num: 0,
-            header: 'All'
-          }]
+      //   }
+      // } else if (props.ytsAnalysis) {
+      //   // Year -> Serie
+      //   if (props.ytsAnalysis.networkStatus === 7 && props.ytsAnalysis.ytsAnalysis) {
+      //     let series_element = [{
+      //       num: 0,
+      //       header: 'All'
+      //     }]
           
-          // Generate `Filter By/Sub` LHS menu
-          let serie_element = []
+      //     // Generate `Filter By/Sub` LHS menu
+      //     let serie_element = []
 
-          props.ytsAnalysis.ytsAnalysis.serie_element.forEach(element => {
-            const obj = {}
-            obj.num = element.id
-            obj.header = element.name
-            series_element.push(obj)
-            serie_element.push(element.id)
-          })
+      //     props.ytsAnalysis.ytsAnalysis.serie_element.forEach(element => {
+      //       const obj = {}
+      //       obj.num = element.id
+      //       obj.header = element.name
+      //       series_element.push(obj)
+      //       serie_element.push(element.id)
+      //     })
 
-          const index = 7*(currentBlock-1) + 9
-          if (categoryTitles.length < index+1) {
-            categoryTitles.push(series_element)
-            sidebarItems.push({
-              isOpened: false,
-              selectedIndex: 0,
-              isCategory: false,
-              blockIndex: currentBlock,
-              visible: true,
-              headingTitle: ''
-            })
-          } else {
-            categoryTitles[index] = series_element
-            sidebarItems[index] = {
-              isOpened: false,
-              selectedIndex: 0,
-              isCategory: false,
-              blockIndex: currentBlock,
-              visible: true,
-              headingTitle: ''
-            }
-          }
-          sidebarItems[index].headingTitle = categoryTitles[index-1][sidebarItems[index-1].selectedIndex].header
-          if (props.ytsAnalysis.ytsAnalysis.serie_element.length === 1 && props.ytsAnalysis.ytsAnalysis.serie_element[0].id === 0) {
-            sidebarItems[index].visible = false
-          }
-          // update serie_element, [state] list
-          this.setState({
-            categoryTitles: categoryTitles,
-            sidebarItems: sidebarItems
-          }, this.props.onSelectAnalysisSubFilter1(serie_element, currentBlock))
-        }
+      //     const index = 7*(currentBlock-1) + 9
+      //     if (categoryTitles.length < index+1) {
+      //       categoryTitles.push(series_element)
+      //       sidebarItems.push({
+      //         isOpened: false,
+      //         selectedIndex: 0,
+      //         isCategory: false,
+      //         blockIndex: currentBlock,
+      //         visible: true,
+      //         headingTitle: ''
+      //       })
+      //     } else {
+      //       categoryTitles[index] = series_element
+      //       sidebarItems[index] = {
+      //         isOpened: false,
+      //         selectedIndex: 0,
+      //         isCategory: false,
+      //         blockIndex: currentBlock,
+      //         visible: true,
+      //         headingTitle: ''
+      //       }
+      //     }
+      //     sidebarItems[index].headingTitle = categoryTitles[index-1][sidebarItems[index-1].selectedIndex].header
+      //     if (props.ytsAnalysis.ytsAnalysis.serie_element.length === 1 && props.ytsAnalysis.ytsAnalysis.serie_element[0].id === 0) {
+      //       sidebarItems[index].visible = false
+      //     }
+      //     // update serie_element, [state] list
+      //     this.setState({
+      //       categoryTitles: categoryTitles,
+      //       sidebarItems: sidebarItems
+      //     }, this.props.onSelectAnalysisSubFilter1(serie_element, currentBlock))
+      //   }
 
-      } else if (props.ytseAnalysis) {
-        if (props.ytseAnalysis.networkStatus === 7 && props.ytseAnalysis.ytseAnalysis) {
+      // } else if (props.ytseAnalysis) {
+      //   if (props.ytseAnalysis.networkStatus === 7 && props.ytseAnalysis.ytseAnalysis) {
           
-          let series2 = []
-          let serie2 = [props.ytseAnalysis.ytseAnalysis.serie2[0].abb]
+      //     let series2 = []
+      //     let serie2 = [props.ytseAnalysis.ytseAnalysis.serie2[0].abb]
 
-          props.ytseAnalysis.ytseAnalysis.serie2.forEach(serie => {
-            const obj = {}
-            obj.num = serie.abb
-            obj.header = serie.header
-            series2.push(obj)
-          })
+      //     props.ytseAnalysis.ytseAnalysis.serie2.forEach(serie => {
+      //       const obj = {}
+      //       obj.num = serie.abb
+      //       obj.header = serie.header
+      //       series2.push(obj)
+      //     })
 
-          const index = 7*(currentBlock-1) + 10
+      //     const index = 7*(currentBlock-1) + 10
 
-          if (categoryTitles.length<index+1) {
-            categoryTitles.push(series2)            
-            sidebarItems.push({
-              isOpened: false,
-              selectedIndex: 0,
-              isCategory: false,
-              blockIndex: currentBlock,
-              visible: true,
-              headingTitle: 'Filter2'
-            })
-          } else {
-            categoryTitles[index] = series2            
-            sidebarItems[index] = {
-              isOpened: false,
-              selectedIndex: 0,
-              isCategory: false,
-              blockIndex: currentBlock,
-              visible: true,
-              headingTitle: 'Filter2'
-            }
-          }
+      //     if (categoryTitles.length<index+1) {
+      //       categoryTitles.push(series2)            
+      //       sidebarItems.push({
+      //         isOpened: false,
+      //         selectedIndex: 0,
+      //         isCategory: false,
+      //         blockIndex: currentBlock,
+      //         visible: true,
+      //         headingTitle: 'Filter2'
+      //       })
+      //     } else {
+      //       categoryTitles[index] = series2            
+      //       sidebarItems[index] = {
+      //         isOpened: false,
+      //         selectedIndex: 0,
+      //         isCategory: false,
+      //         blockIndex: currentBlock,
+      //         visible: true,
+      //         headingTitle: 'Filter2'
+      //       }
+      //     }
 
-          if (series2.length === 1 && serie2[0] === 'farm') {
-            sidebarItems[index].visible = false
-          }
-          this.setState({
-            categoryTitles: categoryTitles,
-            sidebarItems: sidebarItems
-          }, this.props.onSelectAnalysisFilter2(serie2, currentBlock))
-        }
+      //     if (series2.length === 1 && serie2[0] === 'farm') {
+      //       sidebarItems[index].visible = false
+      //     }
+      //     this.setState({
+      //       categoryTitles: categoryTitles,
+      //       sidebarItems: sidebarItems
+      //     }, this.props.onSelectAnalysisFilter2(serie2, currentBlock))
+      //   }
 
-      } else if (props.ytsesAnalysis) {
-        // Year -> Serie
-        if (props.ytsesAnalysis.networkStatus === 7 && props.ytsesAnalysis.ytsesAnalysis) {
-          let series2_element = [{
-            num: 0,
-            header: 'All'
-          }]
+      // } else if (props.ytsesAnalysis) {
+      //   // Year -> Serie
+      //   if (props.ytsesAnalysis.networkStatus === 7 && props.ytsesAnalysis.ytsesAnalysis) {
+      //     let series2_element = [{
+      //       num: 0,
+      //       header: 'All'
+      //     }]
           
-          // Generate `Filter By/Sub` LHS menu
-          let serie2_element = []
+      //     // Generate `Filter By/Sub` LHS menu
+      //     let serie2_element = []
 
-          props.ytsesAnalysis.ytsesAnalysis.serie2_element.forEach(element => {
-            const obj = {}
-            obj.num = element.id
-            obj.header = element.name
-            series2_element.push(obj)
-            serie2_element.push(element.id)
-          })
+      //     props.ytsesAnalysis.ytsesAnalysis.serie2_element.forEach(element => {
+      //       const obj = {}
+      //       obj.num = element.id
+      //       obj.header = element.name
+      //       series2_element.push(obj)
+      //       serie2_element.push(element.id)
+      //     })
           
-          const index = 7*(currentBlock-1) + 11
-          if (categoryTitles.length < index+1) {
-            categoryTitles.push(series2_element)
-            sidebarItems.push({
-              isOpened: false,
-              selectedIndex: 0,
-              isCategory: false,
-              blockIndex: currentBlock,
-              visible: true,
-              headingTitle: ''
-            })
-          } else {
-            categoryTitles[index] = series2_element
-            sidebarItems[index] = {
-              isOpened: false,
-              selectedIndex: 0,
-              isCategory: false,
-              blockIndex: currentBlock,
-              visible: true,
-              headingTitle: ''
-            }
-          }
-          sidebarItems[index].headingTitle = categoryTitles[index-1][sidebarItems[index-1].selectedIndex].header
-          if (props.ytsesAnalysis.ytsesAnalysis.serie2_element.length === 1 && props.ytsesAnalysis.ytsesAnalysis.serie2_element[0].id === 0) {
-            sidebarItems[index].visible = false
-          }
-          // update serie_element, [state] list
-          this.setState({
-            categoryTitles: categoryTitles,
-            sidebarItems: sidebarItems
-          }, this.props.onSelectAnalysisSubFilter2(serie2_element, currentBlock))
-        }
+      //     const index = 7*(currentBlock-1) + 11
+      //     if (categoryTitles.length < index+1) {
+      //       categoryTitles.push(series2_element)
+      //       sidebarItems.push({
+      //         isOpened: false,
+      //         selectedIndex: 0,
+      //         isCategory: false,
+      //         blockIndex: currentBlock,
+      //         visible: true,
+      //         headingTitle: ''
+      //       })
+      //     } else {
+      //       categoryTitles[index] = series2_element
+      //       sidebarItems[index] = {
+      //         isOpened: false,
+      //         selectedIndex: 0,
+      //         isCategory: false,
+      //         blockIndex: currentBlock,
+      //         visible: true,
+      //         headingTitle: ''
+      //       }
+      //     }
+      //     sidebarItems[index].headingTitle = categoryTitles[index-1][sidebarItems[index-1].selectedIndex].header
+      //     if (props.ytsesAnalysis.ytsesAnalysis.serie2_element.length === 1 && props.ytsesAnalysis.ytsesAnalysis.serie2_element[0].id === 0) {
+      //       sidebarItems[index].visible = false
+      //     }
+      //     // update serie_element, [state] list
+      //     this.setState({
+      //       categoryTitles: categoryTitles,
+      //       sidebarItems: sidebarItems
+      //     }, this.props.onSelectAnalysisSubFilter2(serie2_element, currentBlock))
+      //   }
 
-      }
+      // }
     }
   }
 
@@ -973,7 +1079,7 @@ class Sidebar extends React.Component {
       } else {
         // Arms Data Analaysis      
         currentBlock = 1
-        this.props.onSelectAnalysis()
+        this.props.selectAnalysisCategory()
         isReports = false
       }
     } else {
@@ -1235,6 +1341,7 @@ export default compose(
   tysQuery,
   yQuery,
   ysQuery,
+  dAnalysis,
   initAnalysis,
   yAnalysis,
   tAnalysis,
