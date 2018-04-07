@@ -120,6 +120,7 @@ export default class ChartGenerator extends React.Component {
 
     // Chart configuration
     let colorSet = []
+    const darkBlue = '#23527c'
     const config = {
       title: {
         text: title
@@ -139,14 +140,17 @@ export default class ChartGenerator extends React.Component {
       },
       yAxis: [{
           title: {
-            text: "Number of Farms"            
+            text: "Number of Farms",
+            style: {
+              color: darkBlue
+            }           
           },
           breaks: this.getBreaingPoints(seriesFarms, 10),          
           top: seriesOthers.length > 0 ? '80%' : '0%',
           height: seriesOthers.length > 0 ? '20%' : '100%',
           labels: {
             formatter: function (i=0) {
-              return '<span style="color:'+this.chart.series[0].color+';margin-left:-30px">'+ numberWithCommas(this.value) +'</span>';
+              return '<span style="color:'+darkBlue+';margin-left:-30px">'+ numberWithCommas(this.value) +'</span>';
             }
           },
         }
@@ -202,6 +206,7 @@ export default class ChartGenerator extends React.Component {
           zIndex: index + 1, 
           yAxis: 0,
           maxPointWidth: 32,
+          color: darkBlue
         })
       })
     }
