@@ -756,7 +756,53 @@ export default class Layout extends React.Component {
       runQuery: runQuery
     })
   }
-  
+
+  // Arms Data Analysis Category selected firstly
+  selectAnalysisCategory = () => {
+    let {filters} = this.state
+    const blockIndex = 1
+    filters[blockIndex].report_num = [1]
+    const isRemoveDataSource = false
+
+    this.setState({
+      isRemoveDataSource,
+      filters: filters,
+      runQuery: 'dAnalysis',
+      blockIndex
+    })
+  }
+
+  // Datasource block inital loading
+  initialBlockLoadAnalysis = (topic_abb, subject_num, blockIndex) => {
+    let {filters} = this.state
+
+    filters[blockIndex].topic_abb = topic_abb
+    filters[blockIndex].subject_num = subject_num
+    const isRemoveDataSource = false
+
+    this.setState({
+      isRemoveDataSource,
+      filters: filters,
+      runQuery: 'dlfAnalysis',
+      blockIndex
+    })
+  }
+
+  // selected DataLine in `Arms Data Analysis`
+  selectDataLineAnalysis = (topic_abb, blockIndex) => {
+    let {filters} = this.state
+
+    filters[blockIndex].topic_abb = topic_abb
+    const isRemoveDataSource = false
+
+    this.setState({
+      isRemoveDataSource,
+      filters: filters,
+      runQuery: '',
+      blockIndex
+    })
+  }
+
   onSelectAnalysis = () => {
     let {filters, whichOneMultiple} = this.state
     const blockIndex = 1
@@ -1183,6 +1229,9 @@ export default class Layout extends React.Component {
           onSelectSubFilterByFilter = {this.onSelectSubFilterByFilter}
           onSelectAnalysis = {this.onSelectAnalysis}
           onResetYearAnalysis = {this.onResetYearAnalysis}
+          selectAnalysisCategory = {this.selectAnalysisCategory}
+          initialBlockLoadAnalysis = {this.initialBlockLoadAnalysis}
+          selectDataLineAnalysis = {this.selectDataLineAnalysis}
           onResetStateAnalysis = {this.onResetStateAnalysis}
           onSelectAnalysisFilter1 = {this.onSelectAnalysisFilter1}
           onSelectAnalysisSubFilter1 = {this.onSelectAnalysisSubFilter1}
