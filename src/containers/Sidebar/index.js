@@ -21,6 +21,7 @@ import ysQuery from '../../ApolloComponent/ysQuery'
 import dAnalysis from '../../ApolloComponent/dAnalysis'
 import dlfAnalysis from '../../ApolloComponent/dlfAnalysis'
 import dlfsAnalysis from '../../ApolloComponent/dlfsAnalysis'
+import dlfseAnalysis from '../../ApolloComponent/dlfseAnalysis'
 import initAnalysis from '../../ApolloComponent/initAnalysis'
 import yAnalysis from '../../ApolloComponent/yAnalysis'
 import tAnalysis from '../../ApolloComponent/tAnalysis'
@@ -706,7 +707,62 @@ class Sidebar extends React.Component {
           }, this.props.selecteFilter1Analysis(serie, currentBlock))
         }
 
-      }
+      } else if (props.dlfsAnalysis) {
+
+        if (props.dlfsAnalysis.networkStatus === 7 && props.dlfsAnalysis.dlfsAnalysis) {
+          
+          // Filter1/Sub LHS Generate
+          let series_element = [{
+            num: 0,
+            header: 'All'
+          }]
+          let serie_element = []
+
+          props.dlfsAnalysis.dlfsAnalysis.serie_element.forEach(element => {
+            const obj = {}
+            obj.num = element.id
+            obj.header = element.name
+            series_element.push(obj)
+            serie_element.push(element.id)
+          })
+
+          // Index based on Block
+          const index = 7*(currentBlock-1) + 9
+
+          if (categoryTitles.length < index+1) {
+            // LHS Generating (initailize)
+            categoryTitles.push(series_element)
+
+            sidebarItems.push({
+              isOpened: false,
+              selectedIndex: 0,
+              isCategory: false,
+              blockIndex: currentBlock,
+              visible: true,
+              headingTitle: ''
+            })
+          } else {
+            // LHS Generate (Update)
+            categoryTitles[index] = series_element
+            sidebarItems[index].isOpened = false
+            sidebarItems[index].selectedIndex = 0
+            sidebarItems[index].visible = true
+          }
+
+          sidebarItems[index].headingTitle = categoryTitles[index-1][sidebarItems[index-1].selectedIndex].header
+
+          if (props.dlfsAnalysis.dlfsAnalysis.serie_element.length === 1 && props.dlfsAnalysis.dlfsAnalysis.serie_element[0].id === 0) {
+            sidebarItems[index].visible = false
+          }
+
+          this.setState({
+            categoryTitles: categoryTitles,
+            sidebarItems: sidebarItems
+          }, this.props.selectSubFilter1Analysis(serie_element, currentBlock))
+
+        }
+
+      } 
       // if (props.initAnalysis) {
       //   if (props.initAnalysis.networkStatus === 7 && props.initAnalysis.initAnalysis) {
           
@@ -1390,6 +1446,7 @@ export default compose(
   dAnalysis,
   dlfAnalysis,
   dlfsAnalysis,
+  dlfseAnalysis,
   initAnalysis,
   yAnalysis,
   tAnalysis,
