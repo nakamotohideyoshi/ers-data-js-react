@@ -915,6 +915,42 @@ export default class Layout extends React.Component {
     })
   }
 
+  // reset Region in `Arms Data Analysis`
+  selectStateAnalysis = (states) => {
+    let {filters, whichOneMultiple} = this.state
+
+    const runQuery = whichOneMultiple === YEAR_SELECTED ? 'dlfsesetyAnalysis' : ''
+
+    let statesInfo = []
+    let selectedStates = []
+    let selectedStateNames = []
+    
+    states.forEach(stateN => {
+      const obj = {}
+      obj.name = stateN.name
+      obj.id = stateN.id
+      if (states.indexOf(stateN) >= 0 && this.propsstates.indexOf(stateN) < defaultStateCount) {
+        obj.checked = true
+        selectedStates.push(stateN.id)
+        selectedStateNames.push(stateN.name)
+      } else {
+        obj.checked = false 
+      }    
+      statesInfo.push(obj)     
+    })
+
+    const isRemoveDataSource = false
+
+    this.setState({
+      isRemoveDataSource,
+      statesInfo: statesInfo,
+      selectedStates: selectedStates,
+      selectedStateNames: selectedStateNames,
+      filters: filters,
+      runQuery: runQuery
+    })
+  }
+
   onSelectAnalysis = () => {
     let {filters, whichOneMultiple} = this.state
     const blockIndex = 1
@@ -1350,6 +1386,7 @@ export default class Layout extends React.Component {
           selectFilter2Analysis =  {this.selectFilter2Analysis}
           selectSubFilter2Analysis = {this.selectSubFilter2Analysis}
           selectYearAnalysis = {this.selectYearAnalysis}
+          selectStateAnalysis = {this.selectStateAnalysis}
 
           onResetStateAnalysis = {this.onResetStateAnalysis}
           onSelectAnalysisFilter1 = {this.onSelectAnalysisFilter1}
