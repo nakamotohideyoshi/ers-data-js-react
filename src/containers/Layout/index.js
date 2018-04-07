@@ -876,7 +876,7 @@ export default class Layout extends React.Component {
     this.setState({
       isRemoveDataSource,
       filters: filters,
-      runQuery: 'dlfAnalysis',
+      runQuery: runQuery,
       blockIndex
     })
   }
