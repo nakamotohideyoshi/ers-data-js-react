@@ -3,17 +3,17 @@ import gql from 'graphql-tag';
 
   export default graphql(gql`
   query dlfsAnalysis (
-    $analysis.report_num: [Int],
-    $analysis.topic_abb: [String],
-    $analysis.subject_num: [Int],
-    $analysis.serie: [String],
+    $report_num: [Int],
+    $topic_abb: [String],
+    $subject_num: [Int],
+    $serie: [String],
   ){
     dlfsAnalysis: arms_filter(
       survey_abb: "finance",
-      report_num: $analysis.report_num,
-      topic_abb: $analysis.topic_abb,
-      subject_num: $analysis.subject_num,
-      serie: $analysis.serie
+      report_num: $report_num,
+      topic_abb: $topic_abb,
+      subject_num: $subject_num,
+      serie: $serie
     ){
       serie_element{
         id
