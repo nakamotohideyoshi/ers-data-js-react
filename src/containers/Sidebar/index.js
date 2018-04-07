@@ -20,6 +20,7 @@ import yQuery from '../../ApolloComponent/yQuery'
 import ysQuery from '../../ApolloComponent/ysQuery'
 import dAnalysis from '../../ApolloComponent/dAnalysis'
 import dlfAnalysis from '../../ApolloComponent/dlfAnalysis'
+import dlfsAnalysis from '../../ApolloComponent/dlfsAnalysis'
 import initAnalysis from '../../ApolloComponent/initAnalysis'
 import yAnalysis from '../../ApolloComponent/yAnalysis'
 import tAnalysis from '../../ApolloComponent/tAnalysis'
@@ -658,9 +659,53 @@ class Sidebar extends React.Component {
             categoryTitles: categoryTitles,
             sidebarItems: sidebarItems
           }, this.props.initialBlockLoadAnalysis(topic_abb, subject_num, currentBlock))
-
-
         }
+
+      } else if (props.dlfAnalysis) {
+
+        if (props.dlfAnalysis.networkStatus === 7 && props.dlfAnalysis.dlfAnalysis) {
+
+          // Generate `Filter1` LHS
+          let series = []
+          props.dlfAnalysis.dlfAnalysis.serie.forEach(serie => {
+            const obj = {}
+            obj.num = serie.abb
+            obj.header = serie.header
+            series.push(obj)
+          })
+
+          // Index based on Block
+          const index = 7*(currentBlock-1) + 8
+
+          if (categoryTitles.length<index+1) {
+            // LHS Generating (initailize)
+            categoryTitles.push(series)
+
+            // Filter1
+            sidebarItems.push({
+              isOpened: false,
+              selectedIndex: 0,
+              isCategory: false,
+              blockIndex: currentBlock,
+              visible: true,
+              headingTitle: 'Filter1'
+            })
+          } else {
+            // LHS Generate (Update)
+            categoryTitles[index] = series
+            sidebarItems[index].isOpened = false
+            sidebarItems[index].selectedIndex = 0
+            sidebarItems[index].visible = true
+          }
+
+          const serie = [categoryTitles[index][0].num]
+
+          this.setState({
+            categoryTitles: categoryTitles,
+            sidebarItems: sidebarItems
+          }, this.props.selecteFilter1Analysis(serie, currentBlock))
+        }
+
       }
       // if (props.initAnalysis) {
       //   if (props.initAnalysis.networkStatus === 7 && props.initAnalysis.initAnalysis) {
@@ -1344,6 +1389,7 @@ export default compose(
   ysQuery,
   dAnalysis,
   dlfAnalysis,
+  dlfsAnalysis,
   initAnalysis,
   yAnalysis,
   tAnalysis,
