@@ -881,6 +881,40 @@ export default class Layout extends React.Component {
     })
   }
 
+  // reset year in `Arms Data Analysis`
+  selectYearAnalysis = (years) => {
+    let {filters, whichOneMultiple} = this.state
+
+    const yearCount = whichOneMultiple === YEAR_SELECTED ? defaultYearCount : 1
+
+    const runQuery = whichOneMultiple === YEAR_SELECTED ? '' : 'dlfseseytAnalysis'
+
+    let yearsInfo = []
+    let selectedYears = []
+
+    .years.forEach(year => {
+      const infoObj = {}
+      infoObj.year = year
+      if (years.indexOf(year) >= 0 && this.years.indexOf(year) < yearCount) {
+        infoObj.checked = true
+        selectedYears.push(year)
+      } else {
+        infoObj.checked = false
+      }          
+      yearsInfo.push(infoObj)
+    })
+
+    const isRemoveDataSource = false
+
+    this.setState({
+      isRemoveDataSource,
+      yearsInfo: yearsInfo,
+      selectedYears: selectedYears,
+      filters: filters,
+      runQuery: runQuery
+    })
+  }
+
   onSelectAnalysis = () => {
     let {filters, whichOneMultiple} = this.state
     const blockIndex = 1
@@ -1315,6 +1349,7 @@ export default class Layout extends React.Component {
           selectSubFilter1Analysis = {this.selectSubFilter1Analysis}
           selectFilter2Analysis =  {this.selectFilter2Analysis}
           selectSubFilter2Analysis = {this.selectSubFilter2Analysis}
+          selectYearAnalysis = {this.selectYearAnalysis}
 
           onResetStateAnalysis = {this.onResetStateAnalysis}
           onSelectAnalysisFilter1 = {this.onSelectAnalysisFilter1}
