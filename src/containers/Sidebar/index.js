@@ -587,7 +587,7 @@ class Sidebar extends React.Component {
         
           // Generate `Farm Type` LHS
           let subjects = []
-          props.subjects.forEach(subject => {
+          props.dAnalysis.dAnalysis.subject.forEach(subject => {
             const obj = {}
             obj.num = subject.num
             obj.header = subject.header
@@ -637,11 +637,10 @@ class Sidebar extends React.Component {
           } else {
 
             // LHS Generate (Update)
-            categoryTitles[index] = reports
             categoryTitles[index+1] = topics
             categoryTitles[index+2] = subjects
 
-            for (let i=0; i<3; i++) {
+            for (let i=1; i<3; i++) {
               sidebarItems[index+i].isOpened = false
               sidebarItems[index+i].selectedIndex = 0
               sidebarItems[index+i].visible = true
@@ -1369,25 +1368,10 @@ class Sidebar extends React.Component {
         
         // Arms Data Analaysis/Data Source
         const report_num = []
-        const topic_abb = []
 
         report_num.push(categoryTitles[sidebarItemIndex][sidebarItems[sidebarItemIndex].selectedIndex].num)
 
-        sidebarItems[sidebarItemIndex+1].selectedIndex=[0]
-        sidebarItems[sidebarItemIndex+1].isOpened = false
-
-        topic_abb.push(this.props.topics[sidebarItems[sidebarItemIndex].selectedIndex][0].abb)
-
-        let topics = []
-        this.props.topics[sidebarItems[sidebarItemIndex].selectedIndex].forEach(topic => {
-          const obj = {}
-          obj.num = topic.abb
-          obj.header = topic.header
-          topics.push(obj)
-        })
-        categoryTitles[sidebarItemIndex+1] = topics
-
-        this.setState({sidebarItems, categoryTitles}, this.props.onSelectDatasource(report_num, topic_abb, currentBlock))
+        this.setState({sidebarItems, categoryTitles}, this.props.selectDataSource(report_num, currentBlock))
 
       } else if ((sidebarItemIndex - 5)%7===1){
 

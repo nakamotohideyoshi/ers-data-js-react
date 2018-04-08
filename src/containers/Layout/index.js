@@ -788,6 +788,22 @@ export default class Layout extends React.Component {
     })
   }
 
+  // selected DataSource `Arms Data Analysis`
+  selectDataSource = (report_num, blockIndex) => {
+    let {filters} = this.state
+
+    filters[blockIndex].report_num = report_num
+
+    const isRemoveDataSource = false
+
+    this.setState({
+      isRemoveDataSource,
+      filters: filters,
+      runQuery: 'dAnalysis',
+      blockIndex
+    })
+  }
+
   // selected DataLine in `Arms Data Analysis`
   selectDataLineAnalysis = (topic_abb, blockIndex) => {
     let {filters} = this.state
@@ -1383,6 +1399,7 @@ export default class Layout extends React.Component {
           onResetYearAnalysis = {this.onResetYearAnalysis}
           selectAnalysisCategory = {this.selectAnalysisCategory}
           initialBlockLoadAnalysis = {this.initialBlockLoadAnalysis}
+          selectDataSource = {this.selectDataSource}
           selectDataLineAnalysis = {this.selectDataLineAnalysis}
           selectFarmTypeAnalsysis = {this.selectFarmTypeAnalsysis}
           selecteFilter1Analysis = {this.selecteFilter1Analysis}
