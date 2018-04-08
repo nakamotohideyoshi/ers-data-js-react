@@ -1321,30 +1321,34 @@ export default class Layout extends React.Component {
       }
     }
 
-    let analysis = {
-      report_num: [],
-      subject_num: [],
-      serie: [],
-      serie_element: [],
-      serie2: [],
-      serie2_element: [],
-      topic_abb: []
-    }
+    let arms_report_num = []
+    let arms_subject_num = []
+    let arms_serie = []
+    let arms_serie_element = []
+    let arms_serie2 = []
+    let arms_serie2_element = []
+    let arms_topic_abb = []
 
     for (let i=1; i<dataSourceCounts+1; i++) {
-      analysis.report_num = analysis.report_num.concat(filters[i].report_num)
-      analysis.subject_num = analysis.subject_num.concat(filters[i].subject_num)
-      analysis.serie = analysis.serie.concat(filters[i].serie)
-      analysis.serie_element = analysis.serie_element.concat(filters[i].serie_element)
-      analysis.serie2 = analysis.serie2.concat(filters[i].serie2)
-      analysis.serie2_element = analysis.serie2_element.concat(filters[i].serie2_element)
-      analysis.topic_abb = analysis.topic_abb.concat(filters[i].topic_abb)
+      arms_report_num = arms_report_num.concat(filters[i].report_num)
+      arms_subject_num = arms_subject_num.concat(filters[i].subject_num)
+      arms_serie = arms_serie.concat(filters[i].serie)
+      arms_serie_element = arms_serie_element.concat(filters[i].serie_element)
+      arms_serie2 = arms_serie2.concat(filters[i].serie2)
+      arms_serie2_element = arms_serie2_element.concat(filters[i].serie2_element)
+      arms_topic_abb = arms_topic_abb.concat(filters[i].topic_abb)
     }
     let sortedYears = yearsInfo.sort(function(a, b){return parseInt(b.year, 10) - parseInt(a.year, 10)})
     return (
       <Grid>
         <Sidebar
-          analysis = {analysis}
+          arms_report_num = {arms_report_num}
+          arms_subject_num = {arms_subject_num}
+          arms_topic_abb = {arms_topic_abb}
+          arms_serie = {arms_serie}
+          arms_serie_element = {arms_serie_element}
+          arms_serie2 = {arms_serie2}
+          arms_serie2_element = {arms_serie2_element}
           topics = {this.props.topics}
           reports = {this.props.reports}
           subjects = {this.props.subjects}
