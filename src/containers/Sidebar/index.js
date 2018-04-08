@@ -1390,7 +1390,7 @@ class Sidebar extends React.Component {
           topic_abb.push(categoryTitles[sidebarItemIndex][sidebarItems[sidebarItemIndex].selectedIndex[i]].num)
         }        
 
-        this.setState({sidebarItems, categoryTitles}, this.props.onSleectDataLine(topic_abb, currentBlock))
+        this.setState({sidebarItems, categoryTitles}, this.props.selectDataLineAnalysis(topic_abb, currentBlock))
 
       } else if ((sidebarItemIndex - 5)%7===2){
 
@@ -1399,7 +1399,7 @@ class Sidebar extends React.Component {
 
         subject_num.push(categoryTitles[sidebarItemIndex][sidebarItems[sidebarItemIndex].selectedIndex].num)
         
-        this.setState({sidebarItems, categoryTitles}, this.props.onSelectAnalysisFarm(subject_num, currentBlock))
+        this.setState({sidebarItems, categoryTitles}, this.props.selectFarmTypeAnalsysis(subject_num, currentBlock))
 
       } else if ((sidebarItemIndex - 5)%7===3){
 
