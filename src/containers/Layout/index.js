@@ -1207,15 +1207,8 @@ export default class Layout extends React.Component {
     let {filters} = this.state
 
     filters[blockIndex].report_num = [1]
-    filters[blockIndex].subject_num = [1]
 
-    const topic_abb = []
-    if (this.props.topics) {
-      topic_abb.push(this.props.topics[0][0].abb)
-    }
-    filters[blockIndex].topic_abb = topic_abb
-
-    const runQuery = 'initAnalysis'
+    const runQuery = 'dAnalysis'
 
     const isRemoveDataSource = false
 
