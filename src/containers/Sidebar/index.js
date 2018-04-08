@@ -1412,9 +1412,16 @@ class Sidebar extends React.Component {
 
         // Arms Data Analaysis/Sub Filter1
         const serie_element = []
+        if (selectedIndex !== 0) {
+          serie_element.push(categoryTitles[sidebarItemIndex][sidebarItems[sidebarItemIndex][0]].num)
+        } else {
+          for (let i = 1; i<categoryTitles[4].length; i++) {
+            serie_element.push(categoryTitles[sidebarItemIndex][sidebarItems[sidebarItemIndex][i]].num)
+          }
+        }
 
         serie_element.push(categoryTitles[sidebarItemIndex][sidebarItems[sidebarItemIndex].selectedIndex].num)
-        this.setState({sidebarItems, categoryTitles}, this.props.onSelectAnalysisSubFilter1(serie_element, currentBlock))
+        this.setState({sidebarItems, categoryTitles}, this.props.selectSubFilter1Analysis(serie_element, currentBlock))
 
       } else if ((sidebarItemIndex - 5)%7===5){
 
