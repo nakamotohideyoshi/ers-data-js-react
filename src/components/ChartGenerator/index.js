@@ -145,8 +145,8 @@ export default class ChartGenerator extends React.Component {
               color: darkBlue
             }           
           },
-          tickInterval: 100000,          
-          breaks: this.getBreaingPoints(seriesFarms, 5),          
+          tickInterval: 1000000,          
+          breaks: categories.length > 1 ? this.getBreaingPoints(seriesFarms, 4) : [],          
           top: seriesOthers.length > 0 ? '80%' : '0%',
           height: seriesOthers.length > 0 ? '20%' : '100%',
           labels: {
