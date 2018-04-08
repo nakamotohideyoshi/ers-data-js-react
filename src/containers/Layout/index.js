@@ -682,9 +682,9 @@ export default class Layout extends React.Component {
       }
     } else {
       if (whichOneMultiple === YEAR_SELECTED) {
-        runQuery = 'ytDLAnalysis'
+        runQuery = ''
       } else {
-        runQuery = 'yAnalysis'
+        runQuery = 'dlfseseytAnalysis'
       }
     }
 
@@ -738,9 +738,9 @@ export default class Layout extends React.Component {
       }
     } else {
       if (whichOneMultiple === YEAR_SELECTED) {
-        runQuery = 'tAnalysis'
+        runQuery = 'dlfsesetyAnalysis'
       } else {
-        runQuery = 'ytDLAnalysis'
+        runQuery = ''
       }
     }
 
@@ -908,7 +908,7 @@ export default class Layout extends React.Component {
     let yearsInfo = []
     let selectedYears = []
 
-    .years.forEach(year => {
+    years.forEach(year => {
       const infoObj = {}
       infoObj.year = year
       if (years.indexOf(year) >= 0 && years.indexOf(year) < yearCount) {
