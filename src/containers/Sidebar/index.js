@@ -25,6 +25,8 @@ import dlfseAnalysis from '../../ApolloComponent/dlfseAnalysis'
 import dlfsesAnalysis from '../../ApolloComponent/dlfsesAnalysis'
 import dlfsesetAnalysis from '../../ApolloComponent/dlfsesetAnalysis'
 import dlfseseyAnalysis from '../../ApolloComponent/dlfseseyAnalysis'
+import dlfseseytAnalysis from '../../ApolloComponent/dlfseseytAnalysis'
+import dlfsesetyAnalysis from '../../ApolloComponent/dlfsesetyAnalysis'
 import initAnalysis from '../../ApolloComponent/initAnalysis'
 import yAnalysis from '../../ApolloComponent/yAnalysis'
 import tAnalysis from '../../ApolloComponent/tAnalysis'
@@ -825,7 +827,7 @@ class Sidebar extends React.Component {
           }]
           let serie2_element = []
 
-          props.dlfsesAnalysis.dlfsesAnalysis.serie_element.forEach(element => {
+          props.dlfsesAnalysis.dlfsesAnalysis.serie2_element.forEach(element => {
             const obj = {}
             obj.num = element.id
             obj.header = element.name
@@ -869,7 +871,23 @@ class Sidebar extends React.Component {
 
         }
 
-      }
+      } else if (props.dlfsesetAnalysis) {
+
+        if (props.dlfsesetAnalysis.networkStatus === 7 && props.dlfsesetAnalysis.dlfsesAnalysis) {
+
+          this.props.selectYearAnalysis(props.dlfsesetAnalysis.dlfsesAnalysis.year)
+
+        }
+
+      } else if (props.dlfseseyAnalysis) {
+
+        if (props.dlfseseyAnalysis.networkStatus === 7 && props.dlfseseyAnalysis.dlfsesAnalysis) {
+          
+          this.props.selectYearAnalysis(props.dlfseseyAnalysis.dlfseseyAnalysis.state)
+
+        }
+
+      } 
       // if (props.initAnalysis) {
       //   if (props.initAnalysis.networkStatus === 7 && props.initAnalysis.initAnalysis) {
           
@@ -1557,6 +1575,8 @@ export default compose(
   dlfsesAnalysis,
   dlfsesetAnalysis,
   dlfseseyAnalysis,
+  dlfseseytAnalysis,
+  dlfsesetyAnalysis,
   initAnalysis,
   yAnalysis,
   tAnalysis,
