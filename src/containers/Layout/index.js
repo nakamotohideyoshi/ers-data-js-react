@@ -28,7 +28,8 @@ export default class Layout extends React.Component {
     filters: [],
     runQuery: '',
     priority: [],
-    isRemoveDataSource: false
+    isRemoveDataSource: false,
+    selectedAllStatus: {}
   }
 
   componentWillMount() {
@@ -1091,9 +1092,51 @@ export default class Layout extends React.Component {
       selectedStateNames: selectedStateNames.slice(),
       yearsInfo,
       statesInfo,
+      isSelectedAll: false,
       isRemoveDataSource,
       runQuery
     })
+  }
+  onSelectAll = (whichOneMultiple) => {
+    let { isSelectedAll, yearsInfo, statesInfo } = this.state
+    isSelectedAll = !isSelectedAll
+    if (whichOneMultiple === YEAR_SELECTED) {
+      yearsInfo.forEach(yearN => {
+        yearN.checked = isSelectedAll
+      })
+    } else {
+      statesInfo.forEach(stateN => {
+        stateN.checked = isSelectedAll
+      })
+    }
+
+    let selectedYears = []
+    let selectedStates = []
+    let selectedStateNames = []
+    yearsInfo.forEach(yearN => {
+      if (yearN.checked) {
+        selectedYears.push(yearN.year)
+      }
+    })
+    statesInfo.forEach(stateN => {
+      if (stateN.checked) {
+        selectedStates.push(stateN.id)
+        selectedStateNames.push(stateN.name)
+      }
+    })
+
+    if (selectedYears.length === 0) {
+      const yearN = yearsInfo[0]
+      yearN.checked = true
+      selectedYears.push(yearN.year)
+    }
+    if (selectedStates.length === 0) {
+      const stateN = statesInfo[0]
+      stateN.checked = true
+      selectedStates.push(stateN.id)
+      selectedStateNames.push(stateN.name)
+    }
+    this.setState({ isSelectedAll, yearsInfo, statesInfo, selectedYears, selectedStates, selectedStateNames })
   }
 
   render() {
@@ -1106,6 +1149,7 @@ export default class Layout extends React.Component {
       statesInfo,
       selectedStates,
       whichOneMultiple,
+      isSelectedAll,
       filters,
       runQuery,
       isRemoveDataSource
@@ -1186,10 +1230,12 @@ export default class Layout extends React.Component {
           <FilterDropdown 
             yearsInfo={sortedYears} 
             statesInfo={statesInfo} 
+            whichOneMultiple={whichOneMultiple}    
+            isSelectedAll={isSelectedAll}    
+            onSelectAll={this.onSelectAll}  
             onSelectYear={this.onSelectYear} 
             onSelectState={this.onSelectState}
             onSwitchMultiple={this.onSwitchMultiple}
-            whichOneMultiple={whichOneMultiple}          
           />
           <MainContainer
             selectedStates = {selectedStates}
