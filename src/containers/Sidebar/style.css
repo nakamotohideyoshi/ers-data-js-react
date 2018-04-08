@@ -70,9 +70,13 @@
 .dropdown-menu_2>li>a i {
   margin-right:10px;
 }
+.dropdown-menu_2>li>a:hover span {
+  text-decoration: underline;
+}
 .dropdown-menu_2>li>a:hover {
   background:none;
   color:#304550;
+  text-decoration: none;  
 }
 .dropdown-menu_2>li.active>a {
   color:#304550;
