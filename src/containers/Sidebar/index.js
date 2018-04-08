@@ -888,7 +888,7 @@ class Sidebar extends React.Component {
 
       } else if (props.dlfsesetyAnalysis) {
 
-        if (props.dlfsesetyAnalysis.networkStatus === 7 && props.dlfsesetyAnalysis.dlfsesAnalysis) {
+        if (props.dlfsesetyAnalysis.networkStatus === 7 && props.dlfsesetyAnalysis.dlfsesetyAnalysis) {
 
           this.props.selectYearAnalysis(props.dlfsesetyAnalysis.dlfsesetyAnalysis.year)
 
@@ -896,7 +896,7 @@ class Sidebar extends React.Component {
 
       } else if (props.dlfseseytAnalysis) {
 
-        if (props.dlfseseytAnalysis.networkStatus === 7 && props.dlfseseytAnalysis.dlfsesAnalysis) {
+        if (props.dlfseseytAnalysis.networkStatus === 7 && props.dlfseseytAnalysis.dlfseseytAnalysis) {
           
           this.props.selectYearAnalysis(props.dlfseseytAnalysis.dlfseseytAnalysis.state)
 
