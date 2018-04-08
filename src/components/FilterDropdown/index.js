@@ -28,7 +28,7 @@ class FilterDropdown extends React.Component {
     }
   }
   render() {
-    const { onSelectYear, yearsInfo, onSelectState, statesInfo, whichOneMultiple, onSwitchMultiple } = this.props
+    const { yearsInfo, statesInfo, whichOneMultiple, isSelectedAll, onSelectAll, onSelectState, onSelectYear, onSwitchMultiple } = this.props
     
     return (
       <div className="filterDropdownContainer">
@@ -48,10 +48,11 @@ class FilterDropdown extends React.Component {
             className="download-menu"
             data-tip={this.generateToolTipList(whichOneMultiple === YEAR_SELECTED ? yearsInfo:statesInfo, whichOneMultiple === YEAR_SELECTED ? 'year':'name')}
           >
+          <Checkbox title="Select All" checked={isSelectedAll} isMultiple={true} onCheck={() => onSelectAll(whichOneMultiple)} key={0} />
           {
             whichOneMultiple === YEAR_SELECTED &&
               yearsInfo.map((infoObj, index) => {
-                return <Checkbox title={infoObj.year + ''} checked={infoObj.checked} isMultiple={true} onCheck={() => onSelectYear(index)} key={index} />
+                return <Checkbox title={infoObj.year + ''} checked={infoObj.checked} isMultiple={true} onCheck={() => onSelectYear(index)} key={index+1} />
               })
            }
            {
