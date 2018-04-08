@@ -873,21 +873,37 @@ class Sidebar extends React.Component {
 
       } else if (props.dlfsesetAnalysis) {
 
-        if (props.dlfsesetAnalysis.networkStatus === 7 && props.dlfsesetAnalysis.dlfsesAnalysis) {
+        if (props.dlfsesetAnalysis.networkStatus === 7 && props.dlfsesetAnalysis.dlfsesetAnalysis) {
 
-          this.props.selectYearAnalysis(props.dlfsesetAnalysis.dlfsesAnalysis.year)
+          this.props.selectStateAnalysis(props.dlfsesetAnalysis.dlfsesetAnalysis.state)
 
         }
 
       } else if (props.dlfseseyAnalysis) {
 
-        if (props.dlfseseyAnalysis.networkStatus === 7 && props.dlfseseyAnalysis.dlfsesAnalysis) {
+        if (props.dlfseseyAnalysis.networkStatus === 7 && props.dlfseseyAnalysis.dlfseseyAnalysis) {
           
-          this.props.selectYearAnalysis(props.dlfseseyAnalysis.dlfseseyAnalysis.state)
+          this.props.selectYearAnalysis(props.dlfseseyAnalysis.dlfseseyAnalysis.year)
 
         }
 
-      } 
+      } else if (props.dlfsesetyAnalysis) {
+
+        if (props.dlfsesetyAnalysis.networkStatus === 7 && props.dlfsesetyAnalysis.dlfsesAnalysis) {
+
+          this.props.selectYearAnalysis(props.dlfsesetyAnalysis.dlfsesetyAnalysis.year)
+
+        }
+
+      } else if (props.dlfseseytAnalysis) {
+
+        if (props.dlfseseytAnalysis.networkStatus === 7 && props.dlfseseytAnalysis.dlfsesAnalysis) {
+          
+          this.props.selectYearAnalysis(props.dlfseseytAnalysis.dlfseseytAnalysis.state)
+
+        }
+
+      }
       // if (props.initAnalysis) {
       //   if (props.initAnalysis.networkStatus === 7 && props.initAnalysis.initAnalysis) {
           
