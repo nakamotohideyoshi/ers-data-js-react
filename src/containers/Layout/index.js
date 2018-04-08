@@ -870,7 +870,7 @@ export default class Layout extends React.Component {
     filters[blockIndex].serie2_element = serie2_element
     const isRemoveDataSource = false
 
-    const runQuery = whichOneMultiple === YEAR_SELECTED ? 'dlfsesetAnalysis' : 'dlfseseyAnalsysis'
+    const runQuery = whichOneMultiple === YEAR_SELECTED ? 'dlfsesetAnalysis' : 'dlfseseyAnalysis'
 
 
     this.setState({
