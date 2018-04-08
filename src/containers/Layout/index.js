@@ -895,7 +895,7 @@ export default class Layout extends React.Component {
     .years.forEach(year => {
       const infoObj = {}
       infoObj.year = year
-      if (years.indexOf(year) >= 0 && this.years.indexOf(year) < yearCount) {
+      if (years.indexOf(year) >= 0 && years.indexOf(year) < yearCount) {
         infoObj.checked = true
         selectedYears.push(year)
       } else {
@@ -929,7 +929,7 @@ export default class Layout extends React.Component {
       const obj = {}
       obj.name = stateN.name
       obj.id = stateN.id
-      if (states.indexOf(stateN) >= 0 && this.propsstates.indexOf(stateN) < defaultStateCount) {
+      if (states.indexOf(stateN) >= 0 && states.indexOf(stateN) < defaultStateCount) {
         obj.checked = true
         selectedStates.push(stateN.id)
         selectedStateNames.push(stateN.name)
