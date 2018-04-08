@@ -1406,7 +1406,7 @@ class Sidebar extends React.Component {
         // Arms Data Analysis/Filter1
         const serie = []
         serie.push(categoryTitles[sidebarItemIndex][sidebarItems[sidebarItemIndex].selectedIndex].num)
-        this.setState({sidebarItems, categoryTitles}, this.props.onSelectAnalysisFilter1(serie, currentBlock))
+        this.setState({sidebarItems, categoryTitles}, this.props.selecteFilter1Analysis(serie, currentBlock))
 
       } else if ((sidebarItemIndex - 5)%7===4){
 
