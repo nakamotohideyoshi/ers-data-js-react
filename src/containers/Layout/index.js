@@ -452,27 +452,47 @@ export default class Layout extends React.Component {
   // reset [ Year ]
   resetYFilter = (years, blockIndex) => {
 
-    let {whichOneMultiple} = this.state
+    let {selectedYears, whichOneMultiple} = this.state
     const yearCount = whichOneMultiple === YEAR_SELECTED ? defaultYearCount : 1
 
+    let prevYearCount = 0
+
+    years.forEach(year => {
+      if (selectedYears.indexOf(year) > -1) {
+        prevYearCount++
+      }
+    })
+
     let yearsInfo = []
-    let selectedYears = []
+    let reSelectedYears = []
+    let currentYearCount = 0
+
     years.forEach(year => {
       const infoObj = {}
       infoObj.year = year
-      if (years.indexOf(year) >= 0 && years.indexOf(year) < yearCount) {
-        infoObj.checked = true
-        selectedYears.push(year)
+      if (prevYearCount === 0) {
+        if (years.indexOf(year) >= 0 && years.indexOf(year) < yearCount) {
+          infoObj.checked = true
+          reSelectedYears.push(year)
+        } else {
+          infoObj.checked = false
+        }
       } else {
-        infoObj.checked = false
-      }          
+        if (selectedYears.indexOf(year) > -1 && currentYearCount < yearCount) {
+          infoObj.checked = true
+          reSelectedYears.push(year)
+          currentYearCount++
+        } else {
+          infoObj.checked = false
+        }
+      }        
       yearsInfo.push(infoObj)
     })
 
     this.setState({
       blockIndex,
       yearsInfo: yearsInfo,
-      selectedYears: selectedYears,
+      selectedYears: reSelectedYears,
       runQuery: ''
     })
 
