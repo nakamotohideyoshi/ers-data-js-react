@@ -138,21 +138,14 @@ class Sidebar extends React.Component {
             })
           } else {
             categoryTitles[2] = subjects
-            sidebarItems[2] = {
-              isOpened: false,
-              selectedIndex: 0,
-              isCategory: false,
-              blockIndex: currentBlock,
-              visible: true,
-              headingTitle: 'Subject'
-            }
+            sidebarItems[2].isOpened = false
+            sidebarItems[2].selectedIndex = 0
+            sidebarItems[2].visible = true
           }
 
           if (props.reset1Query.reset1Query.subject.length === 1) {
             sidebarItems[2].visible = false
-          } else {
-            sidebarItems[2].visible = true
-          } 
+          }
           
           // update subject
           this.setState({
@@ -186,14 +179,9 @@ class Sidebar extends React.Component {
             })
           } else {
             categoryTitles[3] = series
-            sidebarItems[3] = {
-              isOpened: false,
-              selectedIndex: 0,
-              isCategory: false,
-              blockIndex: currentBlock,
-              visible: true,
-              headingTitle: 'Filter by'
-            }
+            sidebarItems[3].isOpened = false
+            sidebarItems[3].selectedIndex = 0
+            sidebarItems[3].visible = true
           }
           
           // update [Year, State] list, and get Serie_element
@@ -231,14 +219,9 @@ class Sidebar extends React.Component {
             })
           } else {
             categoryTitles[4] = series_element
-            sidebarItems[4] = {
-              isOpened: false,
-              selectedIndex: 0,
-              isCategory: false,
-              blockIndex: currentBlock,
-              visible: true,
-              headingTitle: ''
-            }
+            sidebarItems[4].isOpened = false
+            sidebarItems[4].selectedIndex = 0
+            sidebarItems[4].visible = true
           }
           sidebarItems[4].headingTitle = categoryTitles[3][sidebarItems[3].selectedIndex].header
           if (props.tysQuery.tysQuery.serie_element.length === 1 && props.tysQuery.tysQuery.serie_element[0].id === 0) {
@@ -282,14 +265,9 @@ class Sidebar extends React.Component {
             })
           } else {
             categoryTitles[4] = series_element
-            sidebarItems[4] = {
-              isOpened: false,
-              selectedIndex: 0,
-              isCategory: false,
-              blockIndex: currentBlock,
-              visible: true,
-              headingTitle: ''
-            }
+            sidebarItems[4].isOpened = false
+            sidebarItems[4].selectedIndex = 0
+            sidebarItems[4].visible = true
           }
           sidebarItems[4].headingTitle = categoryTitles[3][sidebarItems[3].selectedIndex].header
           if (props.sQuery.sQuery.serie_element.length === 1 && props.sQuery.sQuery.serie_element[0].id === 0) {
@@ -353,14 +331,9 @@ class Sidebar extends React.Component {
             })
           } else {
             categoryTitles[3] = series
-            sidebarItems[3] = {
-              isOpened: false,
-              selectedIndex: 0,
-              isCategory: false,
-              blockIndex: currentBlock,
-              visible: true,
-              headingTitle: 'Filter by'
-            }
+            sidebarItems[3].isOpened = false
+            sidebarItems[3].selectedIndex = 0
+            sidebarItems[3].visible = true
           } 
           
           // update serie, [Year] list , get serie_element
@@ -395,14 +368,9 @@ class Sidebar extends React.Component {
             })
           } else {
             categoryTitles[3] = series
-            sidebarItems[3] = {
-              isOpened: false,
-              selectedIndex: 0,
-              isCategory: false,
-              blockIndex: currentBlock,
-              visible: true,
-              headingTitle: 'Filter by'
-            }
+            sidebarItems[3].isOpened = false
+            sidebarItems[3].selectedIndex = 0
+            sidebarItems[3].visible = true
           }
           
           // update serie, and get serie_element
@@ -441,14 +409,9 @@ class Sidebar extends React.Component {
             })
           } else {
             categoryTitles[4] = series_element
-            sidebarItems[4] = {
-              isOpened: false,
-              selectedIndex: 0,
-              isCategory: false,
-              blockIndex: currentBlock,
-              visible: true,
-              headingTitle: ''
-            }
+            sidebarItems[4].isOpened = false
+            sidebarItems[4].selectedIndex = 0
+            sidebarItems[4].visible = true
           }
           sidebarItems[4].headingTitle = categoryTitles[3][sidebarItems[3].selectedIndex].header
           if (props.tsQuery.tsQuery.serie_element.length === 1 && props.tsQuery.tsQuery.serie_element[0].id === 0) {
@@ -487,14 +450,9 @@ class Sidebar extends React.Component {
             })
           } else {
             categoryTitles[3] = series
-            sidebarItems[3] = {
-              isOpened: false,
-              selectedIndex: 0,
-              isCategory: false,
-              blockIndex: currentBlock,
-              visible: true,
-              headingTitle: 'Filter by'
-            }
+            sidebarItems[3].isOpened = false
+            sidebarItems[3].selectedIndex = 0
+            sidebarItems[3].visible = true
           }
           
           // update serie, [state] list, and get serie_element
@@ -533,14 +491,9 @@ class Sidebar extends React.Component {
             })
           } else {
             categoryTitles[4] = series_element
-            sidebarItems[4] = {
-              isOpened: false,
-              selectedIndex: 0,
-              isCategory: false,
-              blockIndex: currentBlock,
-              visible: true,
-              headingTitle: ''
-            }
+            sidebarItems[4].isOpened = false
+            sidebarItems[4].selectedIndex = 0
+            sidebarItems[4].visible = true
           }
           sidebarItems[4].headingTitle = categoryTitles[3][sidebarItems[3].selectedIndex].header
           if (props.ysQuery.ysQuery.serie_element.length === 1 && props.ysQuery.ysQuery.serie_element[0].id === 0) {
