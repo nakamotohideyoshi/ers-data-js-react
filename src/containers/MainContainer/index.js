@@ -65,76 +65,16 @@ class MainContainer extends React.Component {
             surveyData[0] = []            
           }          
         }
-      } 
-      if (props.dataSource1) {
-        if (props.dataSource1.networkStatus === 7) {
-          if (props.dataSource1.dataSource1) {
-            surveyData[1] = props.dataSource1.dataSource1
-          } else {
-            surveyData[1] = []
-          }
-        }
       }
-      if (props.dataSource2) {
-        if (props.dataSource2.networkStatus === 7) {
-          if (props.dataSource2.dataSource2) {
-            surveyData[2] = props.dataSource2.dataSource2
-          } else {
-            surveyData[2] = []
-          }
-        }
-      }
-      if (props.dataSource3) {
-        if (props.dataSource3.networkStatus === 7) {
-          if (props.dataSource3.dataSource3) {
-            surveyData[3] = props.dataSource3.dataSource3
-          } else {
-            surveyData[3] = []
-          }
-        }
-      }
-      if (props.dataSource4) {
-        if (props.dataSource4.networkStatus === 7) {
-          if (props.dataSource4.dataSource4) {
-            surveyData[4] = props.dataSource4.dataSource4
-          } else {
-            surveyData[4] = []
-          }
-        }
-      }
-      if (props.dataSource5) {
-        if (props.dataSource5.networkStatus === 7) {
-          if (props.dataSource5.dataSource5) {
-            surveyData[5] = props.dataSource5.dataSource5
-          } else {
-            surveyData[5] = []
-          }
-        }
-      }
-      if (props.dataSource6) {
-        if (props.dataSource6.networkStatus === 7) {
-          if (props.dataSource6.dataSource6) {
-            surveyData[6] = props.dataSource6.dataSource6
-          } else {
-            surveyData[6] = []
-          }
-        }
-      }
-      if (props.dataSource7) {
-        if (props.dataSource7.networkStatus === 7) {
-          if (props.dataSource7.dataSource7) {
-            surveyData[7] = props.dataSource7.dataSource7
-          } else {
-            surveyData[7] = []
-          }
-        }
-      }
-      if (props.dataSource8) {
-        if (props.dataSource8.networkStatus === 7) {
-          if (props.dataSource8.dataSource8) {
-            surveyData[8] = props.dataSource8.dataSource8
-          } else {
-            surveyData[8] = []
+      for (let i=1; i<9; i++) {
+        const dataSource = 'dataSource' + i
+        if (props[dataSource]) {
+          if (props[dataSource].networkStatus === 7) {
+            if (props[dataSource][dataSource]) {
+              surveyData[i] = props[dataSource][dataSource]
+            } else {
+              surveyData[i] = []
+            }
           }
         }
       } 
