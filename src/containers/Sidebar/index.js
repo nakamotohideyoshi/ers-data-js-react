@@ -4,7 +4,6 @@ import 'react-slidedown/lib/slidedown.css'
 import SidebarItem from '../../components/SidebarItem'
 import './style.css';
 import Reset from '../../images/reset.png'
-import armsfilter from '../../ApolloComponent/armsQuery'
 // import { selectLimit } from 'async';
 import resetQuery from '../../ApolloComponent/resetQuery'
 import reset1Query from '../../ApolloComponent/reset1Query'
@@ -27,14 +26,6 @@ import dlfsesetAnalysis from '../../ApolloComponent/dlfsesetAnalysis'
 import dlfseseyAnalysis from '../../ApolloComponent/dlfseseyAnalysis'
 import dlfseseytAnalysis from '../../ApolloComponent/dlfseseytAnalysis'
 import dlfsesetyAnalysis from '../../ApolloComponent/dlfsesetyAnalysis'
-import initAnalysis from '../../ApolloComponent/initAnalysis'
-import yAnalysis from '../../ApolloComponent/yAnalysis'
-import tAnalysis from '../../ApolloComponent/tAnalysis'
-import ytDLAnalysis from '../../ApolloComponent/ytDLAnalysis'
-import ytDLFAnalysis from '../../ApolloComponent/ytDLFAnalysis'
-import ytsAnalysis from '../../ApolloComponent/ytsAnalysis'
-import ytseAnalysis from '../../ApolloComponent/ytseAnalysis'
-import ytsesAnalysis from '../../ApolloComponent/ytsesAnalysis'
 import { compose } from 'react-apollo'
 
 
@@ -1213,13 +1204,5 @@ export default compose(
   dlfseseyAnalysis,
   dlfseseytAnalysis,
   dlfsesetyAnalysis,
-  initAnalysis,
-  yAnalysis,
-  tAnalysis,
-  ytDLAnalysis,
-  ytDLFAnalysis,
-  ytsAnalysis,
-  ytseAnalysis,
-  ytsesAnalysis
 )(Sidebar)
 
