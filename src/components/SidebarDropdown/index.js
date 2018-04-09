@@ -18,7 +18,10 @@ const SidebarDropdown = ({ title, headingTitle, isCategory, isOpened, onToggle }
           <span className="caret_down">
             <i className="fa fa-caret-up"></i>
           </span>
-        ) || (
+        )
+      }
+      {
+        !isOpened && (
           <span className="caret_down">
             <i className="fa fa-caret-down"></i>
           </span>

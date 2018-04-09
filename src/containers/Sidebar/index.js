@@ -4,7 +4,6 @@ import 'react-slidedown/lib/slidedown.css'
 import SidebarItem from '../../components/SidebarItem'
 import './style.css';
 import Reset from '../../images/reset.png'
-import armsfilter from '../../ApolloComponent/armsQuery'
 // import { selectLimit } from 'async';
 import resetQuery from '../../ApolloComponent/resetQuery'
 import reset1Query from '../../ApolloComponent/reset1Query'
@@ -18,14 +17,15 @@ import tyQuery from '../../ApolloComponent/yQuery'
 import tysQuery from '../../ApolloComponent/tysQuery'
 import yQuery from '../../ApolloComponent/yQuery'
 import ysQuery from '../../ApolloComponent/ysQuery'
-import initAnalysis from '../../ApolloComponent/initAnalysis'
-import yAnalysis from '../../ApolloComponent/yAnalysis'
-import tAnalysis from '../../ApolloComponent/tAnalysis'
-import ytDLAnalysis from '../../ApolloComponent/ytDLAnalysis'
-import ytDLFAnalysis from '../../ApolloComponent/ytDLFAnalysis'
-import ytsAnalysis from '../../ApolloComponent/ytsAnalysis'
-import ytseAnalysis from '../../ApolloComponent/ytseAnalysis'
-import ytsesAnalysis from '../../ApolloComponent/ytsesAnalysis'
+import dAnalysis from '../../ApolloComponent/dAnalysis'
+import dlfAnalysis from '../../ApolloComponent/dlfAnalysis'
+import dlfsAnalysis from '../../ApolloComponent/dlfsAnalysis'
+import dlfseAnalysis from '../../ApolloComponent/dlfseAnalysis'
+import dlfsesAnalysis from '../../ApolloComponent/dlfsesAnalysis'
+import dlfsesetAnalysis from '../../ApolloComponent/dlfsesetAnalysis'
+import dlfseseyAnalysis from '../../ApolloComponent/dlfseseyAnalysis'
+import dlfseseytAnalysis from '../../ApolloComponent/dlfseseytAnalysis'
+import dlfsesetyAnalysis from '../../ApolloComponent/dlfsesetyAnalysis'
 import { compose } from 'react-apollo'
 
 
@@ -46,7 +46,7 @@ class Sidebar extends React.Component {
 
   componentWillReceiveProps(props) {
     console.log('****************', props, '****************')
-    let {categoryTitles, sidebarItems, blockCount, isSubFilterBy, isArmsFilter} = this.state
+    let {categoryTitles, sidebarItems} = this.state
 
     if (categoryTitles.length === 0) {
 
@@ -107,7 +107,7 @@ class Sidebar extends React.Component {
       this.setState({
         categoryTitles: categoryTitles,
         sidebarItems: sidebarItems
-      }, this.props.onStaticSelect(report_num, subject_num, currentBlock))
+      }, this.props.initialLoadingTailor(report_num, subject_num, currentBlock))
 
      }
 
@@ -138,21 +138,14 @@ class Sidebar extends React.Component {
             })
           } else {
             categoryTitles[2] = subjects
-            sidebarItems[2] = {
-              isOpened: false,
-              selectedIndex: 0,
-              isCategory: false,
-              blockIndex: currentBlock,
-              visible: true,
-              headingTitle: 'Subject'
-            }
+            sidebarItems[2].isOpened = false
+            sidebarItems[2].selectedIndex = 0
+            sidebarItems[2].visible = true
           }
 
           if (props.reset1Query.reset1Query.subject.length === 1) {
             sidebarItems[2].visible = false
-          } else {
-            sidebarItems[2].visible = true
-          } 
+          }
           
           // update subject
           this.setState({
@@ -186,21 +179,16 @@ class Sidebar extends React.Component {
             })
           } else {
             categoryTitles[3] = series
-            sidebarItems[3] = {
-              isOpened: false,
-              selectedIndex: 0,
-              isCategory: false,
-              blockIndex: currentBlock,
-              visible: true,
-              headingTitle: 'Filter by'
-            }
+            sidebarItems[3].isOpened = false
+            sidebarItems[3].selectedIndex = 0
+            sidebarItems[3].visible = true
           }
           
           // update [Year, State] list, and get Serie_element
           this.setState({
             categoryTitles: categoryTitles,
             sidebarItems: sidebarItems
-          }, this.props.onResetFilter1(serie, props.resetQuery.resetQuery.year, props.resetQuery.resetQuery.state, currentBlock))
+          }, this.props.resetSYRFilter(serie, props.resetQuery.resetQuery.year, props.resetQuery.resetQuery.state, currentBlock))
         }        
       } else if (props.tysQuery) {
 
@@ -231,25 +219,20 @@ class Sidebar extends React.Component {
             })
           } else {
             categoryTitles[4] = series_element
-            sidebarItems[4] = {
-              isOpened: false,
-              selectedIndex: 0,
-              isCategory: false,
-              blockIndex: currentBlock,
-              visible: true,
-              headingTitle: ''
-            }
+            sidebarItems[4].isOpened = false
+            sidebarItems[4].selectedIndex = 0
+            sidebarItems[4].visible = true
           }
           sidebarItems[4].headingTitle = categoryTitles[3][sidebarItems[3].selectedIndex].header
           if (props.tysQuery.tysQuery.serie_element.length === 1 && props.tysQuery.tysQuery.serie_element[0].id === 0) {
             sidebarItems[4].visible = false
           }
           
-          // update serie_element filter
+          // update [ Filter By/Sub ] filter
           this.setState({
             categoryTitles: categoryTitles,
             sidebarItems: sidebarItems
-          }, this.props.onResetFilter2(serie_element, currentBlock))
+          }, this.props.resetEFilter(serie_element, currentBlock))
         }   
              
       } else if (props.sQuery) {
@@ -282,14 +265,9 @@ class Sidebar extends React.Component {
             })
           } else {
             categoryTitles[4] = series_element
-            sidebarItems[4] = {
-              isOpened: false,
-              selectedIndex: 0,
-              isCategory: false,
-              blockIndex: currentBlock,
-              visible: true,
-              headingTitle: ''
-            }
+            sidebarItems[4].isOpened = false
+            sidebarItems[4].selectedIndex = 0
+            sidebarItems[4].visible = true
           }
           sidebarItems[4].headingTitle = categoryTitles[3][sidebarItems[3].selectedIndex].header
           if (props.sQuery.sQuery.serie_element.length === 1 && props.sQuery.sQuery.serie_element[0].id === 0) {
@@ -300,7 +278,7 @@ class Sidebar extends React.Component {
           this.setState({
             categoryTitles: categoryTitles,
             sidebarItems: sidebarItems
-          }, this.props.onResetFilter3(serie_element, props.sQuery.sQuery.year, props.sQuery.sQuery.state, currentBlock))
+          }, this.props.resetEYRFilter(serie_element, props.sQuery.sQuery.year, props.sQuery.sQuery.state, currentBlock))
         }
 
       } else if (props.seQuery) {
@@ -308,7 +286,7 @@ class Sidebar extends React.Component {
         // Serie/Serie_element -> 
         if (props.seQuery.networkStatus === 7 && props.seQuery.seQuery) {
           // update [Year, State] list              
-          this.props.onResetFilter4(props.seQuery.seQuery.year, props.seQuery.seQuery.state, currentBlock)
+          this.props.resetYRFilter(props.seQuery.seQuery.year, props.seQuery.seQuery.state, currentBlock)
         }   
 
       } else if (props.setQuery) {
@@ -316,7 +294,7 @@ class Sidebar extends React.Component {
         // Serie/Serie_element -> State
         if (props.setQuery.networkStatus === 7 && props.setQuery.setQuery) {
           // Update [year] list       
-          this.props.onResetFilter5(props.setQuery.setQuery.year, currentBlock)
+          this.props.resetYFilter(props.setQuery.setQuery.year, currentBlock)
         }  
 
       } else if (props.seyQuery) {
@@ -324,7 +302,7 @@ class Sidebar extends React.Component {
         // Serie/Serie_element -> Year
         if (props.seyQuery.networkStatus === 7 && props.seyQuery.seyQuery) {
            // Update [State] list       
-          this.props.onResetFilter6(props.seyQuery.seyQuery.state, currentBlock)
+          this.props.resetRFilter(props.seyQuery.seyQuery.state, currentBlock)
         }  
 
       } else if (props.tQuery) {
@@ -353,21 +331,16 @@ class Sidebar extends React.Component {
             })
           } else {
             categoryTitles[3] = series
-            sidebarItems[3] = {
-              isOpened: false,
-              selectedIndex: 0,
-              isCategory: false,
-              blockIndex: currentBlock,
-              visible: true,
-              headingTitle: 'Filter by'
-            }
+            sidebarItems[3].isOpened = false
+            sidebarItems[3].selectedIndex = 0
+            sidebarItems[3].visible = true
           } 
           
           // update serie, [Year] list , get serie_element
           this.setState({
             categoryTitles: categoryTitles,
             sidebarItems: sidebarItems
-          }, this.props.onResetFilter7(serie, props.tQuery.tQuery.year, currentBlock))
+          }, this.props.resetSYFilter(serie, props.tQuery.tQuery.year, currentBlock))
         }
 
       } else if (props.tyQuery) {
@@ -395,21 +368,16 @@ class Sidebar extends React.Component {
             })
           } else {
             categoryTitles[3] = series
-            sidebarItems[3] = {
-              isOpened: false,
-              selectedIndex: 0,
-              isCategory: false,
-              blockIndex: currentBlock,
-              visible: true,
-              headingTitle: 'Filter by'
-            }
+            sidebarItems[3].isOpened = false
+            sidebarItems[3].selectedIndex = 0
+            sidebarItems[3].visible = true
           }
           
           // update serie, and get serie_element
           this.setState({
             categoryTitles: categoryTitles,
             sidebarItems: sidebarItems
-          }, this.props.onResetFilter8(serie, currentBlock))
+          }, this.props.resetSFilter(serie, currentBlock))
         }
 
       } else if (props.tsQuery) {
@@ -441,14 +409,9 @@ class Sidebar extends React.Component {
             })
           } else {
             categoryTitles[4] = series_element
-            sidebarItems[4] = {
-              isOpened: false,
-              selectedIndex: 0,
-              isCategory: false,
-              blockIndex: currentBlock,
-              visible: true,
-              headingTitle: ''
-            }
+            sidebarItems[4].isOpened = false
+            sidebarItems[4].selectedIndex = 0
+            sidebarItems[4].visible = true
           }
           sidebarItems[4].headingTitle = categoryTitles[3][sidebarItems[3].selectedIndex].header
           if (props.tsQuery.tsQuery.serie_element.length === 1 && props.tsQuery.tsQuery.serie_element[0].id === 0) {
@@ -459,7 +422,7 @@ class Sidebar extends React.Component {
           this.setState({
             categoryTitles: categoryTitles,
             sidebarItems: sidebarItems
-          }, this.props.onResetFilter9(serie_element, props.tsQuery.tsQuery.year, currentBlock))
+          }, this.props.resetEYFilter(serie_element, props.tsQuery.tsQuery.year, currentBlock))
         }
 
       } else if (props.yQuery) {
@@ -487,21 +450,16 @@ class Sidebar extends React.Component {
             })
           } else {
             categoryTitles[3] = series
-            sidebarItems[3] = {
-              isOpened: false,
-              selectedIndex: 0,
-              isCategory: false,
-              blockIndex: currentBlock,
-              visible: true,
-              headingTitle: 'Filter by'
-            }
+            sidebarItems[3].isOpened = false
+            sidebarItems[3].selectedIndex = 0
+            sidebarItems[3].visible = true
           }
           
           // update serie, [state] list, and get serie_element
           this.setState({
             categoryTitles: categoryTitles,
             sidebarItems: sidebarItems
-          }, this.props.onResetFilter10(serie, props.yQuery.yQuery.state, currentBlock))
+          }, this.props.resetSRFilter(serie, props.yQuery.yQuery.state, currentBlock))
         }
 
       } else if (props.ysQuery) {
@@ -533,14 +491,9 @@ class Sidebar extends React.Component {
             })
           } else {
             categoryTitles[4] = series_element
-            sidebarItems[4] = {
-              isOpened: false,
-              selectedIndex: 0,
-              isCategory: false,
-              blockIndex: currentBlock,
-              visible: true,
-              headingTitle: ''
-            }
+            sidebarItems[4].isOpened = false
+            sidebarItems[4].selectedIndex = 0
+            sidebarItems[4].visible = true
           }
           sidebarItems[4].headingTitle = categoryTitles[3][sidebarItems[3].selectedIndex].header
           if (props.ysQuery.ysQuery.serie_element.length === 1 && props.ysQuery.ysQuery.serie_element[0].id === 0) {
@@ -550,14 +503,15 @@ class Sidebar extends React.Component {
           this.setState({
             categoryTitles: categoryTitles,
             sidebarItems: sidebarItems
-          }, this.props.onResetFilter11(serie_element, props.ysQuery.ysQuery.state, currentBlock))
+          }, this.props.resetERFilter(serie_element, props.ysQuery.ysQuery.state, currentBlock))
         }
 
       }
     } else if (categoryTitles.length !== 0 && currentBlock !== 0) {
-      if (props.initAnalysis) {
-        if (props.initAnalysis.networkStatus === 7 && props.initAnalysis.initAnalysis) {
+      if (props.dAnalysis) {
+        if (props.dAnalysis.networkStatus === 7 && props.dAnalysis.dAnalysis) {
           
+          // Generate `Data Source` LHS
           let reports = []
           props.reports.forEach(report => {
             const obj = {}
@@ -566,46 +520,45 @@ class Sidebar extends React.Component {
             reports.push(obj)
           })
 
+          // Generate `Data Line` LHS
           const topics = []
-          props.topics[0].forEach(topic => {
+          props.dAnalysis.dAnalysis.topic.forEach(topic => {
             const obj = {}
             obj.num = topic.abb
             obj.header = topic.header
             topics.push(obj)
           })
         
+          // Generate `Farm Type` LHS
           let subjects = []
-          props.subjects.forEach(subject => {
+          props.dAnalysis.dAnalysis.subject.forEach(subject => {
             const obj = {}
             obj.num = subject.num
             obj.header = subject.header
             subjects.push(obj)
           })
 
-          let series = []
-          const serie = [props.initAnalysis.initAnalysis.serie[0].abb]
-          props.initAnalysis.initAnalysis.serie.forEach(serie => {
-            const obj = {}
-            obj.num = serie.abb
-            obj.header = serie.header
-            series.push(obj)
-          })
-
+          // Index based on Block
           const index = 7*(currentBlock-1) + 5
           
           if (categoryTitles.length<index+1) {
+
+            // LHS Generating (initailize)
             categoryTitles.push(reports)
             categoryTitles.push(topics)
             categoryTitles.push(subjects)
-            categoryTitles.push(series)
+
+            // Data Source
             sidebarItems.push({
               isOpened: false,
               selectedIndex: 0,
               isCategory: false,
               blockIndex: currentBlock,
               visible: true,
-              headingTitle: 'Data Source'
+              headingTitle: 'Data Source ' + currentBlock
             })
+
+            // Data Line
             sidebarItems.push({
               isOpened: false,
               selectedIndex: [0],
@@ -614,6 +567,8 @@ class Sidebar extends React.Component {
               visible: true,
               headingTitle: 'Data Line'
             })
+
+            // Farm Type
             sidebarItems.push({
               isOpened: false,
               selectedIndex: 0,
@@ -622,137 +577,60 @@ class Sidebar extends React.Component {
               visible: true,
               headingTitle: 'Farm Type'
             })
-            sidebarItems.push({
-              isOpened: false,
-              selectedIndex: 0,
-              isCategory: false,
-              blockIndex: currentBlock,
-              visible: true,
-              headingTitle: 'Filter1'
-            })
+
           } else {
-            categoryTitles[index] = reports
+
+            // LHS Generate (Update)
             categoryTitles[index+1] = topics
             categoryTitles[index+2] = subjects
-            categoryTitles[index+3] = series
-            sidebarItems[index] ={
-              isOpened: false,
-              selectedIndex: 0,
-              isCategory: false,
-              blockIndex: currentBlock,
-              visible: true,
-              headingTitle: 'Data Source'
+
+            for (let i=1; i<3; i++) {
+              sidebarItems[index+i].isOpened = false
+              sidebarItems[index+i].selectedIndex = 0
+              sidebarItems[index+i].visible = true
+              if (i === 1) {
+                sidebarItems[index+i].selectedIndex = [0]
+              }              
             }
-            sidebarItems[index+1] = {
-              isOpened: false,
-              selectedIndex: [0],
-              isCategory: false,
-              blockIndex: currentBlock,
-              visible: true,
-              headingTitle: 'Data Line'
-            }
-            sidebarItems[index+2] = {
-              isOpened: false,
-              selectedIndex: 0,
-              isCategory: false,
-              blockIndex: currentBlock,
-              visible: true,
-              headingTitle: 'Farm Type'
-            }
-            sidebarItems[index+3] = {
-              isOpened: false,
-              selectedIndex: 0,
-              isCategory: false,
-              blockIndex: currentBlock,
-              visible: true,
-              headingTitle: 'Filter1'
-            }
+            
           }
+
+          // If `Farm Type` list contain only one item, invisible
 
           if (subjects.length === 1){
             sidebarItems[index+2].visible = false
           }
 
+          const topic_abb = [categoryTitles[index+1][0].num]
+          const subject_num = [categoryTitles[index+2][0].num]
+
           this.setState({
             categoryTitles: categoryTitles,
             sidebarItems: sidebarItems
-          }, this.props.onSelectAnalysisFilter1(serie, currentBlock))
-
+          }, this.props.initialBlockLoadAnalysis(topic_abb, subject_num, currentBlock))
         }
-      } else if (props.yAnalysis) {
-        if (props.yAnalysis.networkStatus === 7 && props.yAnalysis.yAnalysis) {
 
-          this.props.onResetStateAnalysis(props.yAnalysis.yAnalysis.state, currentBlock)
+      } else if (props.dlfAnalysis) {
 
-        }
-      } else if (props.tAnalysis) {
-        if (props.tAnalysis.networkStatus === 7 && props.tAnalysis.tAnalysis) {
+        if (props.dlfAnalysis.networkStatus === 7 && props.dlfAnalysis.dlfAnalysis) {
 
-          this.props.onResetYearAnalysis(props.tAnalysis.tAnalysis.year, currentBlock)
-
-        }
-      } else if (props.ytDLAnalysis) {
-        if (props.ytDLAnalysis.networkStatus === 7 && props.ytDLAnalysis.ytDLAnalysis) {
-
-          let subjects = []
-          props.ytDLAnalysis.ytDLAnalysis.subject.forEach(subject => {
-            const obj = {}
-            obj.num = subject.num
-            obj.header = subject.header
-            subjects.push(obj)
-          })
-
-          const index = 7*(currentBlock-1) + 7
-
-          if (categoryTitles.length<index+1) {
-            categoryTitles.push(subjects)
-            sidebarItems.push({
-              isOpened: false,
-              selectedIndex: 0,
-              isCategory: false,
-              blockIndex: currentBlock,
-              visible: true,
-              headingTitle: 'Farm Type'
-            })
-          } else {
-            categoryTitles[index] = subjects
-            sidebarItems[index] = {
-              isOpened: false,
-              selectedIndex: 0,
-              isCategory: false,
-              blockIndex: currentBlock,
-              visible: true,
-              headingTitle: 'Farm Type'
-            }
-          }
-
-          if (subjects.length === 1){
-            sidebarItems[index].visible = false
-          }
-                      
-          
-          const subject_num = [props.ytDLAnalysis.ytDLAnalysis.subject[0].num]
-          this.setState({
-            categoryTitles: categoryTitles,
-            sidebarItems: sidebarItems
-          }, this.props.onSelectAnalysisFarm(subject_num, currentBlock))
-
-        }
-      } else if (props.ytDLFAnalysis) {
-        if (props.ytDLFAnalysis.networkStatus === 7 && props.ytDLFAnalysis.ytDLFAnalysis) {
-
+          // Generate `Filter1` LHS
           let series = []
-          props.ytDLFAnalysis.ytDLFAnalysis.serie.forEach(serie => {
+          props.dlfAnalysis.dlfAnalysis.serie.forEach(serie => {
             const obj = {}
             obj.num = serie.abb
             obj.header = serie.header
             series.push(obj)
           })
 
+          // Index based on Block
           const index = 7*(currentBlock-1) + 8
 
-          if (categoryTitles.length < index+1) {
+          if (categoryTitles.length<index+1) {
+            // LHS Generating (initailize)
             categoryTitles.push(series)
+
+            // Filter1
             sidebarItems.push({
               isOpened: false,
               selectedIndex: 0,
@@ -762,36 +640,33 @@ class Sidebar extends React.Component {
               headingTitle: 'Filter1'
             })
           } else {
+            // LHS Generate (Update)
             categoryTitles[index] = series
-            sidebarItems[index] = {
-              isOpened: false,
-              selectedIndex: 0,
-              isCategory: false,
-              blockIndex: currentBlock,
-              visible: true,
-              headingTitle: 'Filter1'
-            }
-          }                   
-          
-          const serie = [props.ytDLFAnalysis.ytDLFAnalysis.serie[0].abb]
+            sidebarItems[index].isOpened = false
+            sidebarItems[index].selectedIndex = 0
+            sidebarItems[index].visible = true
+          }
+
+          const serie = [categoryTitles[index][0].num]
+
           this.setState({
             categoryTitles: categoryTitles,
             sidebarItems: sidebarItems
-          }, this.props.onSelectAnalysisFilter1(serie, currentBlock))
-
+          }, this.props.selecteFilter1Analysis(serie, currentBlock))
         }
-      } else if (props.ytsAnalysis) {
-        // Year -> Serie
-        if (props.ytsAnalysis.networkStatus === 7 && props.ytsAnalysis.ytsAnalysis) {
+
+      } else if (props.dlfsAnalysis) {
+
+        if (props.dlfsAnalysis.networkStatus === 7 && props.dlfsAnalysis.dlfsAnalysis) {
+          
+          // Filter1/Sub LHS Generate
           let series_element = [{
             num: 0,
             header: 'All'
           }]
-          
-          // Generate `Filter By/Sub` LHS menu
           let serie_element = []
 
-          props.ytsAnalysis.ytsAnalysis.serie_element.forEach(element => {
+          props.dlfsAnalysis.dlfsAnalysis.serie_element.forEach(element => {
             const obj = {}
             obj.num = element.id
             obj.header = element.name
@@ -799,9 +674,13 @@ class Sidebar extends React.Component {
             serie_element.push(element.id)
           })
 
+          // Index based on Block
           const index = 7*(currentBlock-1) + 9
+
           if (categoryTitles.length < index+1) {
+            // LHS Generating (initailize)
             categoryTitles.push(series_element)
+
             sidebarItems.push({
               isOpened: false,
               selectedIndex: 0,
@@ -811,44 +690,46 @@ class Sidebar extends React.Component {
               headingTitle: ''
             })
           } else {
+            // LHS Generate (Update)
             categoryTitles[index] = series_element
-            sidebarItems[index] = {
-              isOpened: false,
-              selectedIndex: 0,
-              isCategory: false,
-              blockIndex: currentBlock,
-              visible: true,
-              headingTitle: ''
-            }
+            sidebarItems[index].isOpened = false
+            sidebarItems[index].selectedIndex = 0
+            sidebarItems[index].visible = true
           }
+
           sidebarItems[index].headingTitle = categoryTitles[index-1][sidebarItems[index-1].selectedIndex].header
-          if (props.ytsAnalysis.ytsAnalysis.serie_element.length === 1 && props.ytsAnalysis.ytsAnalysis.serie_element[0].id === 0) {
+
+          if (props.dlfsAnalysis.dlfsAnalysis.serie_element.length === 1 && props.dlfsAnalysis.dlfsAnalysis.serie_element[0].id === 0) {
             sidebarItems[index].visible = false
           }
-          // update serie_element, [state] list
+
           this.setState({
             categoryTitles: categoryTitles,
             sidebarItems: sidebarItems
-          }, this.props.onSelectAnalysisSubFilter1(serie_element, currentBlock))
+          }, this.props.selectSubFilter1Analysis(serie_element, currentBlock))
+
         }
 
-      } else if (props.ytseAnalysis) {
-        if (props.ytseAnalysis.networkStatus === 7 && props.ytseAnalysis.ytseAnalysis) {
-          
-          let series2 = []
-          let serie2 = [props.ytseAnalysis.ytseAnalysis.serie2[0].abb]
+      } else if (props.dlfseAnalysis) {
 
-          props.ytseAnalysis.ytseAnalysis.serie2.forEach(serie => {
+        if (props.dlfseAnalysis.networkStatus === 7 && props.dlfseAnalysis.dlfseAnalysis) {
+          // Generate `Filter2` LHS
+          let series2 = []
+          props.dlfseAnalysis.dlfseAnalysis.serie2.forEach(serie2 => {
             const obj = {}
-            obj.num = serie.abb
-            obj.header = serie.header
+            obj.num = serie2.abb
+            obj.header = serie2.header
             series2.push(obj)
           })
 
+          // Index based on Block
           const index = 7*(currentBlock-1) + 10
 
           if (categoryTitles.length<index+1) {
-            categoryTitles.push(series2)            
+            // LHS Generating (initailize)
+            categoryTitles.push(series2)
+
+            // Filter1
             sidebarItems.push({
               isOpened: false,
               selectedIndex: 0,
@@ -858,48 +739,52 @@ class Sidebar extends React.Component {
               headingTitle: 'Filter2'
             })
           } else {
-            categoryTitles[index] = series2            
-            sidebarItems[index] = {
-              isOpened: false,
-              selectedIndex: 0,
-              isCategory: false,
-              blockIndex: currentBlock,
-              visible: true,
-              headingTitle: 'Filter2'
-            }
+            // LHS Generate (Update)
+            categoryTitles[index] = series2
+            sidebarItems[index].isOpened = false
+            sidebarItems[index].selectedIndex = 0
+            sidebarItems[index].visible = true
           }
+
+          const serie2 = [categoryTitles[index][0].num]
 
           if (series2.length === 1 && serie2[0] === 'farm') {
             sidebarItems[index].visible = false
           }
+          
+
           this.setState({
             categoryTitles: categoryTitles,
             sidebarItems: sidebarItems
-          }, this.props.onSelectAnalysisFilter2(serie2, currentBlock))
+          }, this.props.selectFilter2Analysis(serie2, currentBlock))
         }
 
-      } else if (props.ytsesAnalysis) {
-        // Year -> Serie
-        if (props.ytsesAnalysis.networkStatus === 7 && props.ytsesAnalysis.ytsesAnalysis) {
+      } else if (props.dlfsesAnalysis) {
+
+        if (props.dlfsesAnalysis.networkStatus === 7 && props.dlfsesAnalysis.dlfsesAnalysis) {
+          
+          // Filter1/Sub LHS Generate
           let series2_element = [{
             num: 0,
             header: 'All'
           }]
-          
-          // Generate `Filter By/Sub` LHS menu
           let serie2_element = []
 
-          props.ytsesAnalysis.ytsesAnalysis.serie2_element.forEach(element => {
+          props.dlfsesAnalysis.dlfsesAnalysis.serie2_element.forEach(element => {
             const obj = {}
             obj.num = element.id
             obj.header = element.name
             series2_element.push(obj)
             serie2_element.push(element.id)
           })
-          
+
+          // Index based on Block
           const index = 7*(currentBlock-1) + 11
+
           if (categoryTitles.length < index+1) {
+            // LHS Generating (initailize)
             categoryTitles.push(series2_element)
+
             sidebarItems.push({
               isOpened: false,
               selectedIndex: 0,
@@ -909,25 +794,56 @@ class Sidebar extends React.Component {
               headingTitle: ''
             })
           } else {
+            // LHS Generate (Update)
             categoryTitles[index] = series2_element
-            sidebarItems[index] = {
-              isOpened: false,
-              selectedIndex: 0,
-              isCategory: false,
-              blockIndex: currentBlock,
-              visible: true,
-              headingTitle: ''
-            }
+            sidebarItems[index].isOpened = false
+            sidebarItems[index].selectedIndex = 0
+            sidebarItems[index].visible = true
           }
+
           sidebarItems[index].headingTitle = categoryTitles[index-1][sidebarItems[index-1].selectedIndex].header
-          if (props.ytsesAnalysis.ytsesAnalysis.serie2_element.length === 1 && props.ytsesAnalysis.ytsesAnalysis.serie2_element[0].id === 0) {
+
+          if (props.dlfsesAnalysis.dlfsesAnalysis.serie2_element.length === 1 && props.dlfsesAnalysis.dlfsesAnalysis.serie2_element[0].id === 0) {
             sidebarItems[index].visible = false
           }
-          // update serie_element, [state] list
+
           this.setState({
             categoryTitles: categoryTitles,
             sidebarItems: sidebarItems
-          }, this.props.onSelectAnalysisSubFilter2(serie2_element, currentBlock))
+          }, this.props.selectSubFilter2Analysis(serie2_element, currentBlock))
+
+        }
+
+      } else if (props.dlfsesetAnalysis) {
+
+        if (props.dlfsesetAnalysis.networkStatus === 7 && props.dlfsesetAnalysis.dlfsesetAnalysis) {
+
+          this.props.selectStateAnalysis(props.dlfsesetAnalysis.dlfsesetAnalysis.state)
+
+        }
+
+      } else if (props.dlfseseyAnalysis) {
+
+        if (props.dlfseseyAnalysis.networkStatus === 7 && props.dlfseseyAnalysis.dlfseseyAnalysis) {
+          
+          this.props.selectYearAnalysis(props.dlfseseyAnalysis.dlfseseyAnalysis.year)
+
+        }
+
+      } else if (props.dlfsesetyAnalysis) {
+
+        if (props.dlfsesetyAnalysis.networkStatus === 7 && props.dlfsesetyAnalysis.dlfsesetyAnalysis) {
+
+          this.props.selectYearAnalysis(props.dlfsesetyAnalysis.dlfsesetyAnalysis.year)
+
+        }
+
+      } else if (props.dlfseseytAnalysis) {
+
+        if (props.dlfseseytAnalysis.networkStatus === 7 && props.dlfseseytAnalysis.dlfseseytAnalysis) {
+          
+          this.props.selectYearAnalysis(props.dlfseseytAnalysis.dlfseseytAnalysis.state)
+
         }
 
       }
@@ -969,11 +885,11 @@ class Sidebar extends React.Component {
         sidebarItems[1].visible = true
         sidebarItems[2].visible = true
        
-        this.setState({sidebarItems}, this.props.onResetFilter(0))        
+        this.setState({sidebarItems}, this.props.resetFilterByBlockIndex(0))        
       } else {
         // Arms Data Analaysis      
         currentBlock = 1
-        this.props.onSelectAnalysis()
+        this.props.selectAnalysisCategory()
         isReports = false
       }
     } else {
@@ -1020,25 +936,10 @@ class Sidebar extends React.Component {
         
         // Arms Data Analaysis/Data Source
         const report_num = []
-        const topic_abb = []
 
         report_num.push(categoryTitles[sidebarItemIndex][sidebarItems[sidebarItemIndex].selectedIndex].num)
 
-        sidebarItems[sidebarItemIndex+1].selectedIndex=[0]
-        sidebarItems[sidebarItemIndex+1].isOpened = false
-
-        topic_abb.push(this.props.topics[sidebarItems[sidebarItemIndex].selectedIndex][0].abb)
-
-        let topics = []
-        this.props.topics[sidebarItems[sidebarItemIndex].selectedIndex].forEach(topic => {
-          const obj = {}
-          obj.num = topic.abb
-          obj.header = topic.header
-          topics.push(obj)
-        })
-        categoryTitles[sidebarItemIndex+1] = topics
-
-        this.setState({sidebarItems, categoryTitles}, this.props.onSelectDatasource(report_num, topic_abb, currentBlock))
+        this.setState({sidebarItems, categoryTitles}, this.props.selectDataSource(report_num, currentBlock))
 
       } else if ((sidebarItemIndex - 5)%7===1){
 
@@ -1057,7 +958,7 @@ class Sidebar extends React.Component {
           topic_abb.push(categoryTitles[sidebarItemIndex][sidebarItems[sidebarItemIndex].selectedIndex[i]].num)
         }        
 
-        this.setState({sidebarItems, categoryTitles}, this.props.onSleectDataLine(topic_abb, currentBlock))
+        this.setState({sidebarItems, categoryTitles}, this.props.selectDataLineAnalysis(topic_abb, currentBlock))
 
       } else if ((sidebarItemIndex - 5)%7===2){
 
@@ -1066,36 +967,48 @@ class Sidebar extends React.Component {
 
         subject_num.push(categoryTitles[sidebarItemIndex][sidebarItems[sidebarItemIndex].selectedIndex].num)
         
-        this.setState({sidebarItems, categoryTitles}, this.props.onSelectAnalysisFarm(subject_num, currentBlock))
+        this.setState({sidebarItems, categoryTitles}, this.props.selectFarmTypeAnalsysis(subject_num, currentBlock))
 
       } else if ((sidebarItemIndex - 5)%7===3){
 
         // Arms Data Analysis/Filter1
         const serie = []
         serie.push(categoryTitles[sidebarItemIndex][sidebarItems[sidebarItemIndex].selectedIndex].num)
-        this.setState({sidebarItems, categoryTitles}, this.props.onSelectAnalysisFilter1(serie, currentBlock))
+        this.setState({sidebarItems, categoryTitles}, this.props.selecteFilter1Analysis(serie, currentBlock))
 
       } else if ((sidebarItemIndex - 5)%7===4){
 
         // Arms Data Analaysis/Sub Filter1
         const serie_element = []
+        if (selectedIndex !== 0) {
+          serie_element.push(categoryTitles[sidebarItemIndex][sidebarItems[sidebarItemIndex].selectedIndex].num)
+        } else {
+          for (let i = 1; i<categoryTitles[sidebarItemIndex].length; i++) {
+            serie_element.push(categoryTitles[sidebarItemIndex][i].num)
+          }
+        }
 
-        serie_element.push(categoryTitles[sidebarItemIndex][sidebarItems[sidebarItemIndex].selectedIndex].num)
-        this.setState({sidebarItems, categoryTitles}, this.props.onSelectAnalysisSubFilter1(serie_element, currentBlock))
+        this.setState({sidebarItems, categoryTitles}, this.props.selectSubFilter1Analysis(serie_element, currentBlock))
 
       } else if ((sidebarItemIndex - 5)%7===5){
 
         // Arms Data Analysis/Filter2
         const serie2 = []
         serie2.push(categoryTitles[sidebarItemIndex][sidebarItems[sidebarItemIndex].selectedIndex].num)
-        this.setState({sidebarItems, categoryTitles}, this.props.onSelectAnalysisFilter2(serie2, currentBlock))
+        this.setState({sidebarItems, categoryTitles}, this.props.selectFilter2Analysis(serie2, currentBlock))
       } else if ((sidebarItemIndex - 5)%7===6){
 
         // Arms Data Analysis/Sub Filter2
         const serie2_element = []
+        if (selectedIndex !== 0) {
+          serie2_element.push(categoryTitles[sidebarItemIndex][sidebarItems[sidebarItemIndex].selectedIndex].num)
+        } else {
+          for (let i = 1; i<categoryTitles[sidebarItemIndex].length; i++) {
+            serie2_element.push(categoryTitles[sidebarItemIndex][i].num)
+          }
+        }
 
-        serie2_element.push(categoryTitles[sidebarItemIndex][sidebarItems[sidebarItemIndex].selectedIndex].num)
-        this.setState({sidebarItems, categoryTitles}, this.props.onSelectAnalysisSubFilter2(serie2_element, currentBlock))
+        this.setState({sidebarItems, categoryTitles}, this.props.selectSubFilter2Analysis(serie2_element, currentBlock))
 
       }      
     }
@@ -1129,14 +1042,17 @@ class Sidebar extends React.Component {
 
   addDataSource() {
     let {blockCount} = this.state
-    blockCount++
+    if (blockCount <8) {
+      blockCount++
 
-    currentBlock = blockCount
-    this.setState({blockCount}, this.props.addDataSource(currentBlock))    
+      currentBlock = blockCount
+      this.setState({blockCount}, this.props.addDataSource(currentBlock))
+    }    
   }
 
   resetFilter = ( blockIndex ) => {
-    this.props.onResetFilter(blockIndex)
+    currentBlock = blockIndex
+    this.props.resetFilterByBlockIndex(blockIndex)
     
   }
 
@@ -1159,7 +1075,8 @@ class Sidebar extends React.Component {
 }
 
   render() {  
-    const {sidebarItems, categoryTitles, blockCount} = this.state    
+    const {sidebarItems, categoryTitles} = this.state
+    let isAdd = true    
     return (
     <div className="col-lg-3 col-md-12 col-sm-12 col-xs-12">
       <div className="sidebar-container" ref={node => this.sidebarWrapper = node}>
@@ -1179,8 +1096,12 @@ class Sidebar extends React.Component {
             if ((i-5)%7===1) {
               isDataLine = true
             }
+            if ((i-4)/7>7) {
+              isAdd = false
+            }
             return (
               <SidebarItem 
+                key={i.toString()}
                 headingTitle={val.headingTitle}
                 titles={categoryTitles[i]}
                 visible={val.visible}              
@@ -1208,7 +1129,7 @@ class Sidebar extends React.Component {
         )
       }      
         {
-          !isReports && (
+          !isReports && isAdd &&(
             <div>
               <a className="pull-right reset" onClick={() => this.addDataSource()}>
                 <img src={Reset} alt="" />Add Another DataSource
@@ -1235,13 +1156,14 @@ export default compose(
   tysQuery,
   yQuery,
   ysQuery,
-  initAnalysis,
-  yAnalysis,
-  tAnalysis,
-  ytDLAnalysis,
-  ytDLFAnalysis,
-  ytsAnalysis,
-  ytseAnalysis,
-  ytsesAnalysis
+  dAnalysis,
+  dlfAnalysis,
+  dlfsAnalysis,
+  dlfseAnalysis,
+  dlfsesAnalysis,
+  dlfsesetAnalysis,
+  dlfseseyAnalysis,
+  dlfseseytAnalysis,
+  dlfsesetyAnalysis,
 )(Sidebar)
 
