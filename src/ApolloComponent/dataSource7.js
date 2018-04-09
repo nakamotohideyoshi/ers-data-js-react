@@ -56,7 +56,7 @@ export default graphql(gql`
     }    
   }
 `, {
-    skip: (ownProps) => ownProps.blockIndex !== 7,
+    skip: (ownProps) => !(ownProps.blockIndex === 7 || ownProps.isAllDataSources),
     name: 'dataSource7',
   });
 

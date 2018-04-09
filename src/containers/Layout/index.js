@@ -28,7 +28,8 @@ export default class Layout extends React.Component {
     filters: [],
     runQuery: '',
     priority: [],
-    isRemoveDataSource: false
+    isRemoveDataSource: false,
+    isAllDataSources: false,
   }
 
   componentWillMount() {
@@ -885,6 +886,7 @@ export default class Layout extends React.Component {
   onSelectYear = (index) => {
     let { yearsInfo, whichOneMultiple, priority, filters, blockIndex } = this.state
     let runQuery = ''
+    let isAllDataSources = false
     if (priority.indexOf('year') < 0) {
       priority.push('year')
     }
@@ -920,6 +922,7 @@ export default class Layout extends React.Component {
     } else {
       if (whichOneMultiple === YEAR_SELECTED) {
         runQuery = ''
+        isAllDataSources = true
       } else {
         runQuery = 'dlfseseytAnalysis'
       }
@@ -933,7 +936,8 @@ export default class Layout extends React.Component {
       priority: priority,
       yearsInfo: yearsInfo.slice(),
       selectedYears: selectedYears,
-      runQuery: runQuery
+      runQuery: runQuery,
+      isAllDataSources
     })
   }
 
@@ -941,6 +945,7 @@ export default class Layout extends React.Component {
   onSelectState = (index) => {
     let { statesInfo, whichOneMultiple, priority, filters, blockIndex } = this.state
     let runQuery = ''
+    let isAllDataSources = false
     if (priority.indexOf('state') < 0) {
       priority.push('state')
     }
@@ -978,6 +983,7 @@ export default class Layout extends React.Component {
         runQuery = 'dlfsesetyAnalysis'
       } else {
         runQuery = ''
+        isAllDataSources = true
       }
     }
 
@@ -990,7 +996,8 @@ export default class Layout extends React.Component {
       priority: priority,
       statesInfo: statesInfo.slice(),
       selectedStates: selectedStates,
-      runQuery: runQuery
+      runQuery: runQuery,
+      isAllDataSources
     })
   }
 
@@ -1141,6 +1148,7 @@ export default class Layout extends React.Component {
     const yearCount = whichOneMultiple === YEAR_SELECTED ? defaultYearCount : 1
 
     const runQuery = whichOneMultiple === YEAR_SELECTED ? '' : 'dlfseseytAnalysis'
+    const isAllDataSources = whichOneMultiple === YEAR_SELECTED ? true : false
 
     let prevYearCount = 0
 
@@ -1183,7 +1191,8 @@ export default class Layout extends React.Component {
       yearsInfo: yearsInfo,
       selectedYears: reSelectedYears,
       filters: filters,
-      runQuery: runQuery
+      runQuery: runQuery,
+      isAllDataSources
     })
   }
 
@@ -1192,6 +1201,7 @@ export default class Layout extends React.Component {
     let {filters, selectedStates, whichOneMultiple} = this.state
 
     const runQuery = whichOneMultiple === YEAR_SELECTED ? 'dlfsesetyAnalysis' : ''
+    const isAllDataSources = whichOneMultiple === YEAR_SELECTED ? false : true
 
     let prevStateCount = 0
 
@@ -1238,7 +1248,8 @@ export default class Layout extends React.Component {
       selectedStates: reSelectedStates,
       selectedStateNames: selectedStateNames,
       filters: filters,
-      runQuery: runQuery
+      runQuery: runQuery,
+      isAllDataSources
     })
   }
 
@@ -1345,7 +1356,8 @@ export default class Layout extends React.Component {
       whichOneMultiple,
       filters,
       runQuery,
-      isRemoveDataSource
+      isRemoveDataSource,
+      isAllDataSources
     } = this.state
 
     let serie = []
@@ -1532,7 +1544,8 @@ export default class Layout extends React.Component {
 
             blockIndex = {blockIndex}      
             whichOneMultiple={whichOneMultiple}
-            isRemoveDataSource={isRemoveDataSource}          
+            isRemoveDataSource={isRemoveDataSource}
+            isAllDataSources = {isAllDataSources}          
           />        
           <Footnote />
         </Col>  
