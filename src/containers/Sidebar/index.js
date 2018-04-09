@@ -46,7 +46,7 @@ class Sidebar extends React.Component {
 
   componentWillReceiveProps(props) {
     console.log('****************', props, '****************')
-    let {categoryTitles, sidebarItems, blockCount, isSubFilterBy, isArmsFilter} = this.state
+    let {categoryTitles, sidebarItems} = this.state
 
     if (categoryTitles.length === 0) {
 
@@ -1119,7 +1119,7 @@ class Sidebar extends React.Component {
 }
 
   render() {  
-    const {sidebarItems, categoryTitles, blockCount} = this.state    
+    const {sidebarItems, categoryTitles} = this.state    
     return (
     <div className="col-lg-3 col-md-12 col-sm-12 col-xs-12">
       <div className="sidebar-container" ref={node => this.sidebarWrapper = node}>
