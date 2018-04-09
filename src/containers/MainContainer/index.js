@@ -15,7 +15,7 @@ class MainContainer extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    console.log('...........', this.state)
+    // console.log('...........', this.state)
     let {surveyData} = this.state
     let showData = []
     let showList = {}
@@ -95,9 +95,9 @@ class MainContainer extends React.Component {
   }
 
   render() {
-    const { surveyData, showList, showData } = this.state
-    const { selectedYears, selectedStates, selectedStateNames, charts, whichOneMultiple, blockIndex } = this.props
-    console.log('Survey Data Result', this.props)
+    const { showList, showData } = this.state
+    const { selectedYears, selectedStateNames, whichOneMultiple, blockIndex } = this.props
+    // console.log('Survey Data Result', this.props)
     const categories = whichOneMultiple === YEAR_SELECTED ? selectedYears.sort(function(a, b){return a-b}) : selectedStateNames
 
     return (

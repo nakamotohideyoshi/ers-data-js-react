@@ -38,7 +38,10 @@ const SidebarItem = ({ headingTitle, titles, visible, selectedIndex, isOpened, i
                       {
                         (isDataLine ? selectedIndex.indexOf(index) > -1 : selectedIndex === index) && (
                           <div className="checked-option li-option"><i className="fa fa-check"></i>{titles[index].header}</div>
-                        ) || (
+                        )
+                      }
+                      {
+                        !(isDataLine ? selectedIndex.indexOf(index) > -1 : selectedIndex === index) && (
                           <div className="right-padding-option li-option">{titles[index].header}</div>
                         )
                       }

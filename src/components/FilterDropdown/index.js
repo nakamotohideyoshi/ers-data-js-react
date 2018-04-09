@@ -37,6 +37,7 @@ class FilterDropdown extends React.Component {
           <div className="top-title right-title">{ whichOneMultiple === YEAR_SELECTED ? MULTIPLE_HEADING.concat(' ' + YEARS_CAPTION) : MULTIPLE_HEADING.concat(' ' + REGIONS_CAPTION) }</div>
           <DropdownButton
             bsStyle="default"
+            id="1"
             title={ 
                 <span className='selected-list'>{
                   whichOneMultiple === YEAR_SELECTED ? 
@@ -73,6 +74,7 @@ class FilterDropdown extends React.Component {
             <div className="top-title">{ whichOneMultiple === YEAR_SELECTED ? FILTERED_HEADING.concat(' ' + REGIONS_CAPTION.slice(0, -1)) : FILTERED_HEADING.concat(' ' + YEARS_CAPTION.slice(0, -1)) }</div>
             <DropdownButton
               bsStyle="default"
+              id="2"
               title={ 
                 <span className='selected-list'> {
                     whichOneMultiple === YEAR_SELECTED ? 
