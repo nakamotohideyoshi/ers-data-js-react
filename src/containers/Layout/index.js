@@ -1347,26 +1347,26 @@ export default class Layout extends React.Component {
       runQuery,
       isRemoveDataSource
     } = this.state
+
     let serie = []
     let serie_element = []
-    if (filters[blockIndex]){
-      if (filters[blockIndex].serie_element.length > 1){
-        serie_element = [0]
-        serie = ['farm']
-      } else {
-        serie = filters[blockIndex].serie
-        serie_element = filters[blockIndex].serie_element
-      }
-    }
     let serie2 = []
     let serie2_element = []
-    if (filters[blockIndex]){
-      if (filters[blockIndex].serie2_element.length > 1){
-        serie2_element = [0]
-        serie2 = ['farm']
+
+    for (let i=0; i<9; i++) {
+      if (filters[i].serie_element.length > 1){
+        serie_element.push([0])
+        serie.push(['farm'])
       } else {
-        serie2 = filters[blockIndex].serie2
-        serie2_element = filters[blockIndex].serie2_element
+        serie.push(filters[blockIndex].serie)
+        serie_element.push(filters[blockIndex].serie_element)
+      }
+      if (filters[i].serie2_element.length > 1){
+        serie2_element.push([0])
+        serie2.push(['farm'])
+      } else {
+        serie2.push(filters[i].serie2)
+        serie2_element.push(filters[i].serie2_element)
       }
     }
 
@@ -1458,13 +1458,78 @@ export default class Layout extends React.Component {
             selectedStates = {selectedStates}
             selectedStateNames = {selectedStateNames}
             selectedYears={selectedYears}
-            report_num = {filters[blockIndex] ? filters[blockIndex].report_num : []}
-            subject_num = {filters[blockIndex] ? filters[blockIndex].subject_num : []}
-            serie = {serie}
-            serie_element = {serie_element}
-            serie2 = {serie2}
-            serie2_element = {serie2_element}
-            topic_abb = {filters[blockIndex] ? filters[blockIndex].topic_abb : []}
+            report_num_0 = {filters[0].report_num}
+            subject_num_0 = {filters[0].subject_num}
+            serie_0 = {serie[0]}
+            serie_element_0 = {serie_element[0]}
+            serie2_0 = {serie2[0]}
+            serie2_element_0 = {serie2_element[0]}
+            topic_abb_0 = {filters[blockIndex].topic_abb}
+            
+            report_num_1 = {filters[1].report_num}
+            subject_num_1 = {filters[1].subject_num}
+            serie_1 = {serie[1]}
+            serie_element_1 = {serie_element[1]}
+            serie2_1 = {serie2[1]}
+            serie2_element_1 = {serie2_element[1]}
+            topic_abb_1 = {filters[1].topic_abb}
+
+            report_num_2 = {filters[2].report_num}
+            subject_num_2 = {filters[2].subject_num}
+            serie_2 = {serie[2]}
+            serie_element_2 = {serie_element[2]}
+            serie2_2 = {serie2[2]}
+            serie2_element_2 = {serie2_element[2]}
+            topic_abb_2 = {filters[2].topic_abb}
+
+            report_num_3 = {filters[3].report_num}
+            subject_num_3 = {filters[3].subject_num}
+            serie_3 = {serie[3]}
+            serie_element_3 = {serie_element[3]}
+            serie2_3 = {serie2[3]}
+            serie2_element_3 = {serie2_element[3]}
+            topic_abb_3 = {filters[3].topic_abb}
+
+            report_num_4 = {filters[4].report_num}
+            subject_num_4 = {filters[4].subject_num}
+            serie_4 = {serie[4]}
+            serie_element_4 = {serie_element[4]}
+            serie2_4 = {serie2[4]}
+            serie2_element_4 = {serie2_element[4]}
+            topic_abb_4 = {filters[4].topic_abb}
+
+            report_num_5 = {filters[5].report_num}
+            subject_num_5 = {filters[5].subject_num}
+            serie_5 = {serie[5]}
+            serie_element_5 = {serie_element[5]}
+            serie2_5 = {serie2[5]}
+            serie2_element_5 = {serie2_element[5]}
+            topic_abb_5 = {filters[5].topic_abb}
+
+            report_num_6 = {filters[6].report_num}
+            subject_num_6 = {filters[6].subject_num}
+            serie_6 = {serie[6]}
+            serie_element_6 = {serie_element[6]}
+            serie2_6 = {serie2[6]}
+            serie2_element_6 = {serie2_element[6]}
+            topic_abb_6 = {filters[6].topic_abb}
+
+            report_num_7 = {filters[7].report_num}
+            subject_num_7 = {filters[7].subject_num}
+            serie_7 = {serie[7]}
+            serie_element_7 = {serie_element[7]}
+            serie2_7 = {serie2[7]}
+            serie2_element_7 = {serie2_element[7]}
+            topic_abb_7 = {filters[7].topic_abb}
+
+            report_num_8 = {filters[8].report_num}
+            subject_num_8 = {filters[8].subject_num}
+            serie_8 = {serie[8]}
+            serie_element_8 = {serie_element[8]}
+            serie2_8 = {serie2[8]}
+            serie2_element_8 = {serie2_element[8]}
+            topic_abb_8 = {filters[8].topic_abb}
+
             blockIndex = {blockIndex}      
             whichOneMultiple={whichOneMultiple}
             isRemoveDataSource={isRemoveDataSource}          
