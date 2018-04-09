@@ -29,7 +29,7 @@ export default class Layout extends React.Component {
     runQuery: '',
     priority: [],
     isRemoveDataSource: false,
-    selectedAllStatus: {}
+    isAllDataSources: false,
   }
 
   componentWillMount() {
@@ -117,9 +117,9 @@ export default class Layout extends React.Component {
     
   }
 
-  // static filter [report, subject] selected in `tailored report`
+  // initial LHS loading in `tailored report`
   // run query to refresh [serie, year, state]
-  onStaticSelect = (report_num, subject_num, blockIndex) => {
+  initialLoadingTailor = (report_num, subject_num, blockIndex) => {
     let {filters} = this.state
 
     const isRemoveDataSource = false
@@ -135,11 +135,11 @@ export default class Layout extends React.Component {
     })
   }
 
-  onResetFilter = (blockIndex) => {
+  resetFilterByBlockIndex = (blockIndex) => {
 
     const isRemoveDataSource = false
 
-    let {filters, selectedYears, selectedStates} = this.state
+    let {filters} = this.state
     let runQuery = ''
 
     if (blockIndex === 0) {
@@ -147,61 +147,100 @@ export default class Layout extends React.Component {
       filters[blockIndex].serie_element = []
       runQuery = 'resetQuery'
     } else {
-      filters[blockIndex].subject_num = []
       filters[blockIndex].serie = []
       filters[blockIndex].serie_element = []
       filters[blockIndex].serie2 = []
       filters[blockIndex].serie2_element = []
-      runQuery = 'ytDLAnalysis'
+      runQuery = 'dlfAnalysis'
     }
 
     this.setState({
       filters: filters,
       isRemoveDataSource,
       blockIndex: blockIndex,
-      selectedYears: blockIndex === 0 ? [] : selectedYears,
-      selectedStates: blockIndex === 0 ? [] : selectedStates,
       priority: [],
       runQuery: runQuery
     })
   }  
 
 
-  // reset step 1
+  // reset [Filter By, Year, State]
   // run query to refresh [serie_element]
-  onResetFilter1 = (serie, years, states, blockIndex) => {
-    let {filters, whichOneMultiple} = this.state
+  resetSYRFilter = (serie, years, states, blockIndex) => {
+    let {filters, selectedYears, selectedStates, whichOneMultiple} = this.state
+
     filters[blockIndex].serie = serie
-    const yearCount = whichOneMultiple === YEAR_SELECTED ? defaultYearCount : 1 
+    const yearCount = whichOneMultiple === YEAR_SELECTED ? defaultYearCount : 1
+
+    let prevYearCount = 0
+
+    years.forEach(year => {
+      if (selectedYears.indexOf(year) > -1) {
+        prevYearCount++
+      }
+    })
 
     let yearsInfo = []
-    let selectedYears = []
+    let reSelectedYears = []
+    let currentYearCount = 0
+
     years.forEach(year => {
       const infoObj = {}
       infoObj.year = year
-      if (years.indexOf(year) >= 0 && years.indexOf(year) < yearCount) {
-        infoObj.checked = true
-        selectedYears.push(year)
+      if (prevYearCount === 0) {
+        if (years.indexOf(year) >= 0 && years.indexOf(year) < yearCount) {
+          infoObj.checked = true
+          reSelectedYears.push(year)
+        } else {
+          infoObj.checked = false
+        }
       } else {
-        infoObj.checked = false
-      }          
+        if (selectedYears.indexOf(year) > -1 && currentYearCount < yearCount) {
+          infoObj.checked = true
+          reSelectedYears.push(year)
+          currentYearCount++
+        } else {
+          infoObj.checked = false
+        }
+      }        
       yearsInfo.push(infoObj)
     })
 
+
+    let prevStateCount = 0
+
+    states.forEach(stateN => {
+      if (selectedStates.indexOf(stateN.id) > -1) {
+        prevStateCount++
+      }
+    })
+
     let statesInfo = []
-    let selectedStates = []
+    let reSelectedStates = []
     let selectedStateNames = []
+    let currentStateCount = 0
     states.forEach(stateN => {
       const obj = {}
       obj.name = stateN.name
       obj.id = stateN.id
-      if (states.indexOf(stateN) >= 0 && states.indexOf(stateN) < defaultStateCount) {
-        obj.checked = true
-        selectedStates.push(stateN.id)
-        selectedStateNames.push(stateN.name)
+      if (prevStateCount === 0) {
+        if (states.indexOf(stateN) >= 0 && states.indexOf(stateN) < defaultStateCount) {
+          obj.checked = true
+          reSelectedStates.push(stateN.id)
+          selectedStateNames.push(stateN.name)
+        } else {
+          obj.checked = false 
+        }
       } else {
-        obj.checked = false 
-      }    
+        if (selectedStates.indexOf(stateN.id) > -1 && currentStateCount < defaultStateCount) {
+          obj.checked = true
+          reSelectedStates.push(stateN.id)
+          selectedStateNames.push(stateN.name)
+          currentStateCount++
+        } else {
+          obj.checked = false
+        }
+      }   
       statesInfo.push(obj)     
     })
 
@@ -209,17 +248,16 @@ export default class Layout extends React.Component {
       filters: filters,
       blockIndex: blockIndex,
       yearsInfo: yearsInfo,
-      selectedYears: selectedYears,
+      selectedYears: reSelectedYears,
       statesInfo: statesInfo,
-      selectedStates: selectedStates,
+      selectedStates: reSelectedStates,
       selectedStateNames: selectedStateNames,
       runQuery: 'tysQuery'
     })
   }
 
-  // resest filter 2
-  // set sereie_element
-  onResetFilter2 = (serie_element, blockIndex) => {
+  // resest [ Filter By/Sub ]
+  resetEFilter = (serie_element, blockIndex) => {
     let {filters} = this.state
     filters[blockIndex].serie_element = serie_element    
 
@@ -230,43 +268,81 @@ export default class Layout extends React.Component {
     })
   }
 
-  // reset filter 3
-  // set serie_element, year, state
-  onResetFilter3 = (serie_element, years, states, blockIndex) => {
-    let {filters, whichOneMultiple} = this.state
+  // reset [ Filter By/Sub, Year, Region]
+  resetEYRFilter = (serie_element, years, states, blockIndex) => {
+    let {filters, selectedYears, selectedStates, whichOneMultiple} = this.state
     filters[blockIndex].serie_element = serie_element
 
     const yearCount = whichOneMultiple === YEAR_SELECTED ? defaultYearCount : 1
 
+    let prevYearCount = 0
+
+    years.forEach(year => {
+      if (selectedYears.indexOf(year) > -1) {
+        prevYearCount++
+      }
+    })
+
     let yearsInfo = []
-    let selectedYears = []
+    let reSelectedYears = []
+    let currentYearCount = 0
+
     years.forEach(year => {
       const infoObj = {}
       infoObj.year = year
-      if (years.indexOf(year) >= 0 && years.indexOf(year) < yearCount) {
-        infoObj.checked = true
-        selectedYears.push(year)
+      if (prevYearCount === 0) {
+        if (years.indexOf(year) >= 0 && years.indexOf(year) < yearCount) {
+          infoObj.checked = true
+          reSelectedYears.push(year)
+        } else {
+          infoObj.checked = false
+        }
       } else {
-        infoObj.checked = false
-      }          
+        if (selectedYears.indexOf(year) > -1 && currentYearCount < yearCount) {
+          infoObj.checked = true
+          reSelectedYears.push(year)
+          currentYearCount++
+        } else {
+          infoObj.checked = false
+        }
+      }        
       yearsInfo.push(infoObj)
     })
 
+    let prevStateCount = 0
+
+    states.forEach(stateN => {
+      if (selectedStates.indexOf(stateN.id) > -1) {
+        prevStateCount++
+      }
+    })
+
     let statesInfo = []
-    let selectedStates = []
+    let reSelectedStates = []
     let selectedStateNames = []
-    
+    let currentStateCount = 0
     states.forEach(stateN => {
       const obj = {}
       obj.name = stateN.name
       obj.id = stateN.id
-      if (states.indexOf(stateN) >= 0 && states.indexOf(stateN) < defaultStateCount) {
-        obj.checked = true
-        selectedStates.push(stateN.id)
-        selectedStateNames.push(stateN.name)
+      if (prevStateCount === 0) {
+        if (states.indexOf(stateN) >= 0 && states.indexOf(stateN) < defaultStateCount) {
+          obj.checked = true
+          reSelectedStates.push(stateN.id)
+          selectedStateNames.push(stateN.name)
+        } else {
+          obj.checked = false 
+        }
       } else {
-        obj.checked = false 
-      }    
+        if (selectedStates.indexOf(stateN.id) > -1 && currentStateCount < defaultStateCount) {
+          obj.checked = true
+          reSelectedStates.push(stateN.id)
+          selectedStateNames.push(stateN.name)
+          currentStateCount++
+        } else {
+          obj.checked = false
+        }
+      }   
       statesInfo.push(obj)     
     })
 
@@ -274,50 +350,90 @@ export default class Layout extends React.Component {
       filters: filters,
       blockIndex,
       yearsInfo: yearsInfo,
-      selectedYears,
+      selectedYears: reSelectedYears,
       statesInfo: statesInfo,
-      selectedStates: selectedStates,
+      selectedStates: reSelectedStates,
+      selectedStateNames: selectedStateNames,
       runQuery: ''
     })
 
   }
 
-  // reset filter 4
-  // set year, state
-  onResetFilter4 = (years, states, blockIndex) => {
+  // reset [ Year, Region ]
+  resetYRFilter = (years, states, blockIndex) => {
 
-    let {whichOneMultiple} = this.state
+    let {selectedYears, selectedStates, whichOneMultiple} = this.state
     const yearCount = whichOneMultiple === YEAR_SELECTED ? defaultYearCount : 1
 
+    let prevYearCount = 0
+
+    years.forEach(year => {
+      if (selectedYears.indexOf(year) > -1) {
+        prevYearCount++
+      }
+    })
+
     let yearsInfo = []
-    let selectedYears = []
+    let reSelectedYears = []
+    let currentYearCount = 0
+
     years.forEach(year => {
       const infoObj = {}
       infoObj.year = year
-      if (years.indexOf(year) >= 0 && years.indexOf(year) < yearCount) {
-        infoObj.checked = true
-        selectedYears.push(year)
+      if (prevYearCount === 0) {
+        if (years.indexOf(year) >= 0 && years.indexOf(year) < yearCount) {
+          infoObj.checked = true
+          reSelectedYears.push(year)
+        } else {
+          infoObj.checked = false
+        }
       } else {
-        infoObj.checked = false
-      }          
+        if (selectedYears.indexOf(year) > -1 && currentYearCount < yearCount) {
+          infoObj.checked = true
+          reSelectedYears.push(year)
+          currentYearCount++
+        } else {
+          infoObj.checked = false
+        }
+      }        
       yearsInfo.push(infoObj)
     })
 
+
+    let prevStateCount = 0
+
+    states.forEach(stateN => {
+      if (selectedStates.indexOf(stateN.id) > -1) {
+        prevStateCount++
+      }
+    })
+
     let statesInfo = []
-    let selectedStates = []
+    let reSelectedStates = []
     let selectedStateNames = []
-    
+    let currentStateCount = 0
     states.forEach(stateN => {
       const obj = {}
       obj.name = stateN.name
       obj.id = stateN.id
-      if (states.indexOf(stateN) >= 0 && states.indexOf(stateN) < defaultStateCount) {
-        obj.checked = true
-        selectedStates.push(stateN.id)
-        selectedStateNames.push(stateN.name)
+      if (prevStateCount === 0) {
+        if (states.indexOf(stateN) >= 0 && states.indexOf(stateN) < defaultStateCount) {
+          obj.checked = true
+          reSelectedStates.push(stateN.id)
+          selectedStateNames.push(stateN.name)
+        } else {
+          obj.checked = false 
+        }
       } else {
-        obj.checked = false 
-      }    
+        if (selectedStates.indexOf(stateN.id) > -1 && currentStateCount < defaultStateCount) {
+          obj.checked = true
+          reSelectedStates.push(stateN.id)
+          selectedStateNames.push(stateN.name)
+          currentStateCount++
+        } else {
+          obj.checked = false
+        }
+      }   
       statesInfo.push(obj)     
     })
     
@@ -325,8 +441,8 @@ export default class Layout extends React.Component {
     this.setState({
       blockIndex,
       yearsInfo: yearsInfo,
-      selectedYears: selectedYears,
-      selectedStates: selectedStates,
+      selectedYears: reSelectedYears,
+      selectedStates: reSelectedStates,
       statesInfo: statesInfo,
       selectedStateNames: selectedStateNames,
       runQuery: ''
@@ -334,62 +450,101 @@ export default class Layout extends React.Component {
 
   }
 
-  // reset filter 5
-  // set year
-  onResetFilter5 = (years, blockIndex) => {
+  // reset [ Year ]
+  resetYFilter = (years, blockIndex) => {
 
-    let {whichOneMultiple} = this.state
+    let {selectedYears, whichOneMultiple} = this.state
     const yearCount = whichOneMultiple === YEAR_SELECTED ? defaultYearCount : 1
 
+    let prevYearCount = 0
+
+    years.forEach(year => {
+      if (selectedYears.indexOf(year) > -1) {
+        prevYearCount++
+      }
+    })
+
     let yearsInfo = []
-    let selectedYears = []
+    let reSelectedYears = []
+    let currentYearCount = 0
+
     years.forEach(year => {
       const infoObj = {}
       infoObj.year = year
-      if (years.indexOf(year) >= 0 && years.indexOf(year) < yearCount) {
-        infoObj.checked = true
-        selectedYears.push(year)
+      if (prevYearCount === 0) {
+        if (years.indexOf(year) >= 0 && years.indexOf(year) < yearCount) {
+          infoObj.checked = true
+          reSelectedYears.push(year)
+        } else {
+          infoObj.checked = false
+        }
       } else {
-        infoObj.checked = false
-      }          
+        if (selectedYears.indexOf(year) > -1 && currentYearCount < yearCount) {
+          infoObj.checked = true
+          reSelectedYears.push(year)
+          currentYearCount++
+        } else {
+          infoObj.checked = false
+        }
+      }        
       yearsInfo.push(infoObj)
     })
 
     this.setState({
       blockIndex,
       yearsInfo: yearsInfo,
-      selectedYears: selectedYears,
+      selectedYears: reSelectedYears,
       runQuery: ''
     })
 
   }
 
-  // reset filter 6
+  // reset [ Region ]
   // set state
-  onResetFilter6 = (states, blockIndex) => {
+  resetRFilter = (states, blockIndex) => {
+
+    let {selectedStates} = this.state
+    let prevStateCount = 0
+
+    states.forEach(stateN => {
+      if (selectedStates.indexOf(stateN.id) > -1) {
+        prevStateCount++
+      }
+    })
 
     let statesInfo = []
-    let selectedStates = []
+    let reSelectedStates = []
     let selectedStateNames = []
-
+    let currentStateCount = 0
     states.forEach(stateN => {
       const obj = {}
       obj.name = stateN.name
       obj.id = stateN.id
-      if (states.indexOf(stateN) >= 0 && states.indexOf(stateN) < defaultStateCount) {
-        obj.checked = true
-        selectedStates.push(stateN.id)
-        selectedStateNames.push(stateN.name)
+      if (prevStateCount === 0) {
+        if (states.indexOf(stateN) >= 0 && states.indexOf(stateN) < defaultStateCount) {
+          obj.checked = true
+          reSelectedStates.push(stateN.id)
+          selectedStateNames.push(stateN.name)
+        } else {
+          obj.checked = false 
+        }
       } else {
-        obj.checked = false 
-      }    
+        if (selectedStates.indexOf(stateN.id) > -1 && currentStateCount < defaultStateCount) {
+          obj.checked = true
+          reSelectedStates.push(stateN.id)
+          selectedStateNames.push(stateN.name)
+          currentStateCount++
+        } else {
+          obj.checked = false
+        }
+      }   
       statesInfo.push(obj)     
     })
     
 
     this.setState({
       blockIndex,
-      selectedStates: selectedStates,
+      selectedStates: reSelectedStates,
       statesInfo: statesInfo,
       selectedStateNames: selectedStateNames,
       runQuery: ''
@@ -397,25 +552,45 @@ export default class Layout extends React.Component {
 
   }
 
-  // reset filter 7 
-  // run query to refresh [serie_element]
-  onResetFilter7 = (serie, years, blockIndex) => {
-    let {filters, whichOneMultiple} = this.state
+  // reset [ Filter By, Year ]
+  // run query to refresh [ Filter By/Sub ]
+  resetSYFilter = (serie, years, blockIndex) => {
+    let {filters, selectedYears, whichOneMultiple} = this.state
     filters[blockIndex].serie = [serie]
 
     const yearCount = whichOneMultiple === YEAR_SELECTED ? defaultYearCount : 1
 
+    let prevYearCount = 0
+
+    years.forEach(year => {
+      if (selectedYears.indexOf(year) > -1) {
+        prevYearCount++
+      }
+    })
+
     let yearsInfo = []
-    let selectedYears = []
+    let reSelectedYears = []
+    let currentYearCount = 0
+
     years.forEach(year => {
       const infoObj = {}
       infoObj.year = year
-      if (years.indexOf(year) >= 0 && years.indexOf(year) < yearCount) {
-        infoObj.checked = true
-        selectedYears.push(year)
+      if (prevYearCount === 0) {
+        if (years.indexOf(year) >= 0 && years.indexOf(year) < yearCount) {
+          infoObj.checked = true
+          reSelectedYears.push(year)
+        } else {
+          infoObj.checked = false
+        }
       } else {
-        infoObj.checked = false
-      }          
+        if (selectedYears.indexOf(year) > -1 && currentYearCount < yearCount) {
+          infoObj.checked = true
+          reSelectedYears.push(year)
+          currentYearCount++
+        } else {
+          infoObj.checked = false
+        }
+      }        
       yearsInfo.push(infoObj)
     })
 
@@ -423,14 +598,14 @@ export default class Layout extends React.Component {
       filters: filters,
       blockIndex,
       yearsInfo: yearsInfo,
-      selectedYears: selectedYears,
+      selectedYears: reSelectedYears,
       runQuery: 'tysQuery'
     })
   }
 
-  // reset filter 8
-  // set serie
-  onResetFilter8 = (serie, blockIndex) => {
+  // reset [ Filter By ]
+  // run query to refresh [ Filter By/Sub ]
+  resetSFilter = (serie, blockIndex) => {
     let {filters} = this.state
     filters[blockIndex].serie = [serie]
 
@@ -441,25 +616,44 @@ export default class Layout extends React.Component {
     })
   }
 
-  // reset filter 9
-  // set serie_element, year
-  onResetFilter9 = (serie_element, years, blockIndex) => {
-    let {filters, whichOneMultiple} = this.state
+  // reset [ Filter By/Sub, Year ]
+  resetEYFilter = (serie_element, years, blockIndex) => {
+    let {filters, selectedYears, whichOneMultiple} = this.state
     filters[blockIndex].serie_element = serie_element
 
     const yearCount = whichOneMultiple === YEAR_SELECTED ? defaultYearCount : 1
 
+    let prevYearCount = 0
+
+    years.forEach(year => {
+      if (selectedYears.indexOf(year) > -1) {
+        prevYearCount++
+      }
+    })
+
     let yearsInfo = []
-    let selectedYears = []
+    let reSelectedYears = []
+    let currentYearCount = 0
+
     years.forEach(year => {
       const infoObj = {}
       infoObj.year = year
-      if (years.indexOf(year) >= 0 && years.indexOf(year) < yearCount) {
-        infoObj.checked = true
-        selectedYears.push(year)
+      if (prevYearCount === 0) {
+        if (years.indexOf(year) >= 0 && years.indexOf(year) < yearCount) {
+          infoObj.checked = true
+          reSelectedYears.push(year)
+        } else {
+          infoObj.checked = false
+        }
       } else {
-        infoObj.checked = false
-      }          
+        if (selectedYears.indexOf(year) > -1 && currentYearCount < yearCount) {
+          infoObj.checked = true
+          reSelectedYears.push(year)
+          currentYearCount++
+        } else {
+          infoObj.checked = false
+        }
+      }        
       yearsInfo.push(infoObj)
     })
 
@@ -467,32 +661,51 @@ export default class Layout extends React.Component {
       filters: filters,
       blockIndex,
       yearsInfo: yearsInfo,
-      selectedYears: selectedYears,
+      selectedYears: reSelectedYears,
       runQuery: ''
     })
   }
 
-  // reset filter 10
-  // set serie, state
-  onResetFilter10 = (serie, states, blockIndex) => {
-    let {filters} = this.state
+  // reset[ Filter, Region ]
+  // run query to reset [ Filter By/Sub ]
+  resetSRFilter = (serie, states, blockIndex) => {
+    let {filters, selectedStates} = this.state
     filters[blockIndex].serie = [serie]
 
+    let prevStateCount = 0
+
+    states.forEach(stateN => {
+      if (selectedStates.indexOf(stateN.id) > -1) {
+        prevStateCount++
+      }
+    })
+
     let statesInfo = []
-    let selectedStates = []
+    let reSelectedStates = []
     let selectedStateNames = []
-    
+    let currentStateCount = 0
     states.forEach(stateN => {
       const obj = {}
       obj.name = stateN.name
       obj.id = stateN.id
-      if (states.indexOf(stateN) >= 0 && states.indexOf(stateN) < defaultStateCount) {
-        obj.checked = true
-        selectedStates.push(stateN.id)
-        selectedStateNames.push(stateN.name)
+      if (prevStateCount === 0) {
+        if (states.indexOf(stateN) >= 0 && states.indexOf(stateN) < defaultStateCount) {
+          obj.checked = true
+          reSelectedStates.push(stateN.id)
+          selectedStateNames.push(stateN.name)
+        } else {
+          obj.checked = false 
+        }
       } else {
-        obj.checked = false 
-      }    
+        if (selectedStates.indexOf(stateN.id) > -1 && currentStateCount < defaultStateCount) {
+          obj.checked = true
+          reSelectedStates.push(stateN.id)
+          selectedStateNames.push(stateN.name)
+          currentStateCount++
+        } else {
+          obj.checked = false
+        }
+      }   
       statesInfo.push(obj)     
     })
     
@@ -501,34 +714,52 @@ export default class Layout extends React.Component {
       filters: filters,
       blockIndex,
       statesInfo: statesInfo,
-      selectedStates: selectedStates,
+      selectedStates: reSelectedStates,
       selectedStateNames: selectedStateNames,
       runQuery: 'tysQuery'
     })
   }
 
 
-  // reset filter 11
-  // set serie_element, state
-  onResetFilter11 = (serie_element, states, blockIndex) => {
-    let {filters} = this.state
+  // reset [ Filter By/Sub, Region ]
+  resetERFilter = (serie_element, states, blockIndex) => {
+    let {filters, selectedStates} = this.state
     filters[blockIndex].serie_element = serie_element
 
+    let prevStateCount = 0
+
+    states.forEach(stateN => {
+      if (selectedStates.indexOf(stateN.id) > -1) {
+        prevStateCount++
+      }
+    })
+
     let statesInfo = []
-    let selectedStates = []
+    let reSelectedStates = []
     let selectedStateNames = []
-    
+    let currentStateCount = 0
     states.forEach(stateN => {
       const obj = {}
       obj.name = stateN.name
       obj.id = stateN.id
-      if (states.indexOf(stateN) >= 0 && states.indexOf(stateN) < defaultStateCount) {
-        obj.checked = true
-        selectedStates.push(stateN.id)
-        selectedStateNames.push(stateN.name)
+      if (prevStateCount === 0) {
+        if (states.indexOf(stateN) >= 0 && states.indexOf(stateN) < defaultStateCount) {
+          obj.checked = true
+          reSelectedStates.push(stateN.id)
+          selectedStateNames.push(stateN.name)
+        } else {
+          obj.checked = false 
+        }
       } else {
-        obj.checked = false 
-      }    
+        if (selectedStates.indexOf(stateN.id) > -1 && currentStateCount < defaultStateCount) {
+          obj.checked = true
+          reSelectedStates.push(stateN.id)
+          selectedStateNames.push(stateN.name)
+          currentStateCount++
+        } else {
+          obj.checked = false
+        }
+      }   
       statesInfo.push(obj)     
     })
     
@@ -537,7 +768,7 @@ export default class Layout extends React.Component {
       filters: filters,
       blockIndex,
       statesInfo: statesInfo,
-      selectedStates: selectedStates,
+      selectedStates: reSelectedStates,
       selectedStateNames: selectedStateNames,
       runQuery: ''
     })
@@ -655,6 +886,7 @@ export default class Layout extends React.Component {
   onSelectYear = (index) => {
     let { yearsInfo, whichOneMultiple, priority, filters, blockIndex } = this.state
     let runQuery = ''
+    let isAllDataSources = false
     if (priority.indexOf('year') < 0) {
       priority.push('year')
     }
@@ -689,9 +921,10 @@ export default class Layout extends React.Component {
       }
     } else {
       if (whichOneMultiple === YEAR_SELECTED) {
-        runQuery = 'ytDLAnalysis'
+        runQuery = ''
+        isAllDataSources = true
       } else {
-        runQuery = 'yAnalysis'
+        runQuery = 'dlfseseytAnalysis'
       }
     }
 
@@ -703,7 +936,8 @@ export default class Layout extends React.Component {
       priority: priority,
       yearsInfo: yearsInfo.slice(),
       selectedYears: selectedYears,
-      runQuery: runQuery
+      runQuery: runQuery,
+      isAllDataSources
     })
   }
 
@@ -711,6 +945,7 @@ export default class Layout extends React.Component {
   onSelectState = (index) => {
     let { statesInfo, whichOneMultiple, priority, filters, blockIndex } = this.state
     let runQuery = ''
+    let isAllDataSources = false
     if (priority.indexOf('state') < 0) {
       priority.push('state')
     }
@@ -745,9 +980,10 @@ export default class Layout extends React.Component {
       }
     } else {
       if (whichOneMultiple === YEAR_SELECTED) {
-        runQuery = 'tAnalysis'
+        runQuery = 'dlfsesetyAnalysis'
       } else {
-        runQuery = 'ytDLAnalysis'
+        runQuery = ''
+        isAllDataSources = true
       }
     }
 
@@ -760,117 +996,247 @@ export default class Layout extends React.Component {
       priority: priority,
       statesInfo: statesInfo.slice(),
       selectedStates: selectedStates,
-      runQuery: runQuery
+      runQuery: runQuery,
+      isAllDataSources
     })
   }
-  
-  onSelectAnalysis = () => {
-    let {filters, whichOneMultiple} = this.state
+
+  // Arms Data Analysis Category selected firstly
+  selectAnalysisCategory = () => {
+    let {filters} = this.state
     const blockIndex = 1
     filters[blockIndex].report_num = [1]
-    filters[blockIndex].subject_num = [1]
-
-    const yearCount = whichOneMultiple === YEAR_SELECTED ? defaultYearCount : 1
-    
-    let yearsInfo = []
-    let selectedYears = []
-
-    this.props.years.forEach(year => {
-      const infoObj = {}
-      infoObj.year = year
-      if (this.props.years.indexOf(year) >= 0 && this.props.years.indexOf(year) < yearCount) {
-        infoObj.checked = true
-        selectedYears.push(year)
-      } else {
-        infoObj.checked = false
-      }          
-      yearsInfo.push(infoObj)
-    })
-    
-    let statesInfo = []
-    let selectedStates = []
-    let selectedStateNames = []
-    
-    this.props.states.forEach(stateN => {
-      const obj = {}
-      obj.name = stateN.name
-      obj.id = stateN.id
-      if (this.props.states.indexOf(stateN) >= 0 && this.props.states.indexOf(stateN) < defaultStateCount) {
-        obj.checked = true
-        selectedStates.push(stateN.id)
-        selectedStateNames.push(stateN.name)
-      } else {
-        obj.checked = false 
-      }    
-      statesInfo.push(obj)     
-    })
-    
-
-    const topic_abb = []
-    if (this.props.topics) {
-      topic_abb.push(this.props.topics[0][0].abb)
-    }
-    filters[blockIndex].topic_abb = topic_abb
-
     const isRemoveDataSource = false
 
     this.setState({
       isRemoveDataSource,
-      yearsInfo: yearsInfo,
-      selectedYears: selectedYears,
-      statesInfo: statesInfo,
-      selectedStates: selectedStates,
-      selectedStateNames: selectedStateNames,
       filters: filters,
-      runQuery: 'initAnalysis',
+      runQuery: 'dAnalysis',
       blockIndex
     })
   }
 
-  onResetYearAnalysis = (years, blockIndex) => {
+  // Datasource block inital loading
+  initialBlockLoadAnalysis = (topic_abb, subject_num, blockIndex) => {
+    let {filters} = this.state
 
-    let {whichOneMultiple} = this.state
-    const yearCount = whichOneMultiple === YEAR_SELECTED ? defaultYearCount : 1
-    
-    let yearsInfo = []
-    let selectedYears = []
-    years.forEach(year => {
-      const infoObj = {}
-      infoObj.year = year
-      if (years.indexOf(year) >= 0 && years.indexOf(year) < yearCount) {
-        infoObj.checked = true
-        selectedYears.push(year)
-      } else {
-        infoObj.checked = false
-      }          
-      yearsInfo.push(infoObj)
-    })
+    filters[blockIndex].topic_abb = topic_abb
+    filters[blockIndex].subject_num = subject_num
     const isRemoveDataSource = false
 
     this.setState({
       isRemoveDataSource,
-      blockIndex,
-      yearsInfo: yearsInfo,
-      selectedYears: selectedYears,
-      runQuery: 'ytDLAnalysis'
+      filters: filters,
+      runQuery: 'dlfAnalysis',
+      blockIndex
     })
   }
 
-  onResetStateAnalysis = (states, blockIndex) => {
+  // selected DataSource `Arms Data Analysis`
+  selectDataSource = (report_num, blockIndex) => {
+    let {filters} = this.state
+
+    filters[blockIndex].report_num = report_num
+
+    const isRemoveDataSource = false
+
+    this.setState({
+      isRemoveDataSource,
+      filters: filters,
+      runQuery: 'dAnalysis',
+      blockIndex
+    })
+  }
+
+  // selected DataLine in `Arms Data Analysis`
+  selectDataLineAnalysis = (topic_abb, blockIndex) => {
+    let {filters} = this.state
+
+    filters[blockIndex].topic_abb = topic_abb
+    const isRemoveDataSource = false
+
+    this.setState({
+      isRemoveDataSource,
+      filters: filters,
+      runQuery: '',
+      blockIndex
+    })
+  }
+
+  // selected Farm Type in `Arms Data Analysis`
+  selectFarmTypeAnalsysis = (subject_num, blockIndex) => {
+    let {filters} = this.state
+
+    filters[blockIndex].subject_num = subject_num
+    const isRemoveDataSource = false
+
+    this.setState({
+      isRemoveDataSource,
+      filters: filters,
+      runQuery: 'dlfAnalysis',
+      blockIndex
+    })
+  }
+
+  // selected Filter1 in `Arms Data Analysis`
+  selecteFilter1Analysis = (serie, blockIndex) => {
+    let {filters} = this.state
+
+    filters[blockIndex].serie = serie
+    const isRemoveDataSource = false
+
+    this.setState({
+      isRemoveDataSource,
+      filters: filters,
+      runQuery: 'dlfsAnalysis',
+      blockIndex
+    })
+  }
+
+  // selected Filter1/Sub in `Arms Data Analysis`
+  selectSubFilter1Analysis = (serie_element, blockIndex) => {
+    let {filters} = this.state
+
+    filters[blockIndex].serie_element = serie_element
+    const isRemoveDataSource = false
+
+    this.setState({
+      isRemoveDataSource,
+      filters: filters,
+      runQuery: 'dlfseAnalysis',
+      blockIndex
+    })
+  }
+
+  // selected Filter2 in `Arms Data Analysis`
+  selectFilter2Analysis = (serie2, blockIndex) => {
+    let {filters} = this.state
+
+    filters[blockIndex].serie2 = serie2
+    const isRemoveDataSource = false
+
+    this.setState({
+      isRemoveDataSource,
+      filters: filters,
+      runQuery: 'dlfsesAnalysis',
+      blockIndex
+    })
+  }
+
+  // selected Filterw2/Sub in `Arms Data Analysis`
+  selectSubFilter2Analysis = (serie2_element, blockIndex) => {
+    let {filters, whichOneMultiple} = this.state
+
+    filters[blockIndex].serie2_element = serie2_element
+    const isRemoveDataSource = false
+
+    const runQuery = whichOneMultiple === YEAR_SELECTED ? 'dlfsesetAnalysis' : 'dlfseseyAnalysis'
+
+
+    this.setState({
+      isRemoveDataSource,
+      filters: filters,
+      runQuery: runQuery,
+      blockIndex
+    })
+  }
+
+  // reset year in `Arms Data Analysis`
+  selectYearAnalysis = (years) => {
+    let {filters, selectedYears, whichOneMultiple} = this.state
+
+    const yearCount = whichOneMultiple === YEAR_SELECTED ? defaultYearCount : 1
+
+    const runQuery = whichOneMultiple === YEAR_SELECTED ? '' : 'dlfseseytAnalysis'
+    const isAllDataSources = whichOneMultiple === YEAR_SELECTED ? true : false
+
+    let prevYearCount = 0
+
+    years.forEach(year => {
+      if (selectedYears.indexOf(year) > -1) {
+        prevYearCount++
+      }
+    })
+
+    let yearsInfo = []
+    let reSelectedYears = []
+    let currentYearCount = 0
+
+    years.forEach(year => {
+      const infoObj = {}
+      infoObj.year = year
+      if (prevYearCount === 0) {
+        if (years.indexOf(year) >= 0 && years.indexOf(year) < yearCount) {
+          infoObj.checked = true
+          reSelectedYears.push(year)
+        } else {
+          infoObj.checked = false
+        }
+      } else {
+        if (selectedYears.indexOf(year) > -1 && currentYearCount < yearCount) {
+          infoObj.checked = true
+          reSelectedYears.push(year)
+          currentYearCount++
+        } else {
+          infoObj.checked = false
+        }
+      }        
+      yearsInfo.push(infoObj)
+    })
+
+    const isRemoveDataSource = false
+
+    this.setState({
+      isRemoveDataSource,
+      yearsInfo: yearsInfo,
+      selectedYears: reSelectedYears,
+      filters: filters,
+      runQuery: runQuery,
+      isAllDataSources
+    })
+  }
+
+  // reset Region in `Arms Data Analysis`
+  selectStateAnalysis = (states) => {
+    let {filters, selectedStates, whichOneMultiple} = this.state
+
+    const runQuery = whichOneMultiple === YEAR_SELECTED ? 'dlfsesetyAnalysis' : ''
+    const isAllDataSources = whichOneMultiple === YEAR_SELECTED ? false : true
+
+    let prevStateCount = 0
+
+    states.forEach(stateN => {
+      if (selectedStates.indexOf(stateN.id) > -1) {
+        prevStateCount++
+      }
+    })
+
     let statesInfo = []
-    let selectedStates = []
+    let reSelectedStates = []
     let selectedStateNames = []
+    let currentStateCount = 0
     states.forEach(stateN => {
       const obj = {}
       obj.name = stateN.name
       obj.id = stateN.id
-      if (states.indexOf(stateN) >= 0 && states.indexOf(stateN) < defaultStateCount) {
-        obj.checked = true
-        selectedStates.push(stateN.id)
-        selectedStateNames.push(stateN.name)
+      if (prevStateCount === 0) {
+        if (states.indexOf(stateN) >= 0 && states.indexOf(stateN) < defaultStateCount) {
+          obj.checked = true
+          reSelectedStates.push(stateN.id)
+          selectedStateNames.push(stateN.name)
+        } else {
+          obj.checked = false 
+        }
       } else {
-        obj.checked = false 
-      }    
+        if (selectedStates.indexOf(stateN.id) > -1 && currentStateCount < defaultStateCount) {
+          obj.checked = true
+          reSelectedStates.push(stateN.id)
+          selectedStateNames.push(stateN.name)
+          currentStateCount++
+        } else {
+          obj.checked = false
+        }
+      }   
       statesInfo.push(obj)     
     })
 
@@ -878,124 +1244,12 @@ export default class Layout extends React.Component {
 
     this.setState({
       isRemoveDataSource,
-      blockIndex,
       statesInfo: statesInfo,
-      selectedStates: selectedStates,
+      selectedStates: reSelectedStates,
       selectedStateNames: selectedStateNames,
-      runQuery: 'ytDLAnalysis'
-    })
-  }
-
-  onSelectDatasource = (report_num, topic_abb, blockIndex) => {
-    let {filters} = this.state
-    filters[blockIndex].report_num = report_num
-    filters[blockIndex].topic_abb = topic_abb
-
-    const isRemoveDataSource = false
-    
-    this.setState({
       filters: filters,
-      isRemoveDataSource,
-      blockIndex: blockIndex,
-      runQuery: 'ytDLAnalysis'
-    })
-  }
-
-  onSleectDataLine = (topic_abb, blockIndex) => {
-    let {filters} = this.state
-
-    filters[blockIndex].topic_abb = topic_abb
-
-    const isRemoveDataSource = false
-
-    this.setState({
-      filters: filters,
-      isRemoveDataSource,
-      blockIndex: blockIndex,
-      runQuery: ''
-    })
-  }
-
-
-  onSelectAnalysisFarm = (subject_num, blockIndex) => {
-    let {filters} = this.state
-
-    filters[blockIndex].subject_num = subject_num
-    filters[blockIndex].serie = []
-    filters[blockIndex].serie_element = []
-    filters[blockIndex].serie2 = []
-    filters[blockIndex].serie2_element = []
-
-    const isRemoveDataSource = false
-
-    this.setState({
-      filters: filters,
-      isRemoveDataSource,
-      blockIndex: blockIndex,
-      runQuery: 'ytDLFAnalysis'
-    })
-  }
-
-
-  onSelectAnalysisFilter1 = (serie, blockIndex) => {
-    let {filters} = this.state
-    filters[blockIndex].serie = serie
-    filters[blockIndex].serie_element = []
-    filters[blockIndex].serie2 = []
-    filters[blockIndex].serie2_element = []
-
-    const isRemoveDataSource = false
-
-    this.setState({
-      filters: filters,
-      isRemoveDataSource,
-      blockIndex: blockIndex,
-      runQuery: 'ytsAnalysis'
-    })
-  }
-
-  onSelectAnalysisSubFilter1 = (serie_element, blockIndex) => {
-    let {filters} = this.state
-    filters[blockIndex].serie_element = serie_element
-    filters[blockIndex].serie2 = []
-    filters[blockIndex].serie2_element = []
-
-    const isRemoveDataSource = false
-
-    this.setState({
-      filters: filters,
-      isRemoveDataSource,
-      blockIndex: blockIndex,
-      runQuery: 'ytseAnalysis'
-    })
-  }
-
-  onSelectAnalysisFilter2 = (serie2, blockIndex) => {
-    let {filters} = this.state
-    filters[blockIndex].serie2 = serie2
-    filters[blockIndex].serie2_element = []
-
-    const isRemoveDataSource = false
-
-    this.setState({
-      filters: filters,
-      isRemoveDataSource,
-      blockIndex: blockIndex,
-      runQuery: 'ytsesAnalysis'
-    })
-  }
-
-  onSelectAnalysisSubFilter2 = (serie2_element, blockIndex) => {
-    let {filters} = this.state
-    filters[blockIndex].serie2_element = serie2_element
-
-    const isRemoveDataSource = false
-
-    this.setState({
-      filters: filters,
-      isRemoveDataSource,
-      blockIndex: blockIndex,
-      runQuery: ''
+      runQuery: runQuery,
+      isAllDataSources
     })
   }
 
@@ -1004,15 +1258,8 @@ export default class Layout extends React.Component {
     let {filters} = this.state
 
     filters[blockIndex].report_num = [1]
-    filters[blockIndex].subject_num = [1]
 
-    const topic_abb = []
-    if (this.props.topics) {
-      topic_abb.push(this.props.topics[0][0].abb)
-    }
-    filters[blockIndex].topic_abb = topic_abb
-
-    const runQuery = 'initAnalysis'
+    const runQuery = 'dAnalysis'
 
     const isRemoveDataSource = false
 
@@ -1152,34 +1399,60 @@ export default class Layout extends React.Component {
       isSelectedAll,
       filters,
       runQuery,
-      isRemoveDataSource
+      isRemoveDataSource,
+      isAllDataSources
     } = this.state
+
     let serie = []
     let serie_element = []
-    if (filters[blockIndex]){
-      if (filters[blockIndex].serie_element.length > 1){
-        serie_element = [0]
-        serie = ['farm']
-      } else {
-        serie = filters[blockIndex].serie
-        serie_element = filters[blockIndex].serie_element
-      }
-    }
     let serie2 = []
     let serie2_element = []
-    if (filters[blockIndex]){
-      if (filters[blockIndex].serie2_element.length > 1){
-        serie2_element = [0]
-        serie2 = ['farm']
+
+    for (let i=0; i<9; i++) {
+      if (filters[i].serie_element.length > 1){
+        serie_element.push([0])
+        serie.push(['farm'])
       } else {
-        serie2 = filters[blockIndex].serie2
-        serie2_element = filters[blockIndex].serie2_element
+        serie.push(filters[blockIndex].serie)
+        serie_element.push(filters[blockIndex].serie_element)
       }
+      if (filters[i].serie2_element.length > 1){
+        serie2_element.push([0])
+        serie2.push(['farm'])
+      } else {
+        serie2.push(filters[i].serie2)
+        serie2_element.push(filters[i].serie2_element)
+      }
+    }
+
+    let arms_report_num = []
+    let arms_subject_num = []
+    let arms_serie = []
+    let arms_serie_element = []
+    let arms_serie2 = []
+    let arms_serie2_element = []
+    let arms_topic_abb = []
+
+    for (let i=1; i<dataSourceCounts+1; i++) {
+      arms_report_num = arms_report_num.concat(filters[i].report_num)
+      arms_subject_num = arms_subject_num.concat(filters[i].subject_num)
+      arms_serie = arms_serie.concat(filters[i].serie)
+      arms_serie_element = arms_serie_element.concat(filters[i].serie_element)
+      arms_serie2 = arms_serie2.concat(filters[i].serie2)
+      arms_serie2_element = arms_serie2_element.concat(filters[i].serie2_element)
+      arms_topic_abb = arms_topic_abb.concat(filters[i].topic_abb)
     }
     let sortedYears = yearsInfo.sort(function(a, b){return parseInt(b.year, 10) - parseInt(a.year, 10)})
     return (
       <Grid>
         <Sidebar
+          arms_report_num = {arms_report_num}
+          arms_subject_num = {arms_subject_num}
+          arms_topic_abb = {arms_topic_abb}
+          arms_serie = {arms_serie}
+          arms_serie_element = {arms_serie_element}
+          arms_serie2 = {arms_serie2}
+          arms_serie2_element = {arms_serie2_element}
           topics = {this.props.topics}
           reports = {this.props.reports}
           subjects = {this.props.subjects}
@@ -1193,33 +1466,34 @@ export default class Layout extends React.Component {
           selectedStates = {selectedStates}
           selectedYears={selectedYears}
           runQuery={runQuery}
-          onResetFilter = {this.onResetFilter}
-          onStaticSelect = {this.onStaticSelect}
-          onResetFilter1 = {this.onResetFilter1}
-          onResetFilter2 = {this.onResetFilter2}
-          onResetFilter3 = {this.onResetFilter3}
-          onResetFilter4 = {this.onResetFilter4}
-          onResetFilter5 = {this.onResetFilter5}
-          onResetFilter6 = {this.onResetFilter6}
-          onResetFilter7 = {this.onResetFilter7}
-          onResetFilter8 = {this.onResetFilter8}
-          onResetFilter9 = {this.onResetFilter9}
-          onResetFilter10 = {this.onResetFilter10}
-          onResetFilter11 = {this.onResetFilter11}
+          resetFilterByBlockIndex = {this.resetFilterByBlockIndex}
+          initialLoadingTailor  = {this.initialLoadingTailor }
+          resetSYRFilter = {this.resetSYRFilter}
+          resetEFilter = {this.resetEFilter}
+          resetEYRFilter = {this.resetEYRFilter}
+          resetYRFilter = {this.resetYRFilter}
+          resetYFilter = {this.resetYFilter}
+          resetRFilter = {this.resetRFilter}
+          resetSYFilter = {this.resetSYFilter}
+          resetSFilter = {this.resetSFilter}
+          resetEYFilter = {this.resetEYFilter}
+          resetSRFilter = {this.resetSRFilter}
+          resetERFilter = {this.resetERFilter}
           onSelectReportFilter = {this.onSelectReportFilter}
           onSelectSubjectFilter = {this.onSelectSubjectFilter}
           onSelectFilterByFilter = {this.onSelectFilterByFilter}
-          onSelectSubFilterByFilter = {this.onSelectSubFilterByFilter}
-          onSelectAnalysis = {this.onSelectAnalysis}
-          onResetYearAnalysis = {this.onResetYearAnalysis}
-          onResetStateAnalysis = {this.onResetStateAnalysis}
-          onSelectAnalysisFilter1 = {this.onSelectAnalysisFilter1}
-          onSelectAnalysisSubFilter1 = {this.onSelectAnalysisSubFilter1}
-          onSelectAnalysisFilter2 = {this.onSelectAnalysisFilter2}
-          onSelectAnalysisSubFilter2 = {this.onSelectAnalysisSubFilter2}
-          onSelectDatasource = {this.onSelectDatasource}
-          onSleectDataLine = {this.onSleectDataLine}
-          onSelectAnalysisFarm = {this.onSelectAnalysisFarm}
+          onSelectSubFilterByFilter = {this.onSelectSubFilterByFilter} 
+          selectAnalysisCategory = {this.selectAnalysisCategory}
+          initialBlockLoadAnalysis = {this.initialBlockLoadAnalysis}
+          selectDataSource = {this.selectDataSource}
+          selectDataLineAnalysis = {this.selectDataLineAnalysis}
+          selectFarmTypeAnalsysis = {this.selectFarmTypeAnalsysis}
+          selecteFilter1Analysis = {this.selecteFilter1Analysis}
+          selectSubFilter1Analysis = {this.selectSubFilter1Analysis}
+          selectFilter2Analysis =  {this.selectFilter2Analysis}
+          selectSubFilter2Analysis = {this.selectSubFilter2Analysis}
+          selectYearAnalysis = {this.selectYearAnalysis}
+          selectStateAnalysis = {this.selectStateAnalysis}          
           addDataSource = {this.addDataSource}
           removeDataSource = {this.removeDataSource}
         />
@@ -1241,16 +1515,82 @@ export default class Layout extends React.Component {
             selectedStates = {selectedStates}
             selectedStateNames = {selectedStateNames}
             selectedYears={selectedYears}
-            report_num = {filters[blockIndex] ? filters[blockIndex].report_num : []}
-            subject_num = {filters[blockIndex] ? filters[blockIndex].subject_num : []}
-            serie = {serie}
-            serie_element = {serie_element}
-            serie2 = {serie2}
-            serie2_element = {serie2_element}
-            topic_abb = {filters[blockIndex] ? filters[blockIndex].topic_abb : []}
+            report_num_0 = {filters[0].report_num}
+            subject_num_0 = {filters[0].subject_num}
+            serie_0 = {serie[0]}
+            serie_element_0 = {serie_element[0]}
+            serie2_0 = {serie2[0]}
+            serie2_element_0 = {serie2_element[0]}
+            topic_abb_0 = {filters[blockIndex].topic_abb}
+            
+            report_num_1 = {filters[1].report_num}
+            subject_num_1 = {filters[1].subject_num}
+            serie_1 = {serie[1]}
+            serie_element_1 = {serie_element[1]}
+            serie2_1 = {serie2[1]}
+            serie2_element_1 = {serie2_element[1]}
+            topic_abb_1 = {filters[1].topic_abb}
+
+            report_num_2 = {filters[2].report_num}
+            subject_num_2 = {filters[2].subject_num}
+            serie_2 = {serie[2]}
+            serie_element_2 = {serie_element[2]}
+            serie2_2 = {serie2[2]}
+            serie2_element_2 = {serie2_element[2]}
+            topic_abb_2 = {filters[2].topic_abb}
+
+            report_num_3 = {filters[3].report_num}
+            subject_num_3 = {filters[3].subject_num}
+            serie_3 = {serie[3]}
+            serie_element_3 = {serie_element[3]}
+            serie2_3 = {serie2[3]}
+            serie2_element_3 = {serie2_element[3]}
+            topic_abb_3 = {filters[3].topic_abb}
+
+            report_num_4 = {filters[4].report_num}
+            subject_num_4 = {filters[4].subject_num}
+            serie_4 = {serie[4]}
+            serie_element_4 = {serie_element[4]}
+            serie2_4 = {serie2[4]}
+            serie2_element_4 = {serie2_element[4]}
+            topic_abb_4 = {filters[4].topic_abb}
+
+            report_num_5 = {filters[5].report_num}
+            subject_num_5 = {filters[5].subject_num}
+            serie_5 = {serie[5]}
+            serie_element_5 = {serie_element[5]}
+            serie2_5 = {serie2[5]}
+            serie2_element_5 = {serie2_element[5]}
+            topic_abb_5 = {filters[5].topic_abb}
+
+            report_num_6 = {filters[6].report_num}
+            subject_num_6 = {filters[6].subject_num}
+            serie_6 = {serie[6]}
+            serie_element_6 = {serie_element[6]}
+            serie2_6 = {serie2[6]}
+            serie2_element_6 = {serie2_element[6]}
+            topic_abb_6 = {filters[6].topic_abb}
+
+            report_num_7 = {filters[7].report_num}
+            subject_num_7 = {filters[7].subject_num}
+            serie_7 = {serie[7]}
+            serie_element_7 = {serie_element[7]}
+            serie2_7 = {serie2[7]}
+            serie2_element_7 = {serie2_element[7]}
+            topic_abb_7 = {filters[7].topic_abb}
+
+            report_num_8 = {filters[8].report_num}
+            subject_num_8 = {filters[8].subject_num}
+            serie_8 = {serie[8]}
+            serie_element_8 = {serie_element[8]}
+            serie2_8 = {serie2[8]}
+            serie2_element_8 = {serie2_element[8]}
+            topic_abb_8 = {filters[8].topic_abb}
+
             blockIndex = {blockIndex}      
             whichOneMultiple={whichOneMultiple}
-            isRemoveDataSource={isRemoveDataSource}          
+            isRemoveDataSource={isRemoveDataSource}
+            isAllDataSources = {isAllDataSources}          
           />        
           <Footnote />
         </Col>  
