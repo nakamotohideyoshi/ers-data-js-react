@@ -1089,13 +1089,16 @@ class Sidebar extends React.Component {
 
   addDataSource() {
     let {blockCount} = this.state
-    blockCount++
+    if (blockCount <8) {
+      blockCount++
 
-    currentBlock = blockCount
-    this.setState({blockCount}, this.props.addDataSource(currentBlock))    
+      currentBlock = blockCount
+      this.setState({blockCount}, this.props.addDataSource(currentBlock))
+    }    
   }
 
   resetFilter = ( blockIndex ) => {
+    currentBlock = blockIndex
     this.props.resetFilterByBlockIndex(blockIndex)
     
   }
@@ -1119,7 +1122,8 @@ class Sidebar extends React.Component {
 }
 
   render() {  
-    const {sidebarItems, categoryTitles} = this.state    
+    const {sidebarItems, categoryTitles} = this.state
+    let isAdd = true    
     return (
     <div className="col-lg-3 col-md-12 col-sm-12 col-xs-12">
       <div className="sidebar-container" ref={node => this.sidebarWrapper = node}>
@@ -1138,6 +1142,9 @@ class Sidebar extends React.Component {
             }
             if ((i-5)%7===1) {
               isDataLine = true
+            }
+            if ((i-4)/7>7) {
+              isAdd = false
             }
             return (
               <SidebarItem 
@@ -1169,7 +1176,7 @@ class Sidebar extends React.Component {
         )
       }      
         {
-          !isReports && (
+          !isReports && isAdd &&(
             <div>
               <a className="pull-right reset" onClick={() => this.addDataSource()}>
                 <img src={Reset} alt="" />Add Another DataSource
