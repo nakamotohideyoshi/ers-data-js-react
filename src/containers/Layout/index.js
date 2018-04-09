@@ -146,12 +146,11 @@ export default class Layout extends React.Component {
       filters[blockIndex].serie_element = []
       runQuery = 'resetQuery'
     } else {
-      filters[blockIndex].subject_num = []
       filters[blockIndex].serie = []
       filters[blockIndex].serie_element = []
       filters[blockIndex].serie2 = []
       filters[blockIndex].serie2_element = []
-      runQuery = 'ytDLAnalysis'
+      runQuery = 'dlfAnalysis'
     }
 
     this.setState({
