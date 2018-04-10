@@ -828,9 +828,11 @@ export default class Layout extends React.Component {
   onSelectFilterByFilter = (serie, blockIndex) => {
     let {filters, priority} = this.state
     let runQuery = ''
-    if (priority.indexOf('serie') < 0) {
-      priority.push('serie')
+    const priorityIndex = priority.indexOf('serie')
+    if (priorityIndex > -1) {
+      priority.splice(priorityIndex, 1)
     }
+    priority.push('serie')
     filters[blockIndex].serie = serie
     if (priority.indexOf('serie') === 0) {
       // Serie -> ... -> ...
@@ -857,9 +859,13 @@ export default class Layout extends React.Component {
   onSelectSubFilterByFilter = (serie_element, blockIndex) => {
     let {filters, priority} = this.state
     let runQuery = ''
-    if (priority.indexOf('serie') < 0) {
-      priority.push('serie')
+
+    const priorityIndex = priority.indexOf('serie')
+    if (priorityIndex > -1) {
+      priority.splice(priorityIndex, 1)
     }
+    priority.push('serie')
+
     filters[blockIndex].serie_element = serie_element
     if (priority.indexOf('serie') === 0) {
       // Serie/Serie_element -> ... -> ...
@@ -887,9 +893,12 @@ export default class Layout extends React.Component {
     let { yearsInfo, whichOneMultiple, priority, filters, blockIndex } = this.state
     let runQuery = ''
     let isAllDataSources = false
-    if (priority.indexOf('year') < 0) {
-      priority.push('year')
+
+    const priorityIndex = priority.indexOf('year')
+    if (priorityIndex > -1) {
+      priority.splice(priorityIndex, 1)
     }
+    priority.push('year')
     yearsInfo[index].checked = !yearsInfo[index].checked
     if (whichOneMultiple !== YEAR_SELECTED) {
       yearsInfo.forEach((yearN, i) => {
@@ -946,9 +955,11 @@ export default class Layout extends React.Component {
     let { statesInfo, whichOneMultiple, priority, filters, blockIndex } = this.state
     let runQuery = ''
     let isAllDataSources = false
-    if (priority.indexOf('state') < 0) {
-      priority.push('state')
+    const priorityIndex = priority.indexOf('state')
+    if (priorityIndex > -1) {
+      priority.splice(priorityIndex, 1)
     }
+    priority.push('state')
     let selectedStates = []
     let selectedStateNames = []
     statesInfo[index].checked = !statesInfo[index].checked
