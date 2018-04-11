@@ -152,7 +152,7 @@ class Sidebar extends React.Component {
           this.setState({
             categoryTitles: categoryTitles,
             sidebarItems: sidebarItems
-          }, this.props.onSelectSubjectFilter(subject_num, currentBlock))
+          }, this.props['onSelectSubjectFilter'](subject_num, currentBlock))
         }        
       } else if (props.resetQuery) {
 
@@ -1226,7 +1226,7 @@ class Sidebar extends React.Component {
         }
         {
           !isReports && (
-          <div class="block">
+          <div className="block">
             
           </div>
         )
