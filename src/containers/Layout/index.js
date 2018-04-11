@@ -966,11 +966,16 @@ export default class Layout extends React.Component {
     let { statesInfo, whichOneMultiple, priority, filters, blockIndex } = this.state
     let runQuery = ''
     let isAllDataSources = false
+
     const priorityIndex = priority.indexOf('state')
-    if (priorityIndex > -1) {
+    if (priority.length === 3) {
       priority.splice(priorityIndex, 1)
+      priority.push('state')
     }
-    priority.push('state')
+    if (priorityIndex < 0) {
+      priority.push('state')
+    }
+
     let selectedStates = []
     let selectedStateNames = []
     statesInfo[index].checked = !statesInfo[index].checked
