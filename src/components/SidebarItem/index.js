@@ -33,7 +33,7 @@ const SidebarItem = ({ headingTitle, titles, visible, selectedIndex, isOpened, i
               {
                 titles.map((val, index) => {
                   return (
-                    <li onClick={()=>updateFilter(index)} className={`${(isDataLine ? selectedIndex.indexOf(index) > -1 : selectedIndex === index) ? `active`:``}`}>
+                    <li key={index.toString()} onClick={()=>updateFilter(index)} className={`${(isDataLine ? selectedIndex.indexOf(index) > -1 : selectedIndex === index) ? `active`:``}`}>
                       <a>
                       {
                         (isDataLine ? selectedIndex.indexOf(index) > -1 : selectedIndex === index) && (
