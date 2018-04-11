@@ -17,6 +17,7 @@ import tyQuery from '../../ApolloComponent/yQuery'
 import tysQuery from '../../ApolloComponent/tysQuery'
 import yQuery from '../../ApolloComponent/yQuery'
 import ysQuery from '../../ApolloComponent/ysQuery'
+import initAnalysis from '../../ApolloComponent/initAnalysis'
 import dAnalysis from '../../ApolloComponent/dAnalysis'
 import dlfAnalysis from '../../ApolloComponent/dlfAnalysis'
 import dlfsAnalysis from '../../ApolloComponent/dlfsAnalysis'
@@ -45,7 +46,7 @@ class Sidebar extends React.Component {
   }  
 
   componentWillReceiveProps(props) {
-    console.log('****************', props, '****************')
+    // console.log('****************', props, '****************')
     let {categoryTitles, sidebarItems} = this.state
 
     if (categoryTitles.length === 0) {
@@ -119,11 +120,18 @@ class Sidebar extends React.Component {
         if (props.reset1Query.networkStatus ===7 && props.reset1Query.reset1Query) {
           // generate `subject` LHS menu
           let subjects = []
-          const subject_num = [props.reset1Query.reset1Query.subject[0].num]
-          props.reset1Query.reset1Query.subject.forEach(subject => {
+          let subject_num = [props.reset1Query.reset1Query.subject[0].num]
+          const prev_subject = [categoryTitles[2][sidebarItems[2].selectedIndex].header]
+          let current_index = 0
+
+          props.reset1Query.reset1Query.subject.forEach((subject, i) => {
             const obj = {}
             obj.num = subject.num
             obj.header = subject.header
+            if (prev_subject.indexOf(subject.header) > -1) {
+              current_index = i
+              subject_num = [subject.num]
+            }
             subjects.push(obj)
           })
           if (categoryTitles.length<3) {
@@ -139,7 +147,7 @@ class Sidebar extends React.Component {
           } else {
             categoryTitles[2] = subjects
             sidebarItems[2].isOpened = false
-            sidebarItems[2].selectedIndex = 0
+            sidebarItems[2].selectedIndex = current_index
             sidebarItems[2].visible = true
           }
 
@@ -160,11 +168,12 @@ class Sidebar extends React.Component {
           === 7 && props.resetQuery.resetQuery) {
           // generate `Filter By` LHS menu
           let series = []
-          const serie = [props.resetQuery.resetQuery.serie[0].abb]
-          props.resetQuery.resetQuery.serie.forEach(serie => {
+          let serie = [props.resetQuery.resetQuery.serie[0].abb]          
+
+          props.resetQuery.resetQuery.serie.forEach(serieN => {
             const obj = {}
-            obj.num = serie.abb
-            obj.header = serie.header
+            obj.num = serieN.abb
+            obj.header = serieN.header
             series.push(obj)
           })
           if (categoryTitles.length<4) {
@@ -178,9 +187,19 @@ class Sidebar extends React.Component {
               headingTitle: 'Filter by'
             })
           } else {
+
+            let prev_serie = [categoryTitles[3][sidebarItems[3].selectedIndex].header]
+            let current_index = 0
+
+            series.forEach((serieN, i) => {
+              if (prev_serie.indexOf(serieN.header) > -1) {
+                serie = [serieN.num]
+                current_index = i
+              }
+            })
             categoryTitles[3] = series
             sidebarItems[3].isOpened = false
-            sidebarItems[3].selectedIndex = 0
+            sidebarItems[3].selectedIndex = current_index
             sidebarItems[3].visible = true
           }
           
@@ -309,14 +328,15 @@ class Sidebar extends React.Component {
 
         // State - > 
         if (props.tQuery.networkStatus ===7 && props.tQuery.tQuery) {
+
           let series = []
-          const serie = props.tQuery.tQuery.serie[0].abb
+          let serie = [props.tQuery.tQuery.serie[0].abb]
 
           // Generate `Filter By` LHS menu
-          props.tQuery.tQuery.serie.forEach(serie => {
+          props.tQuery.tQuery.serie.forEach(serieN => {
             const obj = {}
-            obj.num = serie.abb
-            obj.header = serie.header
+            obj.num = serieN.abb
+            obj.header = serieN.header
             series.push(obj)
           })
           if (categoryTitles.length<4) {
@@ -330,9 +350,19 @@ class Sidebar extends React.Component {
               headingTitle: 'Filter by'
             })
           } else {
+            let prev_serie = [categoryTitles[3][sidebarItems[3].selectedIndex].header]
+            let current_index = 0
+
+            series.forEach((serieN, i) => {
+              if (prev_serie.indexOf(serieN.header) > -1) {
+                serie = [serieN.num]
+                current_index = i
+              }
+            })
+
             categoryTitles[3] = series
             sidebarItems[3].isOpened = false
-            sidebarItems[3].selectedIndex = 0
+            sidebarItems[3].selectedIndex = current_index
             sidebarItems[3].visible = true
           } 
           
@@ -347,13 +377,13 @@ class Sidebar extends React.Component {
         // State -> Year
         if (props.tyQuery.networkStatus === 7 && props.tyQuery.tyQuery) {
           let series = []
-          const serie = props.tQuery.tyQuery.serie[0].abb
+          let serie = [props.tQuery.tyQuery.serie[0].abb]
 
           // Generate `Filter By` LHS menu
-          props.tyQuery.tyQuery.serie.forEach(serie => {
+          props.tyQuery.tyQuery.serie.forEach(serieN => {
             const obj = {}
-            obj.num = serie.abb
-            obj.header = serie.header
+            obj.num = serieN.abb
+            obj.header = serieN.header
             series.push(obj)
           })
           if (categoryTitles.length<4) {
@@ -367,9 +397,19 @@ class Sidebar extends React.Component {
               headingTitle: 'Filter by'
             })
           } else {
+            let prev_serie = [categoryTitles[3][sidebarItems[3].selectedIndex].header]
+            let current_index = 0
+
+            series.forEach((serieN, i) => {
+              if (prev_serie.indexOf(serieN.header) > -1) {
+                serie = [serieN.num]
+                current_index = i
+              }
+            })
+
             categoryTitles[3] = series
             sidebarItems[3].isOpened = false
-            sidebarItems[3].selectedIndex = 0
+            sidebarItems[3].selectedIndex = current_index
             sidebarItems[3].visible = true
           }
           
@@ -429,13 +469,13 @@ class Sidebar extends React.Component {
         // Year - > 
         if (props.yQuery.networkStatus ===  7 && props.yQuery.yQuery) {
           let series = []
-          const serie = props.yQuery.yQuery.serie[0].abb
+          let serie = [props.yQuery.yQuery.serie[0].abb]
 
           // Generate `Filter By` LHS menu
-          props.yQuery.yQuery.serie.forEach(serie => {
+          props.yQuery.yQuery.serie.forEach(serieN => {
             const obj = {}
-            obj.num = serie.abb
-            obj.header = serie.header
+            obj.num = serieN.abb
+            obj.header = serieN.header
             series.push(obj)
           })
           if (categoryTitles.length<4) {
@@ -449,9 +489,19 @@ class Sidebar extends React.Component {
               headingTitle: 'Filter by'
             })
           } else {
+            let prev_serie = [categoryTitles[3][sidebarItems[3].selectedIndex].header]
+            let current_index = 0
+
+            series.forEach((serieN, i) => {
+              if (prev_serie.indexOf(serieN.header) > -1) {
+                serie = [serieN.num]
+                current_index = i
+              }
+            })
+
             categoryTitles[3] = series
             sidebarItems[3].isOpened = false
-            sidebarItems[3].selectedIndex = 0
+            sidebarItems[3].selectedIndex = current_index
             sidebarItems[3].visible = true
           }
           
@@ -508,7 +558,109 @@ class Sidebar extends React.Component {
 
       }
     } else if (categoryTitles.length !== 0 && currentBlock !== 0) {
-      if (props.dAnalysis) {
+      if (props.initAnalysis) {
+        if (props.initAnalysis.networkStatus === 7 && props.initAnalysis.initAnalysis) {
+          
+          // Generate `Data Source` LHS
+          let reports = []
+          props.reports.forEach(report => {
+            const obj = {}
+            obj.num = report.num
+            obj.header = report.header
+            reports.push(obj)
+          })
+
+          // Generate `Data Line` LHS
+          const topics = []
+          props.initAnalysis.initAnalysis.topic.forEach(topic => {
+            const obj = {}
+            obj.num = topic.abb
+            obj.header = topic.header
+            topics.push(obj)
+          })
+        
+          // Generate `Farm Type` LHS
+          let subjects = []
+          props.initAnalysis.initAnalysis.subject.forEach(subject => {
+            const obj = {}
+            obj.num = subject.num
+            obj.header = subject.header
+            subjects.push(obj)
+          })
+
+          // Index based on Block
+          const index = 7*(currentBlock-1) + 5
+          
+          if (categoryTitles.length<index+1) {
+
+            // LHS Generating (initailize)
+            categoryTitles.push(reports)
+            categoryTitles.push(topics)
+            categoryTitles.push(subjects)
+
+            // Data Source
+            sidebarItems.push({
+              isOpened: false,
+              selectedIndex: 0,
+              isCategory: false,
+              blockIndex: currentBlock,
+              visible: true,
+              headingTitle: 'Data Source ' + currentBlock
+            })
+
+            // Data Line
+            sidebarItems.push({
+              isOpened: false,
+              selectedIndex: [0],
+              isCategory: false,
+              blockIndex: currentBlock,
+              visible: true,
+              headingTitle: 'Data Line'
+            })
+
+            // Farm Type
+            sidebarItems.push({
+              isOpened: false,
+              selectedIndex: 0,
+              isCategory: false,
+              blockIndex: currentBlock,
+              visible: true,
+              headingTitle: 'Farm Type'
+            })
+
+          } else {
+
+            // LHS Generate (Update)
+            categoryTitles[index+1] = topics
+            categoryTitles[index+2] = subjects
+            
+            for (let i=0; i<3; i++) {
+              sidebarItems[index+i].isOpened = false
+              sidebarItems[index+i].selectedIndex = 0
+              sidebarItems[index+i].visible = true
+              if (i === 1) {
+                sidebarItems[index+i].selectedIndex = [0]
+              }              
+            }
+            
+          }
+
+          // If `Farm Type` list contain only one item, invisible
+
+          if (subjects.length === 1){
+            sidebarItems[index+2].visible = false
+          }
+
+          const topic_abb = [categoryTitles[index+1][0].num]
+          const subject_num = [categoryTitles[index+2][0].num]
+
+          this.setState({
+            categoryTitles: categoryTitles,
+            sidebarItems: sidebarItems
+          }, this.props.initialBlockLoadAnalysis(topic_abb, subject_num, currentBlock))
+        }
+
+      } else if (props.dAnalysis) {
         if (props.dAnalysis.networkStatus === 7 && props.dAnalysis.dAnalysis) {
           
           // Generate `Data Source` LHS
@@ -1123,7 +1275,7 @@ class Sidebar extends React.Component {
         }
         {
           !isReports && (
-          <div class="block">
+          <div className="block">
             
           </div>
         )
@@ -1156,6 +1308,7 @@ export default compose(
   tysQuery,
   yQuery,
   ysQuery,
+  initAnalysis,
   dAnalysis,
   dlfAnalysis,
   dlfsAnalysis,
