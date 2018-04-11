@@ -829,10 +829,14 @@ export default class Layout extends React.Component {
     let {filters, priority} = this.state
     let runQuery = ''
     const priorityIndex = priority.indexOf('serie')
-    if (priorityIndex > -1) {
+    if (priority.length === 3) {
       priority.splice(priorityIndex, 1)
+      priority.push('serie')
     }
-    priority.push('serie')
+    if (priorityIndex < 0) {
+      priority.push('serie')
+    }
+    
     filters[blockIndex].serie = serie
     if (priority.indexOf('serie') === 0) {
       // Serie -> ... -> ...
@@ -861,10 +865,13 @@ export default class Layout extends React.Component {
     let runQuery = ''
 
     const priorityIndex = priority.indexOf('serie')
-    if (priorityIndex > -1) {
+    if (priority.length === 3) {
       priority.splice(priorityIndex, 1)
+      priority.push('serie')
     }
-    priority.push('serie')
+    if (priorityIndex < 0) {
+      priority.push('serie')
+    }
 
     filters[blockIndex].serie_element = serie_element
     if (priority.indexOf('serie') === 0) {
@@ -1398,7 +1405,7 @@ export default class Layout extends React.Component {
   }
 
   render() {
-    console.log('%%%%%%%%%%%%', this.state, '%%%%%%%%%%%')
+    // console.log('%%%%%%%%%%%%', this.state, '%%%%%%%%%%%')
     const {
       selectedStateNames,
       blockIndex, 
