@@ -12,7 +12,7 @@ export default class OptionGroup extends React.Component {
           options.map((option, index) => {
             if (index === selectedIndex) {
               return (
-                <div className="single-option active" onClick={() => onSelect(index)}>
+                <div key={index.toString()} className="single-option active" onClick={() => onSelect(index)}>
                   <a>
                     <i className="fa fa-check"></i>{option.label}
                   </a>
@@ -20,7 +20,7 @@ export default class OptionGroup extends React.Component {
               )
             }  
             return (
-              <div className="single-option" onClick={() => onSelect(index)}>
+              <div key={index.toString()} className="single-option" onClick={() => onSelect(index)}>
                 <a>
                   {option.label}
                 </a>
