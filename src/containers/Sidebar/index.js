@@ -120,11 +120,18 @@ class Sidebar extends React.Component {
         if (props.reset1Query.networkStatus ===7 && props.reset1Query.reset1Query) {
           // generate `subject` LHS menu
           let subjects = []
-          const subject_num = [props.reset1Query.reset1Query.subject[0].num]
-          props.reset1Query.reset1Query.subject.forEach(subject => {
+          let subject_num = [props.reset1Query.reset1Query.subject[0].num]
+          const prev_subject = [categoryTitles[2][sidebarItems[2].selectedIndex].header]
+          let current_index = 0
+
+          props.reset1Query.reset1Query.subject.forEach((subject, i) => {
             const obj = {}
             obj.num = subject.num
             obj.header = subject.header
+            if (prev_subject.indexOf(subject.header) > -1) {
+              current_index = i
+              subject_num = [subject.num]
+            }
             subjects.push(obj)
           })
           if (categoryTitles.length<3) {
@@ -140,7 +147,7 @@ class Sidebar extends React.Component {
           } else {
             categoryTitles[2] = subjects
             sidebarItems[2].isOpened = false
-            sidebarItems[2].selectedIndex = 0
+            sidebarItems[2].selectedIndex = current_index
             sidebarItems[2].visible = true
           }
 
