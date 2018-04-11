@@ -46,7 +46,7 @@ class Sidebar extends React.Component {
   }  
 
   componentWillReceiveProps(props) {
-    console.log('****************', props, '****************')
+    // console.log('****************', props, '****************')
     let {categoryTitles, sidebarItems} = this.state
 
     if (categoryTitles.length === 0) {
@@ -159,7 +159,7 @@ class Sidebar extends React.Component {
           this.setState({
             categoryTitles: categoryTitles,
             sidebarItems: sidebarItems
-          }, this.props['onSelectSubjectFilter'](subject_num, currentBlock))
+          }, this.props.onSelectSubjectFilter(subject_num, currentBlock))
         }        
       } else if (props.resetQuery) {
 
@@ -168,11 +168,12 @@ class Sidebar extends React.Component {
           === 7 && props.resetQuery.resetQuery) {
           // generate `Filter By` LHS menu
           let series = []
-          const serie = [props.resetQuery.resetQuery.serie[0].abb]
-          props.resetQuery.resetQuery.serie.forEach(serie => {
+          let serie = [props.resetQuery.resetQuery.serie[0].abb]          
+
+          props.resetQuery.resetQuery.serie.forEach(serieN => {
             const obj = {}
-            obj.num = serie.abb
-            obj.header = serie.header
+            obj.num = serieN.abb
+            obj.header = serieN.header
             series.push(obj)
           })
           if (categoryTitles.length<4) {
@@ -186,9 +187,19 @@ class Sidebar extends React.Component {
               headingTitle: 'Filter by'
             })
           } else {
+
+            let prev_serie = [categoryTitles[3][sidebarItems[3].selectedIndex].header]
+            let current_index = 0
+
+            series.forEach((serieN, i) => {
+              if (prev_serie.indexOf(serieN.header) > -1) {
+                serie = [serieN.num]
+                current_index = i
+              }
+            })
             categoryTitles[3] = series
             sidebarItems[3].isOpened = false
-            sidebarItems[3].selectedIndex = 0
+            sidebarItems[3].selectedIndex = current_index
             sidebarItems[3].visible = true
           }
           
@@ -317,14 +328,21 @@ class Sidebar extends React.Component {
 
         // State - > 
         if (props.tQuery.networkStatus ===7 && props.tQuery.tQuery) {
+
           let series = []
-          const serie = props.tQuery.tQuery.serie[0].abb
+          let serie = [props.tQuery.tQuery.serie[0].abb]
+          let prev_serie = [categoryTitles[3][sidebarItems[3].selectedIndex].header]
+          let current_index = 0
 
           // Generate `Filter By` LHS menu
-          props.tQuery.tQuery.serie.forEach(serie => {
+          props.tQuery.tQuery.serie.forEach((serie, i) => {
             const obj = {}
             obj.num = serie.abb
             obj.header = serie.header
+            if (prev_serie.indexOf(serie.header) > -1) {
+              current_index = i
+              serie= [serie.abb]
+            }
             series.push(obj)
           })
           if (categoryTitles.length<4) {
@@ -340,7 +358,7 @@ class Sidebar extends React.Component {
           } else {
             categoryTitles[3] = series
             sidebarItems[3].isOpened = false
-            sidebarItems[3].selectedIndex = 0
+            sidebarItems[3].selectedIndex = current_index
             sidebarItems[3].visible = true
           } 
           
@@ -355,13 +373,19 @@ class Sidebar extends React.Component {
         // State -> Year
         if (props.tyQuery.networkStatus === 7 && props.tyQuery.tyQuery) {
           let series = []
-          const serie = props.tQuery.tyQuery.serie[0].abb
+          let serie = [props.tQuery.tyQuery.serie[0].abb]
+          let prev_serie = [categoryTitles[3][sidebarItems[3].selectedIndex].header]
+          let current_index = 0
 
           // Generate `Filter By` LHS menu
-          props.tyQuery.tyQuery.serie.forEach(serie => {
+          props.tyQuery.tyQuery.serie.forEach((serie, i) => {
             const obj = {}
             obj.num = serie.abb
             obj.header = serie.header
+            if (prev_serie.indexOf(serie.header) > -1) {
+              current_index = i
+              serie= [serie.abb]
+            }
             series.push(obj)
           })
           if (categoryTitles.length<4) {
@@ -377,7 +401,7 @@ class Sidebar extends React.Component {
           } else {
             categoryTitles[3] = series
             sidebarItems[3].isOpened = false
-            sidebarItems[3].selectedIndex = 0
+            sidebarItems[3].selectedIndex = current_index
             sidebarItems[3].visible = true
           }
           
@@ -437,13 +461,19 @@ class Sidebar extends React.Component {
         // Year - > 
         if (props.yQuery.networkStatus ===  7 && props.yQuery.yQuery) {
           let series = []
-          const serie = props.yQuery.yQuery.serie[0].abb
+          const serie = [props.yQuery.yQuery.serie[0].abb]
+          let prev_serie = [categoryTitles[3][sidebarItems[3].selectedIndex].header]
+          let current_index = 0
 
           // Generate `Filter By` LHS menu
-          props.yQuery.yQuery.serie.forEach(serie => {
+          props.yQuery.yQuery.serie.forEach((serie, i) => {
             const obj = {}
             obj.num = serie.abb
             obj.header = serie.header
+            if (prev_serie.indexOf(serie.header) > -1) {
+              current_index = i
+              serie= [serie.abb]
+            }
             series.push(obj)
           })
           if (categoryTitles.length<4) {
@@ -459,7 +489,7 @@ class Sidebar extends React.Component {
           } else {
             categoryTitles[3] = series
             sidebarItems[3].isOpened = false
-            sidebarItems[3].selectedIndex = 0
+            sidebarItems[3].selectedIndex = current_index
             sidebarItems[3].visible = true
           }
           
