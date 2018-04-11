@@ -331,18 +331,12 @@ class Sidebar extends React.Component {
 
           let series = []
           let serie = [props.tQuery.tQuery.serie[0].abb]
-          let prev_serie = [categoryTitles[3][sidebarItems[3].selectedIndex].header]
-          let current_index = 0
 
           // Generate `Filter By` LHS menu
-          props.tQuery.tQuery.serie.forEach((serie, i) => {
+          props.tQuery.tQuery.serie.forEach(serieN => {
             const obj = {}
-            obj.num = serie.abb
-            obj.header = serie.header
-            if (prev_serie.indexOf(serie.header) > -1) {
-              current_index = i
-              serie= [serie.abb]
-            }
+            obj.num = serieN.abb
+            obj.header = serieN.header
             series.push(obj)
           })
           if (categoryTitles.length<4) {
@@ -356,6 +350,16 @@ class Sidebar extends React.Component {
               headingTitle: 'Filter by'
             })
           } else {
+            let prev_serie = [categoryTitles[3][sidebarItems[3].selectedIndex].header]
+            let current_index = 0
+
+            series.forEach((serieN, i) => {
+              if (prev_serie.indexOf(serieN.header) > -1) {
+                serie = [serieN.num]
+                current_index = i
+              }
+            })
+            
             categoryTitles[3] = series
             sidebarItems[3].isOpened = false
             sidebarItems[3].selectedIndex = current_index
