@@ -170,8 +170,7 @@ export default class Layout extends React.Component {
     let {filters, selectedYears, selectedStates, whichOneMultiple} = this.state
 
     filters[blockIndex].serie = serie
-    const yearCount = whichOneMultiple === YEAR_SELECTED ? defaultYearCount : 1
-
+    
     let prevYearCount = 0
 
     years.forEach(year => {
@@ -179,6 +178,8 @@ export default class Layout extends React.Component {
         prevYearCount++
       }
     })
+
+    const yearCount = whichOneMultiple === YEAR_SELECTED ? (prevYearCount === 0 ? defaultYearCount : prevYearCount) : 1
 
     let yearsInfo = []
     let reSelectedYears = []
@@ -273,8 +274,6 @@ export default class Layout extends React.Component {
     let {filters, selectedYears, selectedStates, whichOneMultiple} = this.state
     filters[blockIndex].serie_element = serie_element
 
-    const yearCount = whichOneMultiple === YEAR_SELECTED ? defaultYearCount : 1
-
     let prevYearCount = 0
 
     years.forEach(year => {
@@ -282,6 +281,8 @@ export default class Layout extends React.Component {
         prevYearCount++
       }
     })
+
+    const yearCount = whichOneMultiple === YEAR_SELECTED ? (prevYearCount === 0 ? defaultYearCount : prevYearCount) : 1
 
     let yearsInfo = []
     let reSelectedYears = []
@@ -363,7 +364,6 @@ export default class Layout extends React.Component {
   resetYRFilter = (years, states, blockIndex) => {
 
     let {selectedYears, selectedStates, whichOneMultiple} = this.state
-    const yearCount = whichOneMultiple === YEAR_SELECTED ? defaultYearCount : 1
 
     let prevYearCount = 0
 
@@ -372,6 +372,7 @@ export default class Layout extends React.Component {
         prevYearCount++
       }
     })
+    const yearCount = whichOneMultiple === YEAR_SELECTED ? (prevYearCount === 0 ? defaultYearCount : prevYearCount) : 1
 
     let yearsInfo = []
     let reSelectedYears = []
@@ -454,7 +455,6 @@ export default class Layout extends React.Component {
   resetYFilter = (years, blockIndex) => {
 
     let {selectedYears, whichOneMultiple} = this.state
-    const yearCount = whichOneMultiple === YEAR_SELECTED ? defaultYearCount : 1
 
     let prevYearCount = 0
 
@@ -463,6 +463,8 @@ export default class Layout extends React.Component {
         prevYearCount++
       }
     })
+
+    const yearCount = whichOneMultiple === YEAR_SELECTED ? (prevYearCount === 0 ? defaultYearCount : prevYearCount) : 1
 
     let yearsInfo = []
     let reSelectedYears = []
@@ -558,8 +560,6 @@ export default class Layout extends React.Component {
     let {filters, selectedYears, whichOneMultiple} = this.state
     filters[blockIndex].serie = serie
 
-    const yearCount = whichOneMultiple === YEAR_SELECTED ? defaultYearCount : 1
-
     let prevYearCount = 0
 
     years.forEach(year => {
@@ -567,6 +567,8 @@ export default class Layout extends React.Component {
         prevYearCount++
       }
     })
+
+    const yearCount = whichOneMultiple === YEAR_SELECTED ? (prevYearCount === 0 ? defaultYearCount : prevYearCount) : 1
 
     let yearsInfo = []
     let reSelectedYears = []
@@ -621,8 +623,6 @@ export default class Layout extends React.Component {
     let {filters, selectedYears, whichOneMultiple} = this.state
     filters[blockIndex].serie_element = serie_element
 
-    const yearCount = whichOneMultiple === YEAR_SELECTED ? defaultYearCount : 1
-
     let prevYearCount = 0
 
     years.forEach(year => {
@@ -630,6 +630,8 @@ export default class Layout extends React.Component {
         prevYearCount++
       }
     })
+
+    const yearCount = whichOneMultiple === YEAR_SELECTED ? (prevYearCount === 0 ? defaultYearCount : prevYearCount) : 1
 
     let yearsInfo = []
     let reSelectedYears = []
@@ -779,23 +781,10 @@ export default class Layout extends React.Component {
     let {filters} = this.state
     filters[blockIndex].report_num = report_num
     filters[blockIndex].topic_abb = topic_abb
-    filters[blockIndex].subject_num = []
-    filters[blockIndex].serie = []
-    filters[blockIndex].serie_element = []
-    const yearsInfo = []
-    const statesInfo = []
-    const selectedStateNames = []
-    const selectedYears = []
-    const selectedStates = []
 
     this.setState({
       filters: filters,
       blockIndex,
-      yearsInfo,
-      selectedYears,
-      statesInfo,
-      selectedStates,
-      selectedStateNames,
       runQuery: 'reset1Query'
     })
   }
@@ -804,22 +793,10 @@ export default class Layout extends React.Component {
   onSelectSubjectFilter = (subject_num, blockIndex) => {
     let {filters} = this.state
     filters[blockIndex].subject_num = subject_num
-    filters[blockIndex].serie = []
-    filters[blockIndex].serie_element = []
-    const yearsInfo = []
-    const statesInfo = []
-    const selectedStateNames = []
-    const selectedYears = []
-    const selectedStates = []
 
     this.setState({
       filters: filters,
       blockIndex,
-      yearsInfo,
-      selectedYears,
-      statesInfo,
-      selectedStates,
-      selectedStateNames,
       runQuery: 'resetQuery'
     })
   }
@@ -1172,8 +1149,6 @@ export default class Layout extends React.Component {
   selectYearAnalysis = (years) => {
     let {filters, selectedYears, whichOneMultiple} = this.state
 
-    const yearCount = whichOneMultiple === YEAR_SELECTED ? defaultYearCount : 1
-
     const runQuery = whichOneMultiple === YEAR_SELECTED ? '' : 'dlfseseytAnalysis'
     const isAllDataSources = whichOneMultiple === YEAR_SELECTED ? true : false
 
@@ -1184,6 +1159,8 @@ export default class Layout extends React.Component {
         prevYearCount++
       }
     })
+
+    const yearCount = whichOneMultiple === YEAR_SELECTED ? (prevYearCount === 0 ? defaultYearCount : prevYearCount) : 1
 
     let yearsInfo = []
     let reSelectedYears = []
