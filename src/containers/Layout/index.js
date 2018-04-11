@@ -902,10 +902,14 @@ export default class Layout extends React.Component {
     let isAllDataSources = false
 
     const priorityIndex = priority.indexOf('year')
-    if (priorityIndex > -1) {
+    if (priority.length === 3) {
       priority.splice(priorityIndex, 1)
+      priority.push('year')
     }
-    priority.push('year')
+    if (priorityIndex < 0) {
+      priority.push('year')
+    }
+
     yearsInfo[index].checked = !yearsInfo[index].checked
     if (whichOneMultiple !== YEAR_SELECTED) {
       yearsInfo.forEach((yearN, i) => {
