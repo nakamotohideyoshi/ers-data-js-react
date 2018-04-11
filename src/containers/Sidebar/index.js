@@ -17,6 +17,7 @@ import tyQuery from '../../ApolloComponent/yQuery'
 import tysQuery from '../../ApolloComponent/tysQuery'
 import yQuery from '../../ApolloComponent/yQuery'
 import ysQuery from '../../ApolloComponent/ysQuery'
+import initAnalysis from '../../ApolloComponent/initAnalysis'
 import dAnalysis from '../../ApolloComponent/dAnalysis'
 import dlfAnalysis from '../../ApolloComponent/dlfAnalysis'
 import dlfsAnalysis from '../../ApolloComponent/dlfsAnalysis'
@@ -508,7 +509,109 @@ class Sidebar extends React.Component {
 
       }
     } else if (categoryTitles.length !== 0 && currentBlock !== 0) {
-      if (props.dAnalysis) {
+      if (props.initAnalysis) {
+        if (props.initAnalysis.networkStatus === 7 && props.initAnalysis.initAnalysis) {
+          
+          // Generate `Data Source` LHS
+          let reports = []
+          props.reports.forEach(report => {
+            const obj = {}
+            obj.num = report.num
+            obj.header = report.header
+            reports.push(obj)
+          })
+
+          // Generate `Data Line` LHS
+          const topics = []
+          props.initAnalysis.initAnalysis.topic.forEach(topic => {
+            const obj = {}
+            obj.num = topic.abb
+            obj.header = topic.header
+            topics.push(obj)
+          })
+        
+          // Generate `Farm Type` LHS
+          let subjects = []
+          props.initAnalysis.initAnalysis.subject.forEach(subject => {
+            const obj = {}
+            obj.num = subject.num
+            obj.header = subject.header
+            subjects.push(obj)
+          })
+
+          // Index based on Block
+          const index = 7*(currentBlock-1) + 5
+          
+          if (categoryTitles.length<index+1) {
+
+            // LHS Generating (initailize)
+            categoryTitles.push(reports)
+            categoryTitles.push(topics)
+            categoryTitles.push(subjects)
+
+            // Data Source
+            sidebarItems.push({
+              isOpened: false,
+              selectedIndex: 0,
+              isCategory: false,
+              blockIndex: currentBlock,
+              visible: true,
+              headingTitle: 'Data Source ' + currentBlock
+            })
+
+            // Data Line
+            sidebarItems.push({
+              isOpened: false,
+              selectedIndex: [0],
+              isCategory: false,
+              blockIndex: currentBlock,
+              visible: true,
+              headingTitle: 'Data Line'
+            })
+
+            // Farm Type
+            sidebarItems.push({
+              isOpened: false,
+              selectedIndex: 0,
+              isCategory: false,
+              blockIndex: currentBlock,
+              visible: true,
+              headingTitle: 'Farm Type'
+            })
+
+          } else {
+
+            // LHS Generate (Update)
+            categoryTitles[index+1] = topics
+            categoryTitles[index+2] = subjects
+            
+            for (let i=0; i<3; i++) {
+              sidebarItems[index+i].isOpened = false
+              sidebarItems[index+i].selectedIndex = 0
+              sidebarItems[index+i].visible = true
+              if (i === 1) {
+                sidebarItems[index+i].selectedIndex = [0]
+              }              
+            }
+            
+          }
+
+          // If `Farm Type` list contain only one item, invisible
+
+          if (subjects.length === 1){
+            sidebarItems[index+2].visible = false
+          }
+
+          const topic_abb = [categoryTitles[index+1][0].num]
+          const subject_num = [categoryTitles[index+2][0].num]
+
+          this.setState({
+            categoryTitles: categoryTitles,
+            sidebarItems: sidebarItems
+          }, this.props.initialBlockLoadAnalysis(topic_abb, subject_num, currentBlock))
+        }
+
+      } else if (props.dAnalysis) {
         if (props.dAnalysis.networkStatus === 7 && props.dAnalysis.dAnalysis) {
           
           // Generate `Data Source` LHS
@@ -1156,6 +1259,7 @@ export default compose(
   tysQuery,
   yQuery,
   ysQuery,
+  initAnalysis,
   dAnalysis,
   dlfAnalysis,
   dlfsAnalysis,
