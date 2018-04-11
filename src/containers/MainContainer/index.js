@@ -40,12 +40,17 @@ class MainContainer extends React.Component {
 
       surveyData.splice(props.blockIndex, 1)
       surveyData.push([])
-      for (let i=1; i<surveyData.length; i++){
-        surveyData[i].forEach(data => {
-          showData.push(data)
+
+      surveyData.forEach((survey, index) => {
+
+        if (index !== 0) {
+          survey.forEach(data => {
+            showData.push(data)
           showList[data.report_num+data.topic_abb] = true
-        })
-      }
+          })
+        }
+        
+      })
 
     } else {
       if (props.charts) {
