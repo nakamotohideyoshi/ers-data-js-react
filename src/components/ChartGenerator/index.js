@@ -138,24 +138,7 @@ export default class ChartGenerator extends React.Component {
             }
         }
       },
-      yAxis: [{
-          title: {
-            text: "Number of Farms",
-            style: {
-              color: darkBlue
-            }           
-          },
-          tickInterval: 1000000,          
-          breaks: categories.length > 1 ? this.getBreaingPoints(seriesFarms, 4) : [],          
-          top: seriesOthers.length > 0 ? '80%' : '0%',
-          height: seriesOthers.length > 0 ? '20%' : '100%',
-          labels: {
-            formatter: function (i=0) {
-              return '<span style="color:'+darkBlue+';margin-left:-30px">'+ numberWithCommas(this.value) +'</span>';
-            }
-          },
-        }
-      ],
+      yAxis: [],
       plotOptions: {
         series: {
             pointPadding: 0,
@@ -194,6 +177,27 @@ export default class ChartGenerator extends React.Component {
       series: []
     }
 
+    //Push Y Axis for Series Farms
+    if (seriesFarms.length > 0) {
+      const element = seriesFarms[0]
+      config.yAxis.push({
+        title: {
+          text: "Number of Farms",
+          style: {
+            color: darkBlue
+          }           
+        },
+        breaks: categories.length > 1 ? this.getBreaingPoints(seriesFarms, 4) : [],          
+        top: seriesOthers.length > 0 ? '80%' : '0%',
+        height: seriesOthers.length > 0 ? '20%' : '100%',
+        labels: {
+          formatter: function () {
+            return '<span style="color:'+darkBlue+';margin-left:-30px">'+ numberWithCommas(this.value) +'</span>';
+          }
+        },
+      })
+    }
+    
     // Populate dataset into the chart view
     let unitDescs = []
     if (seriesFarms.length > 0) {
@@ -219,9 +223,8 @@ export default class ChartGenerator extends React.Component {
             title: {
               text: element.unit_desc,
             },
-            tickInterval: 50000,
             breaks: this.getBreaingPoints(seriesOthers, 100),
-            height: '75%',
+            height: seriesFarms.length > 0 ? '75%' : '100%',
             offset: 0,
             labels: {
               formatter: function () {
@@ -241,7 +244,7 @@ export default class ChartGenerator extends React.Component {
           visible: element.shown, 
           showInLegend: element.shown, 
           zIndex: 0, 
-          yAxis: seriesFarms.length + unitDescs.indexOf(element.unit_desc),
+          yAxis: seriesFarms.length>0 ? 1 : 0,
           maxPointWidth: 32,
         })
       })
