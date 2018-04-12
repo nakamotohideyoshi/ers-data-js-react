@@ -1162,7 +1162,7 @@ export default class Layout extends React.Component {
 
   // reset year in `Arms Data Analysis`
   selectYearAnalysis = (years) => {
-    let {filters, selectedYears, whichOneMultiple} = this.state
+    let {selectedYears, whichOneMultiple} = this.state
 
     const runQuery = whichOneMultiple === YEAR_SELECTED ? '' : 'dlfseseytAnalysis'
     const isAllDataSources = whichOneMultiple === YEAR_SELECTED ? true : false
@@ -1209,7 +1209,6 @@ export default class Layout extends React.Component {
       isRemoveDataSource,
       yearsInfo: yearsInfo,
       selectedYears: reSelectedYears,
-      filters: filters,
       runQuery: runQuery,
       isAllDataSources
     })
@@ -1217,7 +1216,7 @@ export default class Layout extends React.Component {
 
   // reset Region in `Arms Data Analysis`
   selectStateAnalysis = (states) => {
-    let {filters, selectedStates, whichOneMultiple} = this.state
+    let {selectedStates, whichOneMultiple} = this.state
 
     const runQuery = whichOneMultiple === YEAR_SELECTED ? 'dlfsesetyAnalysis' : ''
     const isAllDataSources = whichOneMultiple === YEAR_SELECTED ? false : true
@@ -1268,7 +1267,6 @@ export default class Layout extends React.Component {
       statesInfo: statesInfo,
       selectedStates: reSelectedStates,
       selectedStateNames: selectedStateNames,
-      filters: filters,
       runQuery: runQuery,
       isAllDataSources
     })
@@ -1276,16 +1274,16 @@ export default class Layout extends React.Component {
 
   // Add Datasource
   addDataSource = (blockIndex) => {
-    let {filters} = this.state
+    let {pre_filters} = this.state
 
-    filters[blockIndex].report_num = [1]
+    pre_filters[blockIndex].report_num = [1]
 
     const runQuery = 'dAnalysis'
 
     const isRemoveDataSource = false
 
     this.setState({
-      filters,
+      pre_filters,
       isRemoveDataSource,
       blockIndex,
       runQuery
