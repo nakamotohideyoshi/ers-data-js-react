@@ -86,29 +86,11 @@ class Sidebar extends React.Component {
         headingTitle: 'Report'
       })
 
-      const subject_num = props.subjects[0].num
-      let subjects = []
-      props.subjects.forEach(subject => {
-        const obj = {}
-        obj.num = subject.num
-        obj.header = subject.header
-        subjects.push(obj)
-      })
-      categoryTitles.push(subjects)
-      sidebarItems.push({
-        isOpened: false,
-        selectedIndex: 0,
-        isCategory: false,
-        blockIndex: currentBlock,
-        visible: true,
-        headingTitle: 'Subject'
-      })
-
       // get dynamic filter [Serie, Year, State]
       this.setState({
         categoryTitles: categoryTitles,
         sidebarItems: sidebarItems
-      }, this.props.initialLoadingTailor(report_num, subject_num, currentBlock))
+      }, this.props.onSelectReportFilter(report_num, currentBlock))
 
      }
 
@@ -119,21 +101,24 @@ class Sidebar extends React.Component {
         // click subject filter
         if (props.reset1Query.networkStatus ===7 && props.reset1Query.reset1Query) {
           // generate `subject` LHS menu
+
+          let topic_abb = []
+
+          props.reset1Query.reset1Query.topic.forEach(topic => {
+            topic_abb.push(topic.abb)
+          })
+
           let subjects = []
           let subject_num = [props.reset1Query.reset1Query.subject[0].num]
-          const prev_subject = [categoryTitles[2][sidebarItems[2].selectedIndex].header]
-          let current_index = 0
+          
 
-          props.reset1Query.reset1Query.subject.forEach((subject, i) => {
+          props.reset1Query.reset1Query.subject.forEach(subject => {
             const obj = {}
             obj.num = subject.num
             obj.header = subject.header
-            if (prev_subject.indexOf(subject.header) > -1) {
-              current_index = i
-              subject_num = [subject.num]
-            }
             subjects.push(obj)
           })
+
           if (categoryTitles.length<3) {
             categoryTitles.push(subjects)
             sidebarItems.push({
@@ -145,6 +130,16 @@ class Sidebar extends React.Component {
               headingTitle: 'Subject'
             })
           } else {
+            const prev_subject = [categoryTitles[2][sidebarItems[2].selectedIndex].header]
+            let current_index = 0
+
+            props.reset1Query.reset1Query.subject.forEach((subject, i) => {              
+              if (prev_subject.indexOf(subject.header) > -1) {
+                current_index = i
+                subject_num = [subject.num]
+              }
+            })
+            
             categoryTitles[2] = subjects
             sidebarItems[2].isOpened = false
             sidebarItems[2].selectedIndex = current_index
@@ -159,7 +154,7 @@ class Sidebar extends React.Component {
           this.setState({
             categoryTitles: categoryTitles,
             sidebarItems: sidebarItems
-          }, this.props.onSelectSubjectFilter(subject_num, currentBlock))
+          }, this.props.initialLoadingTailor(topic_abb, subject_num, currentBlock))
         }        
       } else if (props.resetQuery) {
 
@@ -1050,12 +1045,9 @@ class Sidebar extends React.Component {
 
         // Tailored Report/Report
         const report_num = []
-        const topic_abb = []
         report_num.push(categoryTitles[1][sidebarItems[1].selectedIndex].num)
-        this.props.topics[sidebarItems[1].selectedIndex].forEach(topic => {
-          topic_abb.push(topic.abb)
-        })
-        this.setState({sidebarItems, categoryTitles}, this.props.onSelectReportFilter(report_num, topic_abb, currentBlock))
+
+        this.setState({sidebarItems, categoryTitles}, this.props.onSelectReportFilter(report_num, currentBlock))
 
       } else if (sidebarItemIndex === 2) {
 
