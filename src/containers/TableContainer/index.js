@@ -128,7 +128,6 @@ class TableContainer extends React.Component {
               <table className="table table-sm table-responsive">
                 <thead>
                   <tr>
-                    <th></th>
                     <th>
                       <div>
                         {
@@ -141,6 +140,7 @@ class TableContainer extends React.Component {
                         }
                       </div>
                     </th>
+                    <th></th>
                     {
                       categories && (
                         categories.map((category, pos) => {
@@ -174,21 +174,6 @@ class TableContainer extends React.Component {
                       return (
                         <tr key={`ltr-${index}`}>
                           <td>
-                            <div className="pin-container">
-                            <div>
-                            </div>
-                            {
-                              blockIndex < 1 && (
-                                <div className={`level-${data.level} nowrap-div`}>{data.header}</div>
-                              )
-                            } 
-                            {
-                              blockIndex > 0 &&
-                                <div className="level-1 nowrap-div">{data.header}</div>
-                            }
-                            </div>
-                          </td>
-                          <td>
                             {
                               <div className="nowrap-div">
                                 {
@@ -198,10 +183,29 @@ class TableContainer extends React.Component {
                                     </a>
                                   ) 
                                 }
-                                &ensp;&ensp;{data.unit_desc}
                               </div>
                             }
                           </td>
+                          <td>
+                            <div className="pin-container">
+                            <div>
+                            </div>
+                            {
+                              blockIndex < 1 && (
+                                <div className={`level-${data.level} nowrap-div`}>
+                                {data.header} {data.unit_desc !== 'Dollars per farm' ? '('+data.unit_desc+')' : ''}
+                                </div>
+                              )
+                            } 
+                            {
+                              blockIndex > 0 &&
+                                <div className="level-1 nowrap-div">
+                                  {data.header} {data.unit_desc !== 'Dollars per farm' ? '('+data.unit_desc+')' : ''}
+                                </div>
+                            }
+                            </div>
+                          </td>
+                          
                             {
                               categories && (
                                 categories.map((category, pos) => {
