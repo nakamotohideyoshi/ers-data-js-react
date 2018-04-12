@@ -956,7 +956,7 @@ export default class Layout extends React.Component {
 
   // state selected
   onSelectState = (index) => {
-    let { statesInfo, whichOneMultiple, priority, filters, blockIndex } = this.state
+    let { statesInfo, whichOneMultiple, priority, blockIndex } = this.state
     let runQuery = ''
     let isAllDataSources = false
 
@@ -1010,7 +1010,6 @@ export default class Layout extends React.Component {
     const isRemoveDataSource = false
 
     this.setState({
-      filters,
       isRemoveDataSource,
       selectedStateNames,
       priority: priority,
@@ -1038,15 +1037,15 @@ export default class Layout extends React.Component {
 
   // Datasource block inital loading
   initialBlockLoadAnalysis = (topic_abb, subject_num, blockIndex) => {
-    let {filters} = this.state
+    let {pre_filters} = this.state
 
-    filters[blockIndex].topic_abb = topic_abb
-    filters[blockIndex].subject_num = subject_num
+    pre_filters[blockIndex].topic_abb = topic_abb
+    pre_filters[blockIndex].subject_num = subject_num
     const isRemoveDataSource = false
 
     this.setState({
       isRemoveDataSource,
-      filters: filters,
+      pre_filters,
       runQuery: 'dlfAnalysis',
       blockIndex
     })
@@ -1054,15 +1053,15 @@ export default class Layout extends React.Component {
 
   // selected DataSource `Arms Data Analysis`
   selectDataSource = (report_num, blockIndex) => {
-    let {filters} = this.state
+    let {pre_filters} = this.state
 
-    filters[blockIndex].report_num = report_num
+    pre_filters[blockIndex].report_num = report_num
 
     const isRemoveDataSource = false
 
     this.setState({
       isRemoveDataSource,
-      filters: filters,
+      pre_filters,
       runQuery: 'dAnalysis',
       blockIndex
     })
@@ -1070,14 +1069,14 @@ export default class Layout extends React.Component {
 
   // selected DataLine in `Arms Data Analysis`
   selectDataLineAnalysis = (topic_abb, blockIndex) => {
-    let {filters} = this.state
+    let {pre_filters} = this.state
 
-    filters[blockIndex].topic_abb = topic_abb
+    pre_filters[blockIndex].topic_abb = topic_abb
     const isRemoveDataSource = false
 
     this.setState({
       isRemoveDataSource,
-      filters: filters,
+      pre_filters,
       runQuery: '',
       blockIndex
     })
