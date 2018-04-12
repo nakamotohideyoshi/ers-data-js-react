@@ -8,7 +8,7 @@ const SidebarItem = ({ headingTitle, titles, visible, selectedIndex, isOpened, i
   <div>
     {
       visible && !isReports && isRemoval && (
-        <div class="block">
+        <div className="block">
           
         </div>
       )
