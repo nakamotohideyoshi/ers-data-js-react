@@ -634,8 +634,8 @@ export default class Layout extends React.Component {
 
   // reset [ Filter By/Sub, Year ]
   resetEYFilter = (serie_element, years, blockIndex) => {
-    let {filters, selectedYears, whichOneMultiple} = this.state
-    filters[blockIndex].serie_element = serie_element
+    let {pre_filters, selectedYears, whichOneMultiple} = this.state
+    pre_filters[blockIndex].serie_element = serie_element
 
     let prevYearCount = 0
 
@@ -674,7 +674,7 @@ export default class Layout extends React.Component {
     })
 
     this.setState({
-      filters: filters,
+      pre_filters,
       blockIndex,
       yearsInfo: yearsInfo,
       selectedYears: reSelectedYears,
@@ -685,8 +685,8 @@ export default class Layout extends React.Component {
   // reset[ Filter, Region ]
   // run query to reset [ Filter By/Sub ]
   resetSRFilter = (serie, states, blockIndex) => {
-    let {filters, selectedStates, whichOneMultiple} = this.state
-    filters[blockIndex].serie = serie
+    let {pre_filters, selectedStates, whichOneMultiple} = this.state
+    pre_filters[blockIndex].serie = serie
 
     let prevStateCount = 0
 
@@ -729,7 +729,7 @@ export default class Layout extends React.Component {
     
 
     this.setState({
-      filters: filters,
+      pre_filters,
       blockIndex,
       statesInfo: statesInfo,
       selectedStates: reSelectedStates,
@@ -741,8 +741,8 @@ export default class Layout extends React.Component {
 
   // reset [ Filter By/Sub, Region ]
   resetERFilter = (serie_element, states, blockIndex) => {
-    let {filters, selectedStates, whichOneMultiple} = this.state
-    filters[blockIndex].serie_element = serie_element
+    let {pre_filters, selectedStates, whichOneMultiple} = this.state
+    pre_filters[blockIndex].serie_element = serie_element
 
     let prevStateCount = 0
 
@@ -785,7 +785,7 @@ export default class Layout extends React.Component {
     
 
     this.setState({
-      filters: filters,
+      pre_filters,
       blockIndex,
       statesInfo: statesInfo,
       selectedStates: reSelectedStates,
