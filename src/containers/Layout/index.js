@@ -1293,10 +1293,11 @@ export default class Layout extends React.Component {
   // remove DataSource
 
   removeDataSource = (blockIndex) => {
-    let {filters} = this.state
+    let {filters, pre_filters} = this.state
 
     for (let i=blockIndex; i<filters.length-2; i++) {
       filters[i] = filters[i+1]
+      pre_filters[i] = pre_filters[i+1]
     }
     filters[filters.length-1].report_num = []
     filters[filters.length-1].subject_num = []
@@ -1304,11 +1305,18 @@ export default class Layout extends React.Component {
     filters[filters.length-1].serie_element = []
     filters[filters.length-1].serie2 = []
     filters[filters.length-1].serie2_element = []
+    pre_filters[pre_filters.length-1].report_num = []
+    pre_filters[pre_filters.length-1].subject_num = []
+    pre_filters[pre_filters.length-1].serie = []
+    pre_filters[pre_filters.length-1].serie_element = []
+    pre_filters[pre_filters.length-1].serie2 = []
+    pre_filters[pre_filters.length-1].serie2_element = []
 
     const isRemoveDataSource = true
 
     this.setState({
       filters,
+      pre_filters,
       blockIndex,
       isRemoveDataSource
     })
