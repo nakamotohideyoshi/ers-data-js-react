@@ -31,6 +31,7 @@ export default class Layout extends React.Component {
     priority: [],
     isRemoveDataSource: false,
     isAllDataSources: false,
+    isGetSurveyData: false
   }
 
   componentWillMount() {
@@ -53,7 +54,20 @@ export default class Layout extends React.Component {
       }      
       obj.topic_abb = []
       filters.push(obj)
-      pre_filters.push(obj)
+      const obj1 = {}
+      obj1.report_num = []
+      obj1.subject_num = []
+      obj1.serie = []
+      obj1.serie_element = []
+      if (i === 0) {
+        obj1.serie2 = [defaultSerie]
+        obj1.serie2_element = [defaultSerie_element]
+      } else {
+        obj1.serie2 = []
+        obj1.serie2_element = []
+      }      
+      obj1.topic_abb = []
+      pre_filters.push(obj1)
     }
 
     this.setState({filters, pre_filters, isRemoveDataSource})
@@ -97,14 +111,6 @@ export default class Layout extends React.Component {
       } 
       statesInfo.push(obj)     
     })
-    
-
-    pre_filters[0].topic_abb = []
-    if (props.topics && props.topics.length !== 0) {
-      props.topics[0].forEach(topic => {
-        pre_filters[0].topic_abb.push(topic.abb)
-      })
-    }
 
     const isRemoveDataSource = false
 
@@ -1428,7 +1434,8 @@ export default class Layout extends React.Component {
       pre_filters,
       runQuery,
       isRemoveDataSource,
-      isAllDataSources
+      isAllDataSources,
+      isGetSurveyData
     } = this.state
 
     let serie = []
@@ -1543,6 +1550,7 @@ export default class Layout extends React.Component {
             selectedStates = {selectedStates}
             selectedStateNames = {selectedStateNames}
             selectedYears={selectedYears}
+
             report_num_0 = {filters[0].report_num}
             subject_num_0 = {filters[0].subject_num}
             serie_0 = {serie[0]}
@@ -1618,7 +1626,8 @@ export default class Layout extends React.Component {
             blockIndex = {blockIndex}      
             whichOneMultiple={whichOneMultiple}
             isRemoveDataSource={isRemoveDataSource}
-            isAllDataSources = {isAllDataSources}          
+            isAllDataSources = {isAllDataSources} 
+            isGetSurveyData = {isGetSurveyData}         
           />        
           <Footnote />
         </Col>  
