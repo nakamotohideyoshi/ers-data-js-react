@@ -61,7 +61,7 @@ export default class Layout extends React.Component {
 
   componentWillReceiveProps(props) {
 
-    let {filters, whichOneMultiple} = this.state
+    let {pre_filters, whichOneMultiple} = this.state
 
     const yearCount = whichOneMultiple === YEAR_SELECTED ? defaultYearCount : 1
 
@@ -99,10 +99,10 @@ export default class Layout extends React.Component {
     })
     
 
-    filters[0].topic_abb = []
+    pre_filters[0].topic_abb = []
     if (props.topics && props.topics.length !== 0) {
       props.topics[0].forEach(topic => {
-        filters[0].topic_abb.push(topic.abb)
+        pre_filters[0].topic_abb.push(topic.abb)
       })
     }
 
@@ -114,7 +114,7 @@ export default class Layout extends React.Component {
       statesInfo: statesInfo,
       selectedStates: selectedStates,
       selectedStateNames: selectedStateNames,
-      filters: filters,
+      pre_filters: pre_filters,
       isRemoveDataSource
     })    
     
