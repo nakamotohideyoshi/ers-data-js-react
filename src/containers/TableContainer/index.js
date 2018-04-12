@@ -124,7 +124,7 @@ class TableContainer extends React.Component {
             </div>
           </div>
           <div className="table-container">
-            <div className="col-width-4">
+            <div>
               <table className="table table-sm table-responsive">
                 <thead>
                   <tr>
@@ -141,12 +141,33 @@ class TableContainer extends React.Component {
                         }
                       </div>
                     </th>
+                    {
+                      categories && (
+                        categories.map((category, pos) => {
+                          return <th scope="col" className="estimate-rse-th estimate-rse-td" key={`category-${pos}`}>{category}</th>
+                        })
+                      )
+                    }
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
                     <td>&nbsp;</td>
                     <td></td>
+                    {
+                      categories && (
+                        categories.map((category, pos) => {
+                          return (
+                            <td className="estimate-rse-td" key={`est-th-${pos}`}>
+                              <div className='estimate_rse'>
+                                <div className="data-heading data-value">ESTIMATE</div>
+                                <div className="data-heading data-value">RSEᵃ</div>
+                              </div>
+                            </td>
+                          )
+                        })
+                      )
+                    }
                   </tr>
                   {
                     incomeArr.map((data, index) => {
@@ -181,61 +202,20 @@ class TableContainer extends React.Component {
                               </div>
                             }
                           </td>
-                        </tr>
-                      )
-                    })
-                  }
-                </tbody>
-              </table>
-            </div>
-            <div className="col-width-6">              
-              <table className="table table-sm table-responsive">
-                <thead>
-                  <tr>
-                    {
-                      categories && (
-                        categories.map((category, pos) => {
-                          return <th scope="col" className="estimate-rse-th estimate-rse-td" key={`category-${pos}`}>{category}</th>
-                        })
-                      )
-                    }
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    {
-                      categories && (
-                        categories.map((category, pos) => {
-                          return (
-                            <td className="estimate-rse-td" key={`est-th-${pos}`}>
-                              <div className='estimate_rse'>
-                                <div className="data-heading data-value">ESTIMATE</div>
-                                <div className="data-heading data-value">RSEᵃ</div>
-                              </div>
-                            </td>
-                          )
-                        })
-                      )
-                    }
-                  </tr>
-                  {
-                    incomeArr.map((data, index) => {
-                      return (
-                        <tr key={`rtr-${index}`}>
-                          {
-                            categories && (
-                              categories.map((category, pos) => {
-                                return (
-                                  <td className="estimate-rse-td nowrap-div" key={`est-td-${pos}`}>
-                                    <div className='estimate_rse'>
-                                      <div className="data-value">{data.estimateList[pos]}</div>
-                                      <div className="data-value">{data.rseList[pos]}</div>
-                                    </div>
-                                  </td>
-                                )
-                              })
-                            )
-                          }
+                            {
+                              categories && (
+                                categories.map((category, pos) => {
+                                  return (
+                                    <td className="estimate-rse-td nowrap-div" key={`est-td-${pos}`}>
+                                      <div className='estimate_rse'>
+                                        <div className="data-value">{incomeArr[index].estimateList[pos]}</div>
+                                        <div className="data-value">{incomeArr[index].rseList[pos]}</div>
+                                      </div>
+                                    </td>
+                                  )
+                                })
+                              )
+                            }
                         </tr>
                       )
                     })
