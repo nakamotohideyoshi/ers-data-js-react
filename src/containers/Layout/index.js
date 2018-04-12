@@ -1595,6 +1595,8 @@ export default class Layout extends React.Component {
         filters[i].topic_abb = pre_filters[i].topic_abb
         filters[i].serie = pre_filters[i].serie
         filters[i].serie_element = pre_filters[i].serie_element
+        filters[i].serie2 = pre_filters[i].serie2
+        filters[i].serie2_element = pre_filters[i].serie2_element
       }
       if (filters[i].serie_element.length > 1){
         serie_element.push([0])
