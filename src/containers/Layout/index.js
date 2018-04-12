@@ -123,14 +123,14 @@ export default class Layout extends React.Component {
   // initial LHS loading in `tailored report`
   // run query to refresh [serie, year, state]
   initialLoadingTailor = (report_num, subject_num, blockIndex) => {
-    let {filters} = this.state
+    let {pre_filters} = this.state
 
     const isRemoveDataSource = false
 
-    filters[blockIndex].report_num = [report_num]
-    filters[blockIndex].subject_num = [subject_num]
+    pre_filters[blockIndex].report_num = [report_num]
+    pre_filters[blockIndex].subject_num = [subject_num]
     this.setState({
-      filters,
+      pre_filters,
       isRemoveDataSource,
       priority: [],
       blockIndex,
@@ -792,10 +792,9 @@ export default class Layout extends React.Component {
   }
 
   // report_num selected
-  onSelectReportFilter = (report_num, topic_abb, blockIndex) => {
+  onSelectReportFilter = (report_num,blockIndex) => {
     let {filters} = this.state
     filters[blockIndex].report_num = report_num
-    filters[blockIndex].topic_abb = topic_abb
 
     this.setState({
       filters: filters,
