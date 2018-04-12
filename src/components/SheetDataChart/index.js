@@ -18,22 +18,22 @@ class SheetDataChart extends Component {
   componentWillReceiveProps(props) {
     const { showList, surveyData, categories, whichOneMultiple } = props
     let incomeArr = []
-
     if (surveyData) {
-      surveyData.forEach((element, index) => {
+      surveyData.forEach((dataSourceCategories, index) => {
+        dataSourceCategories.data.forEach((element, i) => {
           let singleIncome = {}
           let currentIndex = 0
 
           incomeArr.forEach((income, i) => {
-            if (income.id === element.report_num + element.topic_abb) {
+            if (income.id === dataSourceCategories.dataSource + element.topic_abb) {
               singleIncome = income
               currentIndex = i
               return
             }
           })
-          singleIncome.shown = showList[element.report_num + element.topic_abb]
+          singleIncome.shown = showList[dataSourceCategories.dataSource + element.topic_abb]
           if (!singleIncome.id) {
-            singleIncome.id = element.report_num + element.topic_abb
+            singleIncome.id = dataSourceCategories.dataSource + element.topic_abb
             singleIncome.report = element.report_dim.header
             singleIncome.header = element.topic_dim.header
             singleIncome.unit_desc = element.topic_dim.unit_desc
@@ -62,6 +62,7 @@ class SheetDataChart extends Component {
               })
               incomeArr[currentIndex] = singleIncome
           }
+        })
       })
     }
     this.setState({ incomeArr: incomeArr.slice() })
