@@ -7,7 +7,11 @@ import gql from 'graphql-tag';
       survey_abb: "finance",
       report_num: $report_num
     ){
-      subject{
+      topic{
+        abb
+        header
+      }
+    	subject{
         num
         header
       }
