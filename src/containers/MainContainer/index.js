@@ -51,6 +51,7 @@ class MainContainer extends React.Component {
         }
         
       })
+      this.setState({ showList, surveyData, showData })
 
     } else {
       if (props.charts) {
@@ -82,20 +83,20 @@ class MainContainer extends React.Component {
             }
           }
         }
-      } 
-    }
-
-    if(props.blockIndex === 0){
-      showData = surveyData[0]
-    } else {
-      for (let i=1; i<surveyData.length; i++){
-        surveyData[i].forEach(data =>{
-          showData.push(data)
-          showList[data.report_num+data.topic_abb] = true
-        })
       }
+      if(props.blockIndex === 0){
+        showData = surveyData[0]
+      } else {
+        for (let i=1; i<surveyData.length; i++){
+          surveyData[i].forEach(data =>{
+            showData.push(data)
+            showList[data.report_num+data.topic_abb] = true
+          })
+        }
+      }
+      this.setState({ showList, surveyData, showData })      
+      
     }
-    this.setState({ showList, surveyData, showData })
     
   }
 
