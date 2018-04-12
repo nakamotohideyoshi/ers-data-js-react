@@ -69,8 +69,10 @@ export default class Layout extends React.Component {
       obj1.topic_abb = []
       pre_filters.push(obj1)
     }
+    
+    const isGetSurveyData = false
 
-    this.setState({filters, pre_filters, isRemoveDataSource})
+    this.setState({filters, pre_filters, isRemoveDataSource, isGetSurveyData})
   }
 
   componentWillReceiveProps(props) {
@@ -113,6 +115,8 @@ export default class Layout extends React.Component {
     })
 
     const isRemoveDataSource = false
+    const isGetSurveyData = false
+
 
     this.setState({
       yearsInfo: yearsInfo,
@@ -121,7 +125,8 @@ export default class Layout extends React.Component {
       selectedStates: selectedStates,
       selectedStateNames: selectedStateNames,
       pre_filters: pre_filters,
-      isRemoveDataSource
+      isRemoveDataSource,
+      isGetSurveyData
     })    
     
   }
@@ -132,6 +137,7 @@ export default class Layout extends React.Component {
     let {pre_filters} = this.state
 
     const isRemoveDataSource = false
+    const isGetSurveyData = false
 
     pre_filters[blockIndex].topic_abb = topic_abb
     pre_filters[blockIndex].subject_num = subject_num
@@ -141,6 +147,7 @@ export default class Layout extends React.Component {
     this.setState({
       pre_filters,
       isRemoveDataSource,
+      isGetSurveyData,
       priority: [],
       blockIndex,
       runQuery: 'resetQuery'
@@ -150,6 +157,7 @@ export default class Layout extends React.Component {
   resetFilterByBlockIndex = (blockIndex) => {
 
     const isRemoveDataSource = false
+    const isGetSurveyData = false
 
     let {pre_filters} = this.state
     let runQuery = ''
@@ -169,6 +177,7 @@ export default class Layout extends React.Component {
     this.setState({
       pre_filters,
       isRemoveDataSource,
+      isGetSurveyData,
       blockIndex: blockIndex,
       priority: [],
       runQuery: runQuery
@@ -182,6 +191,7 @@ export default class Layout extends React.Component {
     let {pre_filters, selectedYears, selectedStates, whichOneMultiple} = this.state
 
     pre_filters[blockIndex].serie = serie
+    pre_filters[blockIndex].serie_element = []
     
     let prevYearCount = 0
 
@@ -258,9 +268,13 @@ export default class Layout extends React.Component {
       }   
       statesInfo.push(obj)     
     })
+    const isRemoveDataSource = false
+    const isGetSurveyData = false
 
     this.setState({
       pre_filters,
+      isRemoveDataSource,
+      isGetSurveyData,
       blockIndex: blockIndex,
       yearsInfo: yearsInfo,
       selectedYears: reSelectedYears,
@@ -274,10 +288,14 @@ export default class Layout extends React.Component {
   // resest [ Filter By/Sub ]
   resetEFilter = (serie_element, blockIndex) => {
     let {pre_filters} = this.state
-    pre_filters[blockIndex].serie_element = serie_element    
+    pre_filters[blockIndex].serie_element = serie_element
+    const isRemoveDataSource = false
+    const isGetSurveyData = true    
 
     this.setState({
       pre_filters,
+      isRemoveDataSource,
+      isGetSurveyData,
       blockIndex: blockIndex,
       runQuery: ''
     })
@@ -362,9 +380,13 @@ export default class Layout extends React.Component {
       }   
       statesInfo.push(obj)     
     })
+    const isRemoveDataSource = false
+    const isGetSurveyData = true
 
     this.setState({
       pre_filters,
+      isRemoveDataSource,
+      isGetSurveyData,
       blockIndex,
       yearsInfo: yearsInfo,
       selectedYears: reSelectedYears,
@@ -455,9 +477,12 @@ export default class Layout extends React.Component {
       }   
       statesInfo.push(obj)     
     })
-    
+    const isRemoveDataSource = false
+    const isGetSurveyData = true
 
     this.setState({
+      isRemoveDataSource,
+      isGetSurveyData,
       blockIndex,
       yearsInfo: yearsInfo,
       selectedYears: reSelectedYears,
@@ -510,7 +535,12 @@ export default class Layout extends React.Component {
       yearsInfo.push(infoObj)
     })
 
+    const isRemoveDataSource = false
+    const isGetSurveyData = true
+
     this.setState({
+      isRemoveDataSource,
+      isGetSurveyData,
       blockIndex,
       yearsInfo: yearsInfo,
       selectedYears: reSelectedYears,
@@ -563,8 +593,11 @@ export default class Layout extends React.Component {
       statesInfo.push(obj)     
     })
     
-
+    const isRemoveDataSource = false
+    const isGetSurveyData = true
     this.setState({
+      isRemoveDataSource,
+      isGetSurveyData,
       blockIndex,
       selectedStates: reSelectedStates,
       statesInfo: statesInfo,
@@ -579,6 +612,7 @@ export default class Layout extends React.Component {
   resetSYFilter = (serie, years, blockIndex) => {
     let {pre_filters, selectedYears, whichOneMultiple} = this.state
     pre_filters[blockIndex].serie = serie
+    pre_filters[blockIndex].serie_element = []
 
     let prevYearCount = 0
 
@@ -616,8 +650,13 @@ export default class Layout extends React.Component {
       yearsInfo.push(infoObj)
     })
 
+    const isRemoveDataSource = false
+    const isGetSurveyData = false
+
     this.setState({
       pre_filters,
+      isRemoveDataSource,
+      isGetSurveyData,
       blockIndex,
       yearsInfo: yearsInfo,
       selectedYears: reSelectedYears,
@@ -630,9 +669,15 @@ export default class Layout extends React.Component {
   resetSFilter = (serie, blockIndex) => {
     let {pre_filters} = this.state
     pre_filters[blockIndex].serie = serie
+    pre_filters[blockIndex].serie_element = []
+
+    const isRemoveDataSource = false
+    const isGetSurveyData = false
 
     this.setState({
       pre_filters,
+      isRemoveDataSource,
+      isGetSurveyData,
       blockIndex,
       runQuery: 'tysQuery'
     })
@@ -679,8 +724,13 @@ export default class Layout extends React.Component {
       yearsInfo.push(infoObj)
     })
 
+    const isRemoveDataSource = false
+    const isGetSurveyData = true
+
     this.setState({
       pre_filters,
+      isRemoveDataSource,
+      isGetSurveyData,
       blockIndex,
       yearsInfo: yearsInfo,
       selectedYears: reSelectedYears,
@@ -693,6 +743,7 @@ export default class Layout extends React.Component {
   resetSRFilter = (serie, states, blockIndex) => {
     let {pre_filters, selectedStates, whichOneMultiple} = this.state
     pre_filters[blockIndex].serie = serie
+    pre_filters[blockIndex].serie_element = []
 
     let prevStateCount = 0
 
@@ -733,9 +784,13 @@ export default class Layout extends React.Component {
       statesInfo.push(obj)     
     })
     
+    const isRemoveDataSource = false
+    const isGetSurveyData = false
 
     this.setState({
       pre_filters,
+      isRemoveDataSource,
+      isGetSurveyData,
       blockIndex,
       statesInfo: statesInfo,
       selectedStates: reSelectedStates,
@@ -788,10 +843,13 @@ export default class Layout extends React.Component {
       }   
       statesInfo.push(obj)     
     })
-    
+    const isRemoveDataSource = false
+    const isGetSurveyData = true
 
     this.setState({
       pre_filters,
+      isRemoveDataSource,
+      isGetSurveyData,
       blockIndex,
       statesInfo: statesInfo,
       selectedStates: reSelectedStates,
@@ -801,12 +859,21 @@ export default class Layout extends React.Component {
   }
 
   // report_num selected
-  onSelectReportFilter = (report_num,blockIndex) => {
+  onSelectReportFilter = (report_num, blockIndex) => {
     let {pre_filters} = this.state
     pre_filters[blockIndex].report_num = report_num
+    pre_filters[blockIndex].topic_abb = []
+    pre_filters[blockIndex].subject_num = []
+    pre_filters[blockIndex].serie = []
+    pre_filters[blockIndex].serie_element = []
+
+    const isRemoveDataSource = false
+    const isGetSurveyData = false
 
     this.setState({
-      filters: pre_filters,
+      pre_filters,
+      isRemoveDataSource,
+      isGetSurveyData,
       blockIndex,
       runQuery: 'reset1Query'
     })
@@ -816,9 +883,16 @@ export default class Layout extends React.Component {
   onSelectSubjectFilter = (subject_num, blockIndex) => {
     let {pre_filters} = this.state
     pre_filters[blockIndex].subject_num = subject_num
+    pre_filters[blockIndex].serie = []
+    pre_filters[blockIndex].serie_element = []
+
+    const isRemoveDataSource = false
+    const isGetSurveyData = false
 
     this.setState({
       pre_filters,
+      isRemoveDataSource,
+      isGetSurveyData,
       blockIndex,
       runQuery: 'resetQuery'
     })
@@ -838,6 +912,7 @@ export default class Layout extends React.Component {
     }
     
     pre_filters[blockIndex].serie = serie
+    pre_filters[blockIndex].serie_element = []
     if (priority.indexOf('serie') === 0) {
       // Serie -> ... -> ...
       runQuery = 'sQuery'
@@ -851,8 +926,13 @@ export default class Layout extends React.Component {
       // ... -> ... -> Serie
       runQuery = 'tysQuery'
     }
+
+    const isRemoveDataSource = false
+    const isGetSurveyData = false
     this.setState({
       pre_filters,
+      isRemoveDataSource,
+      isGetSurveyData,
       blockIndex,
       priority: priority,
       runQuery: runQuery
@@ -872,6 +952,8 @@ export default class Layout extends React.Component {
     if (priorityIndex < 0) {
       priority.push('serie')
     }
+    const isRemoveDataSource = false
+    let isGetSurveyData = false
 
     pre_filters[blockIndex].serie_element = serie_element
     if (priority.indexOf('serie') === 0) {
@@ -886,9 +968,12 @@ export default class Layout extends React.Component {
     } else if (priority.indexOf('serie') === 2){
       // ... -> ... -> Serie/Serie_element
       runQuery = ''
+      isGetSurveyData = true
     }
     this.setState({
       pre_filters,
+      isRemoveDataSource,
+      isGetSurveyData,
       blockIndex,
       priority: priority,
       runQuery: runQuery
@@ -922,6 +1007,7 @@ export default class Layout extends React.Component {
         selectedYears.push(yearN.year)
       }
     })
+    let isGetSurveyData = false
 
     if (blockIndex === 0) {
 
@@ -938,10 +1024,12 @@ export default class Layout extends React.Component {
       } else if (priority.indexOf('year') === 2){
         // ... -> ... -> Year
         runQuery = ''
+        isGetSurveyData = true
       }
     } else {
       if (whichOneMultiple === YEAR_SELECTED) {
         runQuery = ''
+        isGetSurveyData = true
         isAllDataSources = true
       } else {
         runQuery = 'dlfseseytAnalysis'
@@ -952,6 +1040,7 @@ export default class Layout extends React.Component {
 
     this.setState({
       isRemoveDataSource,
+      isGetSurveyData,
       priority: priority,
       yearsInfo: yearsInfo.slice(),
       selectedYears: selectedYears,
@@ -989,6 +1078,8 @@ export default class Layout extends React.Component {
         selectedStateNames.push(stateN.name)
       }
     })
+
+    let isGetSurveyData = false
     
     if (blockIndex === 0) {
       if (priority.indexOf('state') === 0) {
@@ -1003,12 +1094,14 @@ export default class Layout extends React.Component {
       } else if (priority.indexOf('state') === 2) {
         // ... -> ... -> State
         runQuery = ''
+        isGetSurveyData = true
       }
     } else {
       if (whichOneMultiple === YEAR_SELECTED) {
         runQuery = 'dlfsesetyAnalysis'
       } else {
         runQuery = ''
+        isGetSurveyData = true
         isAllDataSources = true
       }
     }
@@ -1017,6 +1110,7 @@ export default class Layout extends React.Component {
 
     this.setState({
       isRemoveDataSource,
+      isGetSurveyData,
       selectedStateNames,
       priority: priority,
       statesInfo: statesInfo.slice(),
@@ -1028,14 +1122,14 @@ export default class Layout extends React.Component {
 
   // Arms Data Analysis Category selected firstly
   selectAnalysisCategory = () => {
-    let {filters} = this.state
+    let {pre_filters} = this.state
     const blockIndex = 1
-    filters[blockIndex].report_num = [1]
+    pre_filters[blockIndex].report_num = [1]
     const isRemoveDataSource = false
 
     this.setState({
       isRemoveDataSource,
-      filters: filters,
+      pre_filters,
       runQuery: 'initAnalysis',
       blockIndex
     })
@@ -1048,9 +1142,11 @@ export default class Layout extends React.Component {
     pre_filters[blockIndex].topic_abb = topic_abb
     pre_filters[blockIndex].subject_num = subject_num
     const isRemoveDataSource = false
+    const isGetSurveyData = false
 
     this.setState({
       isRemoveDataSource,
+      isGetSurveyData,
       pre_filters,
       runQuery: 'dlfAnalysis',
       blockIndex
@@ -1064,9 +1160,11 @@ export default class Layout extends React.Component {
     pre_filters[blockIndex].report_num = report_num
 
     const isRemoveDataSource = false
+    const isGetSurveyData = false
 
     this.setState({
       isRemoveDataSource,
+      isGetSurveyData,
       pre_filters,
       runQuery: 'dAnalysis',
       blockIndex
@@ -1079,9 +1177,11 @@ export default class Layout extends React.Component {
 
     pre_filters[blockIndex].topic_abb = topic_abb
     const isRemoveDataSource = false
+    const isGetSurveyData = true
 
     this.setState({
       isRemoveDataSource,
+      isGetSurveyData,
       pre_filters,
       runQuery: '',
       blockIndex
@@ -1094,9 +1194,11 @@ export default class Layout extends React.Component {
 
     pre_filters[blockIndex].subject_num = subject_num
     const isRemoveDataSource = false
+    const isGetSurveyData = false
 
     this.setState({
       isRemoveDataSource,
+      isGetSurveyData,
       pre_filters,
       runQuery: 'dlfAnalysis',
       blockIndex
@@ -1109,9 +1211,11 @@ export default class Layout extends React.Component {
 
     pre_filters[blockIndex].serie = serie
     const isRemoveDataSource = false
+    const isGetSurveyData = false
 
     this.setState({
       isRemoveDataSource,
+      isGetSurveyData,
       pre_filters,
       runQuery: 'dlfsAnalysis',
       blockIndex
@@ -1124,9 +1228,11 @@ export default class Layout extends React.Component {
 
     pre_filters[blockIndex].serie_element = serie_element
     const isRemoveDataSource = false
+    const isGetSurveyData = false
 
     this.setState({
       isRemoveDataSource,
+      isGetSurveyData,
       pre_filters,
       runQuery: 'dlfseAnalysis',
       blockIndex
@@ -1139,9 +1245,11 @@ export default class Layout extends React.Component {
 
     pre_filters[blockIndex].serie2 = serie2
     const isRemoveDataSource = false
+    const isGetSurveyData = false
 
     this.setState({
       isRemoveDataSource,
+      isGetSurveyData,
       pre_filters,
       runQuery: 'dlfsesAnalysis',
       blockIndex
@@ -1154,12 +1262,14 @@ export default class Layout extends React.Component {
 
     pre_filters[blockIndex].serie2_element = serie2_element
     const isRemoveDataSource = false
+    const isGetSurveyData = false
 
     const runQuery = whichOneMultiple === YEAR_SELECTED ? 'dlfsesetAnalysis' : 'dlfseseyAnalysis'
 
 
     this.setState({
       isRemoveDataSource,
+      isGetSurveyData,
       pre_filters,
       runQuery: runQuery,
       blockIndex
@@ -1171,6 +1281,7 @@ export default class Layout extends React.Component {
     let {selectedYears, whichOneMultiple} = this.state
 
     const runQuery = whichOneMultiple === YEAR_SELECTED ? '' : 'dlfseseytAnalysis'
+    const isGetSurveyData =whichOneMultiple === YEAR_SELECTED ? true : false
     const isAllDataSources = whichOneMultiple === YEAR_SELECTED ? true : false
 
     let prevYearCount = 0
@@ -1213,6 +1324,7 @@ export default class Layout extends React.Component {
 
     this.setState({
       isRemoveDataSource,
+      isGetSurveyData,
       yearsInfo: yearsInfo,
       selectedYears: reSelectedYears,
       runQuery: runQuery,
@@ -1225,6 +1337,7 @@ export default class Layout extends React.Component {
     let {selectedStates, whichOneMultiple} = this.state
 
     const runQuery = whichOneMultiple === YEAR_SELECTED ? 'dlfsesetyAnalysis' : ''
+    const isGetSurveyData = whichOneMultiple === YEAR_SELECTED ? false : true
     const isAllDataSources = whichOneMultiple === YEAR_SELECTED ? false : true
 
     let prevStateCount = 0
@@ -1270,6 +1383,7 @@ export default class Layout extends React.Component {
 
     this.setState({
       isRemoveDataSource,
+      isGetSurveyData,
       statesInfo: statesInfo,
       selectedStates: reSelectedStates,
       selectedStateNames: selectedStateNames,
@@ -1287,10 +1401,12 @@ export default class Layout extends React.Component {
     const runQuery = 'dAnalysis'
 
     const isRemoveDataSource = false
+    const isGetSurveyData = false
 
     this.setState({
       pre_filters,
       isRemoveDataSource,
+      isGetSurveyData,
       blockIndex,
       runQuery
     })
@@ -1319,12 +1435,15 @@ export default class Layout extends React.Component {
     pre_filters[pre_filters.length-1].serie2_element = []
 
     const isRemoveDataSource = true
+    const isGetSurveyData = false
 
     this.setState({
       filters,
       pre_filters,
       blockIndex,
-      isRemoveDataSource
+      isRemoveDataSource,
+      isGetSurveyData,
+      runQuery: ''
     })
   }
   
@@ -1359,8 +1478,10 @@ export default class Layout extends React.Component {
       })
     }
     let runQuery = ''
+    let isGetSurveyData = true
     if (blockIndex !== 0 && yearsCount !== 1 && statesCount !== 1) {
       runQuery = 'ytDLAnalysis'
+      isGetSurveyData = false
     }
 
     const isRemoveDataSource = false
@@ -1374,9 +1495,11 @@ export default class Layout extends React.Component {
       statesInfo,
       isSelectedAll: false,
       isRemoveDataSource,
+      isGetSurveyData,
       runQuery
     })
   }
+  
   onSelectAll = (whichOneMultiple) => {
     let { isSelectedAll, yearsInfo, statesInfo } = this.state
     isSelectedAll = !isSelectedAll
@@ -1627,7 +1750,9 @@ export default class Layout extends React.Component {
             whichOneMultiple={whichOneMultiple}
             isRemoveDataSource={isRemoveDataSource}
             isAllDataSources = {isAllDataSources} 
-            isGetSurveyData = {isGetSurveyData}         
+            isGetSurveyData = {isGetSurveyData}
+            filters={filters}
+            pre_filters={pre_filters}        
           />        
           <Footnote />
         </Col>  

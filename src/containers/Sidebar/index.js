@@ -68,7 +68,7 @@ class Sidebar extends React.Component {
         blockIndex: currentBlock,
         visible: true,  headingTitle: ''
       })
-      const report_num = props.reports[0].num
+      const report_num = [props.reports[0].num]
       let reports = []
       props.reports.forEach(report => {
         const obj = {}
@@ -139,7 +139,7 @@ class Sidebar extends React.Component {
                 subject_num = [subject.num]
               }
             })
-            
+
             categoryTitles[2] = subjects
             sidebarItems[2].isOpened = false
             sidebarItems[2].selectedIndex = current_index
