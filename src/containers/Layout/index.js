@@ -122,13 +122,16 @@ export default class Layout extends React.Component {
 
   // initial LHS loading in `tailored report`
   // run query to refresh [serie, year, state]
-  initialLoadingTailor = (report_num, subject_num, blockIndex) => {
+  initialLoadingTailor = (topic_abb, subject_num, blockIndex) => {
     let {pre_filters} = this.state
 
     const isRemoveDataSource = false
 
-    pre_filters[blockIndex].report_num = [report_num]
-    pre_filters[blockIndex].subject_num = [subject_num]
+    pre_filters[blockIndex].topic_abb = topic_abb
+    pre_filters[blockIndex].subject_num = subject_num
+    pre_filters[blockIndex].serie = []
+    pre_filters[blockIndex].serie_element = []
+
     this.setState({
       pre_filters,
       isRemoveDataSource,
@@ -142,23 +145,23 @@ export default class Layout extends React.Component {
 
     const isRemoveDataSource = false
 
-    let {filters} = this.state
+    let {pre_filters} = this.state
     let runQuery = ''
 
     if (blockIndex === 0) {
-      filters[blockIndex].serie = []
-      filters[blockIndex].serie_element = []
+      pre_filters[blockIndex].serie = []
+      pre_filters[blockIndex].serie_element = []
       runQuery = 'resetQuery'
     } else {
-      filters[blockIndex].serie = []
-      filters[blockIndex].serie_element = []
-      filters[blockIndex].serie2 = []
-      filters[blockIndex].serie2_element = []
+      pre_filters[blockIndex].serie = []
+      pre_filters[blockIndex].serie_element = []
+      pre_filters[blockIndex].serie2 = []
+      pre_filters[blockIndex].serie2_element = []
       runQuery = 'dlfAnalysis'
     }
 
     this.setState({
-      filters: filters,
+      pre_filters,
       isRemoveDataSource,
       blockIndex: blockIndex,
       priority: [],
