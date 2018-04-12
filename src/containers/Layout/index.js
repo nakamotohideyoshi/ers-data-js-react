@@ -796,11 +796,11 @@ export default class Layout extends React.Component {
 
   // report_num selected
   onSelectReportFilter = (report_num,blockIndex) => {
-    let {filters} = this.state
-    filters[blockIndex].report_num = report_num
+    let {pre_filters} = this.state
+    pre_filters[blockIndex].report_num = report_num
 
     this.setState({
-      filters: filters,
+      filters: pre_filters,
       blockIndex,
       runQuery: 'reset1Query'
     })
@@ -808,11 +808,11 @@ export default class Layout extends React.Component {
 
   // subject_num selected
   onSelectSubjectFilter = (subject_num, blockIndex) => {
-    let {filters} = this.state
-    filters[blockIndex].subject_num = subject_num
+    let {pre_filters} = this.state
+    pre_filters[blockIndex].subject_num = subject_num
 
     this.setState({
-      filters: filters,
+      pre_filters,
       blockIndex,
       runQuery: 'resetQuery'
     })
@@ -820,7 +820,7 @@ export default class Layout extends React.Component {
 
   // serie selected
   onSelectFilterByFilter = (serie, blockIndex) => {
-    let {filters, priority} = this.state
+    let {pre_filters, priority} = this.state
     let runQuery = ''
     const priorityIndex = priority.indexOf('serie')
     if (priority.length === 3) {
@@ -831,7 +831,7 @@ export default class Layout extends React.Component {
       priority.push('serie')
     }
     
-    filters[blockIndex].serie = serie
+    pre_filters[blockIndex].serie = serie
     if (priority.indexOf('serie') === 0) {
       // Serie -> ... -> ...
       runQuery = 'sQuery'
@@ -846,7 +846,7 @@ export default class Layout extends React.Component {
       runQuery = 'tysQuery'
     }
     this.setState({
-      filters: filters,
+      pre_filters,
       blockIndex,
       priority: priority,
       runQuery: runQuery
@@ -855,7 +855,7 @@ export default class Layout extends React.Component {
 
   // serie_element selected
   onSelectSubFilterByFilter = (serie_element, blockIndex) => {
-    let {filters, priority} = this.state
+    let {pre_filters, priority} = this.state
     let runQuery = ''
 
     const priorityIndex = priority.indexOf('serie')
@@ -867,7 +867,7 @@ export default class Layout extends React.Component {
       priority.push('serie')
     }
 
-    filters[blockIndex].serie_element = serie_element
+    pre_filters[blockIndex].serie_element = serie_element
     if (priority.indexOf('serie') === 0) {
       // Serie/Serie_element -> ... -> ...
       runQuery = 'seQuery'
@@ -882,7 +882,7 @@ export default class Layout extends React.Component {
       runQuery = ''
     }
     this.setState({
-      filters: filters,
+      pre_filters,
       blockIndex,
       priority: priority,
       runQuery: runQuery
@@ -891,7 +891,7 @@ export default class Layout extends React.Component {
 
   // Year selected
   onSelectYear = (index) => {
-    let { yearsInfo, whichOneMultiple, priority, filters, blockIndex } = this.state
+    let { yearsInfo, whichOneMultiple, priority, blockIndex } = this.state
     let runQuery = ''
     let isAllDataSources = false
 
@@ -945,7 +945,6 @@ export default class Layout extends React.Component {
     const isRemoveDataSource = false
 
     this.setState({
-      filters,
       isRemoveDataSource,
       priority: priority,
       yearsInfo: yearsInfo.slice(),
