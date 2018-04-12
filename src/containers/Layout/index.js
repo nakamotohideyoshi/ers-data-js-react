@@ -1419,6 +1419,7 @@ export default class Layout extends React.Component {
       whichOneMultiple,
       isSelectedAll,
       filters,
+      pre_filters,
       runQuery,
       isRemoveDataSource,
       isAllDataSources
@@ -1455,13 +1456,13 @@ export default class Layout extends React.Component {
     let arms_topic_abb = []
 
     for (let i=1; i<dataSourceCounts+1; i++) {
-      arms_report_num = arms_report_num.concat(filters[i].report_num)
-      arms_subject_num = arms_subject_num.concat(filters[i].subject_num)
-      arms_serie = arms_serie.concat(filters[i].serie)
-      arms_serie_element = arms_serie_element.concat(filters[i].serie_element)
-      arms_serie2 = arms_serie2.concat(filters[i].serie2)
-      arms_serie2_element = arms_serie2_element.concat(filters[i].serie2_element)
-      arms_topic_abb = arms_topic_abb.concat(filters[i].topic_abb)
+      arms_report_num = arms_report_num.concat(pre_filters[i].report_num)
+      arms_subject_num = arms_subject_num.concat(pre_filters[i].subject_num)
+      arms_serie = arms_serie.concat(pre_filters[i].serie)
+      arms_serie_element = arms_serie_element.concat(pre_filters[i].serie_element)
+      arms_serie2 = arms_serie2.concat(pre_filters[i].serie2)
+      arms_serie2_element = arms_serie2_element.concat(pre_filters[i].serie2_element)
+      arms_topic_abb = arms_topic_abb.concat(pre_filters[i].topic_abb)
     }
     let sortedYears = yearsInfo.sort(function(a, b){return parseInt(b.year, 10) - parseInt(a.year, 10)})
     return (
@@ -1477,13 +1478,13 @@ export default class Layout extends React.Component {
           topics = {this.props.topics}
           reports = {this.props.reports}
           subjects = {this.props.subjects}
-          report_num = {filters[blockIndex] ? filters[blockIndex].report_num : []}
-          topic_abb = {filters[blockIndex] ? filters[blockIndex].topic_abb : []}
-          subject_num = {filters[blockIndex] ? filters[blockIndex].subject_num : []}
-          serie = {filters[blockIndex] ? filters[blockIndex].serie : []}
-          serie_element={filters[blockIndex] ? filters[blockIndex].serie_element : []}
-          serie2 = {filters[blockIndex] ? filters[blockIndex].serie2 : []}
-          serie2_element = {filters[blockIndex] ? filters[blockIndex].serie2_element : []}
+          report_num = {pre_filters[blockIndex].report_num}
+          topic_abb = {pre_filters[blockIndex].topic_abb}
+          subject_num = {pre_filters[blockIndex].subject_num}
+          serie = {pre_filters[blockIndex].serie}
+          serie_element={pre_filters[blockIndex].serie_element}
+          serie2 = {pre_filters[blockIndex].serie2}
+          serie2_element = {pre_filters[blockIndex].serie2_element}
           selectedStates = {selectedStates}
           selectedYears={selectedYears}
           runQuery={runQuery}
