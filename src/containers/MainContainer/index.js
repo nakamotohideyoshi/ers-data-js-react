@@ -45,8 +45,11 @@ class MainContainer extends React.Component {
 
         if (index !== 0) {
           survey.forEach(data => {
-            showData.push(data)
-          showList[data.report_num+data.topic_abb] = true
+            let dataObj = {}
+            dataObj.dataSource = index
+            dataObj.data = [data]
+            showData.push(dataObj)
+            showList[index+data.topic_abb] = true
           })
         }
         
@@ -57,12 +60,12 @@ class MainContainer extends React.Component {
         if(props.charts.networkStatus === 7) {
 
           if(props.charts.arms_surveydata) {
-
+            // Tailored Report
             props.charts.arms_surveydata.forEach(data => {
               if (data.topic_dim.level > 1) {
-                showList[data.report_num+data.topic_abb] = false
+                showList[0+data.topic_abb] = false
               } else {
-                showList[data.report_num+data.topic_abb] = true
+                showList[0+data.topic_abb] = true
               }
             })            
             surveyData[0] = props.charts.arms_surveydata            
@@ -86,12 +89,15 @@ class MainContainer extends React.Component {
     }
 
     if(props.blockIndex === 0){
-      showData = surveyData[0]
+      showData = [{ dataSource: 0, data: surveyData[0] }]
     } else {
       for (let i=1; i<surveyData.length; i++){
         surveyData[i].forEach(data =>{
-          showData.push(data)
-          showList[data.report_num+data.topic_abb] = true
+          let dataObj = {}
+          dataObj.dataSource = i
+          dataObj.data = [data]
+          showData.push(dataObj)
+          showList[i+data.topic_abb] = true
         })
       }
     }

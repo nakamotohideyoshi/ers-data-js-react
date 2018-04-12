@@ -38,53 +38,53 @@ class TableContainer extends React.Component {
   }
   componentWillReceiveProps(props) {
     const { surveyData, categories, whichOneMultiple } = props
-    let originData = surveyData
     let incomeArr = []
-
-    if (originData) {
-      originData.forEach((element, index) => {
-        let singleIncome = {}
-        let currentIndex = 0
-        incomeArr.forEach((income, i) => {
-          if (income.id === element.report_num + element.topic_abb) {
-            singleIncome = income
-            currentIndex = i
-            return
-          }
-        })
-        if (REMOVING_ELEMENTS.indexOf(element.topic_dim.header) > -1) {
-          return
-        }
-        if (!singleIncome.id) {
-          singleIncome.id = element.report_num + element.topic_abb
-          singleIncome.header = element.topic_dim.header
-          singleIncome.unit_desc = element.topic_dim.unit_desc
-          singleIncome.level = element.topic_dim.level
-          let estimateList = []
-          let rseList = []
-          categories.forEach(category => {
-            const comparedCategory = whichOneMultiple === YEAR_SELECTED ? element.year: element.state.name
-            if (comparedCategory === category) {
-              estimateList.push(this.formatEstimateRse(element).estimateVal)
-              rseList.push(this.formatEstimateRse(element).rseVal)
-            } else {
-              estimateList.push('NA')
-              rseList.push('NA')
+    if (surveyData) {
+      surveyData.forEach((dataSourceCategories, index) => {
+        dataSourceCategories.data.forEach((element, index) => {
+          let singleIncome = {}
+          let currentIndex = 0
+          incomeArr.forEach((income, i) => {
+            if (income.id === dataSourceCategories.dataSource + element.topic_abb) {
+              singleIncome = income
+              currentIndex = i
+              return
             }
           })
-          singleIncome.estimateList = estimateList
-          singleIncome.rseList = rseList
-          incomeArr.push(singleIncome)
-        } else {
-          categories.forEach((category, index) => {
-            const comparedCategory = whichOneMultiple === YEAR_SELECTED ? element.year: element.state.name
-            if (comparedCategory === category) {
-              singleIncome.estimateList[index] = this.formatEstimateRse(element).estimateVal
-              singleIncome.rseList[index] = this.formatEstimateRse(element).rseVal
-            } 
-          })
-          incomeArr[currentIndex] = singleIncome
-        }
+          if (REMOVING_ELEMENTS.indexOf(element.topic_dim.header) > -1) {
+            return
+          }
+          if (!singleIncome.id) {
+            singleIncome.id = dataSourceCategories.dataSource + element.topic_abb
+            singleIncome.header = element.topic_dim.header
+            singleIncome.unit_desc = element.topic_dim.unit_desc
+            singleIncome.level = element.topic_dim.level
+            let estimateList = []
+            let rseList = []
+            categories.forEach(category => {
+              const comparedCategory = whichOneMultiple === YEAR_SELECTED ? element.year: element.state.name
+              if (comparedCategory === category) {
+                estimateList.push(this.formatEstimateRse(element).estimateVal)
+                rseList.push(this.formatEstimateRse(element).rseVal)
+              } else {
+                estimateList.push('NA')
+                rseList.push('NA')
+              }
+            })
+            singleIncome.estimateList = estimateList
+            singleIncome.rseList = rseList
+            incomeArr.push(singleIncome)
+          } else {
+            categories.forEach((category, index) => {
+              const comparedCategory = whichOneMultiple === YEAR_SELECTED ? element.year: element.state.name
+              if (comparedCategory === category) {
+                singleIncome.estimateList[index] = this.formatEstimateRse(element).estimateVal
+                singleIncome.rseList[index] = this.formatEstimateRse(element).rseVal
+              } 
+            })
+            incomeArr[currentIndex] = singleIncome
+          }
+        })
       })
     }
     console.log(incomeArr)
