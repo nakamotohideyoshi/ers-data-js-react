@@ -1084,14 +1084,14 @@ export default class Layout extends React.Component {
 
   // selected Farm Type in `Arms Data Analysis`
   selectFarmTypeAnalsysis = (subject_num, blockIndex) => {
-    let {filters} = this.state
+    let {pre_filters} = this.state
 
-    filters[blockIndex].subject_num = subject_num
+    pre_filters[blockIndex].subject_num = subject_num
     const isRemoveDataSource = false
 
     this.setState({
       isRemoveDataSource,
-      filters: filters,
+      pre_filters,
       runQuery: 'dlfAnalysis',
       blockIndex
     })
@@ -1099,14 +1099,14 @@ export default class Layout extends React.Component {
 
   // selected Filter1 in `Arms Data Analysis`
   selecteFilter1Analysis = (serie, blockIndex) => {
-    let {filters} = this.state
+    let {pre_filters} = this.state
 
-    filters[blockIndex].serie = serie
+    pre_filters[blockIndex].serie = serie
     const isRemoveDataSource = false
 
     this.setState({
       isRemoveDataSource,
-      filters: filters,
+      pre_filters,
       runQuery: 'dlfsAnalysis',
       blockIndex
     })
@@ -1114,14 +1114,14 @@ export default class Layout extends React.Component {
 
   // selected Filter1/Sub in `Arms Data Analysis`
   selectSubFilter1Analysis = (serie_element, blockIndex) => {
-    let {filters} = this.state
+    let {pre_filters} = this.state
 
-    filters[blockIndex].serie_element = serie_element
+    pre_filters[blockIndex].serie_element = serie_element
     const isRemoveDataSource = false
 
     this.setState({
       isRemoveDataSource,
-      filters: filters,
+      pre_filters,
       runQuery: 'dlfseAnalysis',
       blockIndex
     })
@@ -1129,14 +1129,14 @@ export default class Layout extends React.Component {
 
   // selected Filter2 in `Arms Data Analysis`
   selectFilter2Analysis = (serie2, blockIndex) => {
-    let {filters} = this.state
+    let {pre_filters} = this.state
 
-    filters[blockIndex].serie2 = serie2
+    pre_filters[blockIndex].serie2 = serie2
     const isRemoveDataSource = false
 
     this.setState({
       isRemoveDataSource,
-      filters: filters,
+      pre_filters,
       runQuery: 'dlfsesAnalysis',
       blockIndex
     })
@@ -1144,9 +1144,9 @@ export default class Layout extends React.Component {
 
   // selected Filterw2/Sub in `Arms Data Analysis`
   selectSubFilter2Analysis = (serie2_element, blockIndex) => {
-    let {filters, whichOneMultiple} = this.state
+    let {pre_filters, whichOneMultiple} = this.state
 
-    filters[blockIndex].serie2_element = serie2_element
+    pre_filters[blockIndex].serie2_element = serie2_element
     const isRemoveDataSource = false
 
     const runQuery = whichOneMultiple === YEAR_SELECTED ? 'dlfsesetAnalysis' : 'dlfseseyAnalysis'
@@ -1154,7 +1154,7 @@ export default class Layout extends React.Component {
 
     this.setState({
       isRemoveDataSource,
-      filters: filters,
+      pre_filters,
       runQuery: runQuery,
       blockIndex
     })
