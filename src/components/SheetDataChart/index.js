@@ -13,7 +13,8 @@ const chartTypes = [
 class SheetDataChart extends Component {
   state = {
     incomeArr: [],
-    chartTypeIndex: 0
+    chartTypeIndex: 0,
+    isLineEnabled: true
   }
   componentWillReceiveProps(props) {
     const { showList, surveyData, categories, whichOneMultiple } = props
@@ -65,16 +66,25 @@ class SheetDataChart extends Component {
         })
       })
     }
+    if (incomeArr.length > 0) {
+      if (incomeArr[0].estimateList.length === 1) {
+        this.switchChartType(0)
+        this.setState({ isLineEnabled: false })
+      } else {
+        this.setState({ isLineEnabled: true })
+      }
+    }
     this.setState({ incomeArr: incomeArr.slice() })
   }
   switchChartType(chartTypeIndex) {
     this.setState({ chartTypeIndex })
   }
   render() {
-    const { incomeArr, chartTypeIndex } = this.state
+    const { incomeArr, chartTypeIndex, isLineEnabled } = this.state
     const { categories, blockIndex, whichOneMultiple } = this.props
     const chartTitle = blockIndex > 0 ? 'Arms Data Analysis' : ''
     const chartType = chartTypes[chartTypeIndex].type
+    let chartTypesArray = isLineEnabled ? chartTypes : [chartTypes[0]]
 
     if (incomeArr.length === 0)
       return (<div className="empty-data-notification">No data to display</div>)
@@ -84,7 +94,7 @@ class SheetDataChart extends Component {
           <ChartGenerator series={incomeArr} categories={categories} title={chartTitle} chartType={chartType} whichOneMultiple={whichOneMultiple} />
           <div className="chart-type-container">
             <span>Chart Type:</span>
-            <OptionGroup options={chartTypes} selectedIndex={chartTypeIndex} onSelect={(index) => this.switchChartType(index)} />
+            <OptionGroup options={chartTypesArray} selectedIndex={chartTypeIndex} onSelect={(index) => this.switchChartType(index)} />
           </div>
         </div>
       );
