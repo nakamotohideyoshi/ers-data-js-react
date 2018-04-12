@@ -177,8 +177,24 @@ export default class ChartGenerator extends React.Component {
       series: []
     }
 
-    //Push Y Axis for Series Farms
+    let seriesFarmsShown = false
     if (seriesFarms.length > 0) {
+      seriesFarms.forEach((element, index) => {
+        if (element.shown) seriesFarmsShown = true
+      })
+    }
+
+    let seriesOthersShown = false
+    if (seriesOthers.length > 0) {
+      seriesOthers.forEach((element, index) => {
+        if (element.shown) seriesOthersShown = true
+      })
+    }
+
+    let unitDescs = []
+    
+    //Push Y Axis for Series Farms
+    if (seriesFarms.length > 0 && seriesFarmsShown) {
       const element = seriesFarms[0]
       config.yAxis.push({
         title: {
@@ -188,34 +204,34 @@ export default class ChartGenerator extends React.Component {
           }           
         },
         breaks: categories.length > 1 ? this.getBreaingPoints(seriesFarms, 4) : [],          
-        top: seriesOthers.length > 0 ? '80%' : '0%',
-        height: seriesOthers.length > 0 ? '20%' : '100%',
+        top: seriesOthers.length > 0 && seriesOthersShown ? '80%' : '0%',
+        height: seriesOthers.length > 0 && seriesOthersShown ? '20%' : '100%',
         labels: {
           formatter: function () {
             return '<span style="color:'+darkBlue+';margin-left:-30px">'+ numberWithCommas(this.value) +'</span>';
           }
         },
       })
-    }
-    
-    // Populate dataset into the chart view
-    let unitDescs = []
-    if (seriesFarms.length > 0) {
-      seriesFarms.forEach((element, index) => {
-        config.series.push({ 
-          data: element.estimateList, 
-          name: element.header, 
-          visible: element.shown, 
-          showInLegend: element.shown, 
-          type: 'column', 
-          zIndex: index + 1, 
-          yAxis: 0,
-          maxPointWidth: 32,
-          color: darkBlue
+
+      // Populate dataset into the chart view
+      if (seriesFarms.length > 0 && seriesFarmsShown) {
+        seriesFarms.forEach((element, index) => {
+          config.series.push({ 
+            data: element.estimateList, 
+            name: element.header, 
+            visible: element.shown, 
+            showInLegend: element.shown, 
+            type: 'column', 
+            zIndex: index + 1, 
+            yAxis: 0,
+            maxPointWidth: 32,
+            color: darkBlue
+          })
         })
-      })
+      }
     }
-    if (seriesOthers.length > 0) {
+
+    if (seriesOthers.length > 0 && seriesOthersShown) {
       seriesOthers.forEach((element, i) => {
         if (unitDescs.indexOf(element.unit_desc) < 0) {
           unitDescs.push(element.unit_desc)
@@ -224,7 +240,7 @@ export default class ChartGenerator extends React.Component {
               text: element.unit_desc,
             },
             breaks: this.getBreaingPoints(seriesOthers, 100),
-            height: seriesFarms.length > 0 ? '75%' : '100%',
+            height: seriesFarms.length > 0 && seriesFarmsShown ? '75%' : '100%',
             offset: 0,
             labels: {
               formatter: function () {
@@ -244,7 +260,7 @@ export default class ChartGenerator extends React.Component {
           visible: element.shown, 
           showInLegend: element.shown, 
           zIndex: 0, 
-          yAxis: seriesFarms.length>0 ? 1 : 0,
+          yAxis: seriesFarms.length > 0 && seriesFarmsShown ? 1 : 0,
           maxPointWidth: 32,
         })
       })

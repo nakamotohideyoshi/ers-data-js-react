@@ -124,11 +124,10 @@ class TableContainer extends React.Component {
             </div>
           </div>
           <div className="table-container">
-            <div className="col-width-4">
+            <div>
               <table className="table table-sm table-responsive">
                 <thead>
                   <tr>
-                    <th></th>
                     <th>
                       <div>
                         {
@@ -141,57 +140,7 @@ class TableContainer extends React.Component {
                         }
                       </div>
                     </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>&nbsp;</td>
-                    <td></td>
-                  </tr>
-                  {
-                    incomeArr.map((data, index) => {
-                      return (
-                        <tr key={`ltr-${index}`}>
-                          <td>
-                            <div className="pin-container">
-                            <div>
-                            </div>
-                            {
-                              blockIndex < 1 && (
-                                <div className={`level-${data.level} nowrap-div`}>{data.header}</div>
-                              )
-                            } 
-                            {
-                              blockIndex > 0 &&
-                                <div className="level-1 nowrap-div">{data.header}</div>
-                            }
-                            </div>
-                          </td>
-                          <td>
-                            {
-                              <div className="nowrap-div">
-                                {
-                                  showList && (
-                                    <a onClick={() => showList[data.id] === true ? this.hideItem(data.id) : this.showItem(data.id)}>
-                                      <img src={showList[data.id] === true ? ShownImg : HiddenImg } alt="show-hide" />
-                                    </a>
-                                  ) 
-                                }
-                                &ensp;&ensp;{data.unit_desc}
-                              </div>
-                            }
-                          </td>
-                        </tr>
-                      )
-                    })
-                  }
-                </tbody>
-              </table>
-            </div>
-            <div className="col-width-6">              
-              <table className="table table-sm table-responsive">
-                <thead>
-                  <tr>
+                    <th></th>
                     {
                       categories && (
                         categories.map((category, pos) => {
@@ -203,6 +152,8 @@ class TableContainer extends React.Component {
                 </thead>
                 <tbody>
                   <tr>
+                    <td>&nbsp;</td>
+                    <td></td>
                     {
                       categories && (
                         categories.map((category, pos) => {
@@ -221,21 +172,54 @@ class TableContainer extends React.Component {
                   {
                     incomeArr.map((data, index) => {
                       return (
-                        <tr key={`rtr-${index}`}>
-                          {
-                            categories && (
-                              categories.map((category, pos) => {
-                                return (
-                                  <td className="estimate-rse-td nowrap-div" key={`est-td-${pos}`}>
-                                    <div className='estimate_rse'>
-                                      <div className="data-value">{data.estimateList[pos]}</div>
-                                      <div className="data-value">{data.rseList[pos]}</div>
-                                    </div>
-                                  </td>
-                                )
-                              })
-                            )
-                          }
+                        <tr key={`ltr-${index}`}>
+                          <td>
+                            {
+                              <div className="nowrap-div">
+                                {
+                                  showList && (
+                                    <a onClick={() => showList[data.id] === true ? this.hideItem(data.id) : this.showItem(data.id)}>
+                                      <img src={showList[data.id] === true ? ShownImg : HiddenImg } alt="show-hide" />
+                                    </a>
+                                  ) 
+                                }
+                              </div>
+                            }
+                          </td>
+                          <td>
+                            <div className="pin-container">
+                            <div>
+                            </div>
+                            {
+                              blockIndex < 1 && (
+                                <div className={`level-${data.level} nowrap-div`}>
+                                {data.header} {data.unit_desc !== 'Dollars per farm' ? '('+data.unit_desc+')' : ''}
+                                </div>
+                              )
+                            } 
+                            {
+                              blockIndex > 0 &&
+                                <div className="level-1 nowrap-div">
+                                  {data.header} {data.unit_desc !== 'Dollars per farm' ? '('+data.unit_desc+')' : ''}
+                                </div>
+                            }
+                            </div>
+                          </td>
+                          
+                            {
+                              categories && (
+                                categories.map((category, pos) => {
+                                  return (
+                                    <td className="estimate-rse-td nowrap-div" key={`est-td-${pos}`}>
+                                      <div className='estimate_rse'>
+                                        <div className="data-value">{incomeArr[index].estimateList[pos]}</div>
+                                        <div className="data-value">{incomeArr[index].rseList[pos]}</div>
+                                      </div>
+                                    </td>
+                                  )
+                                })
+                              )
+                            }
                         </tr>
                       )
                     })
