@@ -292,14 +292,6 @@ export default class Layout extends React.Component {
     const isRemoveDataSource = false
     const isGetSurveyData = true
 
-    if (isGetSurveyData) {
-      filters[blockIndex].report_num = pre_filters[blockIndex].report_num
-      filters[blockIndex].subject_num = pre_filters[blockIndex].subject_num
-      filters[blockIndex].topic_abb = pre_filters[blockIndex].topic_abb
-      filters[blockIndex].serie = pre_filters[blockIndex].serie
-      filters[blockIndex].serie_element = pre_filters[blockIndex].serie_element
-    }
-
     this.setState({
       pre_filters,
       filters,
@@ -391,14 +383,6 @@ export default class Layout extends React.Component {
     })
     const isRemoveDataSource = false
     const isGetSurveyData = true
-
-    if (isGetSurveyData) {
-      filters[blockIndex].report_num = pre_filters[blockIndex].report_num
-      filters[blockIndex].subject_num = pre_filters[blockIndex].subject_num
-      filters[blockIndex].topic_abb = pre_filters[blockIndex].topic_abb
-      filters[blockIndex].serie = pre_filters[blockIndex].serie
-      filters[blockIndex].serie_element = pre_filters[blockIndex].serie_element
-    }
 
     this.setState({
       filters,
@@ -498,14 +482,6 @@ export default class Layout extends React.Component {
     const isRemoveDataSource = false
     const isGetSurveyData = true
 
-    if (isGetSurveyData) {
-      filters[blockIndex].report_num = pre_filters[blockIndex].report_num
-      filters[blockIndex].subject_num = pre_filters[blockIndex].subject_num
-      filters[blockIndex].topic_abb = pre_filters[blockIndex].topic_abb
-      filters[blockIndex].serie = pre_filters[blockIndex].serie
-      filters[blockIndex].serie_element = pre_filters[blockIndex].serie_element
-    }
-
     this.setState({
       filters,
       pre_filters,
@@ -566,14 +542,6 @@ export default class Layout extends React.Component {
     const isRemoveDataSource = false
     const isGetSurveyData = true
 
-    if (isGetSurveyData) {
-      filters[blockIndex].report_num = pre_filters[blockIndex].report_num
-      filters[blockIndex].subject_num = pre_filters[blockIndex].subject_num
-      filters[blockIndex].topic_abb = pre_filters[blockIndex].topic_abb
-      filters[blockIndex].serie = pre_filters[blockIndex].serie
-      filters[blockIndex].serie_element = pre_filters[blockIndex].serie_element
-    }
-
     this.setState({
       filters,
       pre_filters,
@@ -633,14 +601,6 @@ export default class Layout extends React.Component {
     
     const isRemoveDataSource = false
     const isGetSurveyData = true
-
-    if (isGetSurveyData) {
-      filters[blockIndex].report_num = pre_filters[blockIndex].report_num
-      filters[blockIndex].subject_num = pre_filters[blockIndex].subject_num
-      filters[blockIndex].topic_abb = pre_filters[blockIndex].topic_abb
-      filters[blockIndex].serie = pre_filters[blockIndex].serie
-      filters[blockIndex].serie_element = pre_filters[blockIndex].serie_element
-    }
 
     this.setState({
       filters,
@@ -776,14 +736,6 @@ export default class Layout extends React.Component {
     const isRemoveDataSource = false
     const isGetSurveyData = true
 
-    if (isGetSurveyData) {
-      filters[blockIndex].report_num = pre_filters[blockIndex].report_num
-      filters[blockIndex].subject_num = pre_filters[blockIndex].subject_num
-      filters[blockIndex].topic_abb = pre_filters[blockIndex].topic_abb
-      filters[blockIndex].serie = pre_filters[blockIndex].serie
-      filters[blockIndex].serie_element = pre_filters[blockIndex].serie_element
-    }
-
     this.setState({
       filters,
       pre_filters,
@@ -903,14 +855,6 @@ export default class Layout extends React.Component {
     })
     const isRemoveDataSource = false
     const isGetSurveyData = true
-
-    if (isGetSurveyData) {
-      filters[blockIndex].report_num = pre_filters[blockIndex].report_num
-      filters[blockIndex].subject_num = pre_filters[blockIndex].subject_num
-      filters[blockIndex].topic_abb = pre_filters[blockIndex].topic_abb
-      filters[blockIndex].serie = pre_filters[blockIndex].serie
-      filters[blockIndex].serie_element = pre_filters[blockIndex].serie_element
-    }
 
     this.setState({
       filters,
@@ -1038,14 +982,6 @@ export default class Layout extends React.Component {
       isGetSurveyData = true
     }
 
-    if (isGetSurveyData) {
-      filters[blockIndex].report_num = pre_filters[blockIndex].report_num
-      filters[blockIndex].subject_num = pre_filters[blockIndex].subject_num
-      filters[blockIndex].topic_abb = pre_filters[blockIndex].topic_abb
-      filters[blockIndex].serie = pre_filters[blockIndex].serie
-      filters[blockIndex].serie_element = pre_filters[blockIndex].serie_element
-    }
-
     this.setState({
       filters,
       pre_filters,
@@ -1111,14 +1047,6 @@ export default class Layout extends React.Component {
       } else {
         runQuery = 'dlfseseytAnalysis'
       }
-    }
-
-    if (isGetSurveyData) {
-      filters[blockIndex].report_num = pre_filters[blockIndex].report_num
-      filters[blockIndex].subject_num = pre_filters[blockIndex].subject_num
-      filters[blockIndex].topic_abb = pre_filters[blockIndex].topic_abb
-      filters[blockIndex].serie = pre_filters[blockIndex].serie
-      filters[blockIndex].serie_element = pre_filters[blockIndex].serie_element
     }
 
     const isRemoveDataSource = false
@@ -1191,14 +1119,6 @@ export default class Layout extends React.Component {
         isGetSurveyData = true
         isAllDataSources = true
       }
-    }
-
-    if (isGetSurveyData) {
-      filters[blockIndex].report_num = pre_filters[blockIndex].report_num
-      filters[blockIndex].subject_num = pre_filters[blockIndex].subject_num
-      filters[blockIndex].topic_abb = pre_filters[blockIndex].topic_abb
-      filters[blockIndex].serie = pre_filters[blockIndex].serie
-      filters[blockIndex].serie_element = pre_filters[blockIndex].serie_element
     }
 
     const isRemoveDataSource = false
@@ -1275,14 +1195,6 @@ export default class Layout extends React.Component {
     pre_filters[blockIndex].topic_abb = topic_abb
     const isRemoveDataSource = false
     const isGetSurveyData = true
-
-    if (isGetSurveyData) {
-      filters[blockIndex].report_num = pre_filters[blockIndex].report_num
-      filters[blockIndex].subject_num = pre_filters[blockIndex].subject_num
-      filters[blockIndex].topic_abb = pre_filters[blockIndex].topic_abb
-      filters[blockIndex].serie = pre_filters[blockIndex].serie
-      filters[blockIndex].serie_element = pre_filters[blockIndex].serie_element
-    }
 
     this.setState({
       filters,
@@ -1592,14 +1504,6 @@ export default class Layout extends React.Component {
       isGetSurveyData = false
     }
     
-    if (isGetSurveyData) {
-      filters[blockIndex].report_num = pre_filters[blockIndex].report_num
-      filters[blockIndex].subject_num = pre_filters[blockIndex].subject_num
-      filters[blockIndex].topic_abb = pre_filters[blockIndex].topic_abb
-      filters[blockIndex].serie = pre_filters[blockIndex].serie
-      filters[blockIndex].serie_element = pre_filters[blockIndex].serie_element
-    }
-
     const isRemoveDataSource = false
 
     this.setState({
@@ -1685,6 +1589,13 @@ export default class Layout extends React.Component {
     let serie2_element = []
 
     for (let i=0; i<9; i++) {
+      if (isGetSurveyData) {
+        filters[i].report_num = pre_filters[i].report_num
+        filters[i].subject_num = pre_filters[i].subject_num
+        filters[i].topic_abb = pre_filters[i].topic_abb
+        filters[i].serie = pre_filters[i].serie
+        filters[i].serie_element = pre_filters[i].serie_element
+      }
       if (filters[i].serie_element.length > 1){
         serie_element.push([0])
         serie.push(['farm'])
