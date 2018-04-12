@@ -26,6 +26,7 @@ export default class Layout extends React.Component {
     selectedYears: [],
     selectedStates: [],
     filters: [],
+    pre_filters:[],
     runQuery: '',
     priority: [],
     isRemoveDataSource: false,
@@ -34,6 +35,7 @@ export default class Layout extends React.Component {
 
   componentWillMount() {
     let filters = []
+    let pre_filters = []
     const isRemoveDataSource = false
 
     for (let i=0; i<dataSourceCounts+1; i++) {
@@ -51,9 +53,10 @@ export default class Layout extends React.Component {
       }      
       obj.topic_abb = []
       filters.push(obj)
+      pre_filters.push(obj)
     }
 
-    this.setState({filters, isRemoveDataSource})
+    this.setState({filters, pre_filters, isRemoveDataSource})
   }
 
   componentWillReceiveProps(props) {
