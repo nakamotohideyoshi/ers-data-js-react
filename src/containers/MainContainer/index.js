@@ -44,11 +44,11 @@ class MainContainer extends React.Component {
       surveyData.forEach((survey, index) => {
 
         if (index !== 0) {
+          let dataObj = {}
+          dataObj.dataSource = index
+          dataObj.data = survey
+          showData.push(dataObj)
           survey.forEach(data => {
-            let dataObj = {}
-            dataObj.dataSource = index
-            dataObj.data = [data]
-            showData.push(dataObj)
             showList[index+data.topic_abb] = true
           })
         }
@@ -75,31 +75,35 @@ class MainContainer extends React.Component {
           }          
         }
       }
-      for (let i=1; i<9; i++) {
-        const dataSource = 'dataSource' + i
-        if (props[dataSource]) {
-          if (props[dataSource].networkStatus === 7) {
-            if (props[dataSource][dataSource]) {
-              surveyData[i] = props[dataSource][dataSource]
-            } else {
-              surveyData[i] = []
-            }
+      
+      const dataSource = 'dataSource' + props.blockIndex
+      if (props[dataSource]) {
+        if (props[dataSource].networkStatus === 7) {
+          if (props[dataSource][dataSource]) {
+            surveyData[props.blockIndex] = props[dataSource][dataSource]
+          } else {
+            surveyData[props.blockIndex] = []
           }
         }
       }
       
+      
       if(props.blockIndex === 0){
         showData = [{ dataSource: 0, data: surveyData[0] }]
       } else {
-        for (let i=1; i<surveyData.length; i++){
-          surveyData[i].forEach(data =>{
+        surveyData.forEach((survey, index) => {
+
+          if (index !== 0) {
             let dataObj = {}
-            dataObj.dataSource = i
-            dataObj.data = [data]
+            dataObj.dataSource = index
+            dataObj.data = survey
             showData.push(dataObj)
-            showList[i+data.topic_abb] = true
-          })
-        }
+            survey.forEach(data => {
+              showList[index+data.topic_abb] = true
+            })
+          }
+          
+        })
       }
       this.setState({ showList, surveyData, showData })
     }
