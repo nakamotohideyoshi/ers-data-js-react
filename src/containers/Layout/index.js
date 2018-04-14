@@ -613,7 +613,7 @@ export default class Layout extends React.Component {
   // set state
   resetRFilter = (states, blockIndex) => {
 
-    let {filters, pre_filters, selectedStates, whichOneMultiple} = this.state
+    let {filters, pre_filters, temp_States, selectedStates, whichOneMultiple} = this.state
     let prevStateCount = 0
 
     states.forEach(stateN => {
@@ -622,13 +622,16 @@ export default class Layout extends React.Component {
       }
     })
 
-    const stateCount = whichOneMultiple === YEAR_SELECTED ? defaultStateCount : (prevStateCount === 0 ? defaultStateCount : prevStateCount)
+    const stateCount = whichOneMultiple === YEAR_SELECTED ? defaultStateCount : (prevStateCount === 0 ? (temp_States.length === 0 ? defaultStateCount : 0) : prevStateCount)
 
     let statesInfo = []
     let reSelectedStates = []
     let selectedStateNames = []
     let currentStateCount = 0
+    temp_States = []
+
     states.forEach(stateN => {
+      temp_States.push(stateN.id)
       const obj = {}
       obj.name = stateN.name
       obj.id = stateN.id
@@ -652,6 +655,10 @@ export default class Layout extends React.Component {
       }   
       statesInfo.push(obj)     
     })
+
+    if (reSelectedStates.length !== 0) {
+      temp_States = []
+    }
     
     const isRemoveDataSource = false
     const isGetSurveyData = true
@@ -663,6 +670,7 @@ export default class Layout extends React.Component {
       isGetSurveyData,
       blockIndex,
       selectedStates: reSelectedStates,
+      temp_States,
       statesInfo: statesInfo,
       selectedStateNames: selectedStateNames,
       runQuery: ''
