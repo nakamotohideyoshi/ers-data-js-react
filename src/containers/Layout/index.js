@@ -190,7 +190,7 @@ export default class Layout extends React.Component {
   // reset [Filter By, Year, State]
   // run query to refresh [serie_element]
   resetSYRFilter = (serie, years, states, blockIndex) => {
-    let {pre_filters, selectedYears, selectedStates, whichOneMultiple} = this.state
+    let {pre_filters, temp_Years, selectedYears, temp_States, selectedStates, whichOneMultiple} = this.state
 
     pre_filters[blockIndex].serie = serie
     pre_filters[blockIndex].serie_element = []
@@ -203,15 +203,17 @@ export default class Layout extends React.Component {
       }
     })
 
-    const yearCount = whichOneMultiple === YEAR_SELECTED ? (prevYearCount === 0 ? defaultYearCount : prevYearCount) : 1
+    const yearCount = whichOneMultiple === YEAR_SELECTED ? (prevYearCount === 0 ? (temp_Years.length===0 ? defaultYearCount : 0) : prevYearCount) : 1
 
     let yearsInfo = []
     let reSelectedYears = []
     let currentYearCount = 0
+    temp_Years = []
 
     years.forEach(year => {
+      temp_Years.push(year)
       const infoObj = {}
-      infoObj.year = year
+      infoObj.year = year      
       if (prevYearCount === 0) {
         if (years.indexOf(year) >= 0 && years.indexOf(year) < yearCount) {
           infoObj.checked = true
