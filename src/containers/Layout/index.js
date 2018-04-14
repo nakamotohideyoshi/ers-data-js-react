@@ -24,6 +24,8 @@ export default class Layout extends React.Component {
     yearsInfo: [],
     statesInfo: [],
     selectedYears: [],
+    temp_Years: [],
+    temp_States: [],
     selectedStates: [],
     filters: [],
     pre_filters:[],
