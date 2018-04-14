@@ -1090,6 +1090,7 @@ export default class Layout extends React.Component {
       priority.push('state')
     }
 
+    let temp_States = []
     let selectedStates = []
     let selectedStateNames = []
     statesInfo[index].checked = !statesInfo[index].checked
@@ -1099,6 +1100,7 @@ export default class Layout extends React.Component {
       })
     }
     statesInfo.forEach(stateN => {
+      temp_States.push(stateN.id)
       if (stateN.checked) {
         selectedStates.push(stateN.id)
         selectedStateNames.push(stateN.name)
@@ -1143,6 +1145,7 @@ export default class Layout extends React.Component {
       priority: priority,
       statesInfo: statesInfo.slice(),
       selectedStates: selectedStates,
+      temp_States: temp_States,
       runQuery: runQuery,
       isAllDataSources
     })
@@ -1576,7 +1579,7 @@ export default class Layout extends React.Component {
   }
 
   render() {
-    console.log('%%%%%%%%%%%%', this.state.temp_Years, '%%%%%%%%%%%')
+    console.log('%%%%%%%%%%%%', this.state.temp_Years, this.state.temp_States, '%%%%%%%%%%%')
     const {
       selectedStateNames,
       blockIndex, 
