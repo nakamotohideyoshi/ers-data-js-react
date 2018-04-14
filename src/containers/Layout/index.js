@@ -999,7 +999,7 @@ export default class Layout extends React.Component {
   onSelectYear = (index) => {
     let { filters, pre_filters, yearsInfo, whichOneMultiple, priority, blockIndex } = this.state
     let runQuery = ''
-    let isAllDataSources = false
+    let isAllDataSources = false    
 
     const priorityIndex = priority.indexOf('year')
     if (priority.length === 3) {
@@ -1012,16 +1012,24 @@ export default class Layout extends React.Component {
 
     yearsInfo[index].checked = !yearsInfo[index].checked
     if (whichOneMultiple !== YEAR_SELECTED) {
-      yearsInfo.forEach((yearN, i) => {
+      yearsInfo.forEach((yearN, i) => {        
         if (i !== index) yearN.checked = false
       })
     }
+
+    let temp_Years = []
     let selectedYears = []
     yearsInfo.forEach(yearN => {
+      temp_Years.push(yearN)
       if (yearN.checked) {
         selectedYears.push(yearN.year)
       }
     })
+
+    if (selectedYears.length !== 0) {
+      temp_Years = []
+    }
+
     let isGetSurveyData = false
 
     if (blockIndex === 0) {
@@ -1061,6 +1069,7 @@ export default class Layout extends React.Component {
       priority: priority,
       yearsInfo: yearsInfo.slice(),
       selectedYears: selectedYears,
+      temp_Years: temp_Years,
       runQuery: runQuery,
       isAllDataSources
     })
@@ -1567,7 +1576,7 @@ export default class Layout extends React.Component {
   }
 
   render() {
-    // console.log('%%%%%%%%%%%%', this.state, '%%%%%%%%%%%')
+    console.log('%%%%%%%%%%%%', this.state.temp_Years, '%%%%%%%%%%%')
     const {
       selectedStateNames,
       blockIndex, 
