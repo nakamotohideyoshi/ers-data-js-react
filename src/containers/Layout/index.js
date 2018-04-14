@@ -312,7 +312,7 @@ export default class Layout extends React.Component {
 
   // reset [ Filter By/Sub, Year, Region]
   resetEYRFilter = (serie_element, years, states, blockIndex) => {
-    let {filters, pre_filters, selectedYears, selectedStates, whichOneMultiple} = this.state
+    let {filters, pre_filters, temp_Years, selectedYears, temp_States, selectedStates, whichOneMultiple} = this.state
     pre_filters[blockIndex].serie_element = serie_element
 
     let prevYearCount = 0
@@ -323,13 +323,16 @@ export default class Layout extends React.Component {
       }
     })
 
-    const yearCount = whichOneMultiple === YEAR_SELECTED ? (prevYearCount === 0 ? defaultYearCount : prevYearCount) : 1
+    const yearCount = whichOneMultiple === YEAR_SELECTED ? (prevYearCount === 0 ? (temp_Years.length===0 ? defaultYearCount : 0) : prevYearCount) : 1
+
 
     let yearsInfo = []
     let reSelectedYears = []
     let currentYearCount = 0
+    temp_Years = []
 
     years.forEach(year => {
+      temp_Years.push(year)
       const infoObj = {}
       infoObj.year = year
       if (prevYearCount === 0) {
@@ -359,13 +362,16 @@ export default class Layout extends React.Component {
       }
     })
 
-    const stateCount = whichOneMultiple === YEAR_SELECTED ? defaultStateCount : (prevStateCount === 0 ? defaultStateCount : prevStateCount)
+    const stateCount = whichOneMultiple === YEAR_SELECTED ? defaultStateCount : (prevStateCount === 0 ? (temp_States.length === 0 ? defaultStateCount : 0) : prevStateCount)
 
     let statesInfo = []
     let reSelectedStates = []
     let selectedStateNames = []
     let currentStateCount = 0
+    temp_States = []
+
     states.forEach(stateN => {
+      temp_States.push(stateN.id)
       const obj = {}
       obj.name = stateN.name
       obj.id = stateN.id
@@ -399,8 +405,10 @@ export default class Layout extends React.Component {
       isGetSurveyData,
       blockIndex,
       yearsInfo: yearsInfo,
+      temp_Years,
       selectedYears: reSelectedYears,
       statesInfo: statesInfo,
+      temp_States,
       selectedStates: reSelectedStates,
       selectedStateNames: selectedStateNames,
       runQuery: ''
