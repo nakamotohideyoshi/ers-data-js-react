@@ -1401,7 +1401,7 @@ export default class Layout extends React.Component {
 
   // reset year in `Arms Data Analysis`
   selectYearAnalysis = (years) => {
-    let {selectedYears, whichOneMultiple} = this.state
+    let {temp_Years, selectedYears, whichOneMultiple} = this.state
 
     const runQuery = whichOneMultiple === YEAR_SELECTED ? '' : 'dlfseseytAnalysis'
     const isGetSurveyData =whichOneMultiple === YEAR_SELECTED ? true : false
@@ -1415,13 +1415,16 @@ export default class Layout extends React.Component {
       }
     })
 
-    const yearCount = whichOneMultiple === YEAR_SELECTED ? (prevYearCount === 0 ? defaultYearCount : prevYearCount) : 1
+    const yearCount = whichOneMultiple === YEAR_SELECTED ? (prevYearCount === 0 ? (temp_Years.length===0 ? defaultYearCount : 0) : prevYearCount) : 1
+
 
     let yearsInfo = []
     let reSelectedYears = []
     let currentYearCount = 0
+    temp_Years = []
 
     years.forEach(year => {
+      temp_Years.push(year)
       const infoObj = {}
       infoObj.year = year
       if (prevYearCount === 0) {
@@ -1442,6 +1445,10 @@ export default class Layout extends React.Component {
       }        
       yearsInfo.push(infoObj)
     })
+    
+    if (reSelectedYears.length !== 0) {
+      temp_Years = []
+    }
 
     const isRemoveDataSource = false
 
@@ -1449,6 +1456,7 @@ export default class Layout extends React.Component {
       isRemoveDataSource,
       isGetSurveyData,
       yearsInfo: yearsInfo,
+      temp_Years,
       selectedYears: reSelectedYears,
       runQuery: runQuery,
       isAllDataSources
