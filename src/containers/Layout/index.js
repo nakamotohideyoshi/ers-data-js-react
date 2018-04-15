@@ -1465,7 +1465,7 @@ export default class Layout extends React.Component {
 
   // reset Region in `Arms Data Analysis`
   selectStateAnalysis = (states) => {
-    let {selectedStates, whichOneMultiple} = this.state
+    let {temp_States, selectedStates, whichOneMultiple} = this.state
 
     const runQuery = whichOneMultiple === YEAR_SELECTED ? 'dlfsesetyAnalysis' : ''
     const isGetSurveyData = whichOneMultiple === YEAR_SELECTED ? false : true
@@ -1479,13 +1479,16 @@ export default class Layout extends React.Component {
       }
     })
 
-    const stateCount = whichOneMultiple === YEAR_SELECTED ? defaultStateCount : (prevStateCount === 0 ? defaultStateCount : prevStateCount)
+    const stateCount = whichOneMultiple === YEAR_SELECTED ? defaultStateCount : (prevStateCount === 0 ? (temp_States.length === 0 ? defaultStateCount : 0) : prevStateCount)
 
     let statesInfo = []
     let reSelectedStates = []
     let selectedStateNames = []
     let currentStateCount = 0
+    temp_States = []
+
     states.forEach(stateN => {
+      temp_States.push(stateN.id)
       const obj = {}
       obj.name = stateN.name
       obj.id = stateN.id
@@ -1510,12 +1513,17 @@ export default class Layout extends React.Component {
       statesInfo.push(obj)     
     })
 
+    if (reSelectedStates.length !== 0) {
+      temp_States = []
+    }
+
     const isRemoveDataSource = false
 
     this.setState({
       isRemoveDataSource,
       isGetSurveyData,
       statesInfo: statesInfo,
+      temp_States,
       selectedStates: reSelectedStates,
       selectedStateNames: selectedStateNames,
       runQuery: runQuery,
