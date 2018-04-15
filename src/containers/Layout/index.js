@@ -1686,14 +1686,16 @@ export default class Layout extends React.Component {
   }
 
   render() {
-    console.log('%%%%%%%%%%%%', this.state.temp_Years, this.state.temp_States, '%%%%%%%%%%%')
+    console.log('%%%%%%%%%%%%', this.state, '%%%%%%%%%%%')
     const {
       selectedStateNames,
       blockIndex, 
       yearsInfo,
       selectedYears,
+      temp_Years,
       statesInfo,
       selectedStates,
+      temp_States,
       whichOneMultiple,
       isSelectedAll,
       filters,
@@ -1773,8 +1775,8 @@ export default class Layout extends React.Component {
           serie_element={pre_filters[blockIndex].serie_element}
           serie2 = {pre_filters[blockIndex].serie2}
           serie2_element = {pre_filters[blockIndex].serie2_element}
-          selectedStates = {selectedStates}
-          selectedYears={selectedYears}
+          selectedStates = {selectedStates.length === 0 ? temp_States : selectedStates}
+          selectedYears={selectedYears.length === 0 ? temp_Years : selectedYears}
           runQuery={runQuery}
           resetFilterByBlockIndex = {this.resetFilterByBlockIndex}
           initialLoadingTailor  = {this.initialLoadingTailor }
