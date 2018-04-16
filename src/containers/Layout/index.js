@@ -203,7 +203,7 @@ export default class Layout extends React.Component {
       }
     })
 
-    const yearCount = whichOneMultiple === YEAR_SELECTED ? (prevYearCount === 0 ? (temp_Years.length===0 ? defaultYearCount : 0) : prevYearCount) : 1
+    const yearCount = whichOneMultiple === YEAR_SELECTED ? (prevYearCount === 0 ? (temp_Years.length===0 ? defaultYearCount : 0) : prevYearCount) : (temp_Years.length===0 ? 1 : 0)
 
     let yearsInfo = []
     let reSelectedYears = []
@@ -245,13 +245,14 @@ export default class Layout extends React.Component {
       }
     })
 
-    const stateCount = whichOneMultiple === YEAR_SELECTED ? defaultStateCount : (prevStateCount === 0 ? (temp_States.length === 0 ? defaultStateCount : 0) : prevStateCount)
+    const stateCount = whichOneMultiple === YEAR_SELECTED ? (temp_States.length === 0 ? defaultStateCount : 0) : (prevStateCount === 0 ? (temp_States.length === 0 ? defaultStateCount : 0) : prevStateCount)
 
     temp_States = []
     let statesInfo = []
     let reSelectedStates = []
     let selectedStateNames = []
     let currentStateCount = 0
+
     states.forEach(stateN => {
       temp_States.push(stateN.id)
       const obj = {}
@@ -331,8 +332,7 @@ export default class Layout extends React.Component {
       }
     })
 
-    const yearCount = whichOneMultiple === YEAR_SELECTED ? (prevYearCount === 0 ? (temp_Years.length===0 ? defaultYearCount : 0) : prevYearCount) : 1
-
+    const yearCount = whichOneMultiple === YEAR_SELECTED ? (prevYearCount === 0 ? (temp_Years.length===0 ? defaultYearCount : 0) : prevYearCount) : (temp_Years.length===0 ? 1 : 0)
 
     let yearsInfo = []
     let reSelectedYears = []
@@ -374,7 +374,7 @@ export default class Layout extends React.Component {
       }
     })
 
-    const stateCount = whichOneMultiple === YEAR_SELECTED ? defaultStateCount : (prevStateCount === 0 ? (temp_States.length === 0 ? defaultStateCount : 0) : prevStateCount)
+    const stateCount = whichOneMultiple === YEAR_SELECTED ? (temp_States.length === 0 ? defaultStateCount : 0) : (prevStateCount === 0 ? (temp_States.length === 0 ? defaultStateCount : 0) : prevStateCount)
 
     let statesInfo = []
     let reSelectedStates = []
@@ -445,7 +445,7 @@ export default class Layout extends React.Component {
         prevYearCount++
       }
     })
-    const yearCount = whichOneMultiple === YEAR_SELECTED ? (prevYearCount === 0 ? (temp_Years.length===0 ? defaultYearCount : 0) : prevYearCount) : 1
+    const yearCount = whichOneMultiple === YEAR_SELECTED ? (prevYearCount === 0 ? (temp_Years.length===0 ? defaultYearCount : 0) : prevYearCount) : (temp_Years.length===0 ? 1 : 0)
 
     let yearsInfo = []
     let reSelectedYears = []
@@ -486,7 +486,7 @@ export default class Layout extends React.Component {
       }
     })
 
-    const stateCount = whichOneMultiple === YEAR_SELECTED ? defaultStateCount : (prevStateCount === 0 ? (temp_States.length === 0 ? defaultStateCount : 0) : prevStateCount)
+    const stateCount = whichOneMultiple === YEAR_SELECTED ? (temp_States.length === 0 ? defaultStateCount : 0) : (prevStateCount === 0 ? (temp_States.length === 0 ? defaultStateCount : 0) : prevStateCount)
 
     let statesInfo = []
     let reSelectedStates = []
@@ -558,7 +558,7 @@ export default class Layout extends React.Component {
       }
     })
 
-    const yearCount = whichOneMultiple === YEAR_SELECTED ? (prevYearCount === 0 ? (temp_Years.length===0 ? defaultYearCount : 0) : prevYearCount) : 1
+    const yearCount = whichOneMultiple === YEAR_SELECTED ? (prevYearCount === 0 ? (temp_Years.length===0 ? defaultYearCount : 0) : prevYearCount) : (temp_Years.length===0 ? 1 : 0)
 
     let yearsInfo = []
     let reSelectedYears = []
@@ -622,7 +622,7 @@ export default class Layout extends React.Component {
       }
     })
 
-    const stateCount = whichOneMultiple === YEAR_SELECTED ? defaultStateCount : (prevStateCount === 0 ? (temp_States.length === 0 ? defaultStateCount : 0) : prevStateCount)
+    const stateCount = whichOneMultiple === YEAR_SELECTED ? (temp_States.length === 0 ? defaultStateCount : 0) : (prevStateCount === 0 ? (temp_States.length === 0 ? defaultStateCount : 0) : prevStateCount)
 
     let statesInfo = []
     let reSelectedStates = []
@@ -693,7 +693,7 @@ export default class Layout extends React.Component {
       }
     })
 
-    const yearCount = whichOneMultiple === YEAR_SELECTED ? (prevYearCount === 0 ? (temp_Years.length===0 ? defaultYearCount : 0) : prevYearCount) : 1
+    const yearCount = whichOneMultiple === YEAR_SELECTED ? (prevYearCount === 0 ? (temp_Years.length===0 ? defaultYearCount : 0) : prevYearCount) : (temp_Years.length===0 ? 1 : 0)
 
     let yearsInfo = []
     let reSelectedYears = []
@@ -774,7 +774,7 @@ export default class Layout extends React.Component {
       }
     })
 
-    const yearCount = whichOneMultiple === YEAR_SELECTED ? (prevYearCount === 0 ? (temp_Years.length===0 ? defaultYearCount : 0) : prevYearCount) : 1
+    const yearCount = whichOneMultiple === YEAR_SELECTED ? (prevYearCount === 0 ? (temp_Years.length===0 ? defaultYearCount : 0) : prevYearCount) : (temp_Years.length===0 ? 1 : 0)
 
     let yearsInfo = []
     let reSelectedYears = []
@@ -839,7 +839,7 @@ export default class Layout extends React.Component {
       }
     })
 
-    const stateCount = whichOneMultiple === YEAR_SELECTED ? defaultStateCount : (prevStateCount === 0 ? (temp_States.length === 0 ? defaultStateCount : 0) : prevStateCount)
+    const stateCount = whichOneMultiple === YEAR_SELECTED ? (temp_States.length === 0 ? defaultStateCount : 0) : (prevStateCount === 0 ? (temp_States.length === 0 ? defaultStateCount : 0) : prevStateCount)
 
     let statesInfo = []
     let reSelectedStates = []
@@ -907,7 +907,7 @@ export default class Layout extends React.Component {
       }
     })
 
-    const stateCount = whichOneMultiple === YEAR_SELECTED ? defaultStateCount : (prevStateCount === 0 ? (temp_States.length === 0 ? defaultStateCount : 0) : prevStateCount)
+    const stateCount = whichOneMultiple === YEAR_SELECTED ? (temp_States.length === 0 ? defaultStateCount : 0) : (prevStateCount === 0 ? (temp_States.length === 0 ? defaultStateCount : 0) : prevStateCount)
 
     let statesInfo = []
     let reSelectedStates = []
@@ -1415,7 +1415,7 @@ export default class Layout extends React.Component {
       }
     })
 
-    const yearCount = whichOneMultiple === YEAR_SELECTED ? (prevYearCount === 0 ? (temp_Years.length===0 ? defaultYearCount : 0) : prevYearCount) : 1
+    const yearCount = whichOneMultiple === YEAR_SELECTED ? (prevYearCount === 0 ? (temp_Years.length===0 ? defaultYearCount : 0) : prevYearCount) : (temp_Years.length===0 ? 1 : 0)
 
 
     let yearsInfo = []
@@ -1479,7 +1479,7 @@ export default class Layout extends React.Component {
       }
     })
 
-    const stateCount = whichOneMultiple === YEAR_SELECTED ? defaultStateCount : (prevStateCount === 0 ? (temp_States.length === 0 ? defaultStateCount : 0) : prevStateCount)
+    const stateCount = whichOneMultiple === YEAR_SELECTED ? (temp_States.length === 0 ? defaultStateCount : 0) : (prevStateCount === 0 ? (temp_States.length === 0 ? defaultStateCount : 0) : prevStateCount)
 
     let statesInfo = []
     let reSelectedStates = []
