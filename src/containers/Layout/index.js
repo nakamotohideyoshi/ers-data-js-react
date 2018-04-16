@@ -1198,6 +1198,10 @@ export default class Layout extends React.Component {
       }
     })
 
+    if (selectedStates.length !== 0) {
+      temp_States = []
+    }
+
     let isGetSurveyData = false
     
     if (blockIndex === 0) {
