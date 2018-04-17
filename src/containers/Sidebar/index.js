@@ -799,7 +799,7 @@ class Sidebar extends React.Component {
           this.setState({
             categoryTitles: categoryTitles,
             sidebarItems: sidebarItems
-          }, this.props.selecteFilter1Analysis(serie, currentBlock))
+          }, this.props.selectFilter1Analysis(serie, currentBlock))
         }
 
       } else if (props.dlfsAnalysis) {
@@ -1118,7 +1118,7 @@ class Sidebar extends React.Component {
         // Arms Data Analysis/Filter1
         const serie = []
         serie.push(categoryTitles[sidebarItemIndex][sidebarItems[sidebarItemIndex].selectedIndex].num)
-        this.setState({sidebarItems, categoryTitles}, this.props.selecteFilter1Analysis(serie, currentBlock))
+        this.setState({sidebarItems, categoryTitles}, this.props.selectFilter1Analysis(serie, currentBlock))
 
       } else if ((sidebarItemIndex - 5)%7===4){
 
