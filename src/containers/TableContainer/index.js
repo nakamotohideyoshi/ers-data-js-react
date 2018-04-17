@@ -113,8 +113,8 @@ class TableContainer extends React.Component {
     const { incomeArr, isShowItemAll } = this.state
     const { showList, categories, blockIndex } = this.props
 
-    if (incomeArr.length === 0)
-      return ( <div></div> )
+    if (incomeArr.length === 0 || categories.length === 0)
+      return ( <div className='center-notification'>No data to display</div> )
     else
       return (
         <div>
@@ -130,7 +130,7 @@ class TableContainer extends React.Component {
           </div>
           <div className="table-container">
             <div className="col-width-4">
-              <table className="table table-sm table-responsive table-static">
+              <table className="table table-static">
                   <thead>
                     <tr>
                       <th>
@@ -191,7 +191,7 @@ class TableContainer extends React.Component {
               </table>
             </div>
             <div className="col-width-6">
-              <table className="table table-sm table-responsive table-scroll">
+              <table className="table table-scroll">
                 <thead style={{left: (-1)*(this.state.scrollLeft)}}>
                   <tr>
                     {

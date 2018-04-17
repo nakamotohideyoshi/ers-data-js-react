@@ -1,3 +1,6 @@
+.center-notification {
+  text-align: center;
+}
 .heading-option-container {
   display: flex;
   justify-content: space-between;
@@ -46,41 +49,41 @@
 }
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #f1f1f1; 
+  background: #E5F3FA; 
 }
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #888; 
+  background: #00A9DB; 
 }
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #555; 
+  background: #00A9DB; 
 }
 
 .table-container {
   display: flex;
 }
-.table-responsive  {
+.table  {
   position: relative;
   table-layout: fixed;
   overflow: hidden;
 }
-.table-responsive > thead > tr > th, 
-.table-responsive > tbody > tr > th,
-.table-responsive > thead > tr > td,
-.table-responsive > tbody > tr > td {
+.table > thead > tr > th, 
+.table > tbody > tr > th,
+.table > thead > tr > td,
+.table > tbody > tr > td {
   border-top: 0;  
   border-bottom: 0;
 }
 
 /*thead*/
-.table-responsive thead {
+.table thead {
   position: relative;
   display: block; /*seperates the header from the body allowing it to be positioned*/
   z-index: 10;
 }
-.table-responsive thead th {
-  background: #eee;
+.table thead th {
+  background: #F0F7F9;
   border-right: 2px solid #dde6ea;  
   font-size: 12px;
   font-family: 'Roboto', sans-serif;
@@ -98,12 +101,14 @@
 .table-static {
   position: relative;
   display: block;
+  border-right: 2px solid #B5CCD2;
+  
 }
+
 .table thead th:nth-child(1) {/*first cell in the header*/
   position: relative;
   display: block; /*seperates the first cell in the header from the header*/
 }
-
 
 /*tbody*/
 .table tbody {
@@ -111,11 +116,8 @@
   position: relative;
   display: block; /*seperates the tbody from the header*/
 }
-.table-scroll tbody {
-  overflow: scroll;
-}
 
-.table-responsive tr {
+.table tr {
   font-size: 14px;
   font-family: 'Roboto', sans-serif;
   font-weight: 400;
@@ -125,24 +127,22 @@
 .table tr:nth-of-type(even) {
   background-color: #f8fbfc;
 }
-.table tr:last-child {
-  border-bottom: 2px solid #dde6ea;  
-}
-.table-responsive tr td {
+.table tr td {
   min-width: 120px;
-  border-right: 2px solid #dde6ea;  
+  border-right: 2px solid #E3EBEE;  
 }
-.table-responsive tbody tr td:nth-child(1) {
+.table tbody tr td:nth-child(1) {
   display: flex; 
+}
+
+.table-scroll tbody {
+  overflow: scroll;
 }
 .table-scroll tbody tr td:nth-child(1) {  /*the first cell in each tr*/
   position: relative;
   display: block; /*seperates the first column from the tbody*/
   overflow: hidden;
 }
-
-
-
 
 .estimate_rse {
   padding: 0 10px 0 0;
