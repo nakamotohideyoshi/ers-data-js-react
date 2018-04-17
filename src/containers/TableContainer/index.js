@@ -17,7 +17,9 @@ class TableContainer extends React.Component {
   state = {
     incomeArr: [],
     isShowItemAll: true,
-    optionsIndex: 0
+    optionsIndex: 0,
+    scrollLeft: 0,
+    scrollTop: 0,
   }
   formatEstimateRse(element) {
     const asterix = element.unreliable_est === 0 ? '':'*'
@@ -27,12 +29,13 @@ class TableContainer extends React.Component {
       estimateVal = element.estimate + asterix
       rseVal = element.rse
     }
-    if (element.rse !== 0) {
+    if (element.rse !== 0 && element.rse !== null) {
       rseVal = element.rse
     }
-
+    if (element.rse === null)
+      rseVal = 'NA'
     estimateVal = numberWithCommas(estimateVal)
-    rseVal = rseVal === 'NA' ? rseVal : rseVal.toFixed(1)
+    rseVal = rseVal === 'NA' ? rseVal : (element.rse).toFixed(1)
 
     return { estimateVal, rseVal }
   }
@@ -104,16 +107,20 @@ class TableContainer extends React.Component {
     this.setState({ isShowItemAll: true })
     this.props.showAllItem()
   }
+  onScrollTable = () => {
+    this.setState({ scrollLeft: this.tbody.scrollLeft })
+    this.setState({ scrollTop: this.tbody.scrollTop })
+  }
   render() {
     const { incomeArr, isShowItemAll, optionsIndex } = this.state
     const { showList, categories, blockIndex } = this.props
 
     if (incomeArr.length === 0)
-      return ( <div></div>)
+      return ( <div></div> )
     else
       return (
         <div>
-          <div className="heading-option-container">
+          <div className="heading-option-container" ref={"container"}>
             <div className="indexing-option-container">
             </div>
             <div className="logo-small-container">
@@ -124,36 +131,86 @@ class TableContainer extends React.Component {
             </div>
           </div>
           <div className="table-container">
-            <div>
-              <table className="table table-sm table-responsive">
-                <thead>
+            <div className="col-width-4">
+              <table className="table table-sm table-responsive table-static">
+                  <thead>
+                    <tr>
+                      <th>
+                        <div>
+                          {
+                            isShowItemAll && 
+                              <a onClick={() => this.hideAllItem()}><img src={ShownImg} alt="" /></a>
+                          }
+                          {
+                            !isShowItemAll &&
+                              <a onClick={() => this.showAllItem()}><img src={HideAllImg} alt="" /></a>
+                          }
+                        </div>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody style={{top: (-1)*(this.state.scrollTop)}}>
+                    <tr><td>&nbsp;</td></tr>
+                    {
+                        incomeArr.map((data, index) => {
+                          return (
+                            <tr>
+                              <td>
+                                {
+                                  <div className="nowrap-div">
+                                    {
+                                      showList && (
+                                        <a onClick={() => showList[data.id] === true ? this.hideItem(data.id) : this.showItem(data.id)}>
+                                          <img src={showList[data.id] === true ? ShownImg : HiddenImg } alt="show-hide" />
+                                        </a>
+                                      ) 
+                                    }
+                                  </div>
+                                }
+                                <div className="pin-container">
+                                <div>
+                                </div>
+                                {
+                                  blockIndex < 1 && (
+                                    <div className={`level-${data.level} nowrap-div`}>
+                                    {data.header} {data.unit_desc !== 'Dollars per farm' ? '('+data.unit_desc+')' : ''}
+                                    </div>
+                                  )
+                                } 
+                                {
+                                  blockIndex > 0 &&
+                                    <div className="level-1 nowrap-div">
+                                      {data.header} {data.unit_desc !== 'Dollars per farm' ? '('+data.unit_desc+')' : ''}
+                                    </div>
+                                }
+                                </div>
+                              </td>
+                            </tr>
+                          )
+                        })
+                      }
+                  </tbody>   
+              </table>
+            </div>
+            <div className="col-width-6">
+              <table className="table table-sm table-responsive table-scroll">
+                <thead style={{left: (-1)*(this.state.scrollLeft)}}>
                   <tr>
-                    <th>
-                      <div>
-                        {
-                          isShowItemAll && 
-                            <a onClick={() => this.hideAllItem()}><img src={ShownImg} alt="" /></a>
-                        }
-                        {
-                          !isShowItemAll &&
-                            <a onClick={() => this.showAllItem()}><img src={HideAllImg} alt="" /></a>
-                        }
-                      </div>
-                    </th>
-                    <th></th>
                     {
                       categories && (
                         categories.map((category, pos) => {
-                          return <th scope="col" className="estimate-rse-th estimate-rse-td" key={`category-${pos}`}>{category}</th>
+                          return (
+                            <th scope="col" className="estimate-rse-th estimate-rse-td" key={`category-${pos}`}>
+                              <div className="estimate_rse center-heading">{category}</div>
+                            </th>
+                          )
                         })
                       )
                     }
                   </tr>
                 </thead>
-                <tbody>
+                <tbody onScroll={this.onScrollTable} ref={node=>this.tbody=node}>
                   <tr>
-                    <td>&nbsp;</td>
-                    <td></td>
                     {
                       categories && (
                         categories.map((category, pos) => {
@@ -172,40 +229,7 @@ class TableContainer extends React.Component {
                   {
                     incomeArr.map((data, index) => {
                       return (
-                        <tr key={`ltr-${index}`}>
-                          <td>
-                            {
-                              <div className="nowrap-div">
-                                {
-                                  showList && (
-                                    <a onClick={() => showList[data.id] === true ? this.hideItem(data.id) : this.showItem(data.id)}>
-                                      <img src={showList[data.id] === true ? ShownImg : HiddenImg } alt="show-hide" />
-                                    </a>
-                                  ) 
-                                }
-                              </div>
-                            }
-                          </td>
-                          <td>
-                            <div className="pin-container">
-                            <div>
-                            </div>
-                            {
-                              blockIndex < 1 && (
-                                <div className={`level-${data.level} nowrap-div`}>
-                                {data.header} {data.unit_desc !== 'Dollars per farm' ? '('+data.unit_desc+')' : ''}
-                                </div>
-                              )
-                            } 
-                            {
-                              blockIndex > 0 &&
-                                <div className="level-1 nowrap-div">
-                                  {data.header} {data.unit_desc !== 'Dollars per farm' ? '('+data.unit_desc+')' : ''}
-                                </div>
-                            }
-                            </div>
-                          </td>
-                          
+                        <tr key={`ltr-${index}`}>                        
                             {
                               categories && (
                                 categories.map((category, pos) => {
