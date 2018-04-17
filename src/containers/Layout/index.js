@@ -1912,7 +1912,37 @@ export default class Layout extends React.Component {
             filters={filters}
             pre_filters={pre_filters}        
           />        
-          <Footnote />
+          <Footnote
+            blockIndex = {blockIndex}
+            isGetSurveyData = {isGetSurveyData}
+
+            report_num_0 = {filters[0].report_num}
+            topic_abb_0 = {filters[blockIndex].topic_abb}
+            
+            report_num_1 = {filters[1].report_num}
+            topic_abb_1 = {filters[1].topic_abb}
+
+            report_num_2 = {filters[2].report_num}
+            topic_abb_2 = {filters[2].topic_abb}
+
+            report_num_3 = {filters[3].report_num}
+            topic_abb_3 = {filters[3].topic_abb}
+
+            report_num_4 = {filters[4].report_num}
+            topic_abb_4 = {filters[4].topic_abb}
+
+            report_num_5 = {filters[5].report_num}
+            topic_abb_5 = {filters[5].topic_abb}
+
+            report_num_6 = {filters[6].report_num}
+            topic_abb_6 = {filters[6].topic_abb}
+
+            report_num_7 = {filters[7].report_num}
+            topic_abb_7 = {filters[7].topic_abb}
+
+            report_num_8 = {filters[8].report_num}
+            topic_abb_8 = {filters[8].topic_abb}
+          />
         </Col>  
       </Grid>
     )
