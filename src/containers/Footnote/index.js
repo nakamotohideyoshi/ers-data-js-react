@@ -1,6 +1,10 @@
 import React from 'react';
 import { Col } from 'react-bootstrap';
 import './style.css';
+import tailorfootnote from '../../ApolloComponent/tailorFootNote'
+import armsdatafootnote from '../../ApolloComponent/armsdataFootNote'
+import { compose } from 'react-apollo'
+
 
 const Footnote = ({ title }) => (
   <Col xs={12} md={12} sm={12}>
@@ -19,5 +23,8 @@ const Footnote = ({ title }) => (
   </Col>
 );
 
-export default Footnote;
+export default compose(
+  tailorfootnote,
+  armsdatafootnote,
+)(Footnote);
 
