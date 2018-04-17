@@ -2,7 +2,7 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
 export default graphql(gql`
-  query TailorFootNoteQuery(
+  query TailorFootNote(
     $report_num_0: [Int]
   ) {
     tailorfootnote: arms_footnote(
