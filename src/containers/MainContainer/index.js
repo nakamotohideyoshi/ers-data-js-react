@@ -47,10 +47,24 @@ class MainContainer extends React.Component {
           let dataObj = {}
           dataObj.dataSource = index
           dataObj.data = survey
-          showData.push(dataObj)
-          survey.forEach(data => {
+          dataObj.report = ''
+          dataObj.subject = ''
+          dataObj.serie = ''
+          dataObj.serie_element = ''
+          dataObj.serie2 = ''
+          dataObj.serie2_element = ''
+          survey.forEach((data, i) => {
+            if (i===0) {
+              dataObj.report = data.report_dim.header
+              dataObj.subject = data.subject_dim.header
+              dataObj.serie = data.serie_dim.header
+              dataObj.serie_element = data.serie_element_dim.name
+              dataObj.serie2 = data.serie2_dim.header
+              dataObj.serie2_element = data.serie2_element_dim.name
+            } 
             showList[index+data.topic_abb] = true
           })
+          showData.push(dataObj)
         }
         
       })
@@ -97,12 +111,25 @@ class MainContainer extends React.Component {
             let dataObj = {}
             dataObj.dataSource = index
             dataObj.data = survey
-            showData.push(dataObj)
-            survey.forEach(data => {
+            dataObj.report = ''
+            dataObj.subject = ''
+            dataObj.serie = ''
+            dataObj.serie_element = ''
+            dataObj.serie2 = ''
+            dataObj.serie2_element = ''
+            survey.forEach((data, i) => {
+              if (i===0) {
+                dataObj.report = data.report_dim.header
+                dataObj.subject = data.subject_dim.header
+                dataObj.serie = data.serie_dim.header
+                dataObj.serie_element = data.serie_element_dim.name
+                dataObj.serie2 = data.serie2_dim.header
+                dataObj.serie2_element = data.serie2_element_dim.name
+              } 
               showList[index+data.topic_abb] = true
             })
-          }
-          
+            showData.push(dataObj)
+          }          
         })
       }
       this.setState({ showList, surveyData, showData })
@@ -136,7 +163,7 @@ class MainContainer extends React.Component {
   render() {
     const { showList, showData } = this.state
     const { selectedYears, selectedStateNames, whichOneMultiple, blockIndex } = this.props
-    console.log('Survey Data Result', this.props)
+    console.log('Survey Data Result', showData)
     const categories = whichOneMultiple === YEAR_SELECTED ? selectedYears.sort(function(a, b){return a-b}) : selectedStateNames
 
     return (
