@@ -112,7 +112,8 @@
 
 /*tbody*/
 .table tbody {
-  height: 400px;
+  min-height: 100px;
+  max-height: 400px;
   position: relative;
   display: block; /*seperates the tbody from the header*/
 }
@@ -123,6 +124,7 @@
   font-weight: 400;
   color: #23527c;
   text-transform: none;
+  border-bottom: 1px solid #f8fbfc;    
 }
 .table tr:nth-of-type(even) {
   background-color: #f8fbfc;
