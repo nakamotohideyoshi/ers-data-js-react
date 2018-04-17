@@ -108,14 +108,14 @@ export default class ChartGenerator extends React.Component {
         single.originIndex = index
         return single
       }
-      return {}
+      return null
     })
     const seriesOthers = series.filter((single, index) => {
       if (single.header !== 'Farms') {
         single.originIndex = index
         return single
       }
-      return {}
+      return null      
     })
 
     // Chart configuration
