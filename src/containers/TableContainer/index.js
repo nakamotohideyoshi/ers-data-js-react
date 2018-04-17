@@ -1,12 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import OptionGroup from '../../components/OptionGroup'
 import { numberWithCommas } from '../../helpers/NumberWithCommas'
 import { YEAR_SELECTED } from '../../helpers/constants'
 import { REMOVING_ELEMENTS } from '../../helpers/constants'
 
-import HelpImg from '../../images/help.png'
 import HideAllImg from '../../images/hide_all.png'
 import HiddenImg from '../../images/hide.png'
 import ShownImg from '../../images/show.png'
@@ -112,7 +110,7 @@ class TableContainer extends React.Component {
     this.setState({ scrollTop: this.tbody.scrollTop })
   }
   render() {
-    const { incomeArr, isShowItemAll, optionsIndex } = this.state
+    const { incomeArr, isShowItemAll } = this.state
     const { showList, categories, blockIndex } = this.props
 
     if (incomeArr.length === 0)
@@ -154,7 +152,7 @@ class TableContainer extends React.Component {
                     {
                         incomeArr.map((data, index) => {
                           return (
-                            <tr>
+                            <tr key={`${index}`}>
                               <td>
                                 {
                                   <div className="nowrap-div">
