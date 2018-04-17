@@ -8,9 +8,7 @@ import { DropdownButton, MenuItem } from 'react-bootstrap';
 import {CSVLink} from 'react-csv';
 
 import { numberWithCommas } from '../../helpers/NumberWithCommas'
-import { YEAR_SELECTED } from '../../helpers/constants'
 import DownloadImg from '../../images/download.png'
-import { queue } from 'async';
 
 HighchartsExporting(ReactHighcharts.Highcharts)
 HighchartsExportCSV(ReactHighcharts.Highcharts)
@@ -79,7 +77,7 @@ export default class ChartGenerator extends React.Component {
             if (est >= minRange && est < maxRange) 
               isInRange = true
             if (est < minOverAll)
-            minOverAll = est
+              minOverAll = est
           })
         })
         if (!isInRange) {
@@ -110,12 +108,14 @@ export default class ChartGenerator extends React.Component {
         single.originIndex = index
         return single
       }
+      return {}
     })
     const seriesOthers = series.filter((single, index) => {
       if (single.header !== 'Farms') {
         single.originIndex = index
         return single
       }
+      return {}
     })
 
     // Chart configuration
@@ -195,7 +195,6 @@ export default class ChartGenerator extends React.Component {
     
     //Push Y Axis for Series Farms
     if (seriesFarms.length > 0 && seriesFarmsShown) {
-      const element = seriesFarms[0]
       config.yAxis.push({
         title: {
           text: "Number of Farms",
