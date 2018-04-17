@@ -1333,7 +1333,7 @@ export default class Layout extends React.Component {
   }
 
   // selected Filter1 in `Arms Data Analysis`
-  selecteFilter1Analysis = (serie, blockIndex) => {
+  selectFilter1Analysis = (serie, blockIndex) => {
     let {pre_filters} = this.state
 
     pre_filters[blockIndex].serie = serie
@@ -1804,7 +1804,7 @@ export default class Layout extends React.Component {
           selectDataSource = {this.selectDataSource}
           selectDataLineAnalysis = {this.selectDataLineAnalysis}
           selectFarmTypeAnalsysis = {this.selectFarmTypeAnalsysis}
-          selecteFilter1Analysis = {this.selecteFilter1Analysis}
+          selectFilter1Analysis = {this.selectFilter1Analysis}
           selectSubFilter1Analysis = {this.selectSubFilter1Analysis}
           selectFilter2Analysis =  {this.selectFilter2Analysis}
           selectSubFilter2Analysis = {this.selectSubFilter2Analysis}
