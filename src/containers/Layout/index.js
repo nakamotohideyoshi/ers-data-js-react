@@ -24,6 +24,8 @@ export default class Layout extends React.Component {
     yearsInfo: [],
     statesInfo: [],
     selectedYears: [],
+    temp_Years: [],
+    temp_States: [],
     selectedStates: [],
     filters: [],
     pre_filters:[],
@@ -188,7 +190,7 @@ export default class Layout extends React.Component {
   // reset [Filter By, Year, State]
   // run query to refresh [serie_element]
   resetSYRFilter = (serie, years, states, blockIndex) => {
-    let {pre_filters, selectedYears, selectedStates, whichOneMultiple} = this.state
+    let {pre_filters, temp_Years, selectedYears, temp_States, selectedStates, whichOneMultiple} = this.state
 
     pre_filters[blockIndex].serie = serie
     pre_filters[blockIndex].serie_element = []
@@ -201,15 +203,17 @@ export default class Layout extends React.Component {
       }
     })
 
-    const yearCount = whichOneMultiple === YEAR_SELECTED ? (prevYearCount === 0 ? defaultYearCount : prevYearCount) : 1
+    const yearCount = whichOneMultiple === YEAR_SELECTED ? (prevYearCount === 0 ? (temp_Years.length===0 ? defaultYearCount : 0) : prevYearCount) : (temp_Years.length===0 ? 1 : 0)
 
     let yearsInfo = []
     let reSelectedYears = []
     let currentYearCount = 0
+    temp_Years = []
 
     years.forEach(year => {
+      temp_Years.push(year)
       const infoObj = {}
-      infoObj.year = year
+      infoObj.year = year      
       if (prevYearCount === 0) {
         if (years.indexOf(year) >= 0 && years.indexOf(year) < yearCount) {
           infoObj.checked = true
@@ -228,6 +232,9 @@ export default class Layout extends React.Component {
       }        
       yearsInfo.push(infoObj)
     })
+    if (reSelectedYears.length !== 0) {
+      temp_Years = []
+    }
 
 
     let prevStateCount = 0
@@ -238,13 +245,16 @@ export default class Layout extends React.Component {
       }
     })
 
-    const stateCount = whichOneMultiple === YEAR_SELECTED ? defaultStateCount : (prevStateCount === 0 ? defaultStateCount : prevStateCount)
+    const stateCount = whichOneMultiple === YEAR_SELECTED ? (temp_States.length === 0 ? defaultStateCount : 0) : (prevStateCount === 0 ? (temp_States.length === 0 ? defaultStateCount : 0) : prevStateCount)
 
+    temp_States = []
     let statesInfo = []
     let reSelectedStates = []
     let selectedStateNames = []
     let currentStateCount = 0
+
     states.forEach(stateN => {
+      temp_States.push(stateN.id)
       const obj = {}
       obj.name = stateN.name
       obj.id = stateN.id
@@ -268,6 +278,11 @@ export default class Layout extends React.Component {
       }   
       statesInfo.push(obj)     
     })
+
+    if (reSelectedStates.length !== 0) {
+      temp_States = []
+    }
+    
     const isRemoveDataSource = false
     const isGetSurveyData = false
 
@@ -277,8 +292,10 @@ export default class Layout extends React.Component {
       isGetSurveyData,
       blockIndex: blockIndex,
       yearsInfo: yearsInfo,
+      temp_Years,
       selectedYears: reSelectedYears,
       statesInfo: statesInfo,
+      temp_States,
       selectedStates: reSelectedStates,
       selectedStateNames: selectedStateNames,
       runQuery: 'tysQuery'
@@ -304,7 +321,7 @@ export default class Layout extends React.Component {
 
   // reset [ Filter By/Sub, Year, Region]
   resetEYRFilter = (serie_element, years, states, blockIndex) => {
-    let {filters, pre_filters, selectedYears, selectedStates, whichOneMultiple} = this.state
+    let {filters, pre_filters, temp_Years, selectedYears, temp_States, selectedStates, whichOneMultiple} = this.state
     pre_filters[blockIndex].serie_element = serie_element
 
     let prevYearCount = 0
@@ -315,13 +332,15 @@ export default class Layout extends React.Component {
       }
     })
 
-    const yearCount = whichOneMultiple === YEAR_SELECTED ? (prevYearCount === 0 ? defaultYearCount : prevYearCount) : 1
+    const yearCount = whichOneMultiple === YEAR_SELECTED ? (prevYearCount === 0 ? (temp_Years.length===0 ? defaultYearCount : 0) : prevYearCount) : (temp_Years.length===0 ? 1 : 0)
 
     let yearsInfo = []
     let reSelectedYears = []
     let currentYearCount = 0
+    temp_Years = []
 
     years.forEach(year => {
+      temp_Years.push(year)
       const infoObj = {}
       infoObj.year = year
       if (prevYearCount === 0) {
@@ -342,6 +361,10 @@ export default class Layout extends React.Component {
       }        
       yearsInfo.push(infoObj)
     })
+    
+    if (reSelectedYears.length !== 0) {
+      temp_Years = []
+    }
 
     let prevStateCount = 0
 
@@ -351,13 +374,16 @@ export default class Layout extends React.Component {
       }
     })
 
-    const stateCount = whichOneMultiple === YEAR_SELECTED ? defaultStateCount : (prevStateCount === 0 ? defaultStateCount : prevStateCount)
+    const stateCount = whichOneMultiple === YEAR_SELECTED ? (temp_States.length === 0 ? defaultStateCount : 0) : (prevStateCount === 0 ? (temp_States.length === 0 ? defaultStateCount : 0) : prevStateCount)
 
     let statesInfo = []
     let reSelectedStates = []
     let selectedStateNames = []
     let currentStateCount = 0
+    temp_States = []
+
     states.forEach(stateN => {
+      temp_States.push(stateN.id)
       const obj = {}
       obj.name = stateN.name
       obj.id = stateN.id
@@ -381,6 +407,11 @@ export default class Layout extends React.Component {
       }   
       statesInfo.push(obj)     
     })
+
+    if (reSelectedStates.length !== 0) {
+      temp_States = []
+    }
+
     const isRemoveDataSource = false
     const isGetSurveyData = true
 
@@ -391,8 +422,10 @@ export default class Layout extends React.Component {
       isGetSurveyData,
       blockIndex,
       yearsInfo: yearsInfo,
+      temp_Years,
       selectedYears: reSelectedYears,
       statesInfo: statesInfo,
+      temp_States,
       selectedStates: reSelectedStates,
       selectedStateNames: selectedStateNames,
       runQuery: ''
@@ -403,7 +436,7 @@ export default class Layout extends React.Component {
   // reset [ Year, Region ]
   resetYRFilter = (years, states, blockIndex) => {
 
-    let {filters, pre_filters, selectedYears, selectedStates, whichOneMultiple} = this.state
+    let {filters, pre_filters, temp_Years, selectedYears, temp_States, selectedStates, whichOneMultiple} = this.state
 
     let prevYearCount = 0
 
@@ -412,11 +445,12 @@ export default class Layout extends React.Component {
         prevYearCount++
       }
     })
-    const yearCount = whichOneMultiple === YEAR_SELECTED ? (prevYearCount === 0 ? defaultYearCount : prevYearCount) : 1
+    const yearCount = whichOneMultiple === YEAR_SELECTED ? (prevYearCount === 0 ? (temp_Years.length===0 ? defaultYearCount : 0) : prevYearCount) : (temp_Years.length===0 ? 1 : 0)
 
     let yearsInfo = []
     let reSelectedYears = []
     let currentYearCount = 0
+    temp_Years = []
 
     years.forEach(year => {
       const infoObj = {}
@@ -440,6 +474,9 @@ export default class Layout extends React.Component {
       yearsInfo.push(infoObj)
     })
 
+    if (reSelectedYears.length !== 0) {
+      temp_Years = []
+    }
 
     let prevStateCount = 0
 
@@ -449,13 +486,16 @@ export default class Layout extends React.Component {
       }
     })
 
-    const stateCount = whichOneMultiple === YEAR_SELECTED ? defaultStateCount : (prevStateCount === 0 ? defaultStateCount : prevStateCount)
+    const stateCount = whichOneMultiple === YEAR_SELECTED ? (temp_States.length === 0 ? defaultStateCount : 0) : (prevStateCount === 0 ? (temp_States.length === 0 ? defaultStateCount : 0) : prevStateCount)
 
     let statesInfo = []
     let reSelectedStates = []
     let selectedStateNames = []
     let currentStateCount = 0
+    temp_States = []
+
     states.forEach(stateN => {
+      temp_States.push(stateN.id)
       const obj = {}
       obj.name = stateN.name
       obj.id = stateN.id
@@ -479,6 +519,11 @@ export default class Layout extends React.Component {
       }   
       statesInfo.push(obj)     
     })
+
+    if (reSelectedStates.length !== 0) {
+      temp_States = []
+    }
+
     const isRemoveDataSource = false
     const isGetSurveyData = true
 
@@ -489,7 +534,9 @@ export default class Layout extends React.Component {
       isGetSurveyData,
       blockIndex,
       yearsInfo: yearsInfo,
+      temp_Years,
       selectedYears: reSelectedYears,
+      temp_States,
       selectedStates: reSelectedStates,
       statesInfo: statesInfo,
       selectedStateNames: selectedStateNames,
@@ -501,7 +548,7 @@ export default class Layout extends React.Component {
   // reset [ Year ]
   resetYFilter = (years, blockIndex) => {
 
-    let {filters, pre_filters, selectedYears, whichOneMultiple} = this.state
+    let {filters, pre_filters, temp_Years, selectedYears, whichOneMultiple} = this.state
 
     let prevYearCount = 0
 
@@ -511,13 +558,15 @@ export default class Layout extends React.Component {
       }
     })
 
-    const yearCount = whichOneMultiple === YEAR_SELECTED ? (prevYearCount === 0 ? defaultYearCount : prevYearCount) : 1
+    const yearCount = whichOneMultiple === YEAR_SELECTED ? (prevYearCount === 0 ? (temp_Years.length===0 ? defaultYearCount : 0) : prevYearCount) : (temp_Years.length===0 ? 1 : 0)
 
     let yearsInfo = []
     let reSelectedYears = []
     let currentYearCount = 0
+    temp_Years = []
 
     years.forEach(year => {
+      temp_Years.push(year)
       const infoObj = {}
       infoObj.year = year
       if (prevYearCount === 0) {
@@ -539,6 +588,10 @@ export default class Layout extends React.Component {
       yearsInfo.push(infoObj)
     })
 
+    if (reSelectedYears.length !== 0) {
+      temp_Years = []
+    }
+
     const isRemoveDataSource = false
     const isGetSurveyData = true
 
@@ -548,6 +601,7 @@ export default class Layout extends React.Component {
       isRemoveDataSource,
       isGetSurveyData,
       blockIndex,
+      temp_Years,
       yearsInfo: yearsInfo,
       selectedYears: reSelectedYears,
       runQuery: ''
@@ -559,7 +613,7 @@ export default class Layout extends React.Component {
   // set state
   resetRFilter = (states, blockIndex) => {
 
-    let {filters, pre_filters, selectedStates, whichOneMultiple} = this.state
+    let {filters, pre_filters, temp_States, selectedStates, whichOneMultiple} = this.state
     let prevStateCount = 0
 
     states.forEach(stateN => {
@@ -568,13 +622,16 @@ export default class Layout extends React.Component {
       }
     })
 
-    const stateCount = whichOneMultiple === YEAR_SELECTED ? defaultStateCount : (prevStateCount === 0 ? defaultStateCount : prevStateCount)
+    const stateCount = whichOneMultiple === YEAR_SELECTED ? (temp_States.length === 0 ? defaultStateCount : 0) : (prevStateCount === 0 ? (temp_States.length === 0 ? defaultStateCount : 0) : prevStateCount)
 
     let statesInfo = []
     let reSelectedStates = []
     let selectedStateNames = []
     let currentStateCount = 0
+    temp_States = []
+
     states.forEach(stateN => {
+      temp_States.push(stateN.id)
       const obj = {}
       obj.name = stateN.name
       obj.id = stateN.id
@@ -598,6 +655,10 @@ export default class Layout extends React.Component {
       }   
       statesInfo.push(obj)     
     })
+
+    if (reSelectedStates.length !== 0) {
+      temp_States = []
+    }
     
     const isRemoveDataSource = false
     const isGetSurveyData = true
@@ -609,6 +670,7 @@ export default class Layout extends React.Component {
       isGetSurveyData,
       blockIndex,
       selectedStates: reSelectedStates,
+      temp_States,
       statesInfo: statesInfo,
       selectedStateNames: selectedStateNames,
       runQuery: ''
@@ -619,7 +681,7 @@ export default class Layout extends React.Component {
   // reset [ Filter By, Year ]
   // run query to refresh [ Filter By/Sub ]
   resetSYFilter = (serie, years, blockIndex) => {
-    let {pre_filters, selectedYears, whichOneMultiple} = this.state
+    let {pre_filters, temp_Years, selectedYears, whichOneMultiple} = this.state
     pre_filters[blockIndex].serie = serie
     pre_filters[blockIndex].serie_element = []
 
@@ -631,13 +693,15 @@ export default class Layout extends React.Component {
       }
     })
 
-    const yearCount = whichOneMultiple === YEAR_SELECTED ? (prevYearCount === 0 ? defaultYearCount : prevYearCount) : 1
+    const yearCount = whichOneMultiple === YEAR_SELECTED ? (prevYearCount === 0 ? (temp_Years.length===0 ? defaultYearCount : 0) : prevYearCount) : (temp_Years.length===0 ? 1 : 0)
 
     let yearsInfo = []
     let reSelectedYears = []
     let currentYearCount = 0
+    temp_Years = []
 
     years.forEach(year => {
+      temp_Years.push(year)
       const infoObj = {}
       infoObj.year = year
       if (prevYearCount === 0) {
@@ -659,6 +723,10 @@ export default class Layout extends React.Component {
       yearsInfo.push(infoObj)
     })
 
+    if (reSelectedYears.length !== 0) {
+      temp_Years = []
+    }
+
     const isRemoveDataSource = false
     const isGetSurveyData = false
 
@@ -668,6 +736,7 @@ export default class Layout extends React.Component {
       isGetSurveyData,
       blockIndex,
       yearsInfo: yearsInfo,
+      temp_Years,
       selectedYears: reSelectedYears,
       runQuery: 'tysQuery'
     })
@@ -694,7 +763,7 @@ export default class Layout extends React.Component {
 
   // reset [ Filter By/Sub, Year ]
   resetEYFilter = (serie_element, years, blockIndex) => {
-    let {filters, pre_filters, selectedYears, whichOneMultiple} = this.state
+    let {filters, pre_filters, temp_Years, selectedYears, whichOneMultiple} = this.state
     pre_filters[blockIndex].serie_element = serie_element
 
     let prevYearCount = 0
@@ -705,13 +774,15 @@ export default class Layout extends React.Component {
       }
     })
 
-    const yearCount = whichOneMultiple === YEAR_SELECTED ? (prevYearCount === 0 ? defaultYearCount : prevYearCount) : 1
+    const yearCount = whichOneMultiple === YEAR_SELECTED ? (prevYearCount === 0 ? (temp_Years.length===0 ? defaultYearCount : 0) : prevYearCount) : (temp_Years.length===0 ? 1 : 0)
 
     let yearsInfo = []
     let reSelectedYears = []
     let currentYearCount = 0
+    temp_Years = []
 
     years.forEach(year => {
+      temp_Years.push(year)
       const infoObj = {}
       infoObj.year = year
       if (prevYearCount === 0) {
@@ -733,6 +804,10 @@ export default class Layout extends React.Component {
       yearsInfo.push(infoObj)
     })
 
+    if (reSelectedYears.length !== 0) {
+      temp_Years = []
+    }
+
     const isRemoveDataSource = false
     const isGetSurveyData = true
 
@@ -743,6 +818,7 @@ export default class Layout extends React.Component {
       isGetSurveyData,
       blockIndex,
       yearsInfo: yearsInfo,
+      temp_Years,
       selectedYears: reSelectedYears,
       runQuery: ''
     })
@@ -751,7 +827,7 @@ export default class Layout extends React.Component {
   // reset[ Filter, Region ]
   // run query to reset [ Filter By/Sub ]
   resetSRFilter = (serie, states, blockIndex) => {
-    let {pre_filters, selectedStates, whichOneMultiple} = this.state
+    let {pre_filters, temp_States, selectedStates, whichOneMultiple} = this.state
     pre_filters[blockIndex].serie = serie
     pre_filters[blockIndex].serie_element = []
 
@@ -763,13 +839,16 @@ export default class Layout extends React.Component {
       }
     })
 
-    const stateCount = whichOneMultiple === YEAR_SELECTED ? defaultStateCount : (prevStateCount === 0 ? defaultStateCount : prevStateCount)
+    const stateCount = whichOneMultiple === YEAR_SELECTED ? (temp_States.length === 0 ? defaultStateCount : 0) : (prevStateCount === 0 ? (temp_States.length === 0 ? defaultStateCount : 0) : prevStateCount)
 
     let statesInfo = []
     let reSelectedStates = []
     let selectedStateNames = []
     let currentStateCount = 0
+    temp_States = []
+
     states.forEach(stateN => {
+      temp_States.push(stateN.id)
       const obj = {}
       obj.name = stateN.name
       obj.id = stateN.id
@@ -793,6 +872,10 @@ export default class Layout extends React.Component {
       }   
       statesInfo.push(obj)     
     })
+
+    if (reSelectedStates.length !== 0) {
+      temp_States = []
+    }
     
     const isRemoveDataSource = false
     const isGetSurveyData = false
@@ -803,6 +886,7 @@ export default class Layout extends React.Component {
       isGetSurveyData,
       blockIndex,
       statesInfo: statesInfo,
+      temp_States,
       selectedStates: reSelectedStates,
       selectedStateNames: selectedStateNames,
       runQuery: 'tysQuery'
@@ -812,7 +896,7 @@ export default class Layout extends React.Component {
 
   // reset [ Filter By/Sub, Region ]
   resetERFilter = (serie_element, states, blockIndex) => {
-    let {filters, pre_filters, selectedStates, whichOneMultiple} = this.state
+    let {filters, pre_filters, temp_States, selectedStates, whichOneMultiple} = this.state
     pre_filters[blockIndex].serie_element = serie_element
 
     let prevStateCount = 0
@@ -823,13 +907,16 @@ export default class Layout extends React.Component {
       }
     })
 
-    const stateCount = whichOneMultiple === YEAR_SELECTED ? defaultStateCount : (prevStateCount === 0 ? defaultStateCount : prevStateCount)
+    const stateCount = whichOneMultiple === YEAR_SELECTED ? (temp_States.length === 0 ? defaultStateCount : 0) : (prevStateCount === 0 ? (temp_States.length === 0 ? defaultStateCount : 0) : prevStateCount)
 
     let statesInfo = []
     let reSelectedStates = []
     let selectedStateNames = []
     let currentStateCount = 0
+    temp_States = []
+
     states.forEach(stateN => {
+      temp_States.push(stateN.id)
       const obj = {}
       obj.name = stateN.name
       obj.id = stateN.id
@@ -853,6 +940,11 @@ export default class Layout extends React.Component {
       }   
       statesInfo.push(obj)     
     })
+
+    if (reSelectedStates.length !== 0) {
+      temp_States = []
+    }
+
     const isRemoveDataSource = false
     const isGetSurveyData = true
 
@@ -863,6 +955,7 @@ export default class Layout extends React.Component {
       isGetSurveyData,
       blockIndex,
       statesInfo: statesInfo,
+      temp_States,
       selectedStates: reSelectedStates,
       selectedStateNames: selectedStateNames,
       runQuery: ''
@@ -997,7 +1090,7 @@ export default class Layout extends React.Component {
   onSelectYear = (index) => {
     let { filters, pre_filters, yearsInfo, whichOneMultiple, priority, blockIndex } = this.state
     let runQuery = ''
-    let isAllDataSources = false
+    let isAllDataSources = false    
 
     const priorityIndex = priority.indexOf('year')
     if (priority.length === 3) {
@@ -1010,16 +1103,24 @@ export default class Layout extends React.Component {
 
     yearsInfo[index].checked = !yearsInfo[index].checked
     if (whichOneMultiple !== YEAR_SELECTED) {
-      yearsInfo.forEach((yearN, i) => {
+      yearsInfo.forEach((yearN, i) => {        
         if (i !== index) yearN.checked = false
       })
     }
+
+    let temp_Years = []
     let selectedYears = []
     yearsInfo.forEach(yearN => {
+      temp_Years.push(yearN)
       if (yearN.checked) {
         selectedYears.push(yearN.year)
       }
     })
+
+    if (selectedYears.length !== 0) {
+      temp_Years = []
+    }
+
     let isGetSurveyData = false
 
     if (blockIndex === 0) {
@@ -1059,6 +1160,7 @@ export default class Layout extends React.Component {
       priority: priority,
       yearsInfo: yearsInfo.slice(),
       selectedYears: selectedYears,
+      temp_Years: temp_Years,
       runQuery: runQuery,
       isAllDataSources
     })
@@ -1079,6 +1181,7 @@ export default class Layout extends React.Component {
       priority.push('state')
     }
 
+    let temp_States = []
     let selectedStates = []
     let selectedStateNames = []
     statesInfo[index].checked = !statesInfo[index].checked
@@ -1088,11 +1191,16 @@ export default class Layout extends React.Component {
       })
     }
     statesInfo.forEach(stateN => {
+      temp_States.push(stateN.id)
       if (stateN.checked) {
         selectedStates.push(stateN.id)
         selectedStateNames.push(stateN.name)
       }
     })
+
+    if (selectedStates.length !== 0) {
+      temp_States = []
+    }
 
     let isGetSurveyData = false
     
@@ -1132,6 +1240,7 @@ export default class Layout extends React.Component {
       priority: priority,
       statesInfo: statesInfo.slice(),
       selectedStates: selectedStates,
+      temp_States: temp_States,
       runQuery: runQuery,
       isAllDataSources
     })
@@ -1296,7 +1405,7 @@ export default class Layout extends React.Component {
 
   // reset year in `Arms Data Analysis`
   selectYearAnalysis = (years) => {
-    let {selectedYears, whichOneMultiple} = this.state
+    let {temp_Years, selectedYears, whichOneMultiple} = this.state
 
     const runQuery = whichOneMultiple === YEAR_SELECTED ? '' : 'dlfseseytAnalysis'
     const isGetSurveyData =whichOneMultiple === YEAR_SELECTED ? true : false
@@ -1310,13 +1419,16 @@ export default class Layout extends React.Component {
       }
     })
 
-    const yearCount = whichOneMultiple === YEAR_SELECTED ? (prevYearCount === 0 ? defaultYearCount : prevYearCount) : 1
+    const yearCount = whichOneMultiple === YEAR_SELECTED ? (prevYearCount === 0 ? (temp_Years.length===0 ? defaultYearCount : 0) : prevYearCount) : (temp_Years.length===0 ? 1 : 0)
+
 
     let yearsInfo = []
     let reSelectedYears = []
     let currentYearCount = 0
+    temp_Years = []
 
     years.forEach(year => {
+      temp_Years.push(year)
       const infoObj = {}
       infoObj.year = year
       if (prevYearCount === 0) {
@@ -1337,6 +1449,10 @@ export default class Layout extends React.Component {
       }        
       yearsInfo.push(infoObj)
     })
+    
+    if (reSelectedYears.length !== 0) {
+      temp_Years = []
+    }
 
     const isRemoveDataSource = false
 
@@ -1344,6 +1460,7 @@ export default class Layout extends React.Component {
       isRemoveDataSource,
       isGetSurveyData,
       yearsInfo: yearsInfo,
+      temp_Years,
       selectedYears: reSelectedYears,
       runQuery: runQuery,
       isAllDataSources
@@ -1352,7 +1469,7 @@ export default class Layout extends React.Component {
 
   // reset Region in `Arms Data Analysis`
   selectStateAnalysis = (states) => {
-    let {selectedStates, whichOneMultiple} = this.state
+    let {temp_States, selectedStates, whichOneMultiple} = this.state
 
     const runQuery = whichOneMultiple === YEAR_SELECTED ? 'dlfsesetyAnalysis' : ''
     const isGetSurveyData = whichOneMultiple === YEAR_SELECTED ? false : true
@@ -1366,13 +1483,16 @@ export default class Layout extends React.Component {
       }
     })
 
-    const stateCount = whichOneMultiple === YEAR_SELECTED ? defaultStateCount : (prevStateCount === 0 ? defaultStateCount : prevStateCount)
+    const stateCount = whichOneMultiple === YEAR_SELECTED ? (temp_States.length === 0 ? defaultStateCount : 0) : (prevStateCount === 0 ? (temp_States.length === 0 ? defaultStateCount : 0) : prevStateCount)
 
     let statesInfo = []
     let reSelectedStates = []
     let selectedStateNames = []
     let currentStateCount = 0
+    temp_States = []
+
     states.forEach(stateN => {
+      temp_States.push(stateN.id)
       const obj = {}
       obj.name = stateN.name
       obj.id = stateN.id
@@ -1397,12 +1517,17 @@ export default class Layout extends React.Component {
       statesInfo.push(obj)     
     })
 
+    if (reSelectedStates.length !== 0) {
+      temp_States = []
+    }
+
     const isRemoveDataSource = false
 
     this.setState({
       isRemoveDataSource,
       isGetSurveyData,
       statesInfo: statesInfo,
+      temp_States,
       selectedStates: reSelectedStates,
       selectedStateNames: selectedStateNames,
       runQuery: runQuery,
@@ -1565,14 +1690,16 @@ export default class Layout extends React.Component {
   }
 
   render() {
-    // console.log('%%%%%%%%%%%%', this.state, '%%%%%%%%%%%')
+    console.log('%%%%%%%%%%%%', this.state, '%%%%%%%%%%%')
     const {
       selectedStateNames,
       blockIndex, 
       yearsInfo,
       selectedYears,
+      temp_Years,
       statesInfo,
       selectedStates,
+      temp_States,
       whichOneMultiple,
       isSelectedAll,
       filters,
@@ -1652,8 +1779,8 @@ export default class Layout extends React.Component {
           serie_element={pre_filters[blockIndex].serie_element}
           serie2 = {pre_filters[blockIndex].serie2}
           serie2_element = {pre_filters[blockIndex].serie2_element}
-          selectedStates = {selectedStates}
-          selectedYears={selectedYears}
+          selectedStates = {selectedStates.length === 0 ? temp_States : selectedStates}
+          selectedYears={selectedYears.length === 0 ? temp_Years : selectedYears}
           runQuery={runQuery}
           resetFilterByBlockIndex = {this.resetFilterByBlockIndex}
           initialLoadingTailor  = {this.initialLoadingTailor }
