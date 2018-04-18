@@ -256,7 +256,7 @@ export default class ChartGenerator extends React.Component {
                 if (!point[key]) {
                     point[key] = this.chart.renderer.path(path)
                         .attr({
-                            'stroke-width': 1,
+                            'stroke-width': 3,
                             stroke: point.series.options.borderColor
                         })
                         .add(point.graphic.parentGroup);
