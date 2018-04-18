@@ -81,7 +81,7 @@ class MainContainer extends React.Component {
             if (surveyData[0].length === 0) {
               showList = {}
               init = true
-            } else if (props.report_num_0 === surveyData[0][0].report_num) {
+            } else if (props.report_num_0[0] !== surveyData[0][0].report_num) {
               console.log('test1111: ', surveyData[0][0].report_num, props.report_num_0)
               showList = {}
               init = true
