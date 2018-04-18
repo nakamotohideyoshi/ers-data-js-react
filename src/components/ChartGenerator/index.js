@@ -244,7 +244,8 @@ export default class ChartGenerator extends React.Component {
             breaks: this.getBreaingPoints(seriesOthers, 5),
             events: {
               pointBreak: function(e) {
-                var point = e.point,
+                  if (chartType === 'bar') {
+                    var point = e.point,
                     brk = e.brk,
                     shapeArgs = point.shapeArgs,
                     x = shapeArgs.x,
@@ -253,19 +254,21 @@ export default class ChartGenerator extends React.Component {
                     key = ['brk', brk.from, brk.to],
                     path = ['M', x, y, 'L', x + w * 0.25, y + 4, 'L', x + w * 0.75, y - 4, 'L', x + w, y];
             
-                if (!point[key]) {
-                    point[key] = this.chart.renderer.path(path)
-                        .attr({
-                            'stroke-width': 3,
-                            stroke: point.series.options.borderColor
-                        })
-                        .add(point.graphic.parentGroup);
-                } else {
-                    point[key].attr({
-                        d: path
-                    });
+                    if (!point[key]) {
+                        point[key] = this.chart.renderer.path(path)
+                            .attr({
+                                'stroke-width': 3,
+                                stroke: point.series.options.borderColor
+                            })
+                            .add(point.graphic.parentGroup);
+                    } else {
+                        point[key].attr({
+                            d: path
+                        });
+                    }
+                  }
                 }
-              }
+                
             },
             height: seriesFarms.length > 0 && seriesFarmsShown ? '75%' : '100%',
             offset: 0,
