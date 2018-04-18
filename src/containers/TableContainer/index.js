@@ -115,7 +115,7 @@ class TableContainer extends React.Component {
   }
   render() {
     const { incomeArr, isShowItemAll } = this.state
-    const { surveyData, showList, categories, blockIndex } = this.props
+    const { showList, categories, blockIndex } = this.props
 
     if (incomeArr.length === 0 || categories.length === 0)
       return ( <div className='center-notification'>No data to display</div> )
@@ -242,7 +242,8 @@ class TableContainer extends React.Component {
                               <div className="heading-info">{headingInfo}</div>
                           )
                         }
-                      } else return (
+                      } 
+                      return (
                         <tr key={`ltr-${index}`}>     
                             {
                               categories && (
