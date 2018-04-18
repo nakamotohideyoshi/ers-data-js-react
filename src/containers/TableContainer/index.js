@@ -42,7 +42,7 @@ class TableContainer extends React.Component {
     let incomeArr = []
     if (surveyData) {
       surveyData.forEach((dataSourceCategories, index) => {
-        if (dataSourceCategories.data.length  > 0)
+        if (dataSourceCategories.data.length  > 0 && dataSourceCategories.dataSource > 0)
           incomeArr.push(dataSourceCategories)
         dataSourceCategories.data.forEach((element, index) => {
           let singleIncome = {}
@@ -163,28 +163,32 @@ class TableContainer extends React.Component {
                                     {
                                       showList && (
                                         <a onClick={() => showList[data.id] === true ? this.hideItem(data.id) : this.showItem(data.id)}>
-                                          <img src={showList[data.id] === true ? ShownImg : HiddenImg } alt="show-hide" />
+                                        {
+                                          data.header && 
+                                            <img src={showList[data.id] === true ? ShownImg : HiddenImg } alt="show-hide" />
+                                        }
+                                        {
+                                          data.data && (<div>{`Data Source ${data.dataSource}`}</div>)
+                                        }
                                         </a>
                                       ) 
                                     }
                                   </div>
                                 }
                                 <div className="pin-container">
-                                <div>
-                                </div>
-                                {
-                                  blockIndex < 1 && (
-                                    <div className={`level-${data.level} nowrap-div`}>
-                                    {data.header} {data.unit_desc !== 'Dollars per farm' ? '('+data.unit_desc+')' : ''}
-                                    </div>
-                                  )
-                                } 
-                                {
-                                  blockIndex > 0 &&
-                                    <div className="level-1 nowrap-div">
-                                      {data.header} {data.unit_desc !== 'Dollars per farm' ? '('+data.unit_desc+')' : ''}
-                                    </div>
-                                }
+                                  {
+                                    blockIndex < 1 && (
+                                      <div className={`level-${data.level} nowrap-div`}>
+                                      {data.header} {data.header && data.unit_desc !== 'Dollars per farm' ? '('+data.unit_desc+')' : ''}
+                                      </div>
+                                    )
+                                  } 
+                                  {
+                                    blockIndex > 0 &&
+                                      <div className="level-1 nowrap-div">
+                                        {data.header} {data.header && data.unit_desc !== 'Dollars per farm' ? '('+data.unit_desc+')' : ''}
+                                      </div>
+                                  }
                                 </div>
                               </td>
                             </tr>
