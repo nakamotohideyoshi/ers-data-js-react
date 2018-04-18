@@ -33,11 +33,9 @@ class MainContainer extends React.Component {
 
   componentWillReceiveProps(props) {
     console.log('...........', props)
-    let {surveyData} = this.state
+    let {surveyData, showList} = this.state
     let showData = []
-    let showList = {}
     if (props.isRemoveDataSource) {
-
       surveyData.splice(props.blockIndex, 1)
       surveyData.push([])
 
