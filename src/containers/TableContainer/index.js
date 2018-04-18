@@ -242,8 +242,7 @@ class TableContainer extends React.Component {
                               <div className="heading-info">{headingInfo}</div>
                           )
                         }
-                      } 
-                      return (
+                      } else return (
                         <tr key={`ltr-${index}`}>     
                             {
                               categories && (
