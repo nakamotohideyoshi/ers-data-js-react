@@ -32,7 +32,7 @@ class MainContainer extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    console.log('...........', props)
+    // console.log('...........', props)
     let {surveyData, showList} = this.state
     let showData = []
     if (props.isRemoveDataSource) {
@@ -74,19 +74,26 @@ class MainContainer extends React.Component {
       if (props.charts) {
         if(props.charts.networkStatus === 7) {
 
+          let init = false
           if(props.charts.arms_surveydata) {
             // Tailored Report
-            if (surveyData[0].length !== 0 && props.charts.arms_surveydata.report_num !== surveyData[0].report_num) {
+            
+            if (surveyData[0].length === 0) {
               showList = {}
+              init = true
+            } else if (props.report_num_0 === surveyData[0][0].report_num) {
+              console.log('test1111: ', surveyData[0][0].report_num, props.report_num_0)
+              showList = {}
+              init = true
             }
             props.charts.arms_surveydata.forEach(data => {
-              // if (surveyData[0].length !== 0 && props.charts.arms_surveydata.report_num !== surveyData[0].report_num) {
+              if (init) {
                 if (data.topic_dim.level > 1) {
                   showList[0+data.topic_abb] = false
                 } else {
                   showList[0+data.topic_abb] = true
                 }
-              // }
+              }
             })            
             surveyData[0] = props.charts.arms_surveydata            
           } else {            
@@ -168,9 +175,9 @@ class MainContainer extends React.Component {
   }
 
   render() {
-    const { showList, showData } = this.state
+    const { showList, surveyData, showData } = this.state
     const { selectedYears, selectedStateNames, whichOneMultiple, blockIndex } = this.props
-    console.log('Survey Data Result', showData)
+    console.log('test: ', surveyData[0], showList)
     const categories = whichOneMultiple === YEAR_SELECTED ? selectedYears.sort(function(a, b){return a-b}) : selectedStateNames
 
     return (
