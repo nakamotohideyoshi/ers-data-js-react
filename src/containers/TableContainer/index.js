@@ -241,6 +241,9 @@ class TableContainer extends React.Component {
                           headingInfo += "Report: " + data.report + ", "
                           headingInfo += "Subject: " + data.subject + ", "
                           headingInfo += "Farm Type: " + data.serie + ", "
+                          headingInfo += data.serie2 + "; "
+                          headingInfo += data.serie2_element + "; "
+                          headingInfo += data.serie_element + "; "
                           
                           return (
                               <div className="heading-info">{headingInfo}</div>
