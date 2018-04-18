@@ -6,7 +6,7 @@ export default graphql(gql`
     $report_num_0: [Int]
   ) {
     tailorfootnote: arms_footnote(
-      report_num: $remport_num_0
+      report_num: $report_num_0
     )
     {
       survey_abb
