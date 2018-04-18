@@ -231,7 +231,6 @@ export default class ChartGenerator extends React.Component {
         })
       }
     }
-
     if (seriesOthers.length > 0 && seriesOthersShown) {
       seriesOthers.forEach((element, i) => {
         if (unitDescs.indexOf(element.unit_desc) < 0) {
@@ -241,7 +240,7 @@ export default class ChartGenerator extends React.Component {
               text: element.unit_desc,
             },
             lineWidth: 1,
-            tickInterval: Math.pow(10, (Math.min.apply(null, seriesOthers[0].estimateList)).toString().length),
+            tickInterval: Math.pow(10, (Math.min.apply(null, seriesOthers[0].estimateList)).toString().length-1),
             breaks: this.getBreaingPoints(seriesOthers, 5),
             events: {
               pointBreak: function(e) {
