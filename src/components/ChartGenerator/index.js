@@ -244,7 +244,7 @@ export default class ChartGenerator extends React.Component {
             breaks: this.getBreaingPoints(seriesOthers, 5),
             events: {
               pointBreak: function(e) {
-                  if (chartType === 'bar') {
+                  if (chartType === 'column') {
                     var point = e.point,
                     brk = e.brk,
                     shapeArgs = point.shapeArgs,
