@@ -13,7 +13,7 @@ export default graphql(gql`
     $report_num_8: [Int]
   ) {
     datasource1: arms_footnote(
-      report_num: $remport_num_1
+      report_num: $report_num_1
     )
     {
       survey_abb
@@ -25,7 +25,7 @@ export default graphql(gql`
       order     
     }
     datasource2: arms_footnote(
-      report_num: $remport_num_2
+      report_num: $report_num_2
     )
     {
       survey_abb
@@ -37,7 +37,7 @@ export default graphql(gql`
       order     
     }
     datasource3: arms_footnote(
-      report_num: $remport_num_3
+      report_num: $report_num_3
     )
     {
       survey_abb
@@ -49,7 +49,7 @@ export default graphql(gql`
       order     
     }
     datasource4: arms_footnote(
-      report_num: $remport_num_4
+      report_num: $report_num_4
     )
     {
       survey_abb
@@ -61,7 +61,7 @@ export default graphql(gql`
       order     
     }
     datasource5: arms_footnote(
-      report_num: $remport_num_5
+      report_num: $report_num_5
     )
     {
       survey_abb
@@ -73,7 +73,7 @@ export default graphql(gql`
       order     
     }
     datasource6: arms_footnote(
-      report_num: $remport_num_6
+      report_num: $report_num_6
     )
     {
       survey_abb
@@ -85,7 +85,7 @@ export default graphql(gql`
       order     
     }
     datasource7: arms_footnote(
-      report_num: $remport_num_7
+      report_num: $report_num_7
     )
     {
       survey_abb
@@ -97,7 +97,7 @@ export default graphql(gql`
       order     
     }
     datasource8: arms_footnote(
-      report_num: $remport_num_8
+      report_num: $report_num_8
     )
     {
       survey_abb
