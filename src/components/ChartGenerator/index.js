@@ -73,12 +73,14 @@ export default class ChartGenerator extends React.Component {
         const maxRange = (iBreak+1)*maxInitial/breakSize
         let isInRange = false
         dataSource.forEach((element, i) => {
-          element.estimateList.forEach(est => {
-            if (est >= minRange && est < maxRange) 
-              isInRange = true
-            if (est < minOverAll)
-              minOverAll = est
-          })
+          if (element.shown) {
+            element.estimateList.forEach(est => {
+              if (est >= minRange && est < maxRange) 
+                isInRange = true
+              if (est < minOverAll)
+                minOverAll = est
+            })
+          }
         })
         if (!isInRange) {
           breaksArr.push({
@@ -239,7 +241,7 @@ export default class ChartGenerator extends React.Component {
               text: element.unit_desc,
             },
             lineWidth: 1,
-            tickInterval: 100,
+            tickInterval: Math.pow(10, (Math.min.apply(null, seriesOthers[0].estimateList)).toString().length),
             breaks: this.getBreaingPoints(seriesOthers, 5),
             events: {
               pointBreak: function(e) {
@@ -297,8 +299,6 @@ export default class ChartGenerator extends React.Component {
         path = proceed.call(this, 2),
         x = path[1],
         y = path[2];
-        console.log(x, y)
-        console.log(this.breakArray)
         H.each(this.breakArray || [], function (brk) {
           if (axis.horiz) {
               x = axis.toPixels(brk.from);
