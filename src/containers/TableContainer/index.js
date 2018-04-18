@@ -4,13 +4,13 @@ import PropTypes from 'prop-types';
 import { numberWithCommas } from '../../helpers/NumberWithCommas'
 import { YEAR_SELECTED } from '../../helpers/constants'
 import { REMOVING_ELEMENTS } from '../../helpers/constants'
-
 import HideAllImg from '../../images/hide_all.png'
 import HiddenImg from '../../images/hide.png'
 import ShownImg from '../../images/show.png'
 import LogoSmallImg from '../../images/logo-small.png'
 
 import './style.css'
+
 class TableContainer extends React.Component {
   state = {
     incomeArr: [],
@@ -42,9 +42,11 @@ class TableContainer extends React.Component {
     let incomeArr = []
     if (surveyData) {
       surveyData.forEach((dataSourceCategories, index) => {
+        if (dataSourceCategories.data.length  > 0)
+          incomeArr.push(dataSourceCategories)
         dataSourceCategories.data.forEach((element, index) => {
           let singleIncome = {}
-          let currentIndex = 0
+          let currentIndex = 1
           incomeArr.forEach((income, i) => {
             if (income.id === dataSourceCategories.dataSource + element.topic_abb) {
               singleIncome = income
@@ -57,6 +59,7 @@ class TableContainer extends React.Component {
           }
           if (!singleIncome.id) {
             singleIncome.id = dataSourceCategories.dataSource + element.topic_abb
+            singleIncome.dataSource = dataSourceCategories.dataSource
             singleIncome.header = element.topic_dim.header
             singleIncome.unit_desc = element.topic_dim.unit_desc
             singleIncome.level = element.topic_dim.level
@@ -88,7 +91,8 @@ class TableContainer extends React.Component {
         })
       })
     }
-    console.log(incomeArr)
+
+    console.log('=-=-=-=-', incomeArr)
     this.setState({ incomeArr })
   }
   hideItem(dataId){
@@ -111,7 +115,7 @@ class TableContainer extends React.Component {
   }
   render() {
     const { incomeArr, isShowItemAll } = this.state
-    const { showList, categories, blockIndex } = this.props
+    const { surveyData, showList, categories, blockIndex } = this.props
 
     if (incomeArr.length === 0 || categories.length === 0)
       return ( <div className='center-notification'>No data to display</div> )
@@ -226,8 +230,20 @@ class TableContainer extends React.Component {
                   </tr>
                   {
                     incomeArr.map((data, index) => {
-                      return (
-                        <tr key={`ltr-${index}`}>                        
+                      if (!data.id) {
+                        if (data.dataSource > 0)
+                        {
+                          let headingInfo = "";
+                          headingInfo += "Report: " + data.report + ", "
+                          headingInfo += "Subject: " + data.subject + ", "
+                          headingInfo += "Farm Type: " + data.serie + ", "
+                          
+                          return (
+                              <div className="heading-info">{headingInfo}</div>
+                          )
+                        }
+                      } else return (
+                        <tr key={`ltr-${index}`}>     
                             {
                               categories && (
                                 categories.map((category, pos) => {
