@@ -76,9 +76,7 @@ class MainContainer extends React.Component {
 
           if(props.charts.arms_surveydata) {
             // Tailored Report
-            if (surveyData[0].length === 0) {
-              showList = {}
-            }else  if (props.charts.arms_surveydata.report_num !== surveyData[0].report_num) {
+            if (surveyData[0].length !== 0 && props.charts.arms_surveydata.report_num !== surveyData[0].report_num) {
               showList = {}
             }
             props.charts.arms_surveydata.forEach(data => {
