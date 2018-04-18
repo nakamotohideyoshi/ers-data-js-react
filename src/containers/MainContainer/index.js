@@ -39,6 +39,8 @@ class MainContainer extends React.Component {
       surveyData.splice(props.blockIndex, 1)
       surveyData.push([])
 
+      showList = {}
+
       surveyData.forEach((survey, index) => {
 
         if (index !== 0) {
@@ -104,6 +106,7 @@ class MainContainer extends React.Component {
         showData = [{ dataSource: 0, data: surveyData[0] }]
       } else {
         surveyData.forEach((survey, index) => {
+          showList = {}
 
           if (index !== 0) {
             let dataObj = {}
