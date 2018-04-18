@@ -238,8 +238,7 @@ export default class ChartGenerator extends React.Component {
             title: {
               text: element.unit_desc,
             },
-            lineColor: 'black',
-            lineWidth: 2,
+            lineWidth: 1,
             tickInterval: 100,
             breaks: this.getBreaingPoints(seriesOthers, 5),
             events: {
@@ -256,7 +255,7 @@ export default class ChartGenerator extends React.Component {
                 if (!point[key]) {
                     point[key] = this.chart.renderer.path(path)
                         .attr({
-                            'stroke-width': 2,
+                            'stroke-width': 1,
                             stroke: point.series.options.borderColor
                         })
                         .add(point.graphic.parentGroup);
@@ -300,25 +299,26 @@ export default class ChartGenerator extends React.Component {
         y = path[2];
         console.log(x, y)
         console.log(this.breakArray)
-        // H.each(this.breakArray || [], function (brk) {
-        //   if (axis.horiz) {
-        //       x = axis.toPixels(brk.from);
-        //       path.splice(3, 0,
-        //           'L', x - 4, y, // stop
-        //           'M', x - 9, y + 5, 'L', x + 1, y - 5, // left slanted line
-        //           'M', x - 1, y + 5, 'L', x + 9, y - 5, // higher slanted line
-        //           'M', x + 4, y
-        //       );
-        //   } else {
-        //       y = axis.toPixels(brk.from);
-        //       path.splice(3, 0,
-        //           'L', x, y - 4, // stop
-        //           'M', x + 5, y - 9, 'L', x - 5, y + 1, // lower slanted line
-        //           'M', x + 5, y - 1, 'L', x - 5, y + 9, // higher slanted line
-        //           'M', x, y + 4
-        //       );
-        //   }
-        // });
+        H.each(this.breakArray || [], function (brk) {
+          if (axis.horiz) {
+              x = axis.toPixels(brk.from);
+              path.splice(3, 0,
+                  'L', x - 4, y, // stop
+                  'M', x - 9, y + 5, 'L', x + 1, y - 5, // left slanted line
+                  'M', x - 1, y + 5, 'L', x + 9, y - 5, // higher slanted line
+                  'M', x + 4, y
+              );
+          } else {
+              y = axis.toPixels(brk.from);
+              path.splice(3, 0,
+                  'L', x, y - 4, // stop
+                  'M', x + 5, y - 9, 'L', x - 5, y + 1, // lower slanted line
+                  'M', x + 5, y - 1, 'L', x - 5, y + 9, // higher slanted line
+                  'M', x, y + 4
+              );
+          }
+        });
+        return path
       });
     })(ReactHighcharts.Highcharts);
 
