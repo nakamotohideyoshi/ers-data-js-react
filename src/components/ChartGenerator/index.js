@@ -127,6 +127,15 @@ export default class ChartGenerator extends React.Component {
       title: {
         text: title
       },
+      subtitle: {
+        text: "'000",
+        align: 'left',
+        x: 85,
+        style: {
+          color: colorSet[0],
+          fontSize: '8pt',
+        }
+      },
       credits: {
         enabled: false
       },
