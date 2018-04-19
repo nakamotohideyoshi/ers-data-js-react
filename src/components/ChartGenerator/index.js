@@ -274,7 +274,7 @@ export default class ChartGenerator extends React.Component {
             offset: 0,
             labels: {
               formatter: function () {
-                let axisFormat = numberWithCommas(this.value)
+                let axisFormat = numberWithCommas(Math.round(this.value/1000))
                 if (element.unit_desc === "Dollars per farm") axisFormat = '$' + axisFormat
                 return '<span style="color:'+this.chart.series[element.originIndex].color+'">'+ axisFormat +'</span>';
               },
