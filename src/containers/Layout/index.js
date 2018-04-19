@@ -1690,7 +1690,7 @@ export default class Layout extends React.Component {
   }
 
   render() {
-    console.log('%%%%%%%%%%%%', this.state, '%%%%%%%%%%%')
+    // console.log('%%%%%%%%%%%%', this.state, '%%%%%%%%%%%')
     const {
       selectedStateNames,
       blockIndex, 
