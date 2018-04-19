@@ -82,9 +82,8 @@ class MainContainer extends React.Component {
               showList = {}
               init = true
             } else if (props.report_num_0[0] !== surveyData[0][0].report_num) {
-              console.log('test1111: ', surveyData[0][0].report_num, props.report_num_0)
               showList = {}
-              init = true
+              init = false
             }
             props.charts.arms_surveydata.forEach(data => {
               if (init) {
@@ -175,9 +174,9 @@ class MainContainer extends React.Component {
   }
 
   render() {
-    const { showList, surveyData, showData } = this.state
+    const { showList, showData } = this.state
     const { selectedYears, selectedStateNames, whichOneMultiple, blockIndex } = this.props
-    console.log('test: ', surveyData[0], showList)
+    console.log('test: ', showList)
     const categories = whichOneMultiple === YEAR_SELECTED ? selectedYears.sort(function(a, b){return a-b}) : selectedStateNames
 
     return (
