@@ -209,7 +209,9 @@ export default class ChartGenerator extends React.Component {
         height: seriesOthers.length > 0 && seriesOthersShown ? '20%' : '100%',
         labels: {
           formatter: function () {
-            return '<span style="color:'+darkBlue+';margin-left:-30px">'+ numberWithCommas(this.value) +'</span>';
+            const isReducePossible = this.value/1000 > 1
+            let axisFormat = numberWithCommas(isReducePossible ? Math.round(this.value/1000) : this.value)
+            return '<span style="color:'+darkBlue+';margin-left:-30px">'+ numberWithCommas(axisFormat) +'</span>';
           }
         },
       })
