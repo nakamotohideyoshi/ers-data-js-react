@@ -569,14 +569,9 @@ class Sidebar extends React.Component {
             })
           } else {
             categoryTitles[4] = series_element
-            sidebarItems[4] = {
-              isOpened: false,
-              selectedIndex: 0,
-              isCategory: false,
-              blockIndex: currentBlock,
-              visible: true,
-              headingTitle: ''
-            }
+            sidebarItems[4].isOpened = false
+            sidebarItems[4].selectedIndex = 0
+            sidebarItems[4].visible = true
           }
           sidebarItems[4].headingTitle = categoryTitles[3][sidebarItems[3].selectedIndex].header
           if (props.ysQuery.ysQuery.serie_element.length === 1 && props.ysQuery.ysQuery.serie_element[0].id === 0) {
@@ -827,14 +822,9 @@ class Sidebar extends React.Component {
           } else {
             // LHS Generate (Update)
             categoryTitles[index] = series
-            sidebarItems[index] = {
-              isOpened: false,
-              selectedIndex: 0,
-              isCategory: false,
-              blockIndex: currentBlock,
-              visible: true,
-              headingTitle: 'Filter1'
-            }
+            sidebarItems[index].isOpened = false
+            sidebarItems[index].selectedIndex = 0
+            sidebarItems[index].visible = true
           }
 
           const serie = [categoryTitles[index][0].num]
@@ -931,14 +921,9 @@ class Sidebar extends React.Component {
           } else {
             // LHS Generate (Update)
             categoryTitles[index] = series2
-            sidebarItems[index] = {
-              isOpened: false,
-              selectedIndex: 0,
-              isCategory: false,
-              blockIndex: currentBlock,
-              visible: true,
-              headingTitle: 'Filter2'
-            }
+            sidebarItems[index].isOpened = false
+            sidebarItems[index].selectedIndex = 0
+            sidebarItems[index].visible = true
           }
 
           const serie2 = [categoryTitles[index][0].num]
@@ -991,14 +976,9 @@ class Sidebar extends React.Component {
           } else {
             // LHS Generate (Update)
             categoryTitles[index] = series2_element
-            sidebarItems[index] = {
-              isOpened: false,
-              selectedIndex: 0,
-              isCategory: false,
-              blockIndex: currentBlock,
-              visible: true,
-              headingTitle: ''
-            }
+            sidebarItems[index].isOpened = false
+            sidebarItems[index].selectedIndex = 0
+            sidebarItems[index].visible = true
           }
 
           sidebarItems[index].headingTitle = categoryTitles[index-1][sidebarItems[index-1].selectedIndex].header
