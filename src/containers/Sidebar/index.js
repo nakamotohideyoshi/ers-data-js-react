@@ -141,14 +141,9 @@ class Sidebar extends React.Component {
             })
 
             categoryTitles[2] = subjects
-            sidebarItems[2] = {
-              isOpened: false,
-              selectedIndex: 0,
-              isCategory: false,
-              blockIndex: currentBlock,
-              visible: true,
-              headingTitle: 'Subject'
-            }
+            sidebarItems[2].isOpened = false
+            sidebarItems[2].selectedIndex = current_index
+            sidebarItems[2].visible = true
           }
 
           if (props.reset1Query.reset1Query.subject.length === 1) {
@@ -284,13 +279,9 @@ class Sidebar extends React.Component {
             })
           } else {
             categoryTitles[4] = series_element
-            sidebarItems[4] = {
-              isOpened: false,
-              selectedIndex: 0,
-              isCategory: false,
-              blockIndex: currentBlock,
-              visible: true,
-              headingTitle: ''
+            sidebarItems[4].isOpened = false
+            sidebarItems[4].selectedIndex = 0
+            sidebarItems[4].visible = true
           }
           sidebarItems[4].headingTitle = categoryTitles[3][sidebarItems[3].selectedIndex].header
           if (props.sQuery.sQuery.serie_element.length === 1 && props.sQuery.sQuery.serie_element[0].id === 0) {
@@ -381,7 +372,7 @@ class Sidebar extends React.Component {
         // State -> Year
         if (props.tyQuery.networkStatus === 7 && props.tyQuery.tyQuery) {
           let series = []
-          let serie = [props.tyQuery.tyQuery.serie[0].abb]
+          let serie = [props.tQuery.tyQuery.serie[0].abb]
 
           // Generate `Filter By` LHS menu
           props.tyQuery.tyQuery.serie.forEach(serieN => {
