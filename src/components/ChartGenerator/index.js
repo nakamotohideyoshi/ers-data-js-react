@@ -287,7 +287,7 @@ export default class ChartGenerator extends React.Component {
     }
     if (seriesOthers.length > 0 && seriesOthersShown) {
       seriesOthers.forEach((element, i) => {
-        if (unitDescs.indexOf(element.unit_desc) < 0) {
+        if (unitDescs.indexOf(element.unit_desc) < 0 && element.shown) {
           unitDescs.push(element.unit_desc)
           seriesOthersUnitBased.push([])
         }
@@ -299,6 +299,7 @@ export default class ChartGenerator extends React.Component {
         })
       })
       seriesOthersUnitBased.forEach((singleOther, unitIndex) => {
+        const totalHeightPercentage = seriesFarms.length > 0 && seriesFarmsShown ? 75:100
         config.yAxis.push({
           title: {
             text: unitDescs[unitIndex],
@@ -332,7 +333,8 @@ export default class ChartGenerator extends React.Component {
               }
             }
           },
-          height: seriesFarms.length > 0 && seriesFarmsShown ? '75%' : '100%',
+          top: `${unitIndex*totalHeightPercentage/unitDescs.length}%`,
+          height: `${totalHeightPercentage/unitDescs.length}%`,
           offset: 0,
           labels: {
             formatter: function () {
@@ -344,19 +346,30 @@ export default class ChartGenerator extends React.Component {
           },
         })
       })
-      console.log (seriesOthersUnitBased)
-
-      seriesOthers.forEach((element, index) => {
-        config.series.push({ 
-          data: element.estimateList, 
-          name: element.header, 
-          visible: element.shown, 
-          showInLegend: element.shown, 
-          zIndex: 0, 
-          yAxis: seriesFarms.length > 0 && seriesFarmsShown ? 1 : 0,
-          maxPointWidth: 32,
+      seriesOthersUnitBased.forEach((singleOther, i) => {
+        singleOther.forEach((element, index) => {
+            config.series.push({ 
+            data: element.estimateList, 
+            name: element.header, 
+            visible: element.shown, 
+            showInLegend: element.shown, 
+            zIndex: 0, 
+            yAxis: seriesFarms.length > 0 && seriesFarmsShown ? 1+i : i,
+            maxPointWidth: 32,
+          })
         })
       })
+      // seriesOthers.forEach((element, index) => {
+      //   config.series.push({ 
+      //     data: element.estimateList, 
+      //     name: element.header, 
+      //     visible: element.shown, 
+      //     showInLegend: element.shown, 
+      //     zIndex: 0, 
+      //     yAxis: seriesFarms.length > 0 && seriesFarmsShown ? 1 : 0,
+      //     maxPointWidth: 32,
+      //   })
+      // })
     }
 
     /* Breaking Points in Y-Axis */
