@@ -372,7 +372,7 @@ class Sidebar extends React.Component {
         // State -> Year
         if (props.tyQuery.networkStatus === 7 && props.tyQuery.tyQuery) {
           let series = []
-          let serie = [props.tQuery.tyQuery.serie[0].abb]
+          let serie = [props.tyQuery.tyQuery.serie[0].abb]
 
           // Generate `Filter By` LHS menu
           props.tyQuery.tyQuery.serie.forEach(serieN => {
