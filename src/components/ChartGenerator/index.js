@@ -65,31 +65,47 @@ export default class ChartGenerator extends React.Component {
   getBreaingPoints(dataSource, breakSize) {
     let breaksArr = []   
     let minOverAll = 0
-    if (dataSource.length > 0 && breakSize > 0) {
-      const maxInitial = Math.max.apply(null, dataSource[0].estimateList)
-      minOverAll = dataSource[0].estimateList[0]
-      for (let iBreak = 0; iBreak < breakSize; iBreak++) {
-        const minRange = iBreak*maxInitial/breakSize + 1
-        const maxRange = (iBreak+1)*maxInitial/breakSize
-        let isInRange = false
-        dataSource.forEach((element, i) => {
-          if (element.shown) {
-            element.estimateList.forEach(est => {
-              if (est >= minRange && est < maxRange) 
-                isInRange = true
-              if (est < minOverAll)
-                minOverAll = est
-            })
+    // if (dataSource.length > 0 && breakSize > 0) {
+    //   const maxInitial = Math.max.apply(null, dataSource[0].estimateList)
+    //   minOverAll = dataSource[0].estimateList[0]
+    //   for (let iBreak = 0; iBreak < breakSize; iBreak++) {
+    //     const minRange = iBreak*maxInitial/breakSize + 1
+    //     const maxRange = (iBreak+1)*maxInitial/breakSize
+    //     let isInRange = false
+    //     dataSource.forEach((element, i) => {
+    //       if (element.shown) {
+    //         element.estimateList.forEach(est => {
+    //           if (est >= minRange && est < maxRange) 
+    //             isInRange = true
+    //           if (est < minOverAll)
+    //             minOverAll = est
+    //         })
+    //       }
+    //     })
+    //     if (!isInRange) {
+    //       breaksArr.push({
+    //         from: minRange,
+    //         to: maxRange
+    //       })
+    //     }
+    //   }
+    // } 
+    dataSource.forEach((element, i) => {
+      let diffArr = []
+      if (element.shown) {
+        const estList = element.estimateList
+        for (let i=0;i<estList.length-1;i++) {
+          for (let j=i+1;j<estList.length;j++) {
+            const diff = Math.abs(estList[i]-estList[j])
+            const from = Math.floor(Math.min(estList[i], estList[j])/1000 + 1) * 1000
+            const to =  Math.floor(Math.max(estList[i], estList[j])/1000) * 1000
+            const diffObj = { diff, from, to }
+            diffArr.push(diffObj)
           }
-        })
-        if (!isInRange) {
-          breaksArr.push({
-            from: minRange,
-            to: maxRange
-          })
         }
       }
-    } 
+      console.log('-=-=@##$', diffArr)
+    })
     return breaksArr
   }
   generateConfig(series, categories, title, chartType, whichOneMultiple) {
