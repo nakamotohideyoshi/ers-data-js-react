@@ -827,9 +827,14 @@ class Sidebar extends React.Component {
           } else {
             // LHS Generate (Update)
             categoryTitles[index] = series
-            sidebarItems[index].isOpened = false
-            sidebarItems[index].selectedIndex = 0
-            sidebarItems[index].visible = true
+            sidebarItems[index] = {
+              isOpened: false,
+              selectedIndex: 0,
+              isCategory: false,
+              blockIndex: currentBlock,
+              visible: true,
+              headingTitle: 'Filter1'
+            }
           }
 
           const serie = [categoryTitles[index][0].num]
@@ -926,9 +931,14 @@ class Sidebar extends React.Component {
           } else {
             // LHS Generate (Update)
             categoryTitles[index] = series2
-            sidebarItems[index].isOpened = false
-            sidebarItems[index].selectedIndex = 0
-            sidebarItems[index].visible = true
+            sidebarItems[index] = {
+              isOpened: false,
+              selectedIndex: 0,
+              isCategory: false,
+              blockIndex: currentBlock,
+              visible: true,
+              headingTitle: 'Filter2'
+            }
           }
 
           const serie2 = [categoryTitles[index][0].num]
@@ -981,9 +991,14 @@ class Sidebar extends React.Component {
           } else {
             // LHS Generate (Update)
             categoryTitles[index] = series2_element
-            sidebarItems[index].isOpened = false
-            sidebarItems[index].selectedIndex = 0
-            sidebarItems[index].visible = true
+            sidebarItems[index] = {
+              isOpened: false,
+              selectedIndex: 0,
+              isCategory: false,
+              blockIndex: currentBlock,
+              visible: true,
+              headingTitle: ''
+            }
           }
 
           sidebarItems[index].headingTitle = categoryTitles[index-1][sidebarItems[index-1].selectedIndex].header
