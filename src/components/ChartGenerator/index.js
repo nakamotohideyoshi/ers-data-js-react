@@ -217,6 +217,7 @@ export default class ChartGenerator extends React.Component {
     }
 
     let unitDescs = []
+    let seriesOthersUnitBased = []
     
     //Push Y Axis for Series Farms
     if (seriesFarms.length > 0 && seriesFarmsShown) {
@@ -293,7 +294,6 @@ export default class ChartGenerator extends React.Component {
               text: element.unit_desc,
             },
             lineWidth: 1,
-            tickInterval: Math.pow(10, (Math.min.apply(null, seriesOthers[0].estimateList)).toString().length-1),
             breaks: this.getBreaingPoints(seriesOthers),
             events: {
               pointBreak: function(e) {
