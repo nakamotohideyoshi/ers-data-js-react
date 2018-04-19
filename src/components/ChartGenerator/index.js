@@ -66,7 +66,6 @@ export default class ChartGenerator extends React.Component {
     let breaksArr = []   
     let minOverAll = 0
     let firstTotalDiff = []
-    let secondTotalDiff = []
     const estList = []
     const estCount = dataSource[0].estimateList.length
     for (let ee=0;ee<estCount;ee++) {
@@ -85,22 +84,21 @@ export default class ChartGenerator extends React.Component {
       for (let i=0;i<estSingleList.length-1;i++) {
         for (let j=i+1;j<estSingleList.length;j++) {
           const diff = Math.abs(estSingleList[i]-estSingleList[j])
-          const from = Math.min(estSingleList[i], estSingleList[j])
-          const to =  Math.max(estSingleList[i], estSingleList[j])
+          const from = Math.min(estSingleList[i], estSingleList[j])*1.4
+          const to =  Math.max(estSingleList[i], estSingleList[j])*0.8
           const diffObj = { diff, from, to }
           diffArr.push(diffObj)
         }
       }
       diffArr.sort(function(a,b) {return (a.diff < b.diff) ? 1 : ((b.diff < a.diff) ? -1 : 0);} );
       if (diffArr.length > 0) firstTotalDiff.push(diffArr[0])
-      if (diffArr.length > 1) secondTotalDiff.push(diffArr[1])
     }
-    
+
     const maxFirstFrom = Math.max.apply(Math, firstTotalDiff.map(function(o){return o.from;}))
     const maxFirstTo = Math.min.apply(Math, firstTotalDiff.map(function(o){return o.to;}))
     const diffMax = maxFirstTo - maxFirstFrom
-    const roundedFirstFrom = Math.floor((maxFirstFrom+diffMax*0.2)/1000 + 1) * 1000
-    const roundedFirstTo = Math.floor((maxFirstTo-diffMax*0.3)/1000) * 1000
+    const roundedFirstFrom = Math.floor((maxFirstFrom+diffMax*0.4)/1000 + 1) * 1000
+    const roundedFirstTo = Math.floor((maxFirstTo-diffMax*0.2)/1000) * 1000
     
     breaksArr.push({
       from: roundedFirstFrom,
@@ -240,6 +238,33 @@ export default class ChartGenerator extends React.Component {
             return '<span style="color:'+darkBlue+';margin-left:-30px">'+ numberWithCommas(axisFormat) +'</span>';
           }
         },
+        events: {
+          pointBreak: function(e) {
+            if (chartType === 'column') {
+              var point = e.point,
+              brk = e.brk,
+              shapeArgs = point.shapeArgs,
+              x = shapeArgs.x,
+              y = this.translate(brk.from, 0, 1, 0, 1),
+              w = shapeArgs.width,
+              key = ['brk', brk.from, brk.to],
+              path = ['M', x, y, 'L', x + w * 0.25, y + 4, 'L', x + w * 0.75, y - 4, 'L', x + w, y];
+      
+              if (!point[key]) {
+                  point[key] = this.chart.renderer.path(path)
+                      .attr({
+                          'stroke-width': 3,
+                          stroke: point.series.options.borderColor
+                      })
+                      .add(point.graphic.parentGroup);
+              } else {
+                  point[key].attr({
+                      d: path
+                  });
+              }
+            }
+          }
+        },
       })
 
       // Populate dataset into the chart view
@@ -272,31 +297,30 @@ export default class ChartGenerator extends React.Component {
             breaks: this.getBreaingPoints(seriesOthers),
             events: {
               pointBreak: function(e) {
-                  if (chartType === 'column') {
-                    var point = e.point,
-                    brk = e.brk,
-                    shapeArgs = point.shapeArgs,
-                    x = shapeArgs.x,
-                    y = this.translate(brk.from, 0, 1, 0, 1),
-                    w = shapeArgs.width,
-                    key = ['brk', brk.from, brk.to],
-                    path = ['M', x, y, 'L', x + w * 0.25, y + 4, 'L', x + w * 0.75, y - 4, 'L', x + w, y];
-            
-                    if (!point[key]) {
-                        point[key] = this.chart.renderer.path(path)
-                            .attr({
-                                'stroke-width': 3,
-                                stroke: point.series.options.borderColor
-                            })
-                            .add(point.graphic.parentGroup);
-                    } else {
-                        point[key].attr({
-                            d: path
-                        });
-                    }
+                if (chartType === 'column') {
+                  var point = e.point,
+                  brk = e.brk,
+                  shapeArgs = point.shapeArgs,
+                  x = shapeArgs.x,
+                  y = this.translate(brk.from, 0, 1, 0, 1),
+                  w = shapeArgs.width,
+                  key = ['brk', brk.from, brk.to],
+                  path = ['M', x, y, 'L', x + w * 0.25, y + 4, 'L', x + w * 0.75, y - 4, 'L', x + w, y];
+          
+                  if (!point[key]) {
+                      point[key] = this.chart.renderer.path(path)
+                          .attr({
+                              'stroke-width': 3,
+                              stroke: point.series.options.borderColor
+                          })
+                          .add(point.graphic.parentGroup);
+                  } else {
+                      point[key].attr({
+                          d: path
+                      });
                   }
                 }
-                
+              }
             },
             height: seriesFarms.length > 0 && seriesFarmsShown ? '75%' : '100%',
             offset: 0,
