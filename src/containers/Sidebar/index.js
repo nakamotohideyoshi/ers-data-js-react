@@ -421,9 +421,14 @@ class Sidebar extends React.Component {
             })
 
             categoryTitles[3] = series
-            sidebarItems[3].isOpened = false
-            sidebarItems[3].selectedIndex = current_index
-            sidebarItems[3].visible = true
+            sidebarItems[3] = {
+              isOpened: false,
+              selectedIndex: 0,
+              isCategory: false,
+              blockIndex: currentBlock,
+              visible: true,
+              headingTitle: 'Filter by'
+            }
           }
           
           // update serie, and get serie_element
@@ -462,9 +467,14 @@ class Sidebar extends React.Component {
             })
           } else {
             categoryTitles[4] = series_element
-            sidebarItems[4].isOpened = false
-            sidebarItems[4].selectedIndex = 0
-            sidebarItems[4].visible = true
+            sidebarItems[4] = {
+              isOpened: false,
+              selectedIndex: 0,
+              isCategory: false,
+              blockIndex: currentBlock,
+              visible: true,
+              headingTitle: ''
+            }
           }
           sidebarItems[4].headingTitle = categoryTitles[3][sidebarItems[3].selectedIndex].header
           if (props.tsQuery.tsQuery.serie_element.length === 1 && props.tsQuery.tsQuery.serie_element[0].id === 0) {
