@@ -141,9 +141,14 @@ class Sidebar extends React.Component {
             })
 
             categoryTitles[2] = subjects
-            sidebarItems[2].isOpened = false
-            sidebarItems[2].selectedIndex = current_index
-            sidebarItems[2].visible = true
+            sidebarItems[2] = {
+              isOpened: false,
+              selectedIndex: 0,
+              isCategory: false,
+              blockIndex: currentBlock,
+              visible: true,
+              headingTitle: 'Subject'
+            }
           }
 
           if (props.reset1Query.reset1Query.subject.length === 1) {
