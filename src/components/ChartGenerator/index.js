@@ -62,49 +62,49 @@ export default class ChartGenerator extends React.Component {
     })
     this.setState({csvTableArray})
   }
-  getBreaingPoints(dataSource, breakSize) {
+  getBreaingPoints(dataSource) {
     let breaksArr = []   
     let minOverAll = 0
-    // if (dataSource.length > 0 && breakSize > 0) {
-    //   const maxInitial = Math.max.apply(null, dataSource[0].estimateList)
-    //   minOverAll = dataSource[0].estimateList[0]
-    //   for (let iBreak = 0; iBreak < breakSize; iBreak++) {
-    //     const minRange = iBreak*maxInitial/breakSize + 1
-    //     const maxRange = (iBreak+1)*maxInitial/breakSize
-    //     let isInRange = false
-    //     dataSource.forEach((element, i) => {
-    //       if (element.shown) {
-    //         element.estimateList.forEach(est => {
-    //           if (est >= minRange && est < maxRange) 
-    //             isInRange = true
-    //           if (est < minOverAll)
-    //             minOverAll = est
-    //         })
-    //       }
-    //     })
-    //     if (!isInRange) {
-    //       breaksArr.push({
-    //         from: minRange,
-    //         to: maxRange
-    //       })
-    //     }
-    //   }
-    // } 
-    dataSource.forEach((element, i) => {
+    let firstTotalDiff = []
+    let secondTotalDiff = []
+    const estList = []
+    const estCount = dataSource[0].estimateList.length
+    for (let ee=0;ee<estCount;ee++) {
+      let indexedArr = []
+      dataSource.forEach((element, i) => {
+        if (element.shown) {
+          indexedArr.push(element.estimateList[ee])
+        }
+      })
+      estList[ee] = indexedArr
+    }
+    for (let ee=0;ee<estList.length;ee++) {
       let diffArr = []
-      if (element.shown) {
-        const estList = element.estimateList
-        for (let i=0;i<estList.length-1;i++) {
-          for (let j=i+1;j<estList.length;j++) {
-            const diff = Math.abs(estList[i]-estList[j])
-            const from = Math.floor(Math.min(estList[i], estList[j])/1000 + 1) * 1000
-            const to =  Math.floor(Math.max(estList[i], estList[j])/1000) * 1000
-            const diffObj = { diff, from, to }
-            diffArr.push(diffObj)
-          }
+      const estSingleList = estList[ee]
+      estSingleList.push(0)
+      for (let i=0;i<estSingleList.length-1;i++) {
+        for (let j=i+1;j<estSingleList.length;j++) {
+          const diff = Math.abs(estSingleList[i]-estSingleList[j])
+          const from = Math.min(estSingleList[i], estSingleList[j])
+          const to =  Math.max(estSingleList[i], estSingleList[j])
+          const diffObj = { diff, from, to }
+          diffArr.push(diffObj)
         }
       }
-      console.log('-=-=@##$', diffArr)
+      diffArr.sort(function(a,b) {return (a.diff < b.diff) ? 1 : ((b.diff < a.diff) ? -1 : 0);} );
+      if (diffArr.length > 0) firstTotalDiff.push(diffArr[0])
+      if (diffArr.length > 1) secondTotalDiff.push(diffArr[1])
+    }
+    
+    const maxFirstFrom = Math.max.apply(Math, firstTotalDiff.map(function(o){return o.from;}))
+    const maxFirstTo = Math.min.apply(Math, firstTotalDiff.map(function(o){return o.to;}))
+    const diffMax = maxFirstTo - maxFirstFrom
+    const roundedFirstFrom = Math.floor((maxFirstFrom+diffMax*0.2)/1000 + 1) * 1000
+    const roundedFirstTo = Math.floor((maxFirstTo-diffMax*0.3)/1000) * 1000
+    
+    breaksArr.push({
+      from: roundedFirstFrom,
+      to: roundedFirstTo
     })
     return breaksArr
   }
@@ -229,7 +229,8 @@ export default class ChartGenerator extends React.Component {
             color: darkBlue
           }           
         },
-        breaks: categories.length > 1 ? this.getBreaingPoints(seriesFarms, 4) : [],          
+        lineWidth: 1,
+        breaks: categories.length > 1 ? this.getBreaingPoints(seriesFarms) : [],          
         top: seriesOthers.length > 0 && seriesOthersShown ? '80%' : '0%',
         height: seriesOthers.length > 0 && seriesOthersShown ? '20%' : '100%',
         labels: {
@@ -268,7 +269,7 @@ export default class ChartGenerator extends React.Component {
             },
             lineWidth: 1,
             tickInterval: Math.pow(10, (Math.min.apply(null, seriesOthers[0].estimateList)).toString().length-1),
-            breaks: this.getBreaingPoints(seriesOthers, 5),
+            breaks: this.getBreaingPoints(seriesOthers),
             events: {
               pointBreak: function(e) {
                   if (chartType === 'column') {
