@@ -369,9 +369,14 @@ class Sidebar extends React.Component {
             })
 
             categoryTitles[3] = series
-            sidebarItems[3].isOpened = false
-            sidebarItems[3].selectedIndex = current_index
-            sidebarItems[3].visible = true
+            sidebarItems[3] = {
+              isOpened: false,
+              selectedIndex: 0,
+              isCategory: false,
+              blockIndex: currentBlock,
+              visible: true,
+              headingTitle: 'Filter by'
+            }
           } 
           
           // update serie, [Year] list , get serie_element
