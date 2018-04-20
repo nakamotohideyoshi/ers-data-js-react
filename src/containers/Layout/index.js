@@ -1391,7 +1391,7 @@ export default class Layout extends React.Component {
     const isRemoveDataSource = false
     const isGetSurveyData = false
 
-    const runQuery = whichOneMultiple === YEAR_SELECTED ? 'dlfsesetAnalysis' : 'dlfseseyAnalysis'
+    const runQuery = whichOneMultiple === YEAR_SELECTED ? 'dlfseseyAnalysis' : 'dlfsesetAnalysis'
 
 
     this.setState({
