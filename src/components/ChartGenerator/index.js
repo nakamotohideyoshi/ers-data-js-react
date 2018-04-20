@@ -141,15 +141,6 @@ export default class ChartGenerator extends React.Component {
       title: {
         text: title
       },
-      subtitle: {
-        text: "'000",
-        align: 'left',
-        x: 85,
-        style: {
-          color: colorSet[0],
-          fontSize: '8pt',
-        }
-      },
       credits: {
         enabled: false
       },
@@ -221,9 +212,13 @@ export default class ChartGenerator extends React.Component {
     
     //Push Y Axis for Series Farms
     if (seriesFarms.length > 0 && seriesFarmsShown) {
+      let trailReduce = ''
+      if (Math.min.apply(null, seriesFarms[0].estimateList) > 1000) {
+        trailReduce = " (000's)"
+      }
       config.yAxis.push({
         title: {
-          text: "Number of Farms",
+          text: "Number of Farms" + trailReduce,
           style: {
             color: darkBlue
           }           
@@ -300,9 +295,13 @@ export default class ChartGenerator extends React.Component {
       })
       seriesOthersUnitBased.forEach((singleOther, unitIndex) => {
         const totalHeightPercentage = seriesFarms.length > 0 && seriesFarmsShown ? 75:100
+        let trailReduce = ''
+        if (Math.min.apply(null, singleOther[0].estimateList) > 1000) {
+          trailReduce = " (000's)"
+        }
         config.yAxis.push({
           title: {
-            text: unitDescs[unitIndex],
+            text: unitDescs[unitIndex] + trailReduce,
           },
           lineWidth: 1,
           breaks: this.getBreaingPoints(singleOther),
@@ -346,7 +345,7 @@ export default class ChartGenerator extends React.Component {
           },
         })
       })
-      
+
       /* Choose already created Y-axis and populate them as Unit based. */
       seriesOthersUnitBased.forEach((singleOther, i) => {
         singleOther.forEach((element, index) => {
