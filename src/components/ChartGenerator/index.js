@@ -266,6 +266,21 @@ export default class ChartGenerator extends React.Component {
       // Populate dataset into the chart view
       if (seriesFarms.length > 0 && seriesFarmsShown) {
         seriesFarms.forEach((element, index) => {
+          const seriesData = element.estimateList
+          seriesData.forEach((singleVal, i) => {
+            if (singleVal === null) 
+              seriesData[i] = {
+                y: 0,
+                dataLabels: {
+                  enabled: true,
+                  backgroundColor: 'rgba(252, 255, 197, 0.7)',
+                  shadow: false,
+                  format: 'NA',
+                  verticalAlign: 'bottom',
+                  y: -8
+                }
+              }
+          })
           config.series.push({ 
             data: element.estimateList, 
             name: element.header, 
@@ -349,8 +364,23 @@ export default class ChartGenerator extends React.Component {
       /* Choose already created Y-axis and populate them as Unit based. */
       seriesOthersUnitBased.forEach((singleOther, i) => {
         singleOther.forEach((element, index) => {
-            config.series.push({ 
-            data: element.estimateList, 
+          const seriesData = element.estimateList
+          seriesData.forEach((singleVal, i) => {
+            if (singleVal === null) 
+              seriesData[i] = {
+                y: 0,
+                dataLabels: {
+                  enabled: true,
+                  backgroundColor: 'rgba(252, 255, 197, 0.7)',
+                  shadow: false,
+                  format: 'NA',
+                  verticalAlign: 'bottom',
+                  y: -8
+                }
+              }
+          })
+          config.series.push({ 
+            data: seriesData, 
             name: element.header, 
             visible: element.shown, 
             showInLegend: element.shown, 
