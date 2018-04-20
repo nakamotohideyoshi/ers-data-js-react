@@ -201,14 +201,14 @@ export default class ChartGenerator extends React.Component {
       },
       series: []
     }
-
+    /* To hide empty Farms charts section */
     let seriesFarmsShown = false
     if (seriesFarms.length > 0) {
       seriesFarms.forEach((element, index) => {
         if (element.shown) seriesFarmsShown = true
       })
     }
-
+    /* To hide empty Other charts section */
     let seriesOthersShown = false
     if (seriesOthers.length > 0) {
       seriesOthers.forEach((element, index) => {
@@ -346,6 +346,8 @@ export default class ChartGenerator extends React.Component {
           },
         })
       })
+      
+      /* Choose already created Y-axis and populate them as Unit based. */
       seriesOthersUnitBased.forEach((singleOther, i) => {
         singleOther.forEach((element, index) => {
             config.series.push({ 
@@ -359,17 +361,6 @@ export default class ChartGenerator extends React.Component {
           })
         })
       })
-      // seriesOthers.forEach((element, index) => {
-      //   config.series.push({ 
-      //     data: element.estimateList, 
-      //     name: element.header, 
-      //     visible: element.shown, 
-      //     showInLegend: element.shown, 
-      //     zIndex: 0, 
-      //     yAxis: seriesFarms.length > 0 && seriesFarmsShown ? 1 : 0,
-      //     maxPointWidth: 32,
-      //   })
-      // })
     }
 
     /* Breaking Points in Y-Axis */
