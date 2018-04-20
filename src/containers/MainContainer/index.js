@@ -101,14 +101,15 @@ class MainContainer extends React.Component {
           }          
         }
       }
-      
-      const dataSource = 'dataSource' + props.blockIndex
-      if (props[dataSource]) {
-        if (props[dataSource].networkStatus === 7) {
-          if (props[dataSource][dataSource]) {
-            surveyData[props.blockIndex] = props[dataSource][dataSource]
-          } else {
-            surveyData[props.blockIndex] = []
+      if (!props.isAllDataSources) {
+        const dataSource = 'dataSource' + props.blockIndex
+        if (props[dataSource]) {
+          if (props[dataSource].networkStatus === 7) {
+            if (props[dataSource][dataSource]) {
+              surveyData[props.blockIndex] = props[dataSource][dataSource]
+            } else {
+              surveyData[props.blockIndex] = []
+            }
           }
         }
       }
