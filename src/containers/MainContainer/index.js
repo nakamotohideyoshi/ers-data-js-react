@@ -114,7 +114,7 @@ class MainContainer extends React.Component {
         }
       } else {
         for (let i=1; i<9; i++) {
-          const dataSource = 'dataSource' + props.i
+          const dataSource = 'dataSource' + i
           if (props[dataSource]) {
             if (props[dataSource].networkStatus === 7) {
               if (props[dataSource][dataSource]) {
