@@ -7,6 +7,7 @@ export default graphql(gql`
   ) {
     tailorfootnote: arms_footnote(
       report_num: $report_num_0
+      topic_abb: $topic_abb_0
     )
     {
       survey_abb
@@ -19,7 +20,7 @@ export default graphql(gql`
     }    
   }
 `, {
-    skip: (ownProps) => !(ownProps.blockIndex === 0 && ownProps.isGetSurveyData),
+    skip: (ownProps) => !(ownProps.blockIndex === 0),
     name: 'tailorfootnote',
   });
 
