@@ -11,7 +11,7 @@ class Footnote extends React.Component{
   }
 
   componentWillReceiveProps(props){
-    console.log('footnotes---: ', props)
+    // console.log('footnotes---: ', props)
     let footnotes = []
     if (props.isGetSurveyData) {
       if (props.blockIndex === 0) {
@@ -45,7 +45,7 @@ class Footnote extends React.Component{
 
   render() {
     let {footnotes} = this.state
-    console.log('footnotes:', footnotes)
+    // console.log('footnotes:', footnotes)
     return (
       <Col xs={12} md={12} sm={12}>
         <div className="footnote">

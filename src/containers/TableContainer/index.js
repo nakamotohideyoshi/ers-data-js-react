@@ -88,7 +88,7 @@ class TableContainer extends React.Component {
         })
       })
     }
-    console.log(incomeArr)
+    // console.log(incomeArr)
     this.setState({ incomeArr })
   }
   hideItem(dataId){
