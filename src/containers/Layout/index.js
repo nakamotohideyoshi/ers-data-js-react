@@ -1714,7 +1714,6 @@ export default class Layout extends React.Component {
     let serie_element = []
     let serie2 = []
     let serie2_element = []
-    isGetSurveyData = false;
 
     for (let i=0; i<9; i++) {
       if (isGetSurveyData) {
