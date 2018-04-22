@@ -56,7 +56,7 @@ export default graphql(gql`
     }    
   }
 `, {
-    skip: (ownProps) => !((ownProps.blockIndex === 8 ) && ownProps.isGetSurveyData),
+    skip: (ownProps) => !((ownProps.blockIndex === 8 || ownProps.isAllDataSources) && ownProps.isGetSurveyData),
     name: 'dataSource8',
   });
 
