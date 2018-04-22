@@ -46,7 +46,8 @@
   color:#fff; 
   font-family: 'Roboto', sans-serif; 
   font-size: 14px; 
-  border:none; 
+  border: none; 
+  outline: 0;
   color:#23527c; 
   font-family: 'Roboto', sans-serif;
 }
@@ -57,11 +58,12 @@
   background:#081827; 
   width:100%; 
   padding: 8px 12px; 
-  text-align:left; 
+  text-align: left; 
   color:#fff; 
   font-family: 'Roboto', sans-serif; 
   font-size: 14px; 
-  border:none;
+  border: none;
+  outline: 0;
 }
 .caret_down {
   float: right;
