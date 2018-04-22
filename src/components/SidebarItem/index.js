@@ -4,11 +4,35 @@ import SidebarDropdown from '../SidebarDropdown'
 import { SlideDown } from 'react-slidedown'
 import Reset from '../../images/reset.png'
 
-const SidebarItem = ({ headingTitle, titles, visible, selectedIndex, isOpened, isCategory, isReports, isDataReset, isRemoval, isDataLine, removeDataSource, isLast, toggleCategoryOptions, updateFilter, resetFilter }) => (
+const SidebarItem = ({ 
+  headingTitle, 
+  titles, 
+  visible, 
+  selectedIndex, 
+  isOpened, 
+  isCategory, 
+  isReports, 
+  isDataReset, 
+  isRemoval, 
+  isDataLine, 
+  removeDataSource, 
+  isLast, 
+  toggleCategoryOptions, 
+  updateFilter, 
+  resetFilter }) => {
+  let datalineTitle = 'Select'
+  if (isDataLine && selectedIndex.length > 0) {
+    datalineTitle = ''
+    selectedIndex.forEach(index => {
+      datalineTitle = datalineTitle.concat(titles[index].header + ', ')
+    });
+  }
+  datalineTitle = datalineTitle.slice(0, -2)
+  return (
   <div>
     {
       visible && !isReports && isRemoval && (
-        <div className="block">
+        <div className="divider">
           
         </div>
       )
@@ -25,7 +49,13 @@ const SidebarItem = ({ headingTitle, titles, visible, selectedIndex, isOpened, i
             </div>
           )
         }
-        <SidebarDropdown headingTitle={headingTitle} title={isDataLine ? 'Select' : titles[selectedIndex].header} isOpened={isOpened} isCategory={isCategory} onToggle={() => toggleCategoryOptions()} />
+        <SidebarDropdown 
+          headingTitle={headingTitle}
+          title={isDataLine ? datalineTitle : titles[selectedIndex].header} 
+          isOpened={isOpened} 
+          isCategory={isCategory} 
+          onToggle={() => toggleCategoryOptions()} 
+        />
         <SlideDown className='my-dropdown-slidedown'>
           {
             isOpened && (
@@ -33,7 +63,11 @@ const SidebarItem = ({ headingTitle, titles, visible, selectedIndex, isOpened, i
               {
                 titles.map((val, index) => {
                   return (
-                    <li key={index.toString()} onClick={()=>updateFilter(index)} className={`${(isDataLine ? selectedIndex.indexOf(index) > -1 : selectedIndex === index) ? `active`:``}`}>
+                    <li 
+                      key={index.toString()} 
+                      onClick={()=>updateFilter(index)} 
+                      className={`${(isDataLine ? selectedIndex.indexOf(index) > -1 : selectedIndex === index) ? `active`:``}`}
+                    >
                       <a>
                       {
                         (isDataLine ? selectedIndex.indexOf(index) > -1 : selectedIndex === index) && (
@@ -79,8 +113,8 @@ const SidebarItem = ({ headingTitle, titles, visible, selectedIndex, isOpened, i
       )
     }   
   </div>
-  
-);
+  );
+}
 
 SidebarItem.propTypes = {
   titles: PropTypes.array,
