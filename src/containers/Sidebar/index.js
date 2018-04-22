@@ -1267,7 +1267,7 @@ class Sidebar extends React.Component {
         }
         {
           !isReports && (
-          <div className="block">
+          <div className="divider">
             
           </div>
         )
