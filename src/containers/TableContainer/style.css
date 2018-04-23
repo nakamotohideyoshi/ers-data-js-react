@@ -114,6 +114,10 @@
   width: 350px;
 }
 
+.table-scroll thead th:not(:last-child) {
+  border-right: solid 2px #E3EBEE;
+}
+
 /*tbody*/
 .table tbody {
   min-height: 100px;
