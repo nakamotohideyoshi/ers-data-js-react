@@ -83,7 +83,7 @@ class MainContainer extends React.Component {
               init = true
             } else if (props.report_num_0[0] !== surveyData[0][0].report_num) {
               showList = {}
-              init = false
+              init = true
             }
             props.charts.arms_surveydata.forEach(data => {
               if (init) {
