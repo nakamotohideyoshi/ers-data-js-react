@@ -95,11 +95,8 @@
   font-weight: 700;
   color:#304550;  
 }
-.table-static thead th {
-  /* width: 100vw; */
-}
 .table-static tbody tr:nth-child(1) td {
-  /* width: 100vw; */
+  width: 400px;
   font-size: 12px;
 }
 .table-static {
@@ -131,7 +128,6 @@
   font-weight: 400;
   color: #23527c;
   text-transform: none;
-  border-bottom: 1px solid #f8fbfc;    
 }
 .table tr:nth-of-type(even) {
   background-color: #f8fbfc;
@@ -145,7 +141,7 @@
 }
 
 .table tbody {
-  overflow: scroll;
+  overflow: auto;
 }
 .table tbody tr td:nth-child(1) {  /*the first cell in each tr*/
   position: relative;
