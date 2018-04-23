@@ -40,11 +40,11 @@
   white-space: nowrap;
 }
 
-.col-width-4 {
-  width: 40%;
+.col-width-3 {
+  width: 30%;
 }
-.col-width-6 {
-  width: 60%;
+.col-width-7 {
+  width: 70%;
 }
 
 /* Scroll bar */
@@ -96,15 +96,14 @@
   color:#304550;  
 }
 .table-static thead th {
-  width: 100vh;
+  /* width: 100vw; */
 }
 .table-static tbody tr:nth-child(1) td {
-  width: 100vh;
+  /* width: 100vw; */
   font-size: 12px;
 }
 .table-static {
   position: relative;
-  display: block;
   border-right: 2px solid #B5CCD2;
   
 }
@@ -112,6 +111,10 @@
 .table thead th:nth-child(1) {/*first cell in the header*/
   position: relative;
   display: block; /*seperates the first cell in the header from the header*/
+}
+
+.primary-th {
+  width: 400px;
 }
 
 /*tbody*/
@@ -141,12 +144,12 @@
   display: flex; 
 }
 
-.table-scroll tbody {
+.table tbody {
   overflow: scroll;
 }
-.table-scroll tbody tr td:nth-child(1) {  /*the first cell in each tr*/
+.table tbody tr td:nth-child(1) {  /*the first cell in each tr*/
   position: relative;
-  display: block; /*seperates the first column from the tbody*/
+  display: flex; /*seperates the first column from the tbody*/
   overflow: hidden;
 }
 

@@ -95,6 +95,8 @@ class TableContainer extends React.Component {
     console.log('=-=-=-=-', incomeArr)
     this.setState({ incomeArr })
   }
+  componentDidMount() {
+  }
   hideItem(dataId){
     this.props.hideItem(dataId)
   }
@@ -110,8 +112,11 @@ class TableContainer extends React.Component {
     this.props.showAllItem()
   }
   onScrollTable = () => {
+    this.headerBody.scrollTop = this.tbody.scrollTop
     this.setState({ scrollLeft: this.tbody.scrollLeft })
-    this.setState({ scrollTop: this.tbody.scrollTop })
+  }
+  onScrollTable1 = () => {
+    this.tbody.scrollTop = this.headerBody.scrollTop
   }
   render() {
     const { incomeArr, isShowItemAll } = this.state
@@ -133,11 +138,11 @@ class TableContainer extends React.Component {
             </div>
           </div>
           <div className="table-container">
-            <div className="col-width-4">
+            <div className="col-width-3">
               <table className="table table-static">
                   <thead>
                     <tr>
-                      <th>
+                      <th className="primary-th">
                         <div>
                           {
                             isShowItemAll && 
@@ -151,7 +156,7 @@ class TableContainer extends React.Component {
                       </th>
                     </tr>
                   </thead>
-                  <tbody style={{top: (-1)*(this.state.scrollTop)}}>
+                  <tbody onScroll={this.onScrollTable1} ref={node=>this.headerBody=node}>
                     <tr><td>&nbsp;</td></tr>
                     {
                         incomeArr.map((data, index) => {
@@ -198,7 +203,7 @@ class TableContainer extends React.Component {
                   </tbody>   
               </table>
             </div>
-            <div className="col-width-6">
+            <div className="col-width-7">
               <table className="table table-scroll">
                 <thead style={{left: (-1)*(this.state.scrollLeft)}}>
                   <tr>
