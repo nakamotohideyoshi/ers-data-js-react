@@ -95,6 +95,7 @@ class TableContainer extends React.Component {
 
     console.log('=-=-=-=-', incomeArr)
     this.setState({ incomeArr })
+    this.setState({ scrollLeft: 0 })
   }
   componentDidMount() {
   }
