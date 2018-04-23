@@ -1917,7 +1917,7 @@ export default class Layout extends React.Component {
             isGetSurveyData = {isGetSurveyData}
 
             report_num_0 = {filters[0].report_num}
-            topic_abb_0 = {filters[blockIndex].topic_abb}
+            topic_abb_0 = {filters[0].topic_abb}
             
             report_num_1 = {filters[1].report_num}
             topic_abb_1 = {filters[1].topic_abb}
