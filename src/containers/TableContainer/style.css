@@ -41,7 +41,7 @@
 }
 
 .col-width-3 {
-  width: 30%;
+  width: 352px;
 }
 .col-width-7 {
   width: 70%;
@@ -91,7 +91,6 @@
 }
 .table thead th {
   background: #F0F7F9;
-  border-right: 2px solid #dde6ea;  
   font-size: 12px;
   font-family: 'Roboto', sans-serif;
   text-transform: uppercase;
@@ -99,13 +98,12 @@
   color:#304550;  
 }
 .table-static tbody tr:nth-child(1) td {
-  width: 400px;
+  width: 350px;
   font-size: 12px;
 }
 .table-static {
   position: relative;
-  border-right: 2px solid #B5CCD2;
-  
+  border-right: solid 2px #E3EBEE;
 }
 
 .table thead th:nth-child(1) {/*first cell in the header*/
@@ -114,7 +112,7 @@
 }
 
 .primary-th {
-  width: 400px;
+  width: 350px;
 }
 
 /*tbody*/
@@ -137,6 +135,8 @@
 }
 .table tr td {
   min-width: 120px;
+}
+.table tr td:not(:last-child) {
   border-right: 2px solid #E3EBEE;  
 }
 .table tbody tr td:nth-child(1) {
@@ -144,7 +144,7 @@
 }
 
 .table tbody {
-  overflow: auto;
+  overflow: scroll;
 }
 .table tbody tr td:nth-child(1) {  /*the first cell in each tr*/
   position: relative;
