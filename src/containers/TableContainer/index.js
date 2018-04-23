@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Scrollbars } from 'react-custom-scrollbars';
 
 import { numberWithCommas } from '../../helpers/NumberWithCommas'
 import { YEAR_SELECTED } from '../../helpers/constants'
@@ -156,7 +157,7 @@ class TableContainer extends React.Component {
                       </th>
                     </tr>
                   </thead>
-                  <tbody onScroll={this.onScrollTable1} ref={node=>this.headerBody=node}>
+                  <tbody onScroll={this.onScrollTable1} ref={node=>this.headerBody=node} className="header-body">
                     <tr><td>&nbsp;</td></tr>
                     {
                         incomeArr.map((data, index) => {
