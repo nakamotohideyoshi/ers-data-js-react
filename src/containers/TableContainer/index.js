@@ -161,7 +161,26 @@ class TableContainer extends React.Component {
                     <tr><td>&nbsp;</td></tr>
                     {
                         incomeArr.map((data, index) => {
-                          return (
+                          if (!data.id) {
+                            if (data.dataSource > 0)
+                            {
+                              let headingInfo = "";
+                              headingInfo += "Report: " + data.report + ", "
+                              headingInfo += "Subject: " + data.subject + ", "
+                              headingInfo += "Filter 1 - " + data.serie + ": "
+                              headingInfo += data.serie_element + ","
+                              if (data.serie2) {
+                                headingInfo += " Filter 2 - " + data.serie2 + ": "
+                                headingInfo += data.serie2_element + ","
+                              }
+                              headingInfo = headingInfo.slice(0, -1)
+                              return (
+                                <tr key={`${index}`}>
+                                  <td><div className="heading-info">{headingInfo}&ensp;</div></td>
+                                </tr>
+                              )
+                            }
+                          } else return (
                             <tr key={`${index}`}>
                               <td>
                                 {
@@ -243,16 +262,16 @@ class TableContainer extends React.Component {
                       if (!data.id) {
                         if (data.dataSource > 0)
                         {
-                          let headingInfo = "";
-                          headingInfo += "Report: " + data.report + ", "
-                          headingInfo += "Subject: " + data.subject + ", "
-                          headingInfo += "Farm Type: " + data.serie + ", "
-                          headingInfo += data.serie2 + "; "
-                          headingInfo += data.serie2_element + "; "
-                          headingInfo += data.serie_element + "; "
-                          
                           return (
-                              <div className="heading-info">{headingInfo}</div>
+                            <tr key={`ltr-${index}`}>
+                            {
+                              categories && (
+                                categories.map((category, pos) => {
+                                  return <td>&nbsp;</td>
+                                })
+                              )
+                            }
+                            </tr>
                           )
                         }
                       } else return (
