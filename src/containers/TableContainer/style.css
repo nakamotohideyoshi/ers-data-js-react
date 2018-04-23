@@ -51,6 +51,9 @@
 ::-webkit-scrollbar {
   width: 10px;
 }
+.header-body::-webkit-scrollbar:vertical {
+  display: none;
+}
 /* Track */
 ::-webkit-scrollbar-track {
   background: #E5F3FA; 
