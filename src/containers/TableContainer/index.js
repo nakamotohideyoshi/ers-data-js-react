@@ -265,7 +265,7 @@ class TableContainer extends React.Component {
                             {
                               categories && (
                                 categories.map((category, pos) => {
-                                  return <td>&nbsp;</td>
+                                  return <td key={`ltr-td-${pos}`}>&nbsp;</td>
                                 })
                               )
                             }
