@@ -1713,7 +1713,7 @@ export default class Layout extends React.Component {
   }
 
   render() {
-    // console.log('%%%%%%%%%%%%', this.state, '%%%%%%%%%%%')
+    // console.log('%%%%%%%%%%%%', this.state.pre_filters, '%%%%%%%%%%%')
     const {
       selectedStateNames,
       blockIndex, 
@@ -1752,8 +1752,8 @@ export default class Layout extends React.Component {
         serie_element.push([0])
         serie.push(['farm'])
       } else {
-        serie.push(filters[blockIndex].serie)
-        serie_element.push(filters[blockIndex].serie_element)
+        serie.push(filters[i].serie)
+        serie_element.push(filters[i].serie_element)
       }
       if (filters[i].serie2_element.length > 1){
         serie2_element.push([0])
@@ -1861,7 +1861,7 @@ export default class Layout extends React.Component {
             serie_element_0 = {serie_element[0]}
             serie2_0 = {serie2[0]}
             serie2_element_0 = {serie2_element[0]}
-            topic_abb_0 = {filters[blockIndex].topic_abb}
+            topic_abb_0 = {filters[0].topic_abb}
             
             report_num_1 = {filters[1].report_num}
             subject_num_1 = {filters[1].subject_num}
