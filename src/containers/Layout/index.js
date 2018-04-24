@@ -1566,11 +1566,13 @@ export default class Layout extends React.Component {
 
     const isRemoveDataSource = false
     const isGetSurveyData = false
+    const isAllDataSources = false
 
     this.setState({
       pre_filters,
       isRemoveDataSource,
       isGetSurveyData,
+      isAllDataSources,
       blockIndex,
       runQuery
     })
