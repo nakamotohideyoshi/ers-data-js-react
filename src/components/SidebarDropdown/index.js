@@ -1,18 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ReactTooltip from 'react-tooltip'
 
 const SidebarDropdown = ({ title, headingTitle, isCategory, isOpened, onToggle }) => (
   <div className="dropdown_up dropdown_dd">
     <button className={`${isCategory ? `btn-dark`:`btn-light`} btn_dd`} onClick={onToggle} >
-      {
-        headingTitle.length > 0 && (
-          <div>
-            <span className="top_heading">{headingTitle}</span>
-            <br />
-          </div>
-        )
-      }
-      {title}
+      <div className="filter-options">
+        {
+          headingTitle.length > 0 && (
+            <div>
+              <span className="top_heading">{headingTitle}</span>
+              <br />
+            </div>
+          )
+        }
+        <div className="selected-headers" data-tip={title}>
+          {title}
+        </div>
+      </div>
       {
         isOpened && (
           <span className="caret_down">
@@ -27,7 +32,7 @@ const SidebarDropdown = ({ title, headingTitle, isCategory, isOpened, onToggle }
           </span>
         )
       }
-
+      <ReactTooltip />
     </button>
   </div>
 );

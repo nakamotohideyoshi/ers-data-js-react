@@ -62,32 +62,48 @@ export default class ChartGenerator extends React.Component {
     })
     this.setState({csvTableArray})
   }
-  getBreaingPoints(dataSource, breakSize) {
+  getBreaingPoints(dataSource) {
     let breaksArr = []   
     let minOverAll = 0
-    if (dataSource.length > 0 && breakSize > 0) {
-      const maxInitial = Math.max.apply(null, dataSource[0].estimateList)
-      minOverAll = dataSource[0].estimateList[0]
-      for (let iBreak = 0; iBreak < breakSize; iBreak++) {
-        const minRange = iBreak*maxInitial/breakSize + 1
-        const maxRange = (iBreak+1)*maxInitial/breakSize
-        let isInRange = false
-        dataSource.forEach((element, i) => {
-          element.estimateList.forEach(est => {
-            if (est >= minRange && est < maxRange) 
-              isInRange = true
-            if (est < minOverAll)
-              minOverAll = est
-          })
-        })
-        if (!isInRange) {
-          breaksArr.push({
-            from: minRange,
-            to: maxRange
-          })
+    let firstTotalDiff = []
+    const estList = []
+    const estCount = dataSource[0].estimateList.length
+    for (let ee=0;ee<estCount;ee++) {
+      let indexedArr = []
+      dataSource.forEach((element, i) => {
+        if (element.shown) {
+          indexedArr.push(element.estimateList[ee])
+        }
+      })
+      estList[ee] = indexedArr
+    }
+    for (let ee=0;ee<estList.length;ee++) {
+      let diffArr = []
+      const estSingleList = estList[ee]
+      estSingleList.push(0)
+      for (let i=0;i<estSingleList.length-1;i++) {
+        for (let j=i+1;j<estSingleList.length;j++) {
+          const diff = Math.abs(estSingleList[i]-estSingleList[j])
+          const from = Math.min(estSingleList[i], estSingleList[j])*1.4
+          const to =  Math.max(estSingleList[i], estSingleList[j])*0.8
+          const diffObj = { diff, from, to }
+          diffArr.push(diffObj)
         }
       }
-    } 
+      diffArr.sort(function(a,b) {return (a.diff < b.diff) ? 1 : ((b.diff < a.diff) ? -1 : 0);} );
+      if (diffArr.length > 0) firstTotalDiff.push(diffArr[0])
+    }
+
+    const maxFirstFrom = Math.max.apply(Math, firstTotalDiff.map(function(o){return o.from;}))
+    const maxFirstTo = Math.min.apply(Math, firstTotalDiff.map(function(o){return o.to;}))
+    const diffMax = maxFirstTo - maxFirstFrom
+    const roundedFirstFrom = Math.floor((maxFirstFrom+diffMax*0.4)/1000 + 1) * 1000
+    const roundedFirstTo = Math.floor((maxFirstTo-diffMax*0.2)/1000) * 1000
+    
+    breaksArr.push({
+      from: roundedFirstFrom,
+      to: roundedFirstTo
+    })
     return breaksArr
   }
   generateConfig(series, categories, title, chartType, whichOneMultiple) {
@@ -176,14 +192,14 @@ export default class ChartGenerator extends React.Component {
       },
       series: []
     }
-
+    /* To hide empty Farms charts section */
     let seriesFarmsShown = false
     if (seriesFarms.length > 0) {
       seriesFarms.forEach((element, index) => {
         if (element.shown) seriesFarmsShown = true
       })
     }
-
+    /* To hide empty Other charts section */
     let seriesOthersShown = false
     if (seriesOthers.length > 0) {
       seriesOthers.forEach((element, index) => {
@@ -192,22 +208,57 @@ export default class ChartGenerator extends React.Component {
     }
 
     let unitDescs = []
+    let seriesOthersUnitBased = []
     
     //Push Y Axis for Series Farms
     if (seriesFarms.length > 0 && seriesFarmsShown) {
+      let trailReduce = ''
+      if (Math.min.apply(null, seriesFarms[0].estimateList) > 1000) {
+        trailReduce = " (000's)"
+      }
       config.yAxis.push({
         title: {
-          text: "Number of Farms",
+          text: "Number of Farms" + trailReduce,
           style: {
             color: darkBlue
           }           
         },
-        breaks: categories.length > 1 ? this.getBreaingPoints(seriesFarms, 4) : [],          
+        lineWidth: 1,
+        breaks: categories.length > 1 ? this.getBreaingPoints(seriesFarms) : [],          
         top: seriesOthers.length > 0 && seriesOthersShown ? '80%' : '0%',
         height: seriesOthers.length > 0 && seriesOthersShown ? '20%' : '100%',
         labels: {
           formatter: function () {
-            return '<span style="color:'+darkBlue+';margin-left:-30px">'+ numberWithCommas(this.value) +'</span>';
+            const isReducePossible = this.value/1000 > 1
+            let axisFormat = numberWithCommas(isReducePossible ? Math.round(this.value/1000) : this.value)
+            return '<span style="color:'+darkBlue+';margin-left:-30px">'+ numberWithCommas(axisFormat) +'</span>';
+          }
+        },
+        events: {
+          pointBreak: function(e) {
+            if (chartType === 'column') {
+              var point = e.point,
+              brk = e.brk,
+              shapeArgs = point.shapeArgs,
+              x = shapeArgs.x,
+              y = this.translate(brk.from, 0, 1, 0, 1),
+              w = shapeArgs.width,
+              key = ['brk', brk.from, brk.to],
+              path = ['M', x, y, 'L', x + w * 0.25, y + 4, 'L', x + w * 0.75, y - 4, 'L', x + w, y];
+      
+              if (!point[key]) {
+                  point[key] = this.chart.renderer.path(path)
+                      .attr({
+                          'stroke-width': 3,
+                          stroke: point.series.options.borderColor
+                      })
+                      .add(point.graphic.parentGroup);
+              } else {
+                  point[key].attr({
+                      d: path
+                  });
+              }
+            }
           }
         },
       })
@@ -215,6 +266,21 @@ export default class ChartGenerator extends React.Component {
       // Populate dataset into the chart view
       if (seriesFarms.length > 0 && seriesFarmsShown) {
         seriesFarms.forEach((element, index) => {
+          const seriesData = element.estimateList
+          seriesData.forEach((singleVal, i) => {
+            if (singleVal === null) 
+              seriesData[i] = {
+                y: 0,
+                dataLabels: {
+                  enabled: true,
+                  backgroundColor: 'rgba(252, 255, 197, 0.7)',
+                  shadow: false,
+                  format: 'NA',
+                  verticalAlign: 'bottom',
+                  y: -8
+                }
+              }
+          })
           config.series.push({ 
             data: element.estimateList, 
             name: element.header, 
@@ -229,33 +295,47 @@ export default class ChartGenerator extends React.Component {
         })
       }
     }
-
     if (seriesOthers.length > 0 && seriesOthersShown) {
       seriesOthers.forEach((element, i) => {
-        if (unitDescs.indexOf(element.unit_desc) < 0) {
+        if (unitDescs.indexOf(element.unit_desc) < 0 && element.shown) {
           unitDescs.push(element.unit_desc)
-          config.yAxis.push({
-            title: {
-              text: element.unit_desc,
-            },
-            lineWidth: 1,
-            tickInterval: 100,
-            breaks: this.getBreaingPoints(seriesOthers, 5),
-            events: {
-              pointBreak: function(e) {
+          seriesOthersUnitBased.push([])
+        }
+      })
+      unitDescs.forEach((unit, i) => {
+        seriesOthers.forEach((element) => {
+          if (element.unit_desc === unit)
+          seriesOthersUnitBased[i].push(element)
+        })
+      })
+      seriesOthersUnitBased.forEach((singleOther, unitIndex) => {
+        const totalHeightPercentage = seriesFarms.length > 0 && seriesFarmsShown ? 75:100
+        let trailReduce = ''
+        if (Math.min.apply(null, singleOther[0].estimateList) > 1000) {
+          trailReduce = " (000's)"
+        }
+        config.yAxis.push({
+          title: {
+            text: unitDescs[unitIndex] + trailReduce,
+          },
+          lineWidth: 1,
+          breaks: this.getBreaingPoints(singleOther),
+          events: {
+            pointBreak: function(e) {
+              if (chartType === 'column') {
                 var point = e.point,
-                    brk = e.brk,
-                    shapeArgs = point.shapeArgs,
-                    x = shapeArgs.x,
-                    y = this.translate(brk.from, 0, 1, 0, 1),
-                    w = shapeArgs.width,
-                    key = ['brk', brk.from, brk.to],
-                    path = ['M', x, y, 'L', x + w * 0.25, y + 4, 'L', x + w * 0.75, y - 4, 'L', x + w, y];
-            
+                brk = e.brk,
+                shapeArgs = point.shapeArgs,
+                x = shapeArgs.x,
+                y = this.translate(brk.from, 0, 1, 0, 1),
+                w = shapeArgs.width,
+                key = ['brk', brk.from, brk.to],
+                path = ['M', x, y, 'L', x + w * 0.25, y + 4, 'L', x + w * 0.75, y - 4, 'L', x + w, y];
+        
                 if (!point[key]) {
                     point[key] = this.chart.renderer.path(path)
                         .attr({
-                            'stroke-width': 1,
+                            'stroke-width': 3,
                             stroke: point.series.options.borderColor
                         })
                         .add(point.graphic.parentGroup);
@@ -265,40 +345,60 @@ export default class ChartGenerator extends React.Component {
                     });
                 }
               }
+            }
+          },
+          top: `${unitIndex*totalHeightPercentage/unitDescs.length}%`,
+          height: `${totalHeightPercentage/unitDescs.length}%`,
+          offset: 0,
+          labels: {
+            formatter: function () {
+              const isReducePossible = this.value/1000 > 1
+              let axisFormat = numberWithCommas(isReducePossible ? Math.round(this.value/1000) : this.value)
+              if (unitDescs[unitIndex] === "Dollars per farm") axisFormat = axisFormat
+              return '<span style="color:'+this.chart.series[singleOther[0].originIndex].color+'">'+ axisFormat +'</span>';
             },
-            height: seriesFarms.length > 0 && seriesFarmsShown ? '75%' : '100%',
-            offset: 0,
-            labels: {
-              formatter: function () {
-                let axisFormat = numberWithCommas(this.value)
-                if (element.unit_desc === "Dollars per farm") axisFormat = '$' + axisFormat
-                return '<span style="color:'+this.chart.series[element.originIndex].color+'">'+ axisFormat +'</span>';
-              },
-            },
-          })
-        }
-          
+          },
+        })
       })
-      seriesOthers.forEach((element, index) => {
-        config.series.push({ 
-          data: element.estimateList, 
-          name: element.header, 
-          visible: element.shown, 
-          showInLegend: element.shown, 
-          zIndex: 0, 
-          yAxis: seriesFarms.length > 0 && seriesFarmsShown ? 1 : 0,
-          maxPointWidth: 32,
+
+      /* Choose already created Y-axis and populate them as Unit based. */
+      seriesOthersUnitBased.forEach((singleOther, i) => {
+        singleOther.forEach((element, index) => {
+          const seriesData = element.estimateList
+          seriesData.forEach((singleVal, i) => {
+            if (singleVal === null) 
+              seriesData[i] = {
+                y: 0,
+                dataLabels: {
+                  enabled: true,
+                  backgroundColor: 'rgba(252, 255, 197, 0.7)',
+                  shadow: false,
+                  format: 'NA',
+                  verticalAlign: 'bottom',
+                  y: -8
+                }
+              }
+          })
+          config.series.push({ 
+            data: seriesData, 
+            name: element.header, 
+            visible: element.shown, 
+            showInLegend: element.shown, 
+            zIndex: 0, 
+            yAxis: seriesFarms.length > 0 && seriesFarmsShown ? 1+i : i,
+            maxPointWidth: 32,
+          })
         })
       })
     }
+
+    /* Breaking Points in Y-Axis */
     (function(H){
       H.wrap(H.Axis.prototype, 'getLinePath', function(proceed, lineWidth) {
         var axis = this,
         path = proceed.call(this, 2),
         x = path[1],
         y = path[2];
-        console.log(x, y)
-        console.log(this.breakArray)
         H.each(this.breakArray || [], function (brk) {
           if (axis.horiz) {
               x = axis.toPixels(brk.from);
