@@ -1352,10 +1352,12 @@ export default class Layout extends React.Component {
     pre_filters[blockIndex].serie = serie
     const isRemoveDataSource = false
     const isGetSurveyData = false
+    const isAllDataSources = false
 
     this.setState({
       isRemoveDataSource,
       isGetSurveyData,
+      isAllDataSources,
       pre_filters,
       runQuery: 'dlfsAnalysis',
       blockIndex
@@ -1369,10 +1371,12 @@ export default class Layout extends React.Component {
     pre_filters[blockIndex].serie_element = serie_element
     const isRemoveDataSource = false
     const isGetSurveyData = false
+    const isAllDataSources = false
 
     this.setState({
       isRemoveDataSource,
       isGetSurveyData,
+      isAllDataSources,
       pre_filters,
       runQuery: 'dlfseAnalysis',
       blockIndex
@@ -1386,10 +1390,12 @@ export default class Layout extends React.Component {
     pre_filters[blockIndex].serie2 = serie2
     const isRemoveDataSource = false
     const isGetSurveyData = false
+    const isAllDataSources = false
 
     this.setState({
       isRemoveDataSource,
       isGetSurveyData,
+      isAllDataSources,
       pre_filters,
       runQuery: 'dlfsesAnalysis',
       blockIndex
@@ -1403,6 +1409,7 @@ export default class Layout extends React.Component {
     pre_filters[blockIndex].serie2_element = serie2_element
     const isRemoveDataSource = false
     const isGetSurveyData = false
+    const isAllDataSources = false
 
     const runQuery = whichOneMultiple === YEAR_SELECTED ? 'dlfseseyAnalysis' : 'dlfsesetAnalysis'
 
@@ -1410,6 +1417,7 @@ export default class Layout extends React.Component {
     this.setState({
       isRemoveDataSource,
       isGetSurveyData,
+      isAllDataSources,
       pre_filters,
       runQuery: runQuery,
       blockIndex
