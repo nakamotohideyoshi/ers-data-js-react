@@ -120,7 +120,7 @@ class TableContainer extends React.Component {
   render() {
     const { incomeArr, isShowItemAll } = this.state
     const { showList, categories, blockIndex } = this.props
-
+    
     if (incomeArr.length === 0 || categories.length === 0)
       return ( <div className='center-notification'>No data to display</div> )
     else
@@ -163,6 +163,7 @@ class TableContainer extends React.Component {
                             if (data.dataSource > 0)
                             {
                               let headingInfo = "";
+                              headingInfo += "Data Source: " + data.dataSource + ", "
                               headingInfo += "Report: " + data.report + ", "
                               headingInfo += "Subject: " + data.subject + ", "
                               headingInfo += "Filter 1 - " + data.serie + ": "
