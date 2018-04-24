@@ -43,6 +43,7 @@
 	border-radius: 0px;  
 }
 .dropdown-menu li.divider {
+  width: 100%;
   margin: 0;
 }
 .dropdown-menu li a {
