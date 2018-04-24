@@ -91,8 +91,6 @@ class TableContainer extends React.Component {
         })
       })
     }
-
-    console.log('=-=-=-=-', incomeArr)
     this.setState({ incomeArr })
   }
   hideItem(dataId){
