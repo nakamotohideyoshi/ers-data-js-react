@@ -1,7 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Scrollbars } from 'react-custom-scrollbars';
-
 import { numberWithCommas } from '../../helpers/NumberWithCommas'
 import { YEAR_SELECTED } from '../../helpers/constants'
 import { REMOVING_ELEMENTS } from '../../helpers/constants'
