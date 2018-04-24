@@ -32,14 +32,14 @@ class MainContainer extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    console.log('...........', props)
-    let {surveyData} = this.state
+    // console.log('...........', props)
+    let {surveyData, showList} = this.state
     let showData = []
-    let showList = {}
     if (props.isRemoveDataSource) {
-
       surveyData.splice(props.blockIndex, 1)
       surveyData.push([])
+
+      showList = {}
 
       surveyData.forEach((survey, index) => {
 
@@ -74,29 +74,55 @@ class MainContainer extends React.Component {
       if (props.charts) {
         if(props.charts.networkStatus === 7) {
 
+          let init = false
           if(props.charts.arms_surveydata) {
             // Tailored Report
+            
+            if (surveyData[0].length === 0) {
+              showList = {}
+              init = true
+            } else if (props.report_num_0[0] !== surveyData[0][0].report_num) {
+              showList = {}
+              init = true
+            }
             props.charts.arms_surveydata.forEach(data => {
-              if (data.topic_dim.level > 1) {
-                showList[0+data.topic_abb] = false
-              } else {
-                showList[0+data.topic_abb] = true
+              if (init) {
+                if (data.topic_dim.level > 1) {
+                  showList[0+data.topic_abb] = false
+                } else {
+                  showList[0+data.topic_abb] = true
+                }
               }
             })            
             surveyData[0] = props.charts.arms_surveydata            
           } else {            
-            surveyData[0] = []            
+            surveyData[0] = []
+            showList = {}            
           }          
         }
       }
-      
-      const dataSource = 'dataSource' + props.blockIndex
-      if (props[dataSource]) {
-        if (props[dataSource].networkStatus === 7) {
-          if (props[dataSource][dataSource]) {
-            surveyData[props.blockIndex] = props[dataSource][dataSource]
-          } else {
-            surveyData[props.blockIndex] = []
+      if (!props.isAllDataSources) {
+        const dataSource = 'dataSource' + props.blockIndex
+        if (props[dataSource]) {
+          if (props[dataSource].networkStatus === 7) {
+            if (props[dataSource][dataSource]) {
+              surveyData[props.blockIndex] = props[dataSource][dataSource]
+            } else {
+              surveyData[props.blockIndex] = []
+            }
+          }
+        }
+      } else {
+        for (let i=1; i<9; i++) {
+          const dataSource = 'dataSource' + i
+          if (props[dataSource]) {
+            if (props[dataSource].networkStatus === 7) {
+              if (props[dataSource][dataSource]) {
+                surveyData[i] = props[dataSource][dataSource]
+              } else {
+                surveyData[i] = []
+              }
+            }
           }
         }
       }
@@ -105,8 +131,8 @@ class MainContainer extends React.Component {
       if(props.blockIndex === 0){
         showData = [{ dataSource: 0, data: surveyData[0] }]
       } else {
-        surveyData.forEach((survey, index) => {
-
+        showList = {}
+        surveyData.forEach((survey, index) => { 
           if (index !== 0) {
             let dataObj = {}
             dataObj.dataSource = index
@@ -163,7 +189,7 @@ class MainContainer extends React.Component {
   render() {
     const { showList, showData } = this.state
     const { selectedYears, selectedStateNames, whichOneMultiple, blockIndex } = this.props
-    console.log('Survey Data Result', showData)
+    console.log('test: ', showList)
     const categories = whichOneMultiple === YEAR_SELECTED ? selectedYears.sort(function(a, b){return a-b}) : selectedStateNames
 
     return (
