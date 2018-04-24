@@ -49,7 +49,7 @@ class Footnote extends React.Component{
     return (
       <Col xs={12} md={12} sm={12}>
         <div className="footnote">
-        <p>
+          <br />
           <span>Footnote</span><br />
           <strong>*</strong> — Statistically unreliable due to a low sample size.<br />
           <strong>ª</strong> — The Relative Standard Error (RSE) is the standard error of the estimate expressed as a percent of the estimate.<br />
@@ -67,7 +67,6 @@ class Footnote extends React.Component{
           <strong>NA</strong> — Estimate does not comply with NASS disclosure practices, is not available, or is not applicable.<br />
           <strong>Source:</strong>  Agricultural Resource Management Survey (ARMS), USDA.<br />
           <strong>Date</strong>: Published on December 8, 2016 (see Update &amp; Revision History for details).<br />
-        </p>
         </div>
       </Col>
     )

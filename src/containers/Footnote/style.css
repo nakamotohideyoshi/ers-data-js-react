@@ -1,7 +1,7 @@
 .footnote{
-	padding:30px 40px 0px;
+	padding:30px 40px 30px 0px;
 }
-.footnote p{
+.footnote{
 	color:#304550;
 	font-size:12px;
 	font-family: 'Roboto', sans-serif;
@@ -12,7 +12,7 @@
     border-top: 0px;
 	color: #081827;
 	}
-.footnote p span{
+.footnote span{
 	color:#304550;
 	font-size:10px;
 	font-family: 'Roboto', sans-serif;
