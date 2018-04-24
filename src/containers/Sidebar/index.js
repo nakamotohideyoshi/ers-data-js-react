@@ -717,6 +717,7 @@ class Sidebar extends React.Component {
 
           // Generate `Data Line` LHS
           const topics = []
+          let topic_abb = []
           props.dAnalysis.dAnalysis.topic.forEach(topic => {
             const obj = {}
             obj.num = topic.abb
@@ -785,6 +786,24 @@ class Sidebar extends React.Component {
               }
             })
 
+            let prev_topic = []
+            let topic_index = []
+            sidebarItems[index+1].selectedIndex.forEach(i=> {
+              prev_topic.push(categoryTitles[index+1][i].header)
+            })
+
+            props.dAnalysis.dAnalysis.topic.forEach((topic, i) => {
+              if (prev_topic.indexOf(topic.header) >  -1) {
+                topic_index.push(i)
+                topic_abb.push(topic.abb)
+              }
+            })
+
+            if (topic_index.length === 0) {
+              topic_index = [0]
+              topic_abb = [props.dAnalysis.dAnalysis.topic[0].abb]
+            }
+
 
 
             // LHS Generate (Update)
@@ -795,7 +814,7 @@ class Sidebar extends React.Component {
               sidebarItems[index+i].isOpened = false
               sidebarItems[index+i].visible = true
               if (i === 1) {
-                sidebarItems[index+i].selectedIndex = [0]
+                sidebarItems[index+i].selectedIndex = topic_index
               } else {
                 sidebarItems[index+i].selectedIndex = subject_index
               }              
@@ -808,8 +827,6 @@ class Sidebar extends React.Component {
           if (subjects.length === 1){
             sidebarItems[index+2].visible = false
           }
-
-          const topic_abb = [categoryTitles[index+1][0].num]
 
           this.setState({
             categoryTitles: categoryTitles,
