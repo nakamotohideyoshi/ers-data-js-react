@@ -726,6 +726,7 @@ class Sidebar extends React.Component {
         
           // Generate `Farm Type` LHS
           let subjects = []
+          let subject_num = [props.dAnalysis.dAnalysis.subject[0].num]
           props.dAnalysis.dAnalysis.subject.forEach(subject => {
             const obj = {}
             obj.num = subject.num
@@ -774,6 +775,17 @@ class Sidebar extends React.Component {
             })
 
           } else {
+            const prev_subject = [categoryTitles[index+2][sidebarItems[index+2].selectedIndex].header]
+            let subject_index = 0
+
+            props.dAnalysis.dAnalysis.subject.forEach((subject, i) => {
+              if (prev_subject.indexOf(subject.header) > -1) {
+                subject_index = i
+                subject_num = [subject.num]
+              }
+            })
+
+
 
             // LHS Generate (Update)
             categoryTitles[index+1] = topics
@@ -781,10 +793,11 @@ class Sidebar extends React.Component {
 
             for (let i=1; i<3; i++) {
               sidebarItems[index+i].isOpened = false
-              sidebarItems[index+i].selectedIndex = 0
               sidebarItems[index+i].visible = true
               if (i === 1) {
                 sidebarItems[index+i].selectedIndex = [0]
+              } else {
+                sidebarItems[index+i].selectedIndex = subject_index
               }              
             }
             
@@ -797,7 +810,6 @@ class Sidebar extends React.Component {
           }
 
           const topic_abb = [categoryTitles[index+1][0].num]
-          const subject_num = [categoryTitles[index+2][0].num]
 
           this.setState({
             categoryTitles: categoryTitles,
