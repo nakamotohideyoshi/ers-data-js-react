@@ -32,107 +32,18 @@ class MainContainer extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    // console.log('...........', props)
-    let {surveyData, showList} = this.state
-    let showData = []
-    if (props.isRemoveDataSource) {
-      surveyData.splice(props.blockIndex, 1)
-      surveyData.push([])
+    console.log('...........', props)
+    if (props.isGetSurveyData) {
+      let {surveyData, showList} = this.state
+      let showData = []
+      if (props.isRemoveDataSource) {
+        surveyData.splice(props.blockIndex, 1)
+        surveyData.push([])
 
-      showList = {}
-
-      surveyData.forEach((survey, index) => {
-
-        if (index !== 0) {
-          let dataObj = {}
-          dataObj.dataSource = index
-          dataObj.data = survey
-          dataObj.report = ''
-          dataObj.subject = ''
-          dataObj.serie = ''
-          dataObj.serie_element = ''
-          dataObj.serie2 = ''
-          dataObj.serie2_element = ''
-          survey.forEach((data, i) => {
-            if (i===0) {
-              dataObj.report = data.report_dim.header
-              dataObj.subject = data.subject_dim.header
-              dataObj.serie = data.serie_dim.header
-              dataObj.serie_element = data.serie_element_dim.name
-              dataObj.serie2 = data.serie2_dim.header
-              dataObj.serie2_element = data.serie2_element_dim.name
-            } 
-            showList[index+data.topic_abb] = true
-          })
-          showData.push(dataObj)
-        }
-        
-      })
-      this.setState({ showList, surveyData, showData })
-
-    } else {
-      if (props.charts) {
-        if(props.charts.networkStatus === 7) {
-
-          let init = false
-          if(props.charts.arms_surveydata) {
-            // Tailored Report
-            
-            if (surveyData[0].length === 0) {
-              showList = {}
-              init = true
-            } else if (props.report_num_0[0] !== surveyData[0][0].report_num) {
-              showList = {}
-              init = true
-            }
-            props.charts.arms_surveydata.forEach(data => {
-              if (init) {
-                if (data.topic_dim.level > 1) {
-                  showList[0+data.topic_abb] = false
-                } else {
-                  showList[0+data.topic_abb] = true
-                }
-              }
-            })            
-            surveyData[0] = props.charts.arms_surveydata            
-          } else {            
-            surveyData[0] = []
-            showList = {}            
-          }          
-        }
-      }
-      if (!props.isAllDataSources) {
-        const dataSource = 'dataSource' + props.blockIndex
-        if (props[dataSource]) {
-          if (props[dataSource].networkStatus === 7) {
-            if (props[dataSource][dataSource]) {
-              surveyData[props.blockIndex] = props[dataSource][dataSource]
-            } else {
-              surveyData[props.blockIndex] = []
-            }
-          }
-        }
-      } else {
-        for (let i=1; i<9; i++) {
-          const dataSource = 'dataSource' + i
-          if (props[dataSource]) {
-            if (props[dataSource].networkStatus === 7) {
-              if (props[dataSource][dataSource]) {
-                surveyData[i] = props[dataSource][dataSource]
-              } else {
-                surveyData[i] = []
-              }
-            }
-          }
-        }
-      }
-      
-      
-      if(props.blockIndex === 0){
-        showData = [{ dataSource: 0, data: surveyData[0] }]
-      } else {
         showList = {}
-        surveyData.forEach((survey, index) => { 
+
+        surveyData.forEach((survey, index) => {
+
           if (index !== 0) {
             let dataObj = {}
             dataObj.dataSource = index
@@ -155,12 +66,102 @@ class MainContainer extends React.Component {
               showList[index+data.topic_abb] = true
             })
             showData.push(dataObj)
-          }          
+          }
+          
         })
+        this.setState({ showList, surveyData, showData })
+
+      } else {
+        if (props.charts) {
+          if(props.charts.networkStatus === 7) {
+
+            let init = false
+            if(props.charts.arms_surveydata) {
+              // Tailored Report
+              
+              if (surveyData[0].length === 0) {
+                showList = {}
+                init = true
+              } else if (props.report_num_0[0] !== surveyData[0][0].report_num) {
+                showList = {}
+                init = true
+              }
+              props.charts.arms_surveydata.forEach(data => {
+                if (init) {
+                  if (data.topic_dim.level > 1) {
+                    showList[0+data.topic_abb] = false
+                  } else {
+                    showList[0+data.topic_abb] = true
+                  }
+                }
+              })            
+              surveyData[0] = props.charts.arms_surveydata            
+            } else {            
+              surveyData[0] = []
+              showList = {}            
+            }          
+          }
+        }
+        if (!props.isAllDataSources) {
+          const dataSource = 'dataSource' + props.blockIndex
+          if (props[dataSource]) {
+            if (props[dataSource].networkStatus === 7) {
+              if (props[dataSource][dataSource]) {
+                surveyData[props.blockIndex] = props[dataSource][dataSource]
+              } else {
+                surveyData[props.blockIndex] = []
+              }
+            }
+          }
+        } else {
+          for (let i=1; i<9; i++) {
+            const dataSource = 'dataSource' + i
+            if (props[dataSource]) {
+              if (props[dataSource].networkStatus === 7) {
+                if (props[dataSource][dataSource]) {
+                  surveyData[i] = props[dataSource][dataSource]
+                } else {
+                  surveyData[i] = []
+                }
+              }
+            }
+          }
+        }
+        
+        
+        if(props.blockIndex === 0){
+          showData = [{ dataSource: 0, data: surveyData[0] }]
+        } else {
+          showList = {}
+          surveyData.forEach((survey, index) => { 
+            if (index !== 0) {
+              let dataObj = {}
+              dataObj.dataSource = index
+              dataObj.data = survey
+              dataObj.report = ''
+              dataObj.subject = ''
+              dataObj.serie = ''
+              dataObj.serie_element = ''
+              dataObj.serie2 = ''
+              dataObj.serie2_element = ''
+              survey.forEach((data, i) => {
+                if (i===0) {
+                  dataObj.report = data.report_dim.header
+                  dataObj.subject = data.subject_dim.header
+                  dataObj.serie = data.serie_dim.header
+                  dataObj.serie_element = data.serie_element_dim.name
+                  dataObj.serie2 = data.serie2_dim.header
+                  dataObj.serie2_element = data.serie2_element_dim.name
+                } 
+                showList[index+data.topic_abb] = true
+              })
+              showData.push(dataObj)
+            }          
+          })
+        }
+        this.setState({ showList, surveyData, showData })
       }
-      this.setState({ showList, surveyData, showData })
     }
-    
   }
 
   hideItem(dataId) {
@@ -188,7 +189,7 @@ class MainContainer extends React.Component {
 
   render() {
     const { showList, showData } = this.state
-    const { selectedYears, selectedStateNames, whichOneMultiple, blockIndex } = this.props
+    const { selectedYears, selectedStateNames, whichOneMultiple, blockIndex, isGetSurveyData } = this.props
     console.log('test: ', showList)
     const categories = whichOneMultiple === YEAR_SELECTED ? selectedYears.sort(function(a, b){return a-b}) : selectedStateNames
 
@@ -199,7 +200,8 @@ class MainContainer extends React.Component {
           surveyData={showData} 
           showList={showList}
           whichOneMultiple={whichOneMultiple}
-          blockIndex={blockIndex}          
+          blockIndex={blockIndex}
+          isGetSurveyData={isGetSurveyData}       
         />
         <TableContainer 
           categories={categories}
