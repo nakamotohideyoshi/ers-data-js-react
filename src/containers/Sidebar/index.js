@@ -925,9 +925,22 @@ class Sidebar extends React.Component {
             })
           } else {
             // LHS Generate (Update)
+
+            let prev_serie_element = [categoryTitles[index][sidebarItems[index].selectedIndex].header]
+            let current_index = 0
+
+            series_element.forEach((serie_elementN, i) => {
+              if (prev_serie_element.indexOf(serie_elementN.header) > -1) {
+                if (serie_elementN.num !== 0) {
+                  serie_element = [serie_elementN.num]
+                } 
+                current_index = i
+              }
+            })
+
             categoryTitles[index] = series_element
             sidebarItems[index].isOpened = false
-            sidebarItems[index].selectedIndex = 0
+            sidebarItems[index].selectedIndex = current_index
             sidebarItems[index].visible = true
           }
 
