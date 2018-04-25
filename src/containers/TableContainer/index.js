@@ -204,7 +204,12 @@ class TableContainer extends React.Component {
                                 <div className="pin-container">
                                   {
                                     blockIndex < 1 && (
-                                      <div className={`level-${data.level} nowrap-div`} data-tip={data.desc}>
+                                      <div 
+                                        className={`level-${data.level} nowrap-div`} 
+                                        data-tip={data.desc} 
+                                        data-event="click"
+                                        data-place="right"
+                                      >
                                       {data.header} {data.header && data.unit_desc !== 'Dollars per farm' ? '('+data.unit_desc+')' : ''}
                                       </div>
                                     )
