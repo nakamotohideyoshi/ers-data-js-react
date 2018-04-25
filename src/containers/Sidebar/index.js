@@ -1005,8 +1005,6 @@ class Sidebar extends React.Component {
             sidebarItems[index].visible = true
           }
 
-          
-
           if (series2.length === 1 && serie2[0] === 'farm') {
             sidebarItems[index].visible = false
           }
@@ -1054,9 +1052,22 @@ class Sidebar extends React.Component {
             })
           } else {
             // LHS Generate (Update)
+
+            let prev_serie2_element = [categoryTitles[index][sidebarItems[index].selectedIndex].header]
+            let current_index = 0
+
+            series2_element.forEach((serie2_elementN, i) => {
+              if (prev_serie2_element.indexOf(serie2_elementN.header) > -1) {
+                if (serie2_elementN.num !== 0) {
+                  serie2_element = [serie2_elementN.num]
+                } 
+                current_index = i
+              }
+            })
+
             categoryTitles[index] = series2_element
             sidebarItems[index].isOpened = false
-            sidebarItems[index].selectedIndex = 0
+            sidebarItems[index].selectedIndex = current_index
             sidebarItems[index].visible = true
           }
 
