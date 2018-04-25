@@ -304,7 +304,12 @@ class TableContainer extends React.Component {
               </table>
             </div>
           </div>
-          <ReactTooltip />
+          <ReactTooltip 
+            place="left"
+            type="info" 
+            effect="float"
+            delayHide={100} 
+          />
         </div>
       )
   }
