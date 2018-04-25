@@ -962,10 +962,11 @@ class Sidebar extends React.Component {
         if (props.dlfseAnalysis.networkStatus === 7 && props.dlfseAnalysis.dlfseAnalysis) {
           // Generate `Filter2` LHS
           let series2 = []
-          props.dlfseAnalysis.dlfseAnalysis.serie2.forEach(serie2 => {
+          let serie2 = [props.dlfseAnalysis.dlfseAnalysis.serie2[0].abb]
+          props.dlfseAnalysis.dlfseAnalysis.serie2.forEach(serie2N => {
             const obj = {}
-            obj.num = serie2.abb
-            obj.header = serie2.header
+            obj.num = serie2N.abb
+            obj.header = serie2N.header
             series2.push(obj)
           })
 
@@ -987,13 +988,24 @@ class Sidebar extends React.Component {
             })
           } else {
             // LHS Generate (Update)
+
+            let prev_serie2 = [categoryTitles[index][sidebarItems[index].selectedIndex].header]
+            let current_index = 0
+
+            series2.forEach((serie2N, i) => {
+              if (prev_serie2.indexOf(serie2N.header) > -1) {
+                serie2 = [serie2N.num]
+                current_index = i
+              }
+            })
+
             categoryTitles[index] = series2
             sidebarItems[index].isOpened = false
-            sidebarItems[index].selectedIndex = 0
+            sidebarItems[index].selectedIndex = current_index
             sidebarItems[index].visible = true
           }
 
-          const serie2 = [categoryTitles[index][0].num]
+          
 
           if (series2.length === 1 && serie2[0] === 'farm') {
             sidebarItems[index].visible = false
