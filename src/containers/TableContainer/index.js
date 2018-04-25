@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ReactTooltip from 'react-tooltip'
 
 import { numberWithCommas } from '../../helpers/NumberWithCommas'
 import { YEAR_SELECTED } from '../../helpers/constants'
@@ -61,6 +62,7 @@ class TableContainer extends React.Component {
             singleIncome.id = dataSourceCategories.dataSource + element.topic_abb
             singleIncome.dataSource = dataSourceCategories.dataSource
             singleIncome.header = element.topic_dim.header
+            singleIncome.desc = element.topic_dim.desc
             singleIncome.unit_desc = element.topic_dim.unit_desc
             singleIncome.level = element.topic_dim.level
             let estimateList = []
@@ -202,14 +204,14 @@ class TableContainer extends React.Component {
                                 <div className="pin-container">
                                   {
                                     blockIndex < 1 && (
-                                      <div className={`level-${data.level} nowrap-div`}>
+                                      <div className={`level-${data.level} nowrap-div`} data-tip={data.desc}>
                                       {data.header} {data.header && data.unit_desc !== 'Dollars per farm' ? '('+data.unit_desc+')' : ''}
                                       </div>
                                     )
                                   } 
                                   {
                                     blockIndex > 0 &&
-                                      <div className="level-1 nowrap-div">
+                                      <div className="level-1 nowrap-div" data-tip={data.desc}>
                                         {data.header} {data.header && data.unit_desc !== 'Dollars per farm' ? '('+data.unit_desc+')' : ''}
                                       </div>
                                   }
@@ -297,6 +299,7 @@ class TableContainer extends React.Component {
               </table>
             </div>
           </div>
+          <ReactTooltip />
         </div>
       )
   }
