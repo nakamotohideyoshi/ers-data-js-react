@@ -46,7 +46,7 @@ class Sidebar extends React.Component {
   }  
 
   componentWillReceiveProps(props) {
-    // console.log('****************', props, '****************')
+    console.log('****************', props, '****************')
     let {categoryTitles, sidebarItems} = this.state
 
     if (categoryTitles.length === 0) {
@@ -232,9 +232,21 @@ class Sidebar extends React.Component {
               headingTitle: ''
             })
           } else {
+            let prev_serie_element = [categoryTitles[4][sidebarItems[4].selectedIndex].header]
+            let current_index = 0
+
+            series_element.forEach((serie_elementN, i) => {
+              if (prev_serie_element.indexOf(serie_elementN.header) > -1) {
+                if (serie_elementN.num !== 0) {
+                  serie_element = [serie_elementN.num]
+                } 
+                current_index = i
+              }
+            })
+
             categoryTitles[4] = series_element
             sidebarItems[4].isOpened = false
-            sidebarItems[4].selectedIndex = 0
+            sidebarItems[4].selectedIndex = current_index 
             sidebarItems[4].visible = true
           }
           sidebarItems[4].headingTitle = categoryTitles[3][sidebarItems[3].selectedIndex].header
@@ -278,9 +290,21 @@ class Sidebar extends React.Component {
               headingTitle: ''
             })
           } else {
+            let prev_serie_element = [categoryTitles[4][sidebarItems[4].selectedIndex].header]
+            let current_index = 0
+
+            series_element.forEach((serie_elementN, i) => {
+              if (prev_serie_element.indexOf(serie_elementN.header) > -1) {
+                if (serie_elementN.num !== 0) {
+                  serie_element = [serie_elementN.num]
+                } 
+                current_index = i
+              }
+            })
+
             categoryTitles[4] = series_element
             sidebarItems[4].isOpened = false
-            sidebarItems[4].selectedIndex = 0
+            sidebarItems[4].selectedIndex = current_index 
             sidebarItems[4].visible = true
           }
           sidebarItems[4].headingTitle = categoryTitles[3][sidebarItems[3].selectedIndex].header
@@ -443,9 +467,21 @@ class Sidebar extends React.Component {
               headingTitle: ''
             })
           } else {
+            let prev_serie_element = [categoryTitles[4][sidebarItems[4].selectedIndex].header]
+            let current_index = 0
+
+            series_element.forEach((serie_elementN, i) => {
+              if (prev_serie_element.indexOf(serie_elementN.header) > -1) {
+                if (serie_elementN.num !== 0) {
+                  serie_element = [serie_elementN.num]
+                } 
+                current_index = i
+              }
+            })
+
             categoryTitles[4] = series_element
             sidebarItems[4].isOpened = false
-            sidebarItems[4].selectedIndex = 0
+            sidebarItems[4].selectedIndex = current_index 
             sidebarItems[4].visible = true
           }
           sidebarItems[4].headingTitle = categoryTitles[3][sidebarItems[3].selectedIndex].header
@@ -535,9 +571,21 @@ class Sidebar extends React.Component {
               headingTitle: ''
             })
           } else {
+            let prev_serie_element = [categoryTitles[4][sidebarItems[4].selectedIndex].header]
+            let current_index = 0
+
+            series_element.forEach((serie_elementN, i) => {
+              if (prev_serie_element.indexOf(serie_elementN.header) > -1) {
+                if (serie_elementN.num !== 0) {
+                  serie_element = [serie_elementN.num]
+                } 
+                current_index = i
+              }
+            })
+
             categoryTitles[4] = series_element
             sidebarItems[4].isOpened = false
-            sidebarItems[4].selectedIndex = 0
+            sidebarItems[4].selectedIndex = current_index 
             sidebarItems[4].visible = true
           }
           sidebarItems[4].headingTitle = categoryTitles[3][sidebarItems[3].selectedIndex].header
