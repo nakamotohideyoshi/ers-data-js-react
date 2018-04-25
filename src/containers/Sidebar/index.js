@@ -972,6 +972,7 @@ class Sidebar extends React.Component {
 
           // Index based on Block
           const index = 7*(currentBlock-1) + 10
+          const serie_element_num = sidebarItems[index-1].selectedIndex
 
           if (categoryTitles.length<index+1) {
             // LHS Generating (initailize)
@@ -991,13 +992,15 @@ class Sidebar extends React.Component {
 
             let prev_serie2 = [categoryTitles[index][sidebarItems[index].selectedIndex].header]
             let current_index = 0
-
-            series2.forEach((serie2N, i) => {
-              if (prev_serie2.indexOf(serie2N.header) > -1) {
-                serie2 = [serie2N.num]
-                current_index = i
-              }
-            })
+            
+            if (serie_element_num !== 0) {
+              series2.forEach((serie2N, i) => {
+                if (prev_serie2.indexOf(serie2N.header) > -1) {
+                  serie2 = [serie2N.num]
+                  current_index = i
+                }
+              })
+            }
 
             categoryTitles[index] = series2
             sidebarItems[index].isOpened = false
@@ -1005,7 +1008,7 @@ class Sidebar extends React.Component {
             sidebarItems[index].visible = true
           }
 
-          if (series2.length === 1 && serie2[0] === 'farm') {
+          if (serie_element_num === 0) {
             sidebarItems[index].visible = false
           }
           
