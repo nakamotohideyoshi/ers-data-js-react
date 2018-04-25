@@ -85,7 +85,7 @@ export default class ChartGenerator extends React.Component {
       if (estSingleList.length < 2) return []
       estSingleList = estSingleList.sort(function(a, b){return a - b});
 
-      const isBreakable = estSingleList[0]/estSingleList[estSingleList.length-1] < 0.11
+      const isBreakable = estSingleList[0]/estSingleList[estSingleList.length-1] <= 0.05
       if (isBreakable === false) return []
 
       let diff = 0
