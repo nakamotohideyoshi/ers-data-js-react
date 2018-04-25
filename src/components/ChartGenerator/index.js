@@ -9,6 +9,7 @@ import {CSVLink} from 'react-csv';
 
 import { numberWithCommas } from '../../helpers/NumberWithCommas'
 import DownloadImg from '../../images/download.png'
+import { EEXIST } from 'constants';
 
 HighchartsExporting(ReactHighcharts.Highcharts)
 HighchartsExportCSV(ReactHighcharts.Highcharts)
@@ -77,32 +78,40 @@ export default class ChartGenerator extends React.Component {
       })
       estList[ee] = indexedArr
     }
+
+    let diffList = []
     for (let ee=0;ee<estList.length;ee++) {
-      let diffArr = []
-      const estSingleList = estList[ee]
-      estSingleList.push(0)
+      let estSingleList = estList[ee]
+      if (estSingleList.length < 2) return []
+      estSingleList = estSingleList.sort(function(a, b){return a - b});
+
+      const isBreakable = estSingleList[0]/estSingleList[estSingleList.length-1] < 0.11
+      if (isBreakable === false) return []
+
+      let diff = 0
+      let diffObj = {start: 0, to: 0, diff: 0}
       for (let i=0;i<estSingleList.length-1;i++) {
-        for (let j=i+1;j<estSingleList.length;j++) {
-          const diff = Math.abs(estSingleList[i]-estSingleList[j])
-          const from = Math.min(estSingleList[i], estSingleList[j])*1.4
-          const to =  Math.max(estSingleList[i], estSingleList[j])*0.8
-          const diffObj = { diff, from, to }
-          diffArr.push(diffObj)
+        const start = estSingleList[i]
+        const to = estSingleList[i+1]
+        if (to - start > diff && start !== null) {
+          diff = to - start
+          diffObj.start = start
+          diffObj.to = to
+          diffObj.diff = diff
         }
       }
-      diffArr.sort(function(a,b) {return (a.diff < b.diff) ? 1 : ((b.diff < a.diff) ? -1 : 0);} );
-      if (diffArr.length > 0) firstTotalDiff.push(diffArr[0])
+      diffList.push(diffObj)
     }
 
-    const maxFirstFrom = Math.max.apply(Math, firstTotalDiff.map(function(o){return o.from;}))
-    const maxFirstTo = Math.min.apply(Math, firstTotalDiff.map(function(o){return o.to;}))
-    const diffMax = maxFirstTo - maxFirstFrom
-    const roundedFirstFrom = Math.floor((maxFirstFrom+diffMax*0.4)/1000 + 1) * 1000
-    const roundedFirstTo = Math.floor((maxFirstTo-diffMax*0.2)/1000) * 1000
-    
+    const maxFrom = Math.max.apply(Math, diffList.map(function(o){return o.start;}))
+    const minTo =  Math.min.apply(Math, diffList.map(function(o){return o.to;}))
+    const roundedFrom = Math.floor((maxFrom*1.2)/1000 + 1) * 1000
+    const roundedTo = Math.floor((minTo*0.8)/1000) * 1000
+    console.log(roundedFrom, roundedTo)
+        
     breaksArr.push({
-      from: roundedFirstFrom,
-      to: roundedFirstTo
+      from: roundedFrom,
+      to: roundedTo
     })
     return breaksArr
   }
