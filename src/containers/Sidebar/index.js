@@ -1124,10 +1124,12 @@ class Sidebar extends React.Component {
   }
 
   
-  toggleCategoryOptions = (selectedItemIndex) => {    
-    const { sidebarItems } =this.state    
-    sidebarItems[selectedItemIndex].isOpened = !sidebarItems[selectedItemIndex].isOpened       
-    this.setState({ sidebarItems })
+  toggleCategoryOptions = (selectedItemIndex) => {
+    if (this.props.runQuery.length === 0) {    
+      const { sidebarItems } =this.state    
+      sidebarItems[selectedItemIndex].isOpened = !sidebarItems[selectedItemIndex].isOpened       
+      this.setState({ sidebarItems })
+    }
   }
 
   updateFilter = (sidebarItemIndex, selectedIndex) => {
