@@ -154,6 +154,7 @@ export default class ChartGenerator extends React.Component {
         enabled: false
       },
       chart: {
+        height: 500,
         type: chartType
       },  
       xAxis: {
