@@ -1311,7 +1311,7 @@ export default class Layout extends React.Component {
 
     pre_filters[blockIndex].topic_abb = topic_abb
     const isRemoveDataSource = false
-    const isGetSurveyData = false
+    const isGetSurveyData = true
     const isAllDataSources = false
 
     this.setState({
