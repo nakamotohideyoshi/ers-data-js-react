@@ -46,7 +46,7 @@ class Sidebar extends React.Component {
   }  
 
   componentWillReceiveProps(props) {
-    console.log('****************', props, '****************')
+    // console.log('****************', props, '****************')
     let {categoryTitles, sidebarItems} = this.state
 
     if (categoryTitles.length === 0) {
@@ -840,6 +840,7 @@ class Sidebar extends React.Component {
 
           // Generate `Filter1` LHS
           let series = []
+          let serie = [props.dlfAnalysis.dlfAnalysis.serie[0].abb];
           props.dlfAnalysis.dlfAnalysis.serie.forEach(serie => {
             const obj = {}
             obj.num = serie.abb
@@ -865,13 +866,22 @@ class Sidebar extends React.Component {
             })
           } else {
             // LHS Generate (Update)
+
+            let prev_serie = [categoryTitles[index][sidebarItems[index].selectedIndex].header]
+            let current_index = 0
+
+            series.forEach((serieN, i) => {
+              if (prev_serie.indexOf(serieN.header) > -1) {
+                serie = [serieN.num]
+                current_index = i
+              }
+            })
+            
             categoryTitles[index] = series
             sidebarItems[index].isOpened = false
-            sidebarItems[index].selectedIndex = 0
+            sidebarItems[index].selectedIndex = current_index
             sidebarItems[index].visible = true
           }
-
-          const serie = [categoryTitles[index][0].num]
 
           this.setState({
             categoryTitles: categoryTitles,
