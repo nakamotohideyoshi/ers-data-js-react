@@ -50,6 +50,7 @@ export default graphql(gql`
         seq
         abb
         header
+        desc
         unit_num
         unit_desc
       }      
