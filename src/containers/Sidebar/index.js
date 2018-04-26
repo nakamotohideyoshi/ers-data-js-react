@@ -186,12 +186,16 @@ class Sidebar extends React.Component {
             let prev_serie = [categoryTitles[3][sidebarItems[3].selectedIndex].header]
             let current_index = 0
 
-            series.forEach((serieN, i) => {
-              if (prev_serie.indexOf(serieN.header) > -1) {
-                serie = [serieN.num]
-                current_index = i
-              }
-            })
+            if (!props.isReset) {
+
+              series.forEach((serieN, i) => {
+                if (prev_serie.indexOf(serieN.header) > -1) {
+                  serie = [serieN.num]
+                  current_index = i
+                }
+              })
+            }
+
             categoryTitles[3] = series
             sidebarItems[3].isOpened = false
             sidebarItems[3].selectedIndex = current_index
@@ -869,13 +873,15 @@ class Sidebar extends React.Component {
 
             let prev_serie = [categoryTitles[index][sidebarItems[index].selectedIndex].header]
             let current_index = 0
-
-            series.forEach((serieN, i) => {
-              if (prev_serie.indexOf(serieN.header) > -1) {
-                serie = [serieN.num]
-                current_index = i
-              }
-            })
+            
+            if (!props.isReset) {
+              series.forEach((serieN, i) => {
+                if (prev_serie.indexOf(serieN.header) > -1) {
+                  serie = [serieN.num]
+                  current_index = i
+                }
+              })
+            }
             
             categoryTitles[index] = series
             sidebarItems[index].isOpened = false
