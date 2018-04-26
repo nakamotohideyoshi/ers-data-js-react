@@ -8,3 +8,8 @@
 	margin:30px 0px 30px;
 	text-align:center;
 }
+
+/* Tooltip */
+.__react_component_tooltip {
+  max-width: 400px; 
+}

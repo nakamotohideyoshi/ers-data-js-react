@@ -14,7 +14,11 @@ const SidebarDropdown = ({ title, headingTitle, isCategory, isOpened, onToggle }
             </div>
           )
         }
-        <div className="selected-headers" data-tip={title}>
+        <div className="selected-headers" 
+          data-tip={title}
+          data-place="top"
+          data-offset="{'top': 10, 'right': 50}"
+        >
           {title}
         </div>
       </div>
@@ -32,7 +36,11 @@ const SidebarDropdown = ({ title, headingTitle, isCategory, isOpened, onToggle }
           </span>
         )
       }
-      <ReactTooltip />
+      <ReactTooltip 
+        place="top"
+        type="info" 
+        effect="float"
+      />
     </button>
   </div>
 );
