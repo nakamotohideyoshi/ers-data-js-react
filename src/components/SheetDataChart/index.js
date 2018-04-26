@@ -82,7 +82,8 @@ class SheetDataChart extends Component {
   render() {
     const { incomeArr, chartTypeIndex, isLineEnabled } = this.state
     const { categories, blockIndex, whichOneMultiple } = this.props
-    const chartTitle = blockIndex > 0 ? 'Arms Data Analysis' : ''
+    let chartTitle = ''
+    if (incomeArr.length > 0 && blockIndex < 1) chartTitle = incomeArr[0].report
     const chartType = chartTypes[chartTypeIndex].type
     let chartTypesArray = isLineEnabled ? chartTypes : [chartTypes[0]]
 

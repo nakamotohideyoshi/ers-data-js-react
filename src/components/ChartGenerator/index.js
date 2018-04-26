@@ -121,11 +121,6 @@ export default class ChartGenerator extends React.Component {
     this.generateCSVChart(series, categories)
     this.generateCSVTable(series, categories)  
 
-    // Title Initialization
-    if (title === '' && series) {
-      title = series[0].report
-    }
-
     // Separate Farms and other series
 
     const seriesFarms = series.filter((single, index) => {
