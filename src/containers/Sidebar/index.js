@@ -1124,7 +1124,7 @@ class Sidebar extends React.Component {
 
         if (props.dlfseseytAnalysis.networkStatus === 7 && props.dlfseseytAnalysis.dlfseseytAnalysis) {
           
-          this.props.selectYearAnalysis(props.dlfseseytAnalysis.dlfseseytAnalysis.state)
+          this.props.selectStateAnalysis(props.dlfseseytAnalysis.dlfseseytAnalysis.state)
 
         }
 
