@@ -165,18 +165,17 @@ export default class Layout extends React.Component {
     let {pre_filters} = this.state
     let runQuery = ''
 
-    if (blockIndex === 0) {
-      pre_filters[blockIndex].subject_num = []
-      pre_filters[blockIndex].topic_abb = []
-      pre_filters[blockIndex].serie = []
-      pre_filters[blockIndex].serie_element = []
+    pre_filters[blockIndex].subject_num = []
+    pre_filters[blockIndex].topic_abb = []
+    pre_filters[blockIndex].serie = []
+    pre_filters[blockIndex].serie_element = []
+
+    if (blockIndex === 0) {      
       runQuery = 'reset1Query'
     } else {
-      pre_filters[blockIndex].serie = []
-      pre_filters[blockIndex].serie_element = []
       pre_filters[blockIndex].serie2 = []
       pre_filters[blockIndex].serie2_element = []
-      runQuery = 'dlfAnalysis'
+      runQuery = 'dAnalysis'
     }
 
     this.setState({

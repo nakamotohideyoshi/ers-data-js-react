@@ -784,12 +784,14 @@ class Sidebar extends React.Component {
             const prev_subject = [categoryTitles[index+2][sidebarItems[index+2].selectedIndex].header]
             let subject_index = 0
 
-            props.dAnalysis.dAnalysis.subject.forEach((subject, i) => {
-              if (prev_subject.indexOf(subject.header) > -1) {
-                subject_index = i
-                subject_num = [subject.num]
-              }
-            })
+            if (!props.isReset) {
+              props.dAnalysis.dAnalysis.subject.forEach((subject, i) => {
+                if (prev_subject.indexOf(subject.header) > -1) {
+                  subject_index = i
+                  subject_num = [subject.num]
+                }
+              })
+            }
 
             let prev_topic = []
             let topic_index = []
