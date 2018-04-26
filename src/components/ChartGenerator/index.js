@@ -9,7 +9,6 @@ import {CSVLink} from 'react-csv';
 
 import { numberWithCommas } from '../../helpers/NumberWithCommas'
 import DownloadImg from '../../images/download.png'
-import { EEXIST } from 'constants';
 
 HighchartsExporting(ReactHighcharts.Highcharts)
 HighchartsExportCSV(ReactHighcharts.Highcharts)
@@ -65,8 +64,6 @@ export default class ChartGenerator extends React.Component {
   }
   getBreaingPoints(dataSource) {
     let breaksArr = []   
-    let minOverAll = 0
-    let firstTotalDiff = []
     const estList = []
     const estCount = dataSource[0].estimateList.length
     for (let ee=0;ee<estCount;ee++) {
@@ -359,7 +356,7 @@ export default class ChartGenerator extends React.Component {
             formatter: function () {
               const isReducePossible = this.value/1000 > 1
               let axisFormat = numberWithCommas(isReducePossible ? Math.round(this.value/1000) : this.value)
-              if (unitDescs[unitIndex] === "Dollars per farm") axisFormat = axisFormat
+              // if (unitDescs[unitIndex] === "Dollars per farm") axisFormat = '$' + axisFormat
               return '<span style="color:'+this.chart.series[singleOther[0].originIndex].color+'">'+ axisFormat +'</span>';
             },
           },
