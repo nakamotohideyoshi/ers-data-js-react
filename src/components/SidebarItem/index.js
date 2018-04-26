@@ -51,6 +51,7 @@ const SidebarItem = ({
         }
         <SidebarDropdown 
           headingTitle={headingTitle}
+          isDataLine={isDataLine}
           title={isDataLine ? datalineTitle : titles[selectedIndex].header} 
           isOpened={isOpened} 
           isCategory={isCategory} 
