@@ -1589,7 +1589,7 @@ export default class Layout extends React.Component {
 
     pre_filters[blockIndex].report_num = [1]
 
-    const runQuery = 'dAnalysis'
+    const runQuery = 'initAnalysis'
 
     const isRemoveDataSource = false
     const isGetSurveyData = false
