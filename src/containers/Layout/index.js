@@ -33,7 +33,8 @@ export default class Layout extends React.Component {
     priority: [],
     isRemoveDataSource: false,
     isAllDataSources: false,
-    isGetSurveyData: false
+    isGetSurveyData: false,
+    isReset: false
   }
 
   componentWillMount() {
@@ -182,7 +183,8 @@ export default class Layout extends React.Component {
       isGetSurveyData,
       blockIndex: blockIndex,
       priority: [],
-      runQuery: runQuery
+      runQuery: runQuery,
+      isReset: true
     })
   }  
 
@@ -315,7 +317,8 @@ export default class Layout extends React.Component {
       isRemoveDataSource,
       isGetSurveyData,
       blockIndex: blockIndex,
-      runQuery: ''
+      isReset: false,
+      runQuery: '',
     })
   }
 
@@ -428,6 +431,7 @@ export default class Layout extends React.Component {
       temp_States,
       selectedStates: reSelectedStates,
       selectedStateNames: selectedStateNames,
+      isReset: false,
       runQuery: ''
     })
 
@@ -540,6 +544,7 @@ export default class Layout extends React.Component {
       selectedStates: reSelectedStates,
       statesInfo: statesInfo,
       selectedStateNames: selectedStateNames,
+      isReset: false,
       runQuery: ''
     })
 
@@ -604,6 +609,7 @@ export default class Layout extends React.Component {
       temp_Years,
       yearsInfo: yearsInfo,
       selectedYears: reSelectedYears,
+      isReset: false,
       runQuery: ''
     })
 
@@ -673,6 +679,7 @@ export default class Layout extends React.Component {
       temp_States,
       statesInfo: statesInfo,
       selectedStateNames: selectedStateNames,
+      isReset: false,
       runQuery: ''
     })
 
@@ -820,6 +827,7 @@ export default class Layout extends React.Component {
       yearsInfo: yearsInfo,
       temp_Years,
       selectedYears: reSelectedYears,
+      isReset: false,
       runQuery: ''
     })
   }
@@ -958,6 +966,7 @@ export default class Layout extends React.Component {
       temp_States,
       selectedStates: reSelectedStates,
       selectedStateNames: selectedStateNames,
+      isReset: false,
       runQuery: ''
     })
   }
@@ -1045,7 +1054,7 @@ export default class Layout extends React.Component {
 
   // serie_element selected
   onSelectSubFilterByFilter = (serie_element, blockIndex) => {
-    let {filters, pre_filters, priority} = this.state
+    let {filters, pre_filters, priority, isReset} = this.state
     let runQuery = ''
 
     const priorityIndex = priority.indexOf('serie')
@@ -1072,6 +1081,7 @@ export default class Layout extends React.Component {
     } else if (priority.indexOf('serie') === 2){
       // ... -> ... -> Serie/Serie_element
       runQuery = ''
+      isReset = false
       isGetSurveyData = true
     }
 
@@ -1082,13 +1092,14 @@ export default class Layout extends React.Component {
       isGetSurveyData,
       blockIndex,
       priority: priority,
-      runQuery: runQuery
+      runQuery: runQuery,
+      isReset
     })
   }
 
   // Year selected
   onSelectYear = (index) => {
-    let { filters, pre_filters, yearsInfo, whichOneMultiple, priority, blockIndex } = this.state
+    let { filters, pre_filters, yearsInfo, whichOneMultiple, priority, blockIndex, isReset } = this.state
     let runQuery = ''
     let isAllDataSources = false    
 
@@ -1138,11 +1149,13 @@ export default class Layout extends React.Component {
       } else if (priority.indexOf('year') === 2){
         // ... -> ... -> Year
         runQuery = ''
+        isReset = false
         isGetSurveyData = true
       }
     } else {
       if (whichOneMultiple === YEAR_SELECTED) {
         runQuery = ''
+        isReset = false
         isGetSurveyData = true
         isAllDataSources = true
       } else {
@@ -1162,13 +1175,14 @@ export default class Layout extends React.Component {
       selectedYears: selectedYears,
       temp_Years: temp_Years,
       runQuery: runQuery,
-      isAllDataSources
+      isAllDataSources,
+      isReset
     })
   }
 
   // state selected
   onSelectState = (index) => {
-    let { filters, pre_filters, statesInfo, whichOneMultiple, priority, blockIndex } = this.state
+    let { filters, pre_filters, statesInfo, whichOneMultiple, priority, blockIndex, isReset } = this.state
     let runQuery = ''
     let isAllDataSources = false
 
@@ -1217,6 +1231,7 @@ export default class Layout extends React.Component {
       } else if (priority.indexOf('state') === 2) {
         // ... -> ... -> State
         runQuery = ''
+        isReset = false
         isGetSurveyData = true
       }
     } else {
@@ -1224,6 +1239,7 @@ export default class Layout extends React.Component {
         runQuery = 'dlfsesetyAnalysis'
       } else {
         runQuery = ''
+        isReset = false
         isGetSurveyData = true
         isAllDataSources = true
       }
@@ -1242,7 +1258,8 @@ export default class Layout extends React.Component {
       selectedStates: selectedStates,
       temp_States: temp_States,
       runQuery: runQuery,
-      isAllDataSources
+      isAllDataSources,
+      isReset
     })
   }
 
@@ -1321,6 +1338,7 @@ export default class Layout extends React.Component {
       isAllDataSources,
       pre_filters,
       runQuery: '',
+      isReset: false,
       blockIndex
     })
   }
@@ -1426,9 +1444,12 @@ export default class Layout extends React.Component {
 
   // reset year in `Arms Data Analysis`
   selectYearAnalysis = (years) => {
-    let {temp_Years, selectedYears, whichOneMultiple} = this.state
+    let {temp_Years, selectedYears, whichOneMultiple, isReset} = this.state
 
     const runQuery = whichOneMultiple === YEAR_SELECTED ? '' : 'dlfseseytAnalysis'
+    if (whichOneMultiple === YEAR_SELECTED) {
+      isReset = false
+    }
     const isGetSurveyData =whichOneMultiple === YEAR_SELECTED ? true : false
     const isAllDataSources = whichOneMultiple === YEAR_SELECTED ? true : false
 
@@ -1484,15 +1505,19 @@ export default class Layout extends React.Component {
       temp_Years,
       selectedYears: reSelectedYears,
       runQuery: runQuery,
-      isAllDataSources
+      isAllDataSources,
+      isReset
     })
   }
 
   // reset Region in `Arms Data Analysis`
   selectStateAnalysis = (states) => {
-    let {temp_States, selectedStates, whichOneMultiple} = this.state
+    let {temp_States, selectedStates, whichOneMultiple, isReset} = this.state
 
     const runQuery = whichOneMultiple === YEAR_SELECTED ? 'dlfsesetyAnalysis' : ''
+    if (whichOneMultiple !== YEAR_SELECTED) {
+      isReset = false
+    }
     const isGetSurveyData = whichOneMultiple === YEAR_SELECTED ? false : true
     const isAllDataSources = whichOneMultiple === YEAR_SELECTED ? false : true
 
@@ -1552,7 +1577,8 @@ export default class Layout extends React.Component {
       selectedStates: reSelectedStates,
       selectedStateNames: selectedStateNames,
       runQuery: runQuery,
-      isAllDataSources
+      isAllDataSources,
+      isReset
     })
   }
 
@@ -1609,7 +1635,8 @@ export default class Layout extends React.Component {
       blockIndex,
       isRemoveDataSource,
       isGetSurveyData,
-      runQuery: ''
+      runQuery: '',
+      isReset: false
     })
   }
   
@@ -1623,7 +1650,8 @@ export default class Layout extends React.Component {
       selectedStateNames,
       yearsInfo,
       statesInfo,
-      blockIndex
+      blockIndex,
+      isReset
     } = this.state
 
     const yearsCount = selectedYears.length
@@ -1650,6 +1678,10 @@ export default class Layout extends React.Component {
     if (blockIndex !== 0 && yearsCount !== 1 && statesCount !== 1) {
       runQuery = 'ytDLAnalysis'
       isGetSurveyData = false
+    } 
+
+    if (runQuery.length === 0) {
+      isReset = false
     }
     
     const isRemoveDataSource = false
@@ -1666,7 +1698,8 @@ export default class Layout extends React.Component {
       isSelectedAll: false,
       isRemoveDataSource,
       isGetSurveyData,
-      runQuery
+      runQuery,
+      isReset
     })
   }
 
@@ -1730,7 +1763,8 @@ export default class Layout extends React.Component {
       runQuery,
       isRemoveDataSource,
       isAllDataSources,
-      isGetSurveyData
+      isGetSurveyData,
+      isReset
     } = this.state
 
     let serie = []
@@ -1835,6 +1869,7 @@ export default class Layout extends React.Component {
           selectStateAnalysis = {this.selectStateAnalysis}          
           addDataSource = {this.addDataSource}
           removeDataSource = {this.removeDataSource}
+          isReset = {isReset}
         />
         <Col xs={12} md={12} sm={12} lg={9}>
           <h4 className="main-heading">
