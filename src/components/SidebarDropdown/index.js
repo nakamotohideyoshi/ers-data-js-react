@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ReactTooltip from 'react-tooltip'
 
-const SidebarDropdown = ({ title, headingTitle, isCategory, isOpened, onToggle }) => (
+const SidebarDropdown = ({ title, isDataLine, headingTitle, isCategory, isOpened, onToggle }) => (
   <div className="dropdown_up dropdown_dd">
     <button className={`${isCategory ? `btn-dark`:`btn-light`} btn_dd`} onClick={onToggle} >
       <div className="filter-options">
@@ -15,7 +15,7 @@ const SidebarDropdown = ({ title, headingTitle, isCategory, isOpened, onToggle }
           )
         }
         <div className="selected-headers" 
-          data-tip={title}
+          data-tip={isDataLine ? title : ''}
           data-place="top"
           data-offset="{'top': 10, 'right': 50}"
         >
