@@ -8,6 +8,7 @@ import { REMOVING_ELEMENTS } from '../../helpers/constants'
 import HideAllImg from '../../images/hide_all.png'
 import HiddenImg from '../../images/hide.png'
 import ShownImg from '../../images/show.png'
+import HelpImg from '../../images/help.png'
 import LogoSmallImg from '../../images/logo-small.png'
 
 import './style.css'
@@ -215,20 +216,34 @@ class TableContainer extends React.Component {
                                     blockIndex < 1 && (
                                       <div 
                                         className={`level-${data.level} nowrap-div`} 
+                                      >
+                                      {data.header} {data.header && data.unit_desc !== 'Dollars per farm' ? '('+data.unit_desc+')' : ''}
+                                      <img 
+                                        src={HelpImg}
+                                        className="help-img"
+                                        alt="help-img" 
                                         data-tip={data.desc} 
                                         data-event="click"
                                         data-place="top"
                                         data-offset="{'left': 100}"
                                         ref={node => this.farmHeaders = node}
-                                      >
-                                      {data.header} {data.header && data.unit_desc !== 'Dollars per farm' ? '('+data.unit_desc+')' : ''}
-                                      </div>
+                                      />
+                                    </div>
                                     )
                                   } 
                                   {
                                     blockIndex > 0 &&
                                       <div className="level-1 nowrap-div" data-tip={data.desc}>
                                         {data.header} {data.header && data.unit_desc !== 'Dollars per farm' ? '('+data.unit_desc+')' : ''}
+                                        <img 
+                                          src={HelpImg}
+                                          alt="help-img" 
+                                          data-tip={data.desc} 
+                                          data-event="click"
+                                          data-place="top"
+                                          data-offset="{'left': 100}"
+                                          ref={node => this.farmHeaders = node}
+                                        />
                                       </div>
                                   }
                                 </div>
