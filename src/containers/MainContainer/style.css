@@ -21,5 +21,8 @@
 }
 .__react_component_tooltip:after {
 	bottom: 0px !important;
-	border-top-color: white !important;
+	border-top-color: transparent !important;
+	border-bottom-color: transparent !important;
+	border-left-color: transparent !important;
+	border-right-color: transparent !important;
 }
