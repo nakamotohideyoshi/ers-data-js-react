@@ -47,6 +47,7 @@ class FilterDropdown extends React.Component {
               </span>
             }
             className="download-menu"
+            data-place="top"
             data-tip={this.generateToolTipList(whichOneMultiple === YEAR_SELECTED ? yearsInfo:statesInfo, whichOneMultiple === YEAR_SELECTED ? 'year':'name')}
           >
           <Checkbox title="Select All" checked={isSelectedAll} isMultiple={true} onCheck={() => onSelectAll(whichOneMultiple)} key={0} />
@@ -85,6 +86,7 @@ class FilterDropdown extends React.Component {
                 </span>
               }
               className="download-menu"
+              data-place="top"
               data-tip={this.generateToolTipList(whichOneMultiple === YEAR_SELECTED ? statesInfo:yearsInfo, whichOneMultiple === YEAR_SELECTED ? 'name':'year')}
             >
             {
@@ -101,8 +103,7 @@ class FilterDropdown extends React.Component {
             }       	                 	
             </DropdownButton>
           </Col>
-      </Col>    
-      <ReactTooltip />
+      </Col>  
     </div>
     )
   }

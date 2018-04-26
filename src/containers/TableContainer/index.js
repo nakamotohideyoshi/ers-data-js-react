@@ -208,7 +208,8 @@ class TableContainer extends React.Component {
                                         className={`level-${data.level} nowrap-div`} 
                                         data-tip={data.desc} 
                                         data-event="click"
-                                        data-place="right"
+                                        data-place="top"
+                                        data-offset="{'top': 10, 'left': 50}"
                                       >
                                       {data.header} {data.header && data.unit_desc !== 'Dollars per farm' ? '('+data.unit_desc+')' : ''}
                                       </div>
@@ -308,8 +309,6 @@ class TableContainer extends React.Component {
             place="left"
             type="info" 
             effect="float"
-            eventOff="click"
-            delayHide={5000} 
           />
         </div>
       )
