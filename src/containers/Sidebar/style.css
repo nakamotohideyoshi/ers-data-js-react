@@ -103,9 +103,7 @@
   margin-top: 3px;
   margin-right: 8px;
 }
-.dropdown-menu_2 > li > a:hover span {
-  text-decoration: underline;
-}
+
 .dropdown-menu_2 > li > a:hover {
   background: none;
   color:#304550;
