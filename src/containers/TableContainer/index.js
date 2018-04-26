@@ -97,6 +97,15 @@ class TableContainer extends React.Component {
     this.setState({ scrollLeft: 0 })
   }
   componentDidMount() {
+    document.addEventListener('mousedown', this.handleClickOutside);
+  }
+  componentWillUnmount() {
+    document.removeEventListener('mousedown', this.handleClickOutside);
+  }
+  handleClickOutside = (event) => {
+    if (this.farmHeaders && !this.farmHeaders.contains(event.target)) {
+      this.tooltip.hideTooltip()
+    }
   }
   hideItem(dataId){
     this.props.hideItem(dataId)
@@ -209,7 +218,8 @@ class TableContainer extends React.Component {
                                         data-tip={data.desc} 
                                         data-event="click"
                                         data-place="top"
-                                        data-offset="{'top': 10, 'left': 50}"
+                                        data-offset="{'left': 100}"
+                                        ref={node => this.farmHeaders = node}
                                       >
                                       {data.header} {data.header && data.unit_desc !== 'Dollars per farm' ? '('+data.unit_desc+')' : ''}
                                       </div>
@@ -306,11 +316,10 @@ class TableContainer extends React.Component {
             </div>
           </div>
           <ReactTooltip 
+            ref={(node) => this.tooltip = node}
             place="left"
             type="info" 
             effect="float"
-            eventOff="click"
-            delayHide={5000} 
           />
         </div>
       )

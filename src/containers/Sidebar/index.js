@@ -1264,7 +1264,7 @@ class Sidebar extends React.Component {
       })
       this.setState({ sidebarItems })
     }
-}
+  }
 
   render() {  
     const {sidebarItems, categoryTitles} = this.state
