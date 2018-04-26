@@ -37,6 +37,7 @@
 }
 .nowrap-div {
   white-space: nowrap;
+  cursor: pointer;
 }
 
 .col-width-3 {

@@ -10,6 +10,16 @@
 }
 
 /* Tooltip */
-.__react_component_tooltip {
-  max-width: 400px; 
+.__react_component_tooltip.type-info {
+	max-width: 400px; 
+	background: white !important;
+	color: gray !important;
+	opacity: 1 !important;
+	-webkit-box-shadow: 2px 2px 2px -1px rgba(190,190,190,0.9);
+	-moz-box-shadow: 2px 2px 2px -1px rgba(190,190,190,0.9);
+	box-shadow: 2px 2px 2px -1px rgba(190,190,190,0.9);
+}
+.__react_component_tooltip:after {
+	bottom: 0px !important;
+	border-top-color: white !important;
 }
