@@ -250,6 +250,7 @@ class TableContainer extends React.Component {
                               </td>
                             </tr>
                           )
+                          return null
                         })
                       }
                   </tbody>   
@@ -324,6 +325,7 @@ class TableContainer extends React.Component {
                             }
                         </tr>
                       )
+                      return null
                     })
                   }
                 </tbody>
@@ -332,7 +334,7 @@ class TableContainer extends React.Component {
           </div>
           <ReactTooltip 
             ref={(node) => this.tooltip = node}
-            place="left"
+            place="top"
             type="info" 
             effect="float"
           />
