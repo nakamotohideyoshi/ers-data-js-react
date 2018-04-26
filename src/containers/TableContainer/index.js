@@ -233,10 +233,11 @@ class TableContainer extends React.Component {
                                   } 
                                   {
                                     blockIndex > 0 &&
-                                      <div className="level-1 nowrap-div" data-tip={data.desc}>
+                                      <div className="level-1 nowrap-div">
                                         {data.header} {data.header && data.unit_desc !== 'Dollars per farm' ? '('+data.unit_desc+')' : ''}
                                         <img 
                                           src={HelpImg}
+                                          className="help-img"
                                           alt="help-img" 
                                           data-tip={data.desc} 
                                           data-event="click"
