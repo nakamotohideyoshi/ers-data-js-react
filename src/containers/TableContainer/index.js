@@ -309,6 +309,8 @@ class TableContainer extends React.Component {
             place="left"
             type="info" 
             effect="float"
+            eventOff="click"
+            delayHide={5000} 
           />
         </div>
       )
