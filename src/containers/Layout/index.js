@@ -183,7 +183,6 @@ export default class Layout extends React.Component {
       isRemoveDataSource,
       isGetSurveyData,
       blockIndex: blockIndex,
-      priority: [],
       runQuery: runQuery,
       isReset: true
     })
