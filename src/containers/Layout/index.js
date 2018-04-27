@@ -183,6 +183,7 @@ export default class Layout extends React.Component {
       isRemoveDataSource,
       isGetSurveyData,
       blockIndex: blockIndex,
+      priority: [],
       runQuery: runQuery,
       isReset: true
     })
@@ -192,8 +193,10 @@ export default class Layout extends React.Component {
   // reset [Filter By, Year, State]
   // run query to refresh [serie_element]
   resetSYRFilter = (serie, years, states, blockIndex) => {
-    let {pre_filters, temp_Years, selectedYears, temp_States, selectedStates, whichOneMultiple} = this.state
+    let {pre_filters, temp_Years, selectedYears, temp_States, selectedStates, whichOneMultiple, isReset} = this.state
 
+    pre_filters[blockIndex].serie = serie
+    pre_filters[blockIndex].serie_element = []
     
     let prevYearCount = 0
 
@@ -203,8 +206,11 @@ export default class Layout extends React.Component {
       }
     })
 
-    const yearCount = whichOneMultiple === YEAR_SELECTED ? (prevYearCount === 0 ? (temp_Years.length===0 ? defaultYearCount : 0) : prevYearCount) : (temp_Years.length===0 ? 1 : 0)
-
+    let yearCount = whichOneMultiple === YEAR_SELECTED ? (prevYearCount === 0 ? (temp_Years.length===0 ? defaultYearCount : 0) : prevYearCount) : (temp_Years.length===0 ? 1 : 0)
+    if (isReset) {
+      yearCount = whichOneMultiple === YEAR_SELECTED ? defaultYearCount : 1
+      prevYearCount = 0
+    }
     let yearsInfo = []
     let reSelectedYears = []
     let currentYearCount = 0
