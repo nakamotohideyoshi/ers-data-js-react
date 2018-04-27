@@ -19,7 +19,7 @@ import gql from 'graphql-tag';
       subject_num: $arms_subject_num,
       serie: $arms_serie,
       serie_element: $arms_serie_element,
-      serie2: $arms_sreie2,
+      serie2: $arms_serie2,
       serie2_element: $arms_serie2_element,
       year: $selectedYears
     ){
