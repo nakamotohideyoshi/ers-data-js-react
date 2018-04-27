@@ -138,14 +138,8 @@ class TableContainer extends React.Component {
     else
       return (
         <div>
-          <div className="heading-option-container" ref={"container"}>
+          <div className="heading-option-container">
             <div className="indexing-option-container">
-            </div>
-            <div className="logo-small-container">
-				       <span className="source">
-                <img src={LogoSmallImg} alt="logo" />
-                <span>Source: Economic Research Services, US Dept of Agriculture</span>
-               </span>
             </div>
           </div>
           <div className="table-container">

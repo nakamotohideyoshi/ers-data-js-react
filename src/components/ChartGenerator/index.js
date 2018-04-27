@@ -104,7 +104,6 @@ export default class ChartGenerator extends React.Component {
     const minTo =  Math.min.apply(Math, diffList.map(function(o){return o.to;}))
     const roundedFrom = Math.floor((maxFrom*1.2)/1000 + 1) * 1000
     const roundedTo = Math.floor((minTo*0.8)/1000) * 1000
-    console.log(roundedFrom, roundedTo)
         
     breaksArr.push({
       from: roundedFrom,
@@ -172,13 +171,32 @@ export default class ChartGenerator extends React.Component {
       title: {
         text: title
       },
+      chart: {
+        height: 500 + unitDescs.length * 50,
+        type: chartType,
+        events: {
+          load: function () {
+            const label = this.renderer.label("Source: Economic Research Services, US Dept of Agriculture")
+              .css({
+                fontSize: '10px',
+                color: '#cccccc'
+              })
+              .add();
+            label.align(ReactHighcharts.Highcharts.extend(label.getBBox(), {
+              align: 'right',
+              x: 0, // offset
+              verticalAlign: 'bottom',
+              y: -10 // offset
+            }), null, 'spacingBox');
+
+            this.renderer.image('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAUCAYAAABxnDbHAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAq1JREFUeNrElG1ozVEcx8+uu83zU9tKYWa2MBaTh6Zle6FbEqKwUkqSSChPuWWJW/JG44XEC4WWF2RR3KKrECLPxBReIDO0eRrTxuf33/fa/652SbP96nPO+Z//+Z3fw/mdk+JCkbBzbjJsctFwjTMJRSbRLuR7M+OZjFdABtyDjVAAFa5N3sEjOI7OK+eXUGQxbYz52vhUADJhLrz1LW2GUShM9TZybo2pQxoMhp/SuQjzYTeMhRp0FrhEMSdX+icCrmP5BMUy8ANPm+jXQWPCqmi4xctQNLycr7NwFMPZirKEdgKsYpz2N0ZNLiuyhyiZwVQ2b0iy/iD0hCX6Xg1bIQsW/clovaK4QWtn0gP2eOcWioxLYvSl+mGsG0rfW3q1ylJSoym+9NmZ5sA2sI22JzE6XP1TL6XOPYNZcAuKcGR63GidFmb5lG3zjywqluHPsIPRVRiUxOgyaFDxzYY7MBBOqTjXtkYUiuTrZ5W8S4cjsNfzzrnvsE9R2LotcB1uw3rYDyNhgyraqjnPWx8NV/iuzknaOZa1gO6mhR2E8171OXeM+Qv0JyAXTsMhz0g0fEDpr4ZSRWXX4qZ3zZy7BhPhXLssmNEzloEUV15mEfSFDx5VsSbXGVJe1k/7WjUP8P2pM6OHlZIWTX6BFyqC+3DF874q1uzb0K5RvtKaI7JVF5l6vVI7cKfSjI5mMEIexcWi/aYrMATGa6MpUAj95dRz8fp3ppx7r75eAQT0kqXHH52g3lXz+gE8UbmblyU6sz76dxd2eQ9F6/3L9e5ja6XbeJoizZCOpbSXDLaLtC1llpZysMjfwCV4DGNUGEV66PNk9F+lMqjzKZR31UpVqa5MQcJD0UkSlNd2ZvNghp68/ypmdCcsdV0oAdcN0i1GLb1f9Uh3lTT+EmAAt2yr1kwO7ucAAAAASUVORK5CYII=', label.alignAttr.x-40,label.alignAttr.y, 30, 20).add();
+              
+          }
+        },
+      },  
       credits: {
         enabled: false
       },
-      chart: {
-        height: 500 + unitDescs.length * 50,
-        type: chartType
-      },  
       xAxis: {
         labels: {
             formatter: function() {
@@ -194,7 +212,8 @@ export default class ChartGenerator extends React.Component {
         }
       },
       legend: {
-        symbolRadius: 0
+        symbolRadius: 0,
+        y: -40
       },
       exporting: {
         enabled: false
