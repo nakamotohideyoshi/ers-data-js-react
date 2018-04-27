@@ -251,8 +251,13 @@ export default class Layout extends React.Component {
       }
     })
 
-    const stateCount = whichOneMultiple === YEAR_SELECTED ? (temp_States.length === 0 ? defaultStateCount : 0) : (prevStateCount === 0 ? (temp_States.length === 0 ? defaultStateCount : 0) : prevStateCount)
+    let stateCount = whichOneMultiple === YEAR_SELECTED ? (temp_States.length === 0 ? defaultStateCount : 0) : (prevStateCount === 0 ? (temp_States.length === 0 ? defaultStateCount : 0) : prevStateCount)
 
+    if (isReset) {
+      prevStateCount = 0
+      stateCount = defaultStateCount
+    }
+    
     temp_States = []
     let statesInfo = []
     let reSelectedStates = []
