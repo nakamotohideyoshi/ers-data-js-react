@@ -655,7 +655,7 @@ export default class Layout extends React.Component {
   // set state
   resetRFilter = (states, blockIndex) => {
 
-    let {filters, pre_filters, temp_States, selectedStates, whichOneMultiple} = this.state
+    let {filters, pre_filters, temp_States, selectedStates, whichOneMultiple, isReset} = this.state
     let prevStateCount = 0
 
     states.forEach(stateN => {
@@ -664,7 +664,12 @@ export default class Layout extends React.Component {
       }
     })
 
-    const stateCount = whichOneMultiple === YEAR_SELECTED ? (temp_States.length === 0 ? defaultStateCount : 0) : (prevStateCount === 0 ? (temp_States.length === 0 ? defaultStateCount : 0) : prevStateCount)
+    let stateCount = whichOneMultiple === YEAR_SELECTED ? (temp_States.length === 0 ? defaultStateCount : 0) : (prevStateCount === 0 ? (temp_States.length === 0 ? defaultStateCount : 0) : prevStateCount)
+
+    if (isReset) {
+      prevStateCount = 0
+      stateCount = defaultStateCount
+    }
 
     let statesInfo = []
     let reSelectedStates = []
