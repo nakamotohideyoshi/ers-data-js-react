@@ -207,10 +207,12 @@ export default class Layout extends React.Component {
     })
 
     let yearCount = whichOneMultiple === YEAR_SELECTED ? (prevYearCount === 0 ? (temp_Years.length===0 ? defaultYearCount : 0) : prevYearCount) : (temp_Years.length===0 ? 1 : 0)
+    
     if (isReset) {
       yearCount = whichOneMultiple === YEAR_SELECTED ? defaultYearCount : 1
       prevYearCount = 0
     }
+
     let yearsInfo = []
     let reSelectedYears = []
     let currentYearCount = 0
@@ -257,7 +259,7 @@ export default class Layout extends React.Component {
       prevStateCount = 0
       stateCount = defaultStateCount
     }
-    
+
     temp_States = []
     let statesInfo = []
     let reSelectedStates = []
@@ -332,7 +334,7 @@ export default class Layout extends React.Component {
   }
 
   // reset [ Filter By/Sub, Year, Region]
-  resetEYRFilter = (serie_element, years, states, blockIndex) => {
+  resetEYRFilter = (serie_element, years, states, blockIndex, isReset) => {
     let {filters, pre_filters, temp_Years, selectedYears, temp_States, selectedStates, whichOneMultiple} = this.state
     pre_filters[blockIndex].serie_element = serie_element
 
@@ -344,7 +346,12 @@ export default class Layout extends React.Component {
       }
     })
 
-    const yearCount = whichOneMultiple === YEAR_SELECTED ? (prevYearCount === 0 ? (temp_Years.length===0 ? defaultYearCount : 0) : prevYearCount) : (temp_Years.length===0 ? 1 : 0)
+    let yearCount = whichOneMultiple === YEAR_SELECTED ? (prevYearCount === 0 ? (temp_Years.length===0 ? defaultYearCount : 0) : prevYearCount) : (temp_Years.length===0 ? 1 : 0)
+
+    if (isReset) {
+      yearCount = whichOneMultiple === YEAR_SELECTED ? defaultYearCount : 1
+      prevYearCount = 0
+    }
 
     let yearsInfo = []
     let reSelectedYears = []
@@ -386,8 +393,13 @@ export default class Layout extends React.Component {
       }
     })
 
-    const stateCount = whichOneMultiple === YEAR_SELECTED ? (temp_States.length === 0 ? defaultStateCount : 0) : (prevStateCount === 0 ? (temp_States.length === 0 ? defaultStateCount : 0) : prevStateCount)
+    let stateCount = whichOneMultiple === YEAR_SELECTED ? (temp_States.length === 0 ? defaultStateCount : 0) : (prevStateCount === 0 ? (temp_States.length === 0 ? defaultStateCount : 0) : prevStateCount)
 
+    if (isReset) {
+      prevStateCount = 0
+      stateCount = defaultStateCount
+    }
+    
     let statesInfo = []
     let reSelectedStates = []
     let selectedStateNames = []
