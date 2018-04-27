@@ -1451,8 +1451,8 @@ export default class Layout extends React.Component {
     if (whichOneMultiple !== YEAR_SELECTED) {
       isReset = false
     }
-    const isGetSurveyData =whichOneMultiple === YEAR_SELECTED ? true : false
-    const isAllDataSources = whichOneMultiple === YEAR_SELECTED ? true : false
+    const isGetSurveyData =whichOneMultiple === YEAR_SELECTED ? false : true
+    const isAllDataSources = whichOneMultiple === YEAR_SELECTED ? false : true
 
     let prevYearCount = 0
 
