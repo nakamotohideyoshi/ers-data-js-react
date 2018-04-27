@@ -1447,12 +1447,7 @@ export default class Layout extends React.Component {
   selectYearAnalysis = (years) => {
     let {temp_Years, selectedYears, whichOneMultiple, isReset} = this.state
 
-    const runQuery = whichOneMultiple === YEAR_SELECTED ? 'dlfseseytAnalysis' : ''
-    if (whichOneMultiple !== YEAR_SELECTED) {
-      isReset = false
-    }
-    const isGetSurveyData =whichOneMultiple === YEAR_SELECTED ? false : true
-    const isAllDataSources = whichOneMultiple === YEAR_SELECTED ? false : true
+    const runQuery = whichOneMultiple === YEAR_SELECTED ? 'dlfseseytAnalysis' : ''    
 
     let prevYearCount = 0
 
@@ -1498,6 +1493,16 @@ export default class Layout extends React.Component {
     }
 
     const isRemoveDataSource = false
+
+    let isAllDataSources = false
+    let isGetSurveyData = false
+    
+
+    if (runQuery.length === 0) {
+      isReset = false
+      isGetSurveyData = true
+      isAllDataSources = true
+    }
 
     this.setState({
       isRemoveDataSource,
