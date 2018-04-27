@@ -1516,11 +1516,11 @@ export default class Layout extends React.Component {
     let {temp_States, selectedStates, whichOneMultiple, isReset} = this.state
 
     const runQuery = whichOneMultiple === YEAR_SELECTED ? '' : 'dlfsesetyAnalysis' 
-    if (whichOneMultiple !== YEAR_SELECTED) {
+    if (whichOneMultiple === YEAR_SELECTED) {
       isReset = false
     }
-    const isGetSurveyData = whichOneMultiple === YEAR_SELECTED ? false : true
-    const isAllDataSources = whichOneMultiple === YEAR_SELECTED ? false : true
+    const isGetSurveyData = whichOneMultiple === YEAR_SELECTED ? true : false
+    const isAllDataSources = whichOneMultiple === YEAR_SELECTED ? true : false
 
     let prevStateCount = 0
 
