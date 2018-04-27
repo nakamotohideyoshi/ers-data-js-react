@@ -816,7 +816,7 @@ export default class Layout extends React.Component {
 
   // reset [ Filter By/Sub, Year ]
   resetEYFilter = (serie_element, years, blockIndex) => {
-    let {filters, pre_filters, temp_Years, selectedYears, whichOneMultiple} = this.state
+    let {filters, pre_filters, temp_Years, selectedYears, whichOneMultiple, isReset} = this.state
     pre_filters[blockIndex].serie_element = serie_element
 
     let prevYearCount = 0
@@ -827,12 +827,17 @@ export default class Layout extends React.Component {
       }
     })
 
-    const yearCount = whichOneMultiple === YEAR_SELECTED ? (prevYearCount === 0 ? (temp_Years.length===0 ? defaultYearCount : 0) : prevYearCount) : (temp_Years.length===0 ? 1 : 0)
+    let yearCount = whichOneMultiple === YEAR_SELECTED ? (prevYearCount === 0 ? (temp_Years.length===0 ? defaultYearCount : 0) : prevYearCount) : (temp_Years.length===0 ? 1 : 0)
 
     let yearsInfo = []
     let reSelectedYears = []
     let currentYearCount = 0
     temp_Years = []
+
+    if (isReset) {
+      yearCount = whichOneMultiple === YEAR_SELECTED ? defaultYearCount : 1
+      prevYearCount = 0
+    }
 
     years.forEach(year => {
       temp_Years.push(year)
@@ -881,7 +886,7 @@ export default class Layout extends React.Component {
   // reset[ Filter, Region ]
   // run query to reset [ Filter By/Sub ]
   resetSRFilter = (serie, states, blockIndex) => {
-    let {pre_filters, temp_States, selectedStates, whichOneMultiple} = this.state
+    let {pre_filters, temp_States, selectedStates, whichOneMultiple, isReset} = this.state
     pre_filters[blockIndex].serie = serie
     pre_filters[blockIndex].serie_element = []
 
@@ -893,7 +898,12 @@ export default class Layout extends React.Component {
       }
     })
 
-    const stateCount = whichOneMultiple === YEAR_SELECTED ? (temp_States.length === 0 ? defaultStateCount : 0) : (prevStateCount === 0 ? (temp_States.length === 0 ? defaultStateCount : 0) : prevStateCount)
+    let stateCount = whichOneMultiple === YEAR_SELECTED ? (temp_States.length === 0 ? defaultStateCount : 0) : (prevStateCount === 0 ? (temp_States.length === 0 ? defaultStateCount : 0) : prevStateCount)
+
+    if (isReset) {
+      prevStateCount = 0
+      stateCount = defaultStateCount
+    }
 
     let statesInfo = []
     let reSelectedStates = []
