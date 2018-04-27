@@ -194,8 +194,6 @@ export default class Layout extends React.Component {
   resetSYRFilter = (serie, years, states, blockIndex) => {
     let {pre_filters, temp_Years, selectedYears, temp_States, selectedStates, whichOneMultiple} = this.state
 
-    pre_filters[blockIndex].serie = serie
-    pre_filters[blockIndex].serie_element = []
     
     let prevYearCount = 0
 
