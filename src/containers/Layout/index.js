@@ -960,7 +960,7 @@ export default class Layout extends React.Component {
 
   // reset [ Filter By/Sub, Region ]
   resetERFilter = (serie_element, states, blockIndex) => {
-    let {filters, pre_filters, temp_States, selectedStates, whichOneMultiple} = this.state
+    let {filters, pre_filters, temp_States, selectedStates, whichOneMultiple, isReset} = this.state
     pre_filters[blockIndex].serie_element = serie_element
 
     let prevStateCount = 0
@@ -971,7 +971,12 @@ export default class Layout extends React.Component {
       }
     })
 
-    const stateCount = whichOneMultiple === YEAR_SELECTED ? (temp_States.length === 0 ? defaultStateCount : 0) : (prevStateCount === 0 ? (temp_States.length === 0 ? defaultStateCount : 0) : prevStateCount)
+    let stateCount = whichOneMultiple === YEAR_SELECTED ? (temp_States.length === 0 ? defaultStateCount : 0) : (prevStateCount === 0 ? (temp_States.length === 0 ? defaultStateCount : 0) : prevStateCount)
+
+    if (isReset) {
+      prevStateCount = 0
+      stateCount = defaultStateCount
+    }
 
     let statesInfo = []
     let reSelectedStates = []
