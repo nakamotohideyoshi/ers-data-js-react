@@ -135,6 +135,36 @@ export default class ChartGenerator extends React.Component {
       return null      
     })
 
+    /* To hide empty Farms charts section */
+    let seriesFarmsShown = false
+    if (seriesFarms.length > 0) {
+      seriesFarms.forEach((element, index) => {
+        if (element.shown) seriesFarmsShown = true
+      })
+    }
+    /* To hide empty Other charts section */
+    let seriesOthersShown = false
+    if (seriesOthers.length > 0) {
+      seriesOthers.forEach((element, index) => {
+        if (element.shown) seriesOthersShown = true
+      })
+    }
+
+    let unitDescs = []
+    let seriesOthersUnitBased = []
+
+    seriesOthers.forEach((element, i) => {
+      if (unitDescs.indexOf(element.unit_desc) < 0 && element.shown) {
+        unitDescs.push(element.unit_desc)
+        seriesOthersUnitBased.push([])
+      }
+    })
+    unitDescs.forEach((unit, i) => {
+      seriesOthers.forEach((element) => {
+        if (element.unit_desc === unit)
+        seriesOthersUnitBased[i].push(element)
+      })
+    })
     // Chart configuration
     let colorSet = []
     const darkBlue = '#23527c'
@@ -146,7 +176,7 @@ export default class ChartGenerator extends React.Component {
         enabled: false
       },
       chart: {
-        height: 500,
+        height: 500 + unitDescs.length * 50,
         type: chartType
       },  
       xAxis: {
@@ -194,23 +224,6 @@ export default class ChartGenerator extends React.Component {
       },
       series: []
     }
-    /* To hide empty Farms charts section */
-    let seriesFarmsShown = false
-    if (seriesFarms.length > 0) {
-      seriesFarms.forEach((element, index) => {
-        if (element.shown) seriesFarmsShown = true
-      })
-    }
-    /* To hide empty Other charts section */
-    let seriesOthersShown = false
-    if (seriesOthers.length > 0) {
-      seriesOthers.forEach((element, index) => {
-        if (element.shown) seriesOthersShown = true
-      })
-    }
-
-    let unitDescs = []
-    let seriesOthersUnitBased = []
     
     //Push Y Axis for Series Farms
     if (seriesFarms.length > 0 && seriesFarmsShown) {
@@ -298,18 +311,6 @@ export default class ChartGenerator extends React.Component {
       }
     }
     if (seriesOthers.length > 0 && seriesOthersShown) {
-      seriesOthers.forEach((element, i) => {
-        if (unitDescs.indexOf(element.unit_desc) < 0 && element.shown) {
-          unitDescs.push(element.unit_desc)
-          seriesOthersUnitBased.push([])
-        }
-      })
-      unitDescs.forEach((unit, i) => {
-        seriesOthers.forEach((element) => {
-          if (element.unit_desc === unit)
-          seriesOthersUnitBased[i].push(element)
-        })
-      })
       seriesOthersUnitBased.forEach((singleOther, unitIndex) => {
         const totalHeightPercentage = seriesFarms.length > 0 && seriesFarmsShown ? 75:100
         let trailReduce = ''
