@@ -1515,7 +1515,7 @@ export default class Layout extends React.Component {
   selectStateAnalysis = (states) => {
     let {temp_States, selectedStates, whichOneMultiple, isReset} = this.state
 
-    const runQuery = whichOneMultiple === YEAR_SELECTED ? 'dlfsesetyAnalysis' : ''
+    const runQuery = whichOneMultiple === YEAR_SELECTED ? '' : 'dlfsesetyAnalysis' 
     if (whichOneMultiple !== YEAR_SELECTED) {
       isReset = false
     }
