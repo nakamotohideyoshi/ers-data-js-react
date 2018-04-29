@@ -1457,7 +1457,7 @@ export default class Layout extends React.Component {
       isGetSurveyData,
       isAllDataSources,
       pre_filters,
-      runQuery: 'dlfseAnalysis',
+      runQuery: 'dlfsesAnalysis',
       blockIndex
     })
   }
