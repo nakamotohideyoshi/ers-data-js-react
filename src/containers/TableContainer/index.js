@@ -12,7 +12,6 @@ import HelpImg from '../../images/help.png'
 import LogoSmallImg from '../../images/logo-small.png'
 
 import './style.css'
-
 class TableContainer extends React.Component {
   state = {
     incomeArr: [],
@@ -132,7 +131,22 @@ class TableContainer extends React.Component {
   render() {
     const { incomeArr, isShowItemAll } = this.state
     const { showList, categories, blockIndex } = this.props
-    
+
+    let headingTailoredInfo = ""
+    let isTailored = false
+    console.log(incomeArr[0])
+    if (incomeArr.length > 0) {
+      let dataFirst = incomeArr[0]
+      if (dataFirst.dataSource === 0) 
+        isTailored = true
+      else 
+        isTailored = false
+      headingTailoredInfo += "Report: " + dataFirst.report + ", "
+      headingTailoredInfo += "Subject: " + dataFirst.subject + ", "
+      headingTailoredInfo = headingTailoredInfo.slice(0, -2)
+    }                           
+  
+
     if (incomeArr.length === 0 || categories.length === 0)
       return ( <div className='center-notification'>No data to display</div> )
     else
@@ -164,70 +178,88 @@ class TableContainer extends React.Component {
                   <tbody onScroll={this.onScrollTable1} ref={node=>this.headerBody=node} className="header-body">
                     <tr><td>&nbsp;</td></tr>
                     {
+                      isTailored && (
+                        <tr key='tr-first'>
+                          <td><div className="heading-info">{headingTailoredInfo}&ensp;</div></td>
+                        </tr>
+                      )
+                    }
+                    {
                         incomeArr.map((data, index) => {
                           if (!data.id) {
                             if (data.dataSource > 0)
                             {
-                              let headingInfo = "";
+                              let headingInfo = ""
+                              let filterFirst = ""
+                              let filterSecond = ""
+                              let filter1Header = ""
+                              let filter2Header = ""
+                              let filter1Content = ""
+                              let filter2Content = ""
+                              let filterContent = ""
+
+                              if (data.serie !== "All Farms") {
+                                filterFirst = data.serie2 === "All Farms" ? "Filter - " : "Filter1 - "
+                                filterSecond = data.serie === "TOTAL" ? "Filter - " : "Filter2 - "
+
+                                filter1Header = filterFirst + data.serie
+                                filter1Content = data.serie_element === "TOTAL" ? "" : ": " + data.serie_element
+
+                                if (data.serie2 !== "All Farms") {
+                                  filter2Header = ", " + filterSecond + data.serie2
+                                  filter2Content = data.serie2_element === "TOTAL" ? "" : ": " + data.serie2_element
+                                } else {
+                                  filter2Header = ", "
+                                  filter2Content = ""
+                                }
+
+                                filterContent = filter1Header + filter1Content + filter2Header + filter2Content
+                              } else {
+                                filterContent = ""
+                              }
+
                               headingInfo += "Data Source: " + data.dataSource + ", "
                               headingInfo += "Report: " + data.report + ", "
                               headingInfo += "Subject: " + data.subject + ", "
-                              headingInfo += "Filter 1 - " + data.serie + ": "
-                              headingInfo += data.serie_element + ","
-                              if (data.serie2) {
-                                headingInfo += " Filter 2 - " + data.serie2 + ": "
-                                headingInfo += data.serie2_element + ","
-                              }
-                              headingInfo = headingInfo.slice(0, -1)
+                              headingInfo += filterContent + ", "                              
+                              headingInfo = headingInfo.slice(0, -2)
+                              if (filterContent === "")
+                                headingInfo = headingInfo.slice(0, -2)
+                              
                               return (
                                 <tr key={`${index}`}>
                                   <td><div className="heading-info">{headingInfo}&ensp;</div></td>
                                 </tr>
                               )
-                            }
-                          } else return (
-                            <tr key={`${index}`}>
-                              <td>
-                                {
-                                  <div className="nowrap-div">
-                                    {
-                                      showList && (
-                                        <a onClick={() => showList[data.id] === true ? this.hideItem(data.id) : this.showItem(data.id)}>
-                                        {
-                                          data.header && 
-                                            <img src={showList[data.id] === true ? ShownImg : HiddenImg } alt="show-hide" />
-                                        }
-                                        {
-                                          data.data && (<div>{`Data Source ${data.dataSource}`}</div>)
-                                        }
-                                        </a>
-                                      ) 
-                                    }
-                                  </div>
-                                }
-                                <div className="pin-container">
+                            } 
+                          } else {
+                              
+                              return (
+                              <tr key={`${index}`}>
+                                <td>
                                   {
-                                    blockIndex < 1 && (
-                                      <div 
-                                        className={`level-${data.level} nowrap-div`} 
-                                      >
-                                      {data.header} {data.header && data.unit_desc !== 'Dollars per farm' ? '('+data.unit_desc+')' : ''}
-                                      <img 
-                                        src={HelpImg}
-                                        className="help-img"
-                                        alt="help-img" 
-                                        data-tip={data.desc} 
-                                        data-event="click"
-                                        data-place="top"
-                                        data-offset="{'left': 100}"
-                                        ref={node => this.farmHeaders = node}
-                                      />
+                                    <div className="nowrap-div">
+                                      {
+                                        showList && (
+                                          <a onClick={() => showList[data.id] === true ? this.hideItem(data.id) : this.showItem(data.id)}>
+                                          {
+                                            data.header && 
+                                              <img src={showList[data.id] === true ? ShownImg : HiddenImg } alt="show-hide" />
+                                          }
+                                          {
+                                            data.data && (<div>{`Data Source ${data.dataSource}`}</div>)
+                                          }
+                                          </a>
+                                        ) 
+                                      }
                                     </div>
-                                    )
-                                  } 
-                                  {
-                                    blockIndex > 0 &&
-                                      <div className="level-1 nowrap-div">
+                                  }
+                                  <div className="pin-container">
+                                    {
+                                      blockIndex < 1 && (
+                                        <div 
+                                          className={`level-${data.level} nowrap-div`} 
+                                        >
                                         {data.header} {data.header && data.unit_desc !== 'Dollars per farm' ? '('+data.unit_desc+')' : ''}
                                         <img 
                                           src={HelpImg}
@@ -240,11 +272,29 @@ class TableContainer extends React.Component {
                                           ref={node => this.farmHeaders = node}
                                         />
                                       </div>
-                                  }
-                                </div>
-                              </td>
-                            </tr>
-                          )
+                                      )
+                                    } 
+                                    {
+                                      blockIndex > 0 &&
+                                        <div className="level-1 nowrap-div">
+                                          {data.header} {data.header && data.unit_desc !== 'Dollars per farm' ? '('+data.unit_desc+')' : ''}
+                                          <img 
+                                            src={HelpImg}
+                                            className="help-img"
+                                            alt="help-img" 
+                                            data-tip={data.desc} 
+                                            data-event="click"
+                                            data-place="top"
+                                            data-offset="{'left': 100}"
+                                            ref={node => this.farmHeaders = node}
+                                          />
+                                        </div>
+                                    }
+                                  </div>
+                                </td>
+                              </tr>
+                            )
+                          }
                           return null
                         })
                       }
