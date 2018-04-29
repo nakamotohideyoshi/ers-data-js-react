@@ -43,7 +43,7 @@ class TableContainer extends React.Component {
     let incomeArr = []
     if (surveyData) {
       surveyData.forEach((dataSourceCategories, index) => {
-        if (dataSourceCategories.data.length  > 0 && dataSourceCategories.dataSource > 0)
+        if (dataSourceCategories.data.length  > 0)
           incomeArr.push(dataSourceCategories)
         dataSourceCategories.data.forEach((element, index) => {
           let singleIncome = {}
@@ -134,7 +134,6 @@ class TableContainer extends React.Component {
 
     let headingTailoredInfo = ""
     let isTailored = false
-    console.log(incomeArr[0])
     if (incomeArr.length > 0) {
       let dataFirst = incomeArr[0]
       if (dataFirst.dataSource === 0) 
@@ -178,17 +177,8 @@ class TableContainer extends React.Component {
                   <tbody onScroll={this.onScrollTable1} ref={node=>this.headerBody=node} className="header-body">
                     <tr><td>&nbsp;</td></tr>
                     {
-                      isTailored && (
-                        <tr key='tr-first'>
-                          <td><div className="heading-info">{headingTailoredInfo}&ensp;</div></td>
-                        </tr>
-                      )
-                    }
-                    {
                         incomeArr.map((data, index) => {
                           if (!data.id) {
-                            if (data.dataSource > 0)
-                            {
                               let headingInfo = ""
                               let filterFirst = ""
                               let filterSecond = ""
@@ -199,7 +189,7 @@ class TableContainer extends React.Component {
                               let filterContent = ""
 
                               if (data.serie_element !== "TOTAL") {
-                                filterFirst = data.serie2 === "All Farms" ? "Filter - " : "Filter1 - "
+                                filterFirst = data.serie2 === "All Farms" || data.serie2 === undefined ? "Filter - " : "Filter1 - "
                                 filterSecond = data.serie === "TOTAL" ? "Filter - " : "Filter2 - "
 
                                 filter1Header = filterFirst + data.serie
@@ -212,13 +202,14 @@ class TableContainer extends React.Component {
                                   filter2Header = ""
                                   filter2Content = ""
                                 }
-
-                                filterContent = filter1Header + filter1Content + filter2Header + filter2Content
+                                filterContent = filter1Header + filter1Content
+                                if (data.dataSource > 0)
+                                  filterContent += filter2Header + filter2Content
                               } else {
                                 filterContent = ""
                               }
 
-                              headingInfo += "Data Source: " + data.dataSource + ", "
+                              headingInfo += data.dataSource > 0 ? "Data Source: " + data.dataSource + ", " : "Tailored Report - "
                               headingInfo += "Report: " + data.report + ", "
                               headingInfo += "Subject: " + data.subject + ", "
                               headingInfo += filterContent + ", "                              
@@ -231,7 +222,6 @@ class TableContainer extends React.Component {
                                   <td><div className="heading-info">{headingInfo}&ensp;</div></td>
                                 </tr>
                               )
-                            } 
                           } else {
                               
                               return (
@@ -338,8 +328,6 @@ class TableContainer extends React.Component {
                   {
                     incomeArr.map((data, index) => {
                       if (!data.id) {
-                        if (data.dataSource > 0)
-                        {
                           return (
                             <tr key={`ltr-${index}`}>
                             {
@@ -351,7 +339,6 @@ class TableContainer extends React.Component {
                             }
                             </tr>
                           )
-                        }
                       } else return (
                         <tr key={`ltr-${index}`}>     
                             {

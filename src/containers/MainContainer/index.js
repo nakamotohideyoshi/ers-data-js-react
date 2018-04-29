@@ -130,7 +130,17 @@ class MainContainer extends React.Component {
         
         
         if(props.blockIndex === 0){
-          showData = [{ dataSource: 0, data: surveyData[0] }]
+          if (surveyData[0].length > 0) {
+            let dataDetails = surveyData[0][0]
+            showData = [{ 
+              dataSource: 0, 
+              data: surveyData[0],
+              report: dataDetails.report_dim ? dataDetails.report_dim.header : '',
+              subject: dataDetails.subject_dim ? dataDetails.subject_dim.header : '',
+              serie: dataDetails.serie_dim ? dataDetails.serie_dim.header : '',
+              serie_element: dataDetails.serie_element_dim ? dataDetails.serie_element_dim.name : ''
+            }]
+          }
         } else {
           showList = {}
           surveyData.forEach((survey, index) => { 
