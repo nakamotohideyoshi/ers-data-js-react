@@ -32,7 +32,6 @@ class MainContainer extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    console.log('...........', props)
     if (props.isGetSurveyData) {
       let {surveyData, showList} = this.state
       let showData = []
@@ -140,7 +139,16 @@ class MainContainer extends React.Component {
               serie: dataDetails.serie_dim ? dataDetails.serie_dim.header : '',
               serie_element: dataDetails.serie_element_dim ? dataDetails.serie_element_dim.name : ''
             }]
+            
+            surveyData[0].forEach((data, i) => {
+              if (data.topic_dim.level > 1) {
+                showList[0+data.topic_abb] = false
+              } else {
+                showList[0+data.topic_abb] = true
+              }
+            })
           }
+          
         } else {
           showList = {}
           surveyData.forEach((survey, index) => { 
@@ -154,15 +162,16 @@ class MainContainer extends React.Component {
               dataObj.serie_element = ''
               dataObj.serie2 = ''
               dataObj.serie2_element = ''
+
+              if (survey.length > 0) {
+                dataObj.report = survey[0].report_dim.header
+                dataObj.subject = survey[0].subject_dim.header
+                dataObj.serie = survey[0].serie_dim.header
+                dataObj.serie_element = survey[0].serie_element_dim.name
+                dataObj.serie2 = survey[0].serie2_dim.header
+                dataObj.serie2_element = survey[0].serie2_element_dim.name
+              } 
               survey.forEach((data, i) => {
-                if (i===0) {
-                  dataObj.report = data.report_dim.header
-                  dataObj.subject = data.subject_dim.header
-                  dataObj.serie = data.serie_dim.header
-                  dataObj.serie_element = data.serie_element_dim.name
-                  dataObj.serie2 = data.serie2_dim.header
-                  dataObj.serie2_element = data.serie2_element_dim.name
-                } 
                 showList[index+data.topic_abb] = true
               })
               showData.push(dataObj)
