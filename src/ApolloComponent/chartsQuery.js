@@ -25,6 +25,15 @@ export default graphql(gql`
       report_dim{
         header
       }
+      subject_dim{
+        header
+      }
+      serie_dim {
+        header
+      }
+      serie_element_dim{
+        name
+      }
       state{
         id
         code
