@@ -1447,7 +1447,7 @@ export default class Layout extends React.Component {
   selectSubFilter1Analysis = (serie_element, blockIndex) => {
     let {pre_filters} = this.state
 
-    pre_filters[blockIndex].serie_element = serie_element
+    // pre_filters[blockIndex].serie_element = serie_element
     const isRemoveDataSource = false
     const isGetSurveyData = false
     const isAllDataSources = false
