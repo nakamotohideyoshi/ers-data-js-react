@@ -198,18 +198,18 @@ class TableContainer extends React.Component {
                               let filter2Content = ""
                               let filterContent = ""
 
-                              if (data.serie !== "All Farms") {
+                              if (data.serie_element !== "TOTAL") {
                                 filterFirst = data.serie2 === "All Farms" ? "Filter - " : "Filter1 - "
                                 filterSecond = data.serie === "TOTAL" ? "Filter - " : "Filter2 - "
 
                                 filter1Header = filterFirst + data.serie
                                 filter1Content = data.serie_element === "TOTAL" ? "" : ": " + data.serie_element
 
-                                if (data.serie2 !== "All Farms") {
+                                if (data.serie2_element !== "TOTAL") {
                                   filter2Header = ", " + filterSecond + data.serie2
                                   filter2Content = data.serie2_element === "TOTAL" ? "" : ": " + data.serie2_element
                                 } else {
-                                  filter2Header = ", "
+                                  filter2Header = ""
                                   filter2Content = ""
                                 }
 
