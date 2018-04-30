@@ -39,54 +39,27 @@ class MainContainer extends React.Component {
         surveyData.splice(props.blockIndex, 1)
         surveyData.push([])
 
-        showList = {}
-
-        surveyData.forEach((survey, index) => {
-
-          if (index !== 0) {
-            let dataObj = {}
-            dataObj.dataSource = index
-            dataObj.data = survey
-            dataObj.report = ''
-            dataObj.subject = ''
-            dataObj.serie = ''
-            dataObj.serie_element = ''
-            dataObj.serie2 = ''
-            dataObj.serie2_element = ''
-            survey.forEach((data, i) => {
-              if (i===0) {
-                dataObj.report = data.report_dim.header
-                dataObj.subject = data.subject_dim.header
-                dataObj.serie = data.serie_dim.header
-                dataObj.serie_element = data.serie_element_dim.name
-                dataObj.serie2 = data.serie2_dim.header
-                dataObj.serie2_element = data.serie2_element_dim.name
-              } 
-              showList[index+data.topic_abb] = true
-            })
-            showData.push(dataObj)
-          }
-          
-        })
+        const updateArmsData = this.updateArmsData(surveyData)
+        showList = updateArmsData.showList
+        showData = updateArmsData.showData
+        
         this.setState({ showList, surveyData, showData })
 
       } else {
         if (props.charts) {
           if(props.charts.networkStatus === 7) {
-
-            let init = false
+            let isTailored = false
             if(props.charts.arms_surveydata) {
               // Tailored Report
-              
               if (surveyData[0].length === 0) {
                 showList = {}
-                init = true
+                isTailored = true
               } else if (props.report_num_0[0] !== surveyData[0][0].report_num) {
                 showList = {}
-                init = true
+                isTailored = true
               }
               props.charts.arms_surveydata.forEach(data => {
-                if (init) {
+                if (isTailored) {
                   if (data.topic_dim.level > 1) {
                     showList[0+data.topic_abb] = false
                   } else {
@@ -101,6 +74,8 @@ class MainContainer extends React.Component {
             }          
           }
         }
+
+        // Cases for modified data source and same data source
         if (!props.isAllDataSources) {
           const dataSource = 'dataSource' + props.blockIndex
           if (props[dataSource]) {
@@ -126,9 +101,10 @@ class MainContainer extends React.Component {
             }
           }
         }
+        // ---------------------------------
         
-        
-        if(props.blockIndex === 0){
+        // Compose showList and showData
+        if (props.blockIndex === 0) {
           if (surveyData[0].length > 0) {
             let dataDetails = surveyData[0][0]
             showData = [{ 
@@ -150,39 +126,46 @@ class MainContainer extends React.Component {
           }
           
         } else {
-          showList = {}
-          surveyData.forEach((survey, index) => { 
-            if (index !== 0) {
-              let dataObj = {}
-              dataObj.dataSource = index
-              dataObj.data = survey
-              dataObj.report = ''
-              dataObj.subject = ''
-              dataObj.serie = ''
-              dataObj.serie_element = ''
-              dataObj.serie2 = ''
-              dataObj.serie2_element = ''
-
-              if (survey.length > 0) {
-                dataObj.report = survey[0].report_dim.header
-                dataObj.subject = survey[0].subject_dim.header
-                dataObj.serie = survey[0].serie_dim.header
-                dataObj.serie_element = survey[0].serie_element_dim.name
-                dataObj.serie2 = survey[0].serie2_dim.header
-                dataObj.serie2_element = survey[0].serie2_element_dim.name
-              } 
-              survey.forEach((data, i) => {
-                showList[index+data.topic_abb] = true
-              })
-              showData.push(dataObj)
-            }          
-          })
+          const updateArmsData = this.updateArmsData(surveyData)
+          showList = updateArmsData.showList
+          showData = updateArmsData.showData
         }
+        // ---------------------------------
         this.setState({ showList, surveyData, showData })
       }
     }
   }
+  updateArmsData(surveyData) {
+    const showList = {}
+    const showData = []
+    surveyData.forEach((survey, index) => { 
+      if (index !== 0) {
+        let dataObj = {}
+        dataObj.dataSource = index
+        dataObj.data = survey
+        dataObj.report = ''
+        dataObj.subject = ''
+        dataObj.serie = ''
+        dataObj.serie_element = ''
+        dataObj.serie2 = ''
+        dataObj.serie2_element = ''
 
+        if (survey.length > 0) {
+          dataObj.report = survey[0].report_dim.header
+          dataObj.subject = survey[0].subject_dim.header
+          dataObj.serie = survey[0].serie_dim.header
+          dataObj.serie_element = survey[0].serie_element_dim.name
+          dataObj.serie2 = survey[0].serie2_dim.header
+          dataObj.serie2_element = survey[0].serie2_element_dim.name
+        } 
+        survey.forEach((data, i) => {
+          showList[index+data.topic_abb] = true
+        })
+        showData.push(dataObj)
+      }          
+    })
+    return { showList, showData }
+  }
   hideItem(dataId) {
     const { showList } = this.state
     showList[dataId] = false
