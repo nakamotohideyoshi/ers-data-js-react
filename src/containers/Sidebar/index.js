@@ -237,9 +237,21 @@ class Sidebar extends React.Component {
               headingTitle: ''
             })
           } else {
+            let prev_serie_element = [categoryTitles[4][sidebarItems[4].selectedIndex].header]
+            let current_index = 0
+
+            series_element.forEach((serie_elementN, i) => {
+              if (prev_serie_element.indexOf(serie_elementN.header) > -1) {
+                if (serie_elementN.num !== 0) {
+                  serie_element = [serie_elementN.num]
+                } 
+                current_index = i
+              }
+            })
+
             categoryTitles[4] = series_element
             sidebarItems[4].isOpened = false
-            sidebarItems[4].selectedIndex = 0
+            sidebarItems[4].selectedIndex = current_index 
             sidebarItems[4].visible = true
           }
           sidebarItems[4].headingTitle = categoryTitles[3][sidebarItems[3].selectedIndex].header
@@ -283,9 +295,21 @@ class Sidebar extends React.Component {
               headingTitle: ''
             })
           } else {
+            let prev_serie_element = [categoryTitles[4][sidebarItems[4].selectedIndex].header]
+            let current_index = 0
+
+            series_element.forEach((serie_elementN, i) => {
+              if (prev_serie_element.indexOf(serie_elementN.header) > -1) {
+                if (serie_elementN.num !== 0) {
+                  serie_element = [serie_elementN.num]
+                } 
+                current_index = i
+              }
+            })
+
             categoryTitles[4] = series_element
             sidebarItems[4].isOpened = false
-            sidebarItems[4].selectedIndex = 0 
+            sidebarItems[4].selectedIndex = current_index 
             sidebarItems[4].visible = true
           }
           sidebarItems[4].headingTitle = categoryTitles[3][sidebarItems[3].selectedIndex].header
@@ -448,10 +472,21 @@ class Sidebar extends React.Component {
               headingTitle: ''
             })
           } else {
+            let prev_serie_element = [categoryTitles[4][sidebarItems[4].selectedIndex].header]
+            let current_index = 0
+
+            series_element.forEach((serie_elementN, i) => {
+              if (prev_serie_element.indexOf(serie_elementN.header) > -1) {
+                if (serie_elementN.num !== 0) {
+                  serie_element = [serie_elementN.num]
+                } 
+                current_index = i
+              }
+            })
 
             categoryTitles[4] = series_element
             sidebarItems[4].isOpened = false
-            sidebarItems[4].selectedIndex = 0
+            sidebarItems[4].selectedIndex = current_index 
             sidebarItems[4].visible = true
           }
           sidebarItems[4].headingTitle = categoryTitles[3][sidebarItems[3].selectedIndex].header
@@ -541,10 +576,21 @@ class Sidebar extends React.Component {
               headingTitle: ''
             })
           } else {
+            let prev_serie_element = [categoryTitles[4][sidebarItems[4].selectedIndex].header]
+            let current_index = 0
+
+            series_element.forEach((serie_elementN, i) => {
+              if (prev_serie_element.indexOf(serie_elementN.header) > -1) {
+                if (serie_elementN.num !== 0) {
+                  serie_element = [serie_elementN.num]
+                } 
+                current_index = i
+              }
+            })
 
             categoryTitles[4] = series_element
             sidebarItems[4].isOpened = false
-            sidebarItems[4].selectedIndex = 0
+            sidebarItems[4].selectedIndex = current_index 
             sidebarItems[4].visible = true
           }
           sidebarItems[4].headingTitle = categoryTitles[3][sidebarItems[3].selectedIndex].header
@@ -887,10 +933,23 @@ class Sidebar extends React.Component {
               headingTitle: ''
             })
           } else {
+            // LHS Generate (Update)
+
+            let prev_serie_element = [categoryTitles[index][sidebarItems[index].selectedIndex].header]
+            let current_index = 0
+
+            series_element.forEach((serie_elementN, i) => {
+              if (prev_serie_element.indexOf(serie_elementN.header) > -1) {
+                if (serie_elementN.num !== 0) {
+                  serie_element = [serie_elementN.num]
+                } 
+                current_index = i
+              }
+            })
 
             categoryTitles[index] = series_element
             sidebarItems[index].isOpened = false
-            sidebarItems[index].selectedIndex = 0
+            sidebarItems[index].selectedIndex = current_index
             sidebarItems[index].visible = true
           }
 
@@ -1006,10 +1065,21 @@ class Sidebar extends React.Component {
           } else {
             // LHS Generate (Update)
 
-            
+            let prev_serie2_element = [categoryTitles[index][sidebarItems[index].selectedIndex].header]
+            let current_index = 0
+
+            series2_element.forEach((serie2_elementN, i) => {
+              if (prev_serie2_element.indexOf(serie2_elementN.header) > -1) {
+                if (serie2_elementN.num !== 0) {
+                  serie2_element = [serie2_elementN.num]
+                } 
+                current_index = i
+              }
+            })
+
             categoryTitles[index] = series2_element
             sidebarItems[index].isOpened = false
-            sidebarItems[index].selectedIndex = 0
+            sidebarItems[index].selectedIndex = current_index
             sidebarItems[index].visible = true
           }
 
@@ -1097,6 +1167,7 @@ class Sidebar extends React.Component {
         isReports = true
         
         sidebarItems[1].visible = true
+        sidebarItems[1].selectedIndex = 0
         sidebarItems[2].visible = true
        
         this.setState({sidebarItems}, this.props.resetFilterByBlockIndex(0))        
