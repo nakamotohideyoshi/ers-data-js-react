@@ -1048,7 +1048,12 @@ class Sidebar extends React.Component {
   
   toggleCategoryOptions = (selectedItemIndex) => {    
     const { sidebarItems } =this.state    
-    sidebarItems[selectedItemIndex].isOpened = !sidebarItems[selectedItemIndex].isOpened       
+    if (!sidebarItems[selectedItemIndex].isOpened) {
+      sidebarItems.forEach((singleItem) => {
+        singleItem.isOpened = false
+      }) 
+    }
+    sidebarItems[selectedItemIndex].isOpened = !sidebarItems[selectedItemIndex].isOpened
     this.setState({ sidebarItems })
   }
 
