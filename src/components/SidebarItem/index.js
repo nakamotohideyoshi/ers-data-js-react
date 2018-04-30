@@ -5,6 +5,7 @@ import { SlideDown } from 'react-slidedown'
 import Reset from '../../images/reset.png'
 
 const SidebarItem = ({ 
+  tabIndex,
   headingTitle, 
   titles, 
   visible, 
@@ -50,6 +51,7 @@ const SidebarItem = ({
           )
         }
         <SidebarDropdown 
+          tabIndex={tabIndex}
           headingTitle={headingTitle}
           isDataLine={isDataLine}
           title={isDataLine ? datalineTitle : titles[selectedIndex].header} 

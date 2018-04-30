@@ -1293,7 +1293,7 @@ class Sidebar extends React.Component {
             }
             return (
               <SidebarItem 
-                key={i.toString()}
+                tabIndex={i+1}
                 headingTitle={val.headingTitle}
                 titles={categoryTitles[i]}
                 visible={val.visible}              
