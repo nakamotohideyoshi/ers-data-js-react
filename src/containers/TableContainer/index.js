@@ -9,7 +9,6 @@ import HideAllImg from '../../images/hide_all.png'
 import HiddenImg from '../../images/hide.png'
 import ShownImg from '../../images/show.png'
 import HelpImg from '../../images/help.png'
-import LogoSmallImg from '../../images/logo-small.png'
 
 import './style.css'
 class TableContainer extends React.Component {
@@ -131,20 +130,6 @@ class TableContainer extends React.Component {
   render() {
     const { incomeArr, isShowItemAll } = this.state
     const { showList, categories, blockIndex } = this.props
-
-    let headingTailoredInfo = ""
-    let isTailored = false
-    if (incomeArr.length > 0) {
-      let dataFirst = incomeArr[0]
-      if (dataFirst.dataSource === 0) 
-        isTailored = true
-      else 
-        isTailored = false
-      headingTailoredInfo += "Report: " + dataFirst.report + ", "
-      headingTailoredInfo += "Subject: " + dataFirst.subject + ", "
-      headingTailoredInfo = headingTailoredInfo.slice(0, -2)
-    }                           
-  
 
     if (incomeArr.length === 0 || categories.length === 0)
       return ( <div className='center-notification'>No data to display</div> )
@@ -285,7 +270,6 @@ class TableContainer extends React.Component {
                               </tr>
                             )
                           }
-                          return null
                         })
                       }
                   </tbody>   
@@ -357,7 +341,6 @@ class TableContainer extends React.Component {
                             }
                         </tr>
                       )
-                      return null
                     })
                   }
                 </tbody>
