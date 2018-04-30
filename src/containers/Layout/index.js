@@ -165,6 +165,7 @@ export default class Layout extends React.Component {
     let {pre_filters} = this.state
     let runQuery = ''
 
+    pre_filters[blockIndex].report_num = [1]
     pre_filters[blockIndex].subject_num = []
     pre_filters[blockIndex].topic_abb = []
     pre_filters[blockIndex].serie = []
@@ -1447,7 +1448,7 @@ export default class Layout extends React.Component {
   selectSubFilter1Analysis = (serie_element, blockIndex) => {
     let {pre_filters} = this.state
 
-    // pre_filters[blockIndex].serie_element = serie_element
+    pre_filters[blockIndex].serie_element = serie_element
     const isRemoveDataSource = false
     const isGetSurveyData = false
     const isAllDataSources = false
@@ -1457,7 +1458,7 @@ export default class Layout extends React.Component {
       isGetSurveyData,
       isAllDataSources,
       pre_filters,
-      runQuery: 'dlfsesAnalysis',
+      runQuery: 'dlfseAnalysis',
       blockIndex
     })
   }
