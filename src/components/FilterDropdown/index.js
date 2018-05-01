@@ -14,6 +14,15 @@ const YEARS_CAPTION = "Years"
 const REGIONS_CAPTION = "Regions"
 
 class FilterDropdown extends React.Component {
+  state = {
+    isFirstOpened: false,
+    isSecondOpened: false
+  }
+  onEnterKeyDown = (event) => {
+    if (event.keyCode === 13) {
+      this.props.onSwitchMultiple()
+    }
+  }
   generateToolTipList(category, type) {
     let categoryList = ''
     if (category) {
@@ -26,81 +35,149 @@ class FilterDropdown extends React.Component {
       return categoryList
     }
   }
+  onFirstToggle = () => {
+    const isFirstOpened = !this.state.isFirstOpened
+    if (isFirstOpened === true) 
+      this.setState({ isSecondOpened: false })
+    this.setState({ isFirstOpened })
+  }
+  onSecondToggle = () => {
+    const isSecondOpened = !this.state.isSecondOpened
+    if (isSecondOpened === true) 
+      this.setState({ isFirstOpened: false })
+    this.setState({ isSecondOpened }) 
+  }
   render() {
     const { yearsInfo, statesInfo, whichOneMultiple, isSelectedAll, onSelectAll, onSelectState, onSelectYear, onSwitchMultiple } = this.props
-    
+    const { isFirstOpened, isSecondOpened } = this.state
     return (
       <div className="filterDropdownContainer">
       <Col md={6} sm={12} xs={12} lg={6}>
-        <Col md={10} sm={12} xs={12} lg={8} lgOffset={4} mdOffset={2}>
+        <Col md={10} sm={12} xs={12} lg={8} lgOffset={4} mdOffset={2} className="filter-dropdown">
           <div className="top-title right-title">{ whichOneMultiple === YEAR_SELECTED ? MULTIPLE_HEADING.concat(' ' + YEARS_CAPTION) : MULTIPLE_HEADING.concat(' ' + REGIONS_CAPTION) }</div>
-          <DropdownButton
-            bsStyle="default"
-            id="1"
-            title={ 
-                <span className='selected-list'>{
+          <button 
+            className='btn-light btn-dd' 
+            onClick={this.onFirstToggle} 
+            tabIndex={1000}
+            data-place="top"
+          >
+            <div className="filter-options">
+              <div className="selected-headers" 
+                data-tip={
                   whichOneMultiple === YEAR_SELECTED ? 
                   YEARS_CAPTION.concat(': '+this.generateToolTipList(yearsInfo, 'year')):
                   REGIONS_CAPTION.concat(': '+this.generateToolTipList(statesInfo, 'name'))
                 }
-              </span>
+                data-place="top"
+                data-offset="{'top': 10, 'right': 50}"
+              >
+                {
+                  whichOneMultiple === YEAR_SELECTED ? 
+                  YEARS_CAPTION.concat(': '+this.generateToolTipList(yearsInfo, 'year')):
+                  REGIONS_CAPTION.concat(': '+this.generateToolTipList(statesInfo, 'name'))
+                }
+              </div>
+            </div>
+            {
+              isFirstOpened && (
+                <span className="caret_down">
+                  <i className="fa fa-caret-up"></i>
+                </span>
+              )
             }
-            className="download-menu"
-            data-place="top"
-            data-tip={this.generateToolTipList(whichOneMultiple === YEAR_SELECTED ? yearsInfo:statesInfo, whichOneMultiple === YEAR_SELECTED ? 'year':'name')}
-          >
-          <Checkbox title="Select All" checked={isSelectedAll} isMultiple={true} onCheck={() => onSelectAll(whichOneMultiple)} key={0} />
-          {
-            whichOneMultiple === YEAR_SELECTED &&
-              yearsInfo.map((infoObj, index) => {
-                return <Checkbox title={infoObj.year + ''} checked={infoObj.checked} isMultiple={true} onCheck={() => onSelectYear(index)} key={index+1} />
-              })
-           }
-           {
-            whichOneMultiple !== YEAR_SELECTED &&
-              statesInfo.map((obj, index) => {
-                return <Checkbox title={obj.name + ''} checked={obj.checked} isMultiple={true} onCheck={() => onSelectState(index)} key={index} />
-              })
+            {
+              !isFirstOpened && (
+                <span className="caret_down">
+                  <i className="fa fa-caret-down"></i>
+                </span>
+              )
+            }
+          </button>
+          { 
+            isFirstOpened && (
+              <ul className="dropdown-menu collapse in">
+                <Checkbox title="Select All" checked={isSelectedAll} isMultiple={true} onCheck={() => onSelectAll(whichOneMultiple)} key={0} tabIndex={1001} />
+                {
+                  whichOneMultiple === YEAR_SELECTED &&
+                    yearsInfo.map((infoObj, index) => {
+                      return <Checkbox title={infoObj.year + ''} checked={infoObj.checked} isMultiple={true} onCheck={() => onSelectYear(index)} key={index+1} tabIndex={1002+index} />
+                    })
+                }
+                {
+                  whichOneMultiple !== YEAR_SELECTED &&
+                    statesInfo.map((obj, index) => {
+                      return <Checkbox title={obj.name + ''} checked={obj.checked} isMultiple={true} onCheck={() => onSelectState(index)} key={index} tabIndex={1002+index} />
+                    })
+                }
+              </ul>
+            )
           }
-          </DropdownButton>
         </Col>
       </Col>
       <Col md={1} sm={1} xs={1} lg={1} className="switchSection">
-        <div className='switchContainer' onClick={() => onSwitchMultiple()}>
+        <div className='switchContainer' onClick={() => onSwitchMultiple()} onKeyDown={this.onEnterKeyDown} tabIndex={1099}>
           <img src={RotateImg} alt='rotate' />
         </div>
       </Col>
       <Col md={5} sm={11} xs={11} lg={5}>
-          <Col md={10} sm={12} xs={12} lg={9}>
+          <Col md={10} sm={12} xs={12} lg={9} className="filter-dropdown">
             <div className="top-title">{ whichOneMultiple === YEAR_SELECTED ? FILTERED_HEADING.concat(' ' + REGIONS_CAPTION.slice(0, -1)) : FILTERED_HEADING.concat(' ' + YEARS_CAPTION.slice(0, -1)) }</div>
-            <DropdownButton
-              bsStyle="default"
-              id="2"
-              title={ 
-                <span className='selected-list'> {
-                    whichOneMultiple === YEAR_SELECTED ? 
-                    REGIONS_CAPTION.concat(': '+this.generateToolTipList(statesInfo, 'name')):
-                    YEARS_CAPTION.concat(': '+this.generateToolTipList(yearsInfo, 'year'))
-                  }
-                </span>
+              <button 
+                className='btn-light btn-dd' 
+                onClick={this.onSecondToggle} 
+                tabIndex={1100}
+                data-place="top"
+              >
+                <div className="filter-options">
+                  <div className="selected-headers" 
+                    data-tip={
+                      whichOneMultiple === YEAR_SELECTED ? 
+                      REGIONS_CAPTION.concat(': '+this.generateToolTipList(statesInfo, 'name')):
+                      YEARS_CAPTION.concat(': '+this.generateToolTipList(yearsInfo, 'year'))
+                    }
+                    data-place="top"
+                    data-offset="{'top': 10, 'right': 50}"
+                  >
+                    {
+                      whichOneMultiple === YEAR_SELECTED ? 
+                      REGIONS_CAPTION.concat(': '+this.generateToolTipList(statesInfo, 'name')):
+                      YEARS_CAPTION.concat(': '+this.generateToolTipList(yearsInfo, 'year'))
+                    }
+                  </div>
+                </div>
+                {
+                  isSecondOpened && (
+                    <span className="caret_down">
+                      <i className="fa fa-caret-up"></i>
+                    </span>
+                  )
+                }
+                {
+                  !isSecondOpened && (
+                    <span className="caret_down">
+                      <i className="fa fa-caret-down"></i>
+                    </span>
+                  )
+                }
+              </button>
+              { 
+                isSecondOpened && (
+                  <ul className="dropdown-menu collapse in">
+                    {
+                      whichOneMultiple === YEAR_SELECTED && 
+                        statesInfo.map((obj, index) => {
+                          return <Checkbox title={obj.name + ''} checked={obj.checked} isMultiple={false} onCheck={() => onSelectState(index)} key={index} tabIndex={1102+index} />
+                        }) 
+                    }
+                    {
+                      whichOneMultiple !== YEAR_SELECTED && 
+                        yearsInfo.map((infoObj, index) => {
+                          return <Checkbox title={infoObj.year + ''} checked={infoObj.checked} isMultiple={false} onCheck={() => onSelectYear(index)} key={index}tabIndex={1102+index} />
+                        })
+                    }    
+                  </ul>
+                )
               }
-              className="download-menu"
-              data-place="top"
-              data-tip={this.generateToolTipList(whichOneMultiple === YEAR_SELECTED ? statesInfo:yearsInfo, whichOneMultiple === YEAR_SELECTED ? 'name':'year')}
-            >
-            {
-              whichOneMultiple === YEAR_SELECTED && 
-                statesInfo.map((obj, index) => {
-                  return <Checkbox title={obj.name + ''} checked={obj.checked} isMultiple={false} onCheck={() => onSelectState(index)} key={index} />
-                }) 
-            }
-            {
-              whichOneMultiple !== YEAR_SELECTED && 
-                yearsInfo.map((infoObj, index) => {
-                  return <Checkbox title={infoObj.year + ''} checked={infoObj.checked} isMultiple={false} onCheck={() => onSelectYear(index)} key={index} />
-                })
-            }       	                 	
-            </DropdownButton>
           </Col>
       </Col>  
     </div>
