@@ -162,7 +162,7 @@ export default class Layout extends React.Component {
     const isRemoveDataSource = false
     const isGetSurveyData = false
 
-    let {pre_filters} = this.state
+    let {pre_filters, filters} = this.state
     let runQuery = ''
 
     pre_filters[blockIndex].subject_num = []
@@ -170,7 +170,10 @@ export default class Layout extends React.Component {
     pre_filters[blockIndex].serie = []
     pre_filters[blockIndex].serie_element = []
 
-    if (blockIndex === 0) {      
+    if (blockIndex === 0) {
+      if (filters[1].report_num.length !== 0) {
+        pre_filters[blockIndex].report_num = 1
+      }      
       runQuery = 'reset1Query'
     } else {
       pre_filters[blockIndex].serie2 = []
