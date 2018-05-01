@@ -47,6 +47,20 @@ class FilterDropdown extends React.Component {
       this.setState({ isFirstOpened: false })
     this.setState({ isSecondOpened }) 
   }
+  componentDidMount() {
+    document.addEventListener('mousedown', this.handleClickOutside);
+  }
+  componentWillUnmount() {
+    document.removeEventListener('mousedown', this.handleClickOutside);
+  }
+  handleClickOutside = (event) => {
+    if (this.firstUlGroup && !this.firstUlGroup.contains(event.target)) {
+      this.setState({ isFirstOpened: false })
+    }
+    if (this.secondUlGroup && !this.secondUlGroup.contains(event.target)) {
+      this.setState({ isSecondOpened: false })
+    }
+  }
   render() {
     const { yearsInfo, statesInfo, whichOneMultiple, isSelectedAll, onSelectAll, onSelectState, onSelectYear, onSwitchMultiple } = this.props
     const { isFirstOpened, isSecondOpened } = this.state
@@ -95,7 +109,7 @@ class FilterDropdown extends React.Component {
           </button>
           { 
             isFirstOpened && (
-              <ul className="dropdown-menu collapse in">
+              <ul className="dropdown-menu collapse in" ref={node => this.firstUlGroup = node}>
                 <Checkbox title="Select All" checked={isSelectedAll} isMultiple={true} onCheck={() => onSelectAll(whichOneMultiple)} key={0} tabIndex={1001} />
                 {
                   whichOneMultiple === YEAR_SELECTED &&
@@ -162,7 +176,7 @@ class FilterDropdown extends React.Component {
               </button>
               { 
                 isSecondOpened && (
-                  <ul className="dropdown-menu collapse in">
+                  <ul className="dropdown-menu collapse in" ref={node => this.secondUlGroup = node}>
                     {
                       whichOneMultiple === YEAR_SELECTED && 
                         statesInfo.map((obj, index) => {
