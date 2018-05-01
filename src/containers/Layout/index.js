@@ -157,12 +157,40 @@ export default class Layout extends React.Component {
     })
   }
 
+  onSlectReportCategory = () => {
+    const blockIndex = 0
+    const isRemoveDataSource = false
+    const isGetSurveyData = false
+    const isAllDataSources = false
+
+    let {pre_filters} = this.state
+    let runQuery = 'reset1Query'
+
+    pre_filters[blockIndex].report_num = [1]
+    pre_filters[blockIndex].subject_num = []
+    pre_filters[blockIndex].topic_abb = []
+    pre_filters[blockIndex].serie = []
+    pre_filters[blockIndex].serie_element = []
+
+    this.setState({
+      pre_filters,
+      isRemoveDataSource,
+      isGetSurveyData,
+      isAllDataSources,
+      blockIndex,
+      priority: [],
+      runQuery,
+      isReset: true
+    })
+  }
+
   resetFilterByBlockIndex = (blockIndex) => {
 
     const isRemoveDataSource = false
     const isGetSurveyData = false
+    const isAllDataSources = false
 
-    let {pre_filters, filters} = this.state
+    let {pre_filters} = this.state
     let runQuery = ''
 
     pre_filters[blockIndex].subject_num = []
@@ -170,10 +198,7 @@ export default class Layout extends React.Component {
     pre_filters[blockIndex].serie = []
     pre_filters[blockIndex].serie_element = []
 
-    if (blockIndex === 0) {
-      if (filters[1].report_num.length !== 0) {
-        pre_filters[blockIndex].report_num = 1
-      }      
+    if (blockIndex === 0) {      
       runQuery = 'reset1Query'
     } else {
       pre_filters[blockIndex].serie2 = []
@@ -185,6 +210,7 @@ export default class Layout extends React.Component {
       pre_filters,
       isRemoveDataSource,
       isGetSurveyData,
+      isAllDataSources,
       blockIndex: blockIndex,
       priority: [],
       runQuery: runQuery,
@@ -1927,6 +1953,7 @@ export default class Layout extends React.Component {
           resetSRFilter = {this.resetSRFilter}
           resetERFilter = {this.resetERFilter}
           onSelectReportFilter = {this.onSelectReportFilter}
+          onSlectReportCategory = {this.onSlectReportCategory}
           onSelectSubjectFilter = {this.onSelectSubjectFilter}
           onSelectFilterByFilter = {this.onSelectFilterByFilter}
           onSelectSubFilterByFilter = {this.onSelectSubFilterByFilter} 
