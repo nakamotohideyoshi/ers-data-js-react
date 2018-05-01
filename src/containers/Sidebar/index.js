@@ -1168,7 +1168,7 @@ class Sidebar extends React.Component {
         sidebarItems[1].selectedIndex = 0
         sidebarItems[2].visible = true
        
-        this.setState({sidebarItems}, this.props.resetFilterByBlockIndex(0))        
+        this.setState({sidebarItems}, this.props.onSlectReportCategory())        
       } else {
         // Arms Data Analaysis      
         currentBlock = 1
