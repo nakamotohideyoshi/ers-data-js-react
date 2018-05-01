@@ -165,7 +165,6 @@ export default class Layout extends React.Component {
     let {pre_filters} = this.state
     let runQuery = ''
 
-    pre_filters[blockIndex].report_num = [1]
     pre_filters[blockIndex].subject_num = []
     pre_filters[blockIndex].topic_abb = []
     pre_filters[blockIndex].serie = []
