@@ -46,7 +46,6 @@ class Sidebar extends React.Component {
   }  
 
   componentWillReceiveProps(props) {
-    console.log('****************', props, '****************')
     let {categoryTitles, sidebarItems} = this.state
 
     if (categoryTitles.length === 0) {
@@ -132,13 +131,14 @@ class Sidebar extends React.Component {
           } else {
             const prev_subject = [categoryTitles[2][sidebarItems[2].selectedIndex].header]
             let current_index = 0
-
-            props.reset1Query.reset1Query.subject.forEach((subject, i) => {              
-              if (prev_subject.indexOf(subject.header) > -1) {
-                current_index = i
-                subject_num = [subject.num]
-              }
-            })
+            if (!props.isReset) { 
+              props.reset1Query.reset1Query.subject.forEach((subject, i) => {              
+                if (prev_subject.indexOf(subject.header) > -1) {
+                  current_index = i
+                  subject_num = [subject.num]
+                }
+              })
+            }
 
             categoryTitles[2] = subjects
             sidebarItems[2].isOpened = false
@@ -186,12 +186,16 @@ class Sidebar extends React.Component {
             let prev_serie = [categoryTitles[3][sidebarItems[3].selectedIndex].header]
             let current_index = 0
 
-            series.forEach((serieN, i) => {
-              if (prev_serie.indexOf(serieN.header) > -1) {
-                serie = [serieN.num]
-                current_index = i
-              }
-            })
+            if (!props.isReset) {
+
+              series.forEach((serieN, i) => {
+                if (prev_serie.indexOf(serieN.header) > -1) {
+                  serie = [serieN.num]
+                  current_index = i
+                }
+              })
+            }
+
             categoryTitles[3] = series
             sidebarItems[3].isOpened = false
             sidebarItems[3].selectedIndex = current_index
@@ -717,6 +721,7 @@ class Sidebar extends React.Component {
 
           // Generate `Data Line` LHS
           const topics = []
+          let topic_abb = []
           props.dAnalysis.dAnalysis.topic.forEach(topic => {
             const obj = {}
             obj.num = topic.abb
@@ -726,6 +731,7 @@ class Sidebar extends React.Component {
         
           // Generate `Farm Type` LHS
           let subjects = []
+          let subject_num = [props.dAnalysis.dAnalysis.subject[0].num]
           props.dAnalysis.dAnalysis.subject.forEach(subject => {
             const obj = {}
             obj.num = subject.num
@@ -774,6 +780,37 @@ class Sidebar extends React.Component {
             })
 
           } else {
+            const prev_subject = [categoryTitles[index+2][sidebarItems[index+2].selectedIndex].header]
+            let subject_index = 0
+
+            if (!props.isReset) {
+              props.dAnalysis.dAnalysis.subject.forEach((subject, i) => {
+                if (prev_subject.indexOf(subject.header) > -1) {
+                  subject_index = i
+                  subject_num = [subject.num]
+                }
+              })
+            }
+
+            let prev_topic = []
+            let topic_index = []
+            sidebarItems[index+1].selectedIndex.forEach(i=> {
+              prev_topic.push(categoryTitles[index+1][i].header)
+            })
+
+            props.dAnalysis.dAnalysis.topic.forEach((topic, i) => {
+              if (prev_topic.indexOf(topic.header) >  -1) {
+                topic_index.push(i)
+                topic_abb.push(topic.abb)
+              }
+            })
+
+            if (topic_index.length === 0) {
+              topic_index = [0]
+              topic_abb = [props.dAnalysis.dAnalysis.topic[0].abb]
+            }
+
+
 
             // LHS Generate (Update)
             categoryTitles[index+1] = topics
@@ -781,10 +818,11 @@ class Sidebar extends React.Component {
 
             for (let i=1; i<3; i++) {
               sidebarItems[index+i].isOpened = false
-              sidebarItems[index+i].selectedIndex = 0
               sidebarItems[index+i].visible = true
               if (i === 1) {
-                sidebarItems[index+i].selectedIndex = [0]
+                sidebarItems[index+i].selectedIndex = topic_index
+              } else {
+                sidebarItems[index+i].selectedIndex = subject_index
               }              
             }
             
@@ -795,9 +833,6 @@ class Sidebar extends React.Component {
           if (subjects.length === 1){
             sidebarItems[index+2].visible = false
           }
-
-          const topic_abb = [categoryTitles[index+1][0].num]
-          const subject_num = [categoryTitles[index+2][0].num]
 
           this.setState({
             categoryTitles: categoryTitles,
@@ -811,6 +846,7 @@ class Sidebar extends React.Component {
 
           // Generate `Filter1` LHS
           let series = []
+          let serie = [props.dlfAnalysis.dlfAnalysis.serie[0].abb];
           props.dlfAnalysis.dlfAnalysis.serie.forEach(serie => {
             const obj = {}
             obj.num = serie.abb
@@ -836,13 +872,24 @@ class Sidebar extends React.Component {
             })
           } else {
             // LHS Generate (Update)
+
+            let prev_serie = [categoryTitles[index][sidebarItems[index].selectedIndex].header]
+            let current_index = 0
+            
+            if (!props.isReset) {
+              series.forEach((serieN, i) => {
+                if (prev_serie.indexOf(serieN.header) > -1) {
+                  serie = [serieN.num]
+                  current_index = i
+                }
+              })
+            }
+            
             categoryTitles[index] = series
             sidebarItems[index].isOpened = false
-            sidebarItems[index].selectedIndex = 0
+            sidebarItems[index].selectedIndex = current_index
             sidebarItems[index].visible = true
           }
-
-          const serie = [categoryTitles[index][0].num]
 
           this.setState({
             categoryTitles: categoryTitles,
@@ -886,9 +933,22 @@ class Sidebar extends React.Component {
             })
           } else {
             // LHS Generate (Update)
+
+            let prev_serie_element = [categoryTitles[index][sidebarItems[index].selectedIndex].header]
+            let current_index = 0
+
+            series_element.forEach((serie_elementN, i) => {
+              if (prev_serie_element.indexOf(serie_elementN.header) > -1) {
+                if (serie_elementN.num !== 0) {
+                  serie_element = [serie_elementN.num]
+                } 
+                current_index = i
+              }
+            })
+
             categoryTitles[index] = series_element
             sidebarItems[index].isOpened = false
-            sidebarItems[index].selectedIndex = 0
+            sidebarItems[index].selectedIndex = current_index
             sidebarItems[index].visible = true
           }
 
@@ -910,15 +970,17 @@ class Sidebar extends React.Component {
         if (props.dlfseAnalysis.networkStatus === 7 && props.dlfseAnalysis.dlfseAnalysis) {
           // Generate `Filter2` LHS
           let series2 = []
-          props.dlfseAnalysis.dlfseAnalysis.serie2.forEach(serie2 => {
+          let serie2 = [props.dlfseAnalysis.dlfseAnalysis.serie2[0].abb]
+          props.dlfseAnalysis.dlfseAnalysis.serie2.forEach(serie2N => {
             const obj = {}
-            obj.num = serie2.abb
-            obj.header = serie2.header
+            obj.num = serie2N.abb
+            obj.header = serie2N.header
             series2.push(obj)
           })
 
           // Index based on Block
           const index = 7*(currentBlock-1) + 10
+          const serie_element_num = sidebarItems[index-1].selectedIndex
 
           if (categoryTitles.length<index+1) {
             // LHS Generating (initailize)
@@ -935,15 +997,26 @@ class Sidebar extends React.Component {
             })
           } else {
             // LHS Generate (Update)
+
+            let prev_serie2 = [categoryTitles[index][sidebarItems[index].selectedIndex].header]
+            let current_index = 0
+            
+            if (serie_element_num !== 0) {
+              series2.forEach((serie2N, i) => {
+                if (prev_serie2.indexOf(serie2N.header) > -1) {
+                  serie2 = [serie2N.num]
+                  current_index = i
+                }
+              })
+            }
+
             categoryTitles[index] = series2
             sidebarItems[index].isOpened = false
-            sidebarItems[index].selectedIndex = 0
+            sidebarItems[index].selectedIndex = current_index
             sidebarItems[index].visible = true
           }
 
-          const serie2 = [categoryTitles[index][0].num]
-
-          if (series2.length === 1 && serie2[0] === 'farm') {
+          if (serie_element_num === 0) {
             sidebarItems[index].visible = false
           }
           
@@ -990,9 +1063,22 @@ class Sidebar extends React.Component {
             })
           } else {
             // LHS Generate (Update)
+
+            let prev_serie2_element = [categoryTitles[index][sidebarItems[index].selectedIndex].header]
+            let current_index = 0
+
+            series2_element.forEach((serie2_elementN, i) => {
+              if (prev_serie2_element.indexOf(serie2_elementN.header) > -1) {
+                if (serie2_elementN.num !== 0) {
+                  serie2_element = [serie2_elementN.num]
+                } 
+                current_index = i
+              }
+            })
+
             categoryTitles[index] = series2_element
             sidebarItems[index].isOpened = false
-            sidebarItems[index].selectedIndex = 0
+            sidebarItems[index].selectedIndex = current_index
             sidebarItems[index].visible = true
           }
 
@@ -1037,7 +1123,7 @@ class Sidebar extends React.Component {
 
         if (props.dlfseseytAnalysis.networkStatus === 7 && props.dlfseseytAnalysis.dlfseseytAnalysis) {
           
-          this.props.selectYearAnalysis(props.dlfseseytAnalysis.dlfseseytAnalysis.state)
+          this.props.selectStateAnalysis(props.dlfseseytAnalysis.dlfseseytAnalysis.state)
 
         }
 
@@ -1045,16 +1131,12 @@ class Sidebar extends React.Component {
     }
   }
 
-  
-  toggleCategoryOptions = (selectedItemIndex) => {    
-    const { sidebarItems } =this.state    
-    if (!sidebarItems[selectedItemIndex].isOpened) {
-      sidebarItems.forEach((singleItem) => {
-        singleItem.isOpened = false
-      }) 
+  toggleCategoryOptions = (selectedItemIndex) => {
+    if (this.props.runQuery.length === 0) {    
+      const { sidebarItems } =this.state    
+      sidebarItems[selectedItemIndex].isOpened = !sidebarItems[selectedItemIndex].isOpened       
+      this.setState({ sidebarItems })
     }
-    sidebarItems[selectedItemIndex].isOpened = !sidebarItems[selectedItemIndex].isOpened
-    this.setState({ sidebarItems })
   }
 
   updateFilter = (sidebarItemIndex, selectedIndex) => {
@@ -1083,6 +1165,7 @@ class Sidebar extends React.Component {
         isReports = true
         
         sidebarItems[1].visible = true
+        sidebarItems[1].selectedIndex = 0
         sidebarItems[2].visible = true
        
         this.setState({sidebarItems}, this.props.resetFilterByBlockIndex(0))        
