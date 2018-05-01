@@ -482,11 +482,11 @@ export default class ChartGenerator extends React.Component {
             {
               isDropdownOpened && (
                 <ul role="menu" className="dropdown-menu dropdown-menu-right">
-                  <li tabIndex="1201" onClick={() => this.printChart()}><a>Print</a></li>
-                  <li tabIndex="1202" onClick={() => this.downloadFile('application/pdf')}><a>PDF</a></li>
-                  <li tabIndex="1203" onClick={() => this.downloadFile('image/png')}><a>PNG</a></li>
-                  <li tabIndex="1204" onClick={() => this.downloadFile('image/jpeg')}><a>JPEG</a></li>
-                  <li tabIndex="1205" onClick={() => this.downloadFile('application/svg')}><a>SVG</a></li>
+                  <li tabIndex="1201" onClick={() => this.printChart()} onKeyDown={(event) => { if (event.keyCode === 13) this.printChart()} }><a>Print</a></li>
+                  <li tabIndex="1202" onClick={() => this.downloadFile('application/pdf')} onKeyDown={(event) => { if (event.keyCode === 13) this.downloadFile('application/pdf')} }><a>PDF</a></li>
+                  <li tabIndex="1203" onClick={() => this.downloadFile('image/png')} onKeyDown={(event) => { if (event.keyCode === 13) this.downloadFile('image/png')} }><a>PNG</a></li>
+                  <li tabIndex="1204" onClick={() => this.downloadFile('image/jpeg')} onKeyDown={(event) => { if (event.keyCode === 13) this.downloadFile('image/jpeg')} }><a>JPEG</a></li>
+                  <li tabIndex="1205" onClick={() => this.downloadFile('application/svg')} onKeyDown={(event) => { if (event.keyCode === 13) this.downloadFile('application/svg')} }><a>SVG</a></li>
                   <li tabIndex="1206">
                     <CSVLink data={csvChartArray} filename={`${title}-chart.csv`}>
                       Chart (CSV)
