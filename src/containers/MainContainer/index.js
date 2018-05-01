@@ -4,6 +4,8 @@ import SheetDataChart from '../../components/SheetDataChart';
 import TableContainer from '../TableContainer';
 import './style.css';
 import charts from '../../ApolloComponent/chartsQuery'
+import tailorfootnote from '../../ApolloComponent/tailorFootNote'
+import armsdatafootnote from '../../ApolloComponent/armsdataFootNote'
 import dataSource1 from '../../ApolloComponent/dataSource1'
 import dataSource2 from '../../ApolloComponent/dataSource2'
 import dataSource3 from '../../ApolloComponent/dataSource3'
@@ -20,7 +22,8 @@ class MainContainer extends React.Component {
     showList: {},    
     years: [],
     surveyData: [],
-    showData: []
+    showData: [],
+    footnotes: []    
   }
 
   componentWillMount() {
@@ -132,6 +135,43 @@ class MainContainer extends React.Component {
         }
         // ---------------------------------
         this.setState({ showList, surveyData, showData })
+
+        // Compose footnote
+        let footnotes = []
+        if (props.isGetSurveyData) {
+          if (props.blockIndex === 0) {
+            if (props.tailorfootnote) {
+              if(props.tailorfootnote.networkStatus === 7 && props.tailorfootnote.tailorfootnote) {
+                props.tailorfootnote.tailorfootnote.forEach(footnote => {
+                  const obj = {}
+                  obj.text = footnote.text
+                  obj.topic_abb = footnote.topic_abb  
+                  obj.sign = footnote.sign                  
+                  footnotes.push(obj)
+                })
+              }
+            }
+            this.setState({footnotes})
+          } else {
+            if (props.armsdatafootnote.networkStatus === 7) {
+              for (let i=1; i<9; i++) {
+                const datasource = 'datasource'+i
+                if (props.armsdatafootnote[datasource]) {
+                  props.armsdatafootnote[datasource].forEach(footnote => {
+                    const obj = {}
+                    obj.text = footnote.text
+                    obj.topic_abb = footnote.topic_abb  
+                    obj.sign = footnote.sign   
+                    footnotes.push(obj)
+                  })
+                }
+              }
+              this.setState({footnotes})
+            }        
+          }
+        }
+        // ---------------------------------
+        
       }
     }
   }
@@ -190,9 +230,8 @@ class MainContainer extends React.Component {
   }
 
   render() {
-    const { showList, showData } = this.state
+    const { showList, showData, footnotes } = this.state
     const { selectedYears, selectedStateNames, whichOneMultiple, blockIndex, isGetSurveyData } = this.props
-    console.log('test: ', showList)
     const categories = whichOneMultiple === YEAR_SELECTED ? selectedYears.sort(function(a, b){return a-b}) : selectedStateNames
 
     return (
@@ -209,6 +248,7 @@ class MainContainer extends React.Component {
           categories={categories}
           surveyData={showData}
           showList={showList}
+          footnotes={footnotes}
           whichOneMultiple={whichOneMultiple}
           blockIndex={blockIndex}
           hideItem={(dataId) => this.hideItem(dataId)}
@@ -239,6 +279,8 @@ MainContainer.propTypes = {
 
 export default compose(
   charts,
+  tailorfootnote,
+  armsdatafootnote,
   dataSource1,
   dataSource2,
   dataSource3,
