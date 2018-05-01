@@ -3,8 +3,13 @@ import PropTypes from 'prop-types';
 import './style.css'
 
 export default class OptionGroup extends React.Component {
+  onEnterKeyDown(event, index) {
+    if (event.keyCode === 13) {
+      this.props.onSelect(index)
+    }
+  }
   render() {
-    const { options, selectedIndex, onSelect } = this.props
+    const { options, selectedIndex, onSelect, tabIndex } = this.props
     return (
       <div className="option-group">
       {
@@ -12,7 +17,7 @@ export default class OptionGroup extends React.Component {
           options.map((option, index) => {
             if (index === selectedIndex) {
               return (
-                <div key={index.toString()} className="single-option active" onClick={() => onSelect(index)}>
+                <div key={index.toString()} className="single-option active" onClick={() => onSelect(index)} onKeyDown={event => this.onEnterKeyDown(event, index)} tabIndex={tabIndex+index}>
                   <a>
                     <i className="fa fa-check"></i>{option.label}
                   </a>
@@ -20,7 +25,7 @@ export default class OptionGroup extends React.Component {
               )
             }  
             return (
-              <div key={index.toString()} className="single-option" onClick={() => onSelect(index)}>
+              <div key={index.toString()} className="single-option" onClick={() => onSelect(index)} onKeyDown={event => this.onEnterKeyDown(event, index)} tabIndex={tabIndex+index}>
                 <a>
                   {option.label}
                 </a>
