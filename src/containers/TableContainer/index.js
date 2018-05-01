@@ -64,6 +64,7 @@ class TableContainer extends React.Component {
             singleIncome.desc = element.topic_dim.desc
             singleIncome.unit_desc = element.topic_dim.unit_desc
             singleIncome.level = element.topic_dim.level
+            singleIncome.topic_abb = element.topic_abb
             let estimateList = []
             let rseList = []
             categories.forEach(category => {
@@ -129,7 +130,7 @@ class TableContainer extends React.Component {
   }
   render() {
     const { incomeArr, isShowItemAll } = this.state
-    const { showList, categories, blockIndex } = this.props
+    const { showList, categories, blockIndex, footnotes } = this.props
 
     if (incomeArr.length === 0 || categories.length === 0)
       return ( <div className='center-notification'>No data to display</div> )
@@ -208,8 +209,9 @@ class TableContainer extends React.Component {
                                 </tr>
                               )
                           } else {
-                              
-                              return (
+                            const footnote = footnotes.filter(note => note.topic_abb === data.topic_abb)
+                            const sign = footnote.length > 0 ? footnote[0].sign : ''
+                            return (
                               <tr key={`${index}`}>
                                 <td>
                                   {
@@ -235,7 +237,9 @@ class TableContainer extends React.Component {
                                         <div 
                                           className={`level-${data.level} nowrap-div`} 
                                         >
-                                        {data.header} {data.header && data.unit_desc !== 'Dollars per farm' ? '('+data.unit_desc+')' : ''}
+                                        {data.header}
+                                        <sup>&nbsp;{sign}</sup> 
+                                        {data.header && data.unit_desc !== 'Dollars per farm' ? '('+data.unit_desc+')' : ''}
                                         <img 
                                           src={HelpImg}
                                           className="help-img"
