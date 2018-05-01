@@ -4,7 +4,6 @@ import ReactHighcharts from 'react-highcharts'
 import HighchartsExporting from 'highcharts-exporting'
 import HighchartsExportCSV from 'highcharts-export-csv'
 import BrokenAxis from 'highcharts/modules/broken-axis'
-import { DropdownButton, MenuItem } from 'react-bootstrap';
 import {CSVLink} from 'react-csv';
 
 import { numberWithCommas } from '../../helpers/NumberWithCommas'
@@ -17,6 +16,7 @@ BrokenAxis(ReactHighcharts.Highcharts)
 export default class ChartGenerator extends React.Component {
   state = {
     config: {},
+    isDropdownOpened: false,
     csvChartArray: [],
     csvTableArray: [],    
   }
@@ -452,40 +452,55 @@ export default class ChartGenerator extends React.Component {
   printChart() {
     this.refs.chart.getChart().print()
   }
+  toggleDropdown = () => {
+    const isDropdownOpened = !this.state.isDropdownOpened
+    this.setState({ isDropdownOpened })
+  }
+  componentDidMount() {
+    document.addEventListener('mousedown', this.handleClickOutside);
+  }
+  componentWillUnmount() {
+    document.removeEventListener('mousedown', this.handleClickOutside);
+  }
+  handleClickOutside = (event) => {
+    if (this.btnDropdown && !this.btnDropdown.contains(event.target)) {
+    this.setState({ isDropdownOpened: false })
+    }
+  }
   render() {
     const { title } = this.props
-    const { config, csvChartArray, csvTableArray } = this.state
+    const { config, isDropdownOpened, csvChartArray, csvTableArray } = this.state
     return (
       <div>
         <div className="btn-download">
-          <DropdownButton
-            bsStyle="default"
-            bsSize="sm"
-            pullRight
-            title={<div className="btn-download-content">
-            <img src={DownloadImg} alt="" /> <span className="download-label">Download</span>
-          </div>}
-            noCaret
-            id="dropdown-no-caret"
-          >
-            <MenuItem eventKey="1" onClick={() => this.printChart()}>Print</MenuItem>
-            <MenuItem divider />
-            <MenuItem eventKey="2" onClick={() => this.downloadFile('application/pdf')}>PDF</MenuItem>
-            <MenuItem eventKey="3" onClick={() => this.downloadFile('image/png')}>PNG</MenuItem>
-            <MenuItem eventKey="4" onClick={() => this.downloadFile('image/jpeg')}>JPEG</MenuItem>
-            <MenuItem eventKey="5" onClick={() => this.downloadFile('application/svg')}>SVG</MenuItem>
-            <MenuItem divider />   
-            <li>
-              <CSVLink data={csvChartArray} filename={`${title}-chart.csv`}>
-                Chart (CSV)
-              </CSVLink>     
-            </li>
-            <li>
-              <CSVLink data={csvTableArray} filename={`${title}-table.csv`}>
-                Table (CSV)
-              </CSVLink>     
-            </li>   
-          </DropdownButton>
+          <div class="dropdown open btn-group btn-group-sm btn-group-default">
+            <button id="dropdown-no-caret" className="dropdown-toggle btn btn-sm btn-default" onClick={this.toggleDropdown} ref={node => this.btnDropdown = node}>
+              <div className="btn-download-content" tabIndex="1200">
+                <img src={DownloadImg} alt="" /> <span className="download-label">Download</span>
+              </div>
+            </button>
+            {
+              isDropdownOpened && (
+                <ul role="menu" className="dropdown-menu dropdown-menu-right">
+                  <li tabIndex="1201" onClick={() => this.printChart()}><a>Print</a></li>
+                  <li tabIndex="1202" onClick={() => this.downloadFile('application/pdf')}><a>PDF</a></li>
+                  <li tabIndex="1203" onClick={() => this.downloadFile('image/png')}><a>PNG</a></li>
+                  <li tabIndex="1204" onClick={() => this.downloadFile('image/jpeg')}><a>JPEG</a></li>
+                  <li tabIndex="1205" onClick={() => this.downloadFile('application/svg')}><a>SVG</a></li>
+                  <li tabIndex="1206">
+                    <CSVLink data={csvChartArray} filename={`${title}-chart.csv`}>
+                      Chart (CSV)
+                    </CSVLink>     
+                  </li>
+                  <li tabIndex="1207">
+                    <CSVLink data={csvTableArray} filename={`${title}-table.csv`}>
+                      Table (CSV)
+                    </CSVLink>     
+                  </li>  
+                </ul>
+              )
+            }
+          </div>
         </div>
         <ReactHighcharts config = {config} ref="chart" />
       </div>
