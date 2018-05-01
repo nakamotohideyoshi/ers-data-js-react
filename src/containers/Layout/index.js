@@ -157,15 +157,42 @@ export default class Layout extends React.Component {
     })
   }
 
+  onSelectReportCategory = () => {
+    const blockIndex = 0
+    const isRemoveDataSource = false
+    const isGetSurveyData = false
+    const isAllDataSources = false
+
+    let {pre_filters} = this.state
+    let runQuery = 'reset1Query'
+
+    pre_filters[blockIndex].report_num = [1]
+    pre_filters[blockIndex].subject_num = []
+    pre_filters[blockIndex].topic_abb = []
+    pre_filters[blockIndex].serie = []
+    pre_filters[blockIndex].serie_element = []
+
+    this.setState({
+      pre_filters,
+      isRemoveDataSource,
+      isGetSurveyData,
+      isAllDataSources,
+      blockIndex,
+      priority: [],
+      runQuery,
+      isReset: true
+    })
+  }
+
   resetFilterByBlockIndex = (blockIndex) => {
 
     const isRemoveDataSource = false
     const isGetSurveyData = false
+    const isAllDataSources = false
 
     let {pre_filters} = this.state
     let runQuery = ''
 
-    pre_filters[blockIndex].report_num = [1]
     pre_filters[blockIndex].subject_num = []
     pre_filters[blockIndex].topic_abb = []
     pre_filters[blockIndex].serie = []
@@ -183,6 +210,7 @@ export default class Layout extends React.Component {
       pre_filters,
       isRemoveDataSource,
       isGetSurveyData,
+      isAllDataSources,
       blockIndex: blockIndex,
       priority: [],
       runQuery: runQuery,
@@ -1925,6 +1953,7 @@ export default class Layout extends React.Component {
           resetSRFilter = {this.resetSRFilter}
           resetERFilter = {this.resetERFilter}
           onSelectReportFilter = {this.onSelectReportFilter}
+          onSelectReportCategory = {this.onSelectReportCategory}
           onSelectSubjectFilter = {this.onSelectSubjectFilter}
           onSelectFilterByFilter = {this.onSelectFilterByFilter}
           onSelectSubFilterByFilter = {this.onSelectSubFilterByFilter} 
