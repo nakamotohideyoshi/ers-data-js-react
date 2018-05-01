@@ -2,15 +2,25 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './style.css'
 
-const Checkbox = ({ title, checked, arrayIndex, isMultiple, onCheck }) => (
-  <div className="checkboxlist-item">
-    <label className="checkbox-container">
-      {title}
-      <input type="checkbox" checked={checked} onChange={onCheck} />
-      <span className={isMultiple ? "checkmark" : "checkmark single"}></span>
-    </label>
-  </div>
-);
+export default class Checkbox extends React.Component {
+  onEnterKeyDown = (event) => {
+    if (event.keyCode === 13) {
+      this.props.onCheck()
+    }
+  }
+  render() {
+    const { title, checked, arrayIndex, isMultiple, tabIndex, onCheck } = this.props
+    return (
+      <div className="checkboxlist-item" tabIndex={tabIndex} onKeyDown={this.onEnterKeyDown}>
+        <label className="checkbox-container">
+          {title}
+          <input type="checkbox" checked={checked} onChange={onCheck} />
+          <span className={isMultiple ? "checkmark" : "checkmark single"}></span>
+        </label>
+      </div>
+    )
+  }
+}
 
 Checkbox.propTypes = {
   title: PropTypes.string,
@@ -25,4 +35,3 @@ Checkbox.defaultProps = {
   arrayIndex: 0
 };
 
-export default Checkbox;
