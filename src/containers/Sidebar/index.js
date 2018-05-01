@@ -1298,7 +1298,7 @@ class Sidebar extends React.Component {
             }
             return (
               <SidebarItem 
-                tabIndex={i+1}
+                tabIndex={(i+1)*20}
                 key={i+1}
                 headingTitle={val.headingTitle}
                 titles={categoryTitles[i]}
@@ -1329,7 +1329,7 @@ class Sidebar extends React.Component {
         {
           !isReports && isAdd &&(
             <div>
-              <a className="pull-right reset" onClick={() => this.addDataSource()}>
+              <a className="pull-right reset" onClick={() => this.addDataSource()} tabIndex={sidebarItems.length*20}>
                 <img src={Reset} alt="" />Add Another DataSource
               </a>
             </div>
