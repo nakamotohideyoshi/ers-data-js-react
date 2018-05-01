@@ -95,7 +95,7 @@ class SheetDataChart extends Component {
           <ChartGenerator series={incomeArr} categories={categories} title={chartTitle} chartType={chartType} whichOneMultiple={whichOneMultiple} />
           <div className="chart-type-container">
             <span>Chart Type:</span>
-            <OptionGroup options={chartTypesArray} selectedIndex={chartTypeIndex} onSelect={(index) => this.switchChartType(index)} />
+            <OptionGroup options={chartTypesArray} selectedIndex={chartTypeIndex} onSelect={(index) => this.switchChartType(index)} tabIndex={1300} />
           </div>
         </div>
       );
