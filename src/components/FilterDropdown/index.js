@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Col, DropdownButton } from 'react-bootstrap';
+import { Col } from 'react-bootstrap';
 
 import { YEAR_SELECTED } from '../../helpers/constants'
 
