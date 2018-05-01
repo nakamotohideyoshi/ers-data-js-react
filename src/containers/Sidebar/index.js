@@ -1359,7 +1359,7 @@ class Sidebar extends React.Component {
     let isAdd = true    
     return (
     <div className="col-lg-3 col-md-12 col-sm-12 col-xs-12">
-      <div className="sidebar-container" ref={node => this.sidebarWrapper = node}>
+      <div className="sidebar-container" ref={node => this.sidebarWrapper = node} tabIndex="0">
         {        
           sidebarItems.map((val, i) => {
             let isBlock = false
