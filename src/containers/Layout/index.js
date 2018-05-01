@@ -157,7 +157,7 @@ export default class Layout extends React.Component {
     })
   }
 
-  onSlectReportCategory = () => {
+  onSelectReportCategory = () => {
     const blockIndex = 0
     const isRemoveDataSource = false
     const isGetSurveyData = false
@@ -1953,7 +1953,7 @@ export default class Layout extends React.Component {
           resetSRFilter = {this.resetSRFilter}
           resetERFilter = {this.resetERFilter}
           onSelectReportFilter = {this.onSelectReportFilter}
-          onSlectReportCategory = {this.onSlectReportCategory}
+          onSelectReportCategory = {this.onSelectReportCategory}
           onSelectSubjectFilter = {this.onSelectSubjectFilter}
           onSelectFilterByFilter = {this.onSelectFilterByFilter}
           onSelectSubFilterByFilter = {this.onSelectSubFilterByFilter} 
