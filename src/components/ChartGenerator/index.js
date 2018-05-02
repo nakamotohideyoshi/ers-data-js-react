@@ -473,7 +473,7 @@ export default class ChartGenerator extends React.Component {
     return (
       <div>
         <div className="btn-download">
-          <div class="dropdown open btn-group btn-group-sm btn-group-default">
+          <div className="dropdown open btn-group btn-group-sm btn-group-default">
             <button id="dropdown-no-caret" className="dropdown-toggle btn btn-sm btn-default" onClick={this.toggleDropdown}>
               <div className="btn-download-content" tabIndex="1200">
                 <img src={DownloadImg} alt="Download Icon" /> <span className="download-label">Download</span>
