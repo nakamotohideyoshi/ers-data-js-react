@@ -55,10 +55,12 @@ class FilterDropdown extends React.Component {
   }
   handleClickOutside = (event) => {
     if (this.firstUlGroup && !this.firstUlGroup.contains(event.target)) {
-      this.setState({ isFirstOpened: false })
+      if (this.firstFilterButton && !this.firstFilterButton.contains(event.target))
+        this.setState({ isFirstOpened: false })
     }
     if (this.secondUlGroup && !this.secondUlGroup.contains(event.target)) {
-      this.setState({ isSecondOpened: false })
+      if (this.secondFilterButton && !this.secondFilterButton.contains(event.target))
+        this.setState({ isSecondOpened: false })
     }
   }
   render() {
@@ -74,6 +76,7 @@ class FilterDropdown extends React.Component {
             onClick={this.onFirstToggle} 
             tabIndex={1000}
             data-place="top"
+            ref={node => this.firstFilterButton = node}
           >
             <div className="filter-options">
               <div className="selected-headers" 
@@ -140,6 +143,7 @@ class FilterDropdown extends React.Component {
                 className='btn-light btn-dd' 
                 onClick={this.onSecondToggle} 
                 tabIndex={1100}
+                ref={node => this.secondFilterButton = node}
                 data-place="top"
               >
                 <div className="filter-options">
