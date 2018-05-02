@@ -2,6 +2,7 @@
 .sidebar-container {
   padding: 1px 0px 0px 0px;
   margin-left: 40px;
+  outline: 0;
 }
 .right-padding-option {
   padding: 1px 0px 0px 20px;

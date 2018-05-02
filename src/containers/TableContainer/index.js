@@ -150,11 +150,11 @@ class TableContainer extends React.Component {
                         <div>
                           {
                             isShowItemAll && 
-                              <a onClick={() => this.hideAllItem()}><img src={ShownImg} alt="" /></a>
+                              <a onClick={() => this.hideAllItem()}><img src={ShownImg} alt="" tabIndex={1400} /></a>
                           }
                           {
                             !isShowItemAll &&
-                              <a onClick={() => this.showAllItem()}><img src={HideAllImg} alt="" /></a>
+                              <a onClick={() => this.showAllItem()}><img src={HideAllImg} alt="" tabIndex={1400} /></a>
                           }
                         </div>
                       </th>
@@ -218,7 +218,7 @@ class TableContainer extends React.Component {
                                     <div className="nowrap-div">
                                       {
                                         showList && (
-                                          <a onClick={() => showList[data.id] === true ? this.hideItem(data.id) : this.showItem(data.id)}>
+                                          <a onClick={() => showList[data.id] === true ? this.hideItem(data.id) : this.showItem(data.id)} tabIndex={1401+index*2}>
                                           {
                                             data.header && 
                                               <img src={showList[data.id] === true ? ShownImg : HiddenImg } alt="show-hide" />
@@ -249,6 +249,7 @@ class TableContainer extends React.Component {
                                           data-place="top"
                                           data-offset="{'left': 100}"
                                           ref={node => this.farmHeaders = node}
+                                          tabIndex={1401+index*2+1}
                                         />
                                       </div>
                                       )
@@ -266,6 +267,7 @@ class TableContainer extends React.Component {
                                             data-place="top"
                                             data-offset="{'left': 100}"
                                             ref={node => this.farmHeaders = node}
+                                            tabIndex={1401+index*2+1}
                                           />
                                         </div>
                                     }
@@ -303,7 +305,7 @@ class TableContainer extends React.Component {
                         categories.map((category, pos) => {
                           return (
                             <td className="estimate-rse-td" key={`est-th-${pos}`}>
-                              <div className='estimate_rse'>
+                              <div className='estimate_rse' tabIndex={2000}>
                                 <div className="data-heading data-value">ESTIMATE</div>
                                 <div className="data-heading data-value">RSEᵃ</div>
                               </div>
