@@ -35,145 +35,146 @@ class MainContainer extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    if (props.isGetSurveyData) {
-      let {surveyData, showList} = this.state
-      let showData = []
-      if (props.isRemoveDataSource) {
-        surveyData.splice(props.blockIndex, 1)
-        surveyData.push([])
 
-        const updateArmsData = this.updateArmsData(surveyData)
-        showList = updateArmsData.showList
-        showData = updateArmsData.showData
-        
-        this.setState({ showList, surveyData, showData })
+    let {surveyData, showList} = this.state
+    let showData = []
+    
+    if (!props.isGetSurveyData && props.isRemoveDataSource) {
+      surveyData.splice(props.blockIndex, 1)
+      surveyData.push([])
 
-      } else {
-        if (props.charts) {
-          if(props.charts.networkStatus === 7) {
-            let isTailored = false
-            if(props.charts.arms_surveydata) {
-              // Tailored Report
-              if (surveyData[0].length === 0) {
-                showList = {}
-                isTailored = true
-              } else if (props.report_num_0[0] !== surveyData[0][0].report_num) {
-                showList = {}
-                isTailored = true
-              }
-              props.charts.arms_surveydata.forEach(data => {
-                if (isTailored) {
-                  if (data.topic_dim.level > 1) {
-                    showList[0+data.topic_abb] = false
-                  } else {
-                    showList[0+data.topic_abb] = true
-                  }
+      const updateArmsData = this.updateArmsData(surveyData)
+      showList = updateArmsData.showList
+      showData = updateArmsData.showData
+      
+      this.setState({ showList, surveyData, showData })
+
+    } else if (props.isGetSurveyData) {
+      if (props.charts) {
+        if(props.charts.networkStatus === 7) {
+          let isTailored = false
+          if(props.charts.arms_surveydata) {
+            // Tailored Report
+            if (surveyData[0].length === 0) {
+              showList = {}
+              isTailored = true
+            } else if (props.report_num_0[0] !== surveyData[0][0].report_num) {
+              showList = {}
+              isTailored = true
+            }
+            props.charts.arms_surveydata.forEach(data => {
+              if (isTailored) {
+                if (data.topic_dim.level > 1) {
+                  showList[0+data.topic_abb] = false
+                } else {
+                  showList[0+data.topic_abb] = true
                 }
-              })            
-              surveyData[0] = props.charts.arms_surveydata            
-            } else {            
-              surveyData[0] = []
-              showList = {}            
-            }          
+              }
+            })            
+            surveyData[0] = props.charts.arms_surveydata            
+          } else {            
+            surveyData[0] = []
+            showList = {}            
+          }          
+        }
+      }
+
+      // Cases for modified data source and same data source
+      if (!props.isAllDataSources) {
+        const dataSource = 'dataSource' + props.blockIndex
+        if (props[dataSource]) {
+          if (props[dataSource].networkStatus === 7) {
+            if (props[dataSource][dataSource]) {
+              surveyData[props.blockIndex] = props[dataSource][dataSource]
+            } else {
+              surveyData[props.blockIndex] = []
+            }
           }
         }
-
-        // Cases for modified data source and same data source
-        if (!props.isAllDataSources) {
-          const dataSource = 'dataSource' + props.blockIndex
+      } else {
+        for (let i=1; i<9; i++) {
+          const dataSource = 'dataSource' + i
           if (props[dataSource]) {
             if (props[dataSource].networkStatus === 7) {
               if (props[dataSource][dataSource]) {
-                surveyData[props.blockIndex] = props[dataSource][dataSource]
+                surveyData[i] = props[dataSource][dataSource]
               } else {
-                surveyData[props.blockIndex] = []
-              }
-            }
-          }
-        } else {
-          for (let i=1; i<9; i++) {
-            const dataSource = 'dataSource' + i
-            if (props[dataSource]) {
-              if (props[dataSource].networkStatus === 7) {
-                if (props[dataSource][dataSource]) {
-                  surveyData[i] = props[dataSource][dataSource]
-                } else {
-                  surveyData[i] = []
-                }
+                surveyData[i] = []
               }
             }
           }
         }
-        // ---------------------------------
-        
-        // Compose showList and showData
-        if (props.blockIndex === 0) {
-          if (surveyData[0].length > 0) {
-            let dataDetails = surveyData[0][0]
-            showData = [{ 
-              dataSource: 0, 
-              data: surveyData[0],
-              report: dataDetails.report_dim ? dataDetails.report_dim.header : '',
-              subject: dataDetails.subject_dim ? dataDetails.subject_dim.header : '',
-              serie: dataDetails.serie_dim ? dataDetails.serie_dim.header : '',
-              serie_element: dataDetails.serie_element_dim ? dataDetails.serie_element_dim.name : ''
-            }]
-            
-            surveyData[0].forEach((data, i) => {
-              if (data.topic_dim.level > 1) {
-                showList[0+data.topic_abb] = false
-              } else {
-                showList[0+data.topic_abb] = true
-              }
-            })
-          }
+      }
+      // ---------------------------------
+      
+      // Compose showList and showData
+      if (props.blockIndex === 0) {
+        if (surveyData[0].length > 0) {
+          let dataDetails = surveyData[0][0]
+          showData = [{ 
+            dataSource: 0, 
+            data: surveyData[0],
+            report: dataDetails.report_dim ? dataDetails.report_dim.header : '',
+            subject: dataDetails.subject_dim ? dataDetails.subject_dim.header : '',
+            serie: dataDetails.serie_dim ? dataDetails.serie_dim.header : '',
+            serie_element: dataDetails.serie_element_dim ? dataDetails.serie_element_dim.name : ''
+          }]
           
-        } else {
-          const updateArmsData = this.updateArmsData(surveyData)
-          showList = updateArmsData.showList
-          showData = updateArmsData.showData
+          surveyData[0].forEach((data, i) => {
+            if (data.topic_dim.level > 1) {
+              showList[0+data.topic_abb] = false
+            } else {
+              showList[0+data.topic_abb] = true
+            }
+          })
         }
-        // ---------------------------------
-        this.setState({ showList, surveyData, showData })
+        
+      } else {
+        const updateArmsData = this.updateArmsData(surveyData)
+        showList = updateArmsData.showList
+        showData = updateArmsData.showData
+      }
+      // ---------------------------------
+      this.setState({ showList, surveyData, showData })
 
-        // Compose footnote
-        let footnotes = []
-        if (props.isGetSurveyData) {
-          if (props.blockIndex === 0) {
-            if (props.tailorfootnote) {
-              if(props.tailorfootnote.networkStatus === 7 && props.tailorfootnote.tailorfootnote) {
-                props.tailorfootnote.tailorfootnote.forEach(footnote => {
+      // Compose footnote
+      let footnotes = []
+      if (props.isGetSurveyData) {
+        if (props.blockIndex === 0) {
+          if (props.tailorfootnote) {
+            if(props.tailorfootnote.networkStatus === 7 && props.tailorfootnote.tailorfootnote) {
+              props.tailorfootnote.tailorfootnote.forEach(footnote => {
+                const obj = {}
+                obj.text = footnote.text
+                obj.topic_abb = footnote.topic_abb  
+                obj.sign = footnote.sign                  
+                footnotes.push(obj)
+              })
+            }
+          }
+          this.setState({footnotes})
+        } else {
+          if (props.armsdatafootnote.networkStatus === 7) {
+            for (let i=1; i<9; i++) {
+              const datasource = 'datasource'+i
+              if (props.armsdatafootnote[datasource]) {
+                props.armsdatafootnote[datasource].forEach(footnote => {
                   const obj = {}
                   obj.text = footnote.text
                   obj.topic_abb = footnote.topic_abb  
-                  obj.sign = footnote.sign                  
+                  obj.sign = footnote.sign   
                   footnotes.push(obj)
                 })
               }
             }
             this.setState({footnotes})
-          } else {
-            if (props.armsdatafootnote.networkStatus === 7) {
-              for (let i=1; i<9; i++) {
-                const datasource = 'datasource'+i
-                if (props.armsdatafootnote[datasource]) {
-                  props.armsdatafootnote[datasource].forEach(footnote => {
-                    const obj = {}
-                    obj.text = footnote.text
-                    obj.topic_abb = footnote.topic_abb  
-                    obj.sign = footnote.sign   
-                    footnotes.push(obj)
-                  })
-                }
-              }
-              this.setState({footnotes})
-            }        
-          }
+          }        
         }
-        // ---------------------------------
-        
       }
+      // ---------------------------------
+      
     }
+  
   }
   updateArmsData(surveyData) {
     const showList = {}
