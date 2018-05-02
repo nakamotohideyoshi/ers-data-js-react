@@ -13,7 +13,7 @@
 .__react_component_tooltip.type-info {
 	max-width: 400px; 
 	background: white !important;
-	color: gray !important;
+	color: black !important;
 	opacity: 1 !important;
 	-webkit-box-shadow: 1px 1px 2px 0px rgba(190,190,190,0.9);
 	-moz-box-shadow: 1px 1px 2px 0px rgba(190,190,190,0.9);
