@@ -9,7 +9,6 @@ import gql from 'graphql-tag';
     $serie: [String],
   ){
     dlfsAnalysis: arms_filter(
-      survey_abb: "finance",
       report_num: $report_num,
       topic_abb: $topic_abb,
       subject_num: $subject_num,
