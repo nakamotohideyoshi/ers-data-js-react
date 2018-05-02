@@ -1303,13 +1303,14 @@ class Sidebar extends React.Component {
 
     blockCount--
 
-    for (let i=blockindex; i<blockCount; i++) {
+    for (let i=blockindex; i<=blockCount; i++) {
       const index = 7*(i-1) + 5
       for (let j=0; j<7; j++) {
         categoryTitles[index+j] = categoryTitles[index+j+7]
         sidebarItems[index+j] = sidebarItems[index+j+7]
-        sidebarItems[index+j].blockIndex = i
+        sidebarItems[index+j].blockIndex = i       
       }
+      sidebarItems[index].headingTitle = 'Data Source ' + i
     }
 
     for (let i=0; i<7; i++) {
