@@ -150,11 +150,11 @@ class TableContainer extends React.Component {
                         <div>
                           {
                             isShowItemAll && 
-                              <a onClick={() => this.hideAllItem()}><img src={ShownImg} alt="" tabIndex={1400} /></a>
+                              <a onClick={() => this.hideAllItem()}><img src={ShownImg} alt="" tabIndex={1400} onKeyDown={(event) => { if (event.keyCode === 13) this.hideAllItem()} } /></a>
                           }
                           {
                             !isShowItemAll &&
-                              <a onClick={() => this.showAllItem()}><img src={HideAllImg} alt="" tabIndex={1400} /></a>
+                              <a onClick={() => this.showAllItem()}><img src={HideAllImg} alt="" tabIndex={1400} onKeyDown={(event) => { if (event.keyCode === 13) this.showAllItem()} } /></a>
                           }
                         </div>
                       </th>
@@ -218,7 +218,11 @@ class TableContainer extends React.Component {
                                     <div className="nowrap-div">
                                       {
                                         showList && (
-                                          <a onClick={() => showList[data.id] === true ? this.hideItem(data.id) : this.showItem(data.id)} tabIndex={1401+index*2}>
+                                          <a 
+                                            onClick={() => showList[data.id] === true ? this.hideItem(data.id) : this.showItem(data.id)} 
+                                            tabIndex={1401+index*2}
+                                            onKeyDown={(event) =>{ if (event.keyCode === 13) showList[data.id] === true ? this.hideItem(data.id) : this.showItem(data.id)} }
+                                          >
                                           {
                                             data.header && 
                                               <img src={showList[data.id] === true ? ShownImg : HiddenImg } alt="show-hide" />
@@ -305,7 +309,7 @@ class TableContainer extends React.Component {
                         categories.map((category, pos) => {
                           return (
                             <td className="estimate-rse-td" key={`est-th-${pos}`}>
-                              <div className='estimate_rse' tabIndex={2000}>
+                              <div className='estimate_rse' tabIndex={1500+incomeArr.length}>
                                 <div className="data-heading data-value">ESTIMATE</div>
                                 <div className="data-heading data-value">RSEᵃ</div>
                               </div>
