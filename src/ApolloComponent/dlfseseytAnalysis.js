@@ -13,7 +13,6 @@ import gql from 'graphql-tag';
     $selectedYears: [Int]
   ){
     dlfseseytAnalysis: arms_filter(
-      survey_abb: "finance",
       report_num: $arms_report_num,
       topic_abb: $arms_topic_abb,
       subject_num: $arms_subject_num,

@@ -12,7 +12,6 @@ import gql from 'graphql-tag';
     $arms_serie2_element: [Int]
   ){
     dlfsesetAnalysis: arms_filter(
-      survey_abb: "finance",
       report_num: $arms_report_num,
       topic_abb: $arms_topic_abb,
       subject_num: $arms_subject_num,

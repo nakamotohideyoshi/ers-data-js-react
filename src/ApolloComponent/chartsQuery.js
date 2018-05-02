@@ -18,6 +18,7 @@ export default graphql(gql`
     {
       year
       rse
+      median
       estimate
       unreliable_est
       report_num

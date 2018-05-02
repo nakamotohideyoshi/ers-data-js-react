@@ -1684,9 +1684,21 @@ export default class Layout extends React.Component {
 
   // Add Datasource
   addDataSource = (blockIndex) => {
-    let {pre_filters} = this.state
+    let {pre_filters, filters} = this.state
 
     pre_filters[blockIndex].report_num = [1]
+
+    filters[blockIndex].report_num = []
+    filters[blockIndex].subject_num = []
+    filters[blockIndex].serie = []
+    filters[blockIndex].serie_element = []
+    filters[blockIndex].serie2 = []
+    filters[blockIndex].serie2_element = []
+    pre_filters[blockIndex].subject_num = []
+    pre_filters[blockIndex].serie = []
+    pre_filters[blockIndex].serie_element = []
+    pre_filters[blockIndex].serie2 = []
+    pre_filters[blockIndex].serie2_element = []
 
     const runQuery = 'initAnalysis'
 
@@ -1696,6 +1708,7 @@ export default class Layout extends React.Component {
 
     this.setState({
       pre_filters,
+      filters,
       isRemoveDataSource,
       isGetSurveyData,
       isAllDataSources,
@@ -1709,22 +1722,22 @@ export default class Layout extends React.Component {
   removeDataSource = (blockIndex) => {
     let {filters, pre_filters} = this.state
 
-    for (let i=blockIndex; i<filters.length-2; i++) {
+    for (let i=blockIndex; i<8; i++) {
       filters[i] = filters[i+1]
       pre_filters[i] = pre_filters[i+1]
     }
-    filters[filters.length-1].report_num = []
-    filters[filters.length-1].subject_num = []
-    filters[filters.length-1].serie = []
-    filters[filters.length-1].serie_element = []
-    filters[filters.length-1].serie2 = []
-    filters[filters.length-1].serie2_element = []
-    pre_filters[pre_filters.length-1].report_num = []
-    pre_filters[pre_filters.length-1].subject_num = []
-    pre_filters[pre_filters.length-1].serie = []
-    pre_filters[pre_filters.length-1].serie_element = []
-    pre_filters[pre_filters.length-1].serie2 = []
-    pre_filters[pre_filters.length-1].serie2_element = []
+    filters[8].report_num = []
+    filters[8].subject_num = []
+    filters[8].serie = []
+    filters[8].serie_element = []
+    filters[8].serie2 = []
+    filters[8].serie2_element = []
+    pre_filters[8].report_num = []
+    pre_filters[8].subject_num = []
+    pre_filters[8].serie = []
+    pre_filters[8].serie_element = []
+    pre_filters[8].serie2 = []
+    pre_filters[8].serie2_element = []
 
     const isRemoveDataSource = true
     const isGetSurveyData = false
