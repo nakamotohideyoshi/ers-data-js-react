@@ -23,6 +23,7 @@ export default graphql(gql`
         name
       }
       rse
+      median
       estimate
       unreliable_est
       report_num
