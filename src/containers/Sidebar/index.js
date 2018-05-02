@@ -1413,7 +1413,7 @@ class Sidebar extends React.Component {
           !isReports && isAdd &&(
             <div>
               <a className="pull-right reset" onClick={() => this.addDataSource()} tabIndex={sidebarItems.length*20}>
-                <img src={Reset} alt="" />Add Another DataSource
+                <img src={Reset} alt="Add new data source" />Add Another DataSource
               </a>
             </div>
           )
