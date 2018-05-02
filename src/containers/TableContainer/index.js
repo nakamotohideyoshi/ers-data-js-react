@@ -150,11 +150,12 @@ class TableContainer extends React.Component {
                         <div>
                           {
                             isShowItemAll && 
-                              <a onClick={() => this.hideAllItem()}><img src={ShownImg} alt="" tabIndex={1400} onKeyDown={(event) => { if (event.keyCode === 13) this.hideAllItem()} } /></a>
+                              <a onClick={() => this.hideAllItem()}>
+                                <img src={ShownImg} alt="Show Icon" tabIndex={1400} onKeyDown={(event) => { if (event.keyCode === 13) this.hideAllItem()} } />                   </a>
                           }
                           {
                             !isShowItemAll &&
-                              <a onClick={() => this.showAllItem()}><img src={HideAllImg} alt="" tabIndex={1400} onKeyDown={(event) => { if (event.keyCode === 13) this.showAllItem()} } /></a>
+                              <a onClick={() => this.showAllItem()}><img src={HideAllImg} alt="Hide Icon" tabIndex={1400} onKeyDown={(event) => { if (event.keyCode === 13) this.showAllItem()} } /></a>
                           }
                         </div>
                       </th>
@@ -247,7 +248,7 @@ class TableContainer extends React.Component {
                                         <img 
                                           src={HelpImg}
                                           className="help-img"
-                                          alt="help-img" 
+                                          alt="Help Icon" 
                                           data-tip={data.desc} 
                                           data-event="click"
                                           data-place="top"

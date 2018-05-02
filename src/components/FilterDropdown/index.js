@@ -130,7 +130,7 @@ class FilterDropdown extends React.Component {
       </Col>
       <Col md={1} sm={1} xs={1} lg={1} className="switchSection">
         <div className='switchContainer' onClick={() => onSwitchMultiple()} onKeyDown={this.onEnterKeyDown} tabIndex={1099}>
-          <img src={RotateImg} alt='rotate' />
+          <img src={RotateImg} alt='Rotate Icon' />
         </div>
       </Col>
       <Col md={5} sm={11} xs={11} lg={5}>

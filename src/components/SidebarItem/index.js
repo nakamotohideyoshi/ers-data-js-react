@@ -63,7 +63,7 @@ export default class SidebarItem extends React.Component {
             !isReports && isRemoval && (
               <div>
                 <a className="pull-right reset" onClick={() => removeDataSource()} tabIndex={tabIndex}>
-                  <img src={Reset} alt="" />Remove
+                  <img src={Reset} alt="Remove Icon" />Remove
                 </a>
               </div>
             )
@@ -122,7 +122,7 @@ export default class SidebarItem extends React.Component {
                   onClick={resetFilter}
                   tabIndex={tabIndex+titles.length+2}
                 >
-                  <img src={Reset} alt="" />Reset
+                  <img src={Reset} alt="Reset Icons" />Reset
                 </a>
               </div>
             )
@@ -136,7 +136,7 @@ export default class SidebarItem extends React.Component {
                   onKeyDown={event => this.onEnterKeyDown(event, null, 'resetFilter')}
                   tabIndex={tabIndex+titles.length+3}
                 >
-                  <img src={Reset} alt="" />Reset
+                  <img src={Reset} alt="Reset Icon" />Reset
                 </a>
               </div>
             )
