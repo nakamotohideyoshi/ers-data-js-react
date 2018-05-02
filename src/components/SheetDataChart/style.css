@@ -2,7 +2,7 @@
 .btn-download {
 	margin-top: 20px;
 	float: right;
-	font-size: 12px;
+	font-size: 0.8em;
 	font-weight: 700px;
 	text-transform: uppercase;
 	border: none;
@@ -24,7 +24,7 @@
 	color: #447bac;
 }
 .btn-download .btn-download-content .download-label {
-	font-size: 14px;	
+	font-size: 1em;	
 	margin-left: 14px;
 }
 .btn-download .btn-download-content  .download-label {
@@ -63,7 +63,7 @@
   margin-left: 15px;
 }
 .chart-type-container span {
-  font-size: 10px;
+  font-size: 0.7em;
   color: #081827;
   margin: 0px;
   padding: 5px 10px;

@@ -56,7 +56,7 @@
   position: relative;
   display: block;
   padding: 0px 0px 0px 20px;
-  font-size:14px;
+  font-size: 1em;
 }
 .navbar-default .navbar-nav>li>a {
   color: #fff;
@@ -81,7 +81,7 @@
   margin-left: 20px;
 }
 .dropdown .dropdown-toggle .caret_nav i {
-  font-size: 14px;
+  font-size: 1em;
 }
 
 @media (max-width: 767px) {

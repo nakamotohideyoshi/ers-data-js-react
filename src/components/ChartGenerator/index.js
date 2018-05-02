@@ -222,7 +222,7 @@ export default class ChartGenerator extends React.Component {
         useHTML: true,
         shared: true,        
         formatter: function () {
-            let s = '<span style="font-size:14px; padding:5px;">'+ categories[this.x] +'</span><br />'
+            let s = '<span style="font-size: 1em; padding:5px;">'+ categories[this.x] +'</span><br />'
             s += '<div style="display: flex; flex-direction: column;  max-height: 350px; flex-wrap: no-wrap; margin-top: 5px;"><tr><th /><th /></tr>'
             this.points.forEach((point, index) => {
               colorSet.push(point.color)
