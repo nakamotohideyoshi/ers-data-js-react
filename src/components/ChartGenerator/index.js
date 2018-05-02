@@ -369,8 +369,8 @@ export default class ChartGenerator extends React.Component {
               }
             }
           },
-          top: `${unitIndex*totalHeightPercentage/unitDescs.length}%`,
-          height: `${totalHeightPercentage/unitDescs.length}%`,
+          top: `${unitIndex*((totalHeightPercentage-3*(unitDescs.length-1))/unitDescs.length+3)}%`,
+          height: `${(totalHeightPercentage-3*(unitDescs.length-1))/unitDescs.length}%`,
           offset: 0,
           labels: {
             formatter: function () {
