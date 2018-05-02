@@ -103,7 +103,7 @@ class TableContainer extends React.Component {
     document.removeEventListener('mousedown', this.handleClickOutside);
   }
   handleClickOutside = (event) => {
-    if (this.farmHeaders && !this.farmHeaders.contains(event.target)) {
+    if (this.headerBody && !this.headerBody.contains(event.target)) {
       this.tooltip.hideTooltip()
     }
   }
@@ -240,7 +240,7 @@ class TableContainer extends React.Component {
                                     {
                                       blockIndex < 1 && (
                                         <div 
-                                          className={`level-${data.level} nowrap-div`} 
+                                          className={`level-${data.level} nowrap-div` } 
                                         >
                                         {data.header}
                                         <sup>&nbsp;{sign}</sup> 
@@ -253,7 +253,6 @@ class TableContainer extends React.Component {
                                           data-event="click"
                                           data-place="top"
                                           data-offset="{'left': 100}"
-                                          ref={node => this.farmHeaders = node}
                                           tabIndex={1401+index*2+1}
                                         />
                                       </div>
@@ -271,7 +270,6 @@ class TableContainer extends React.Component {
                                             data-event="click"
                                             data-place="top"
                                             data-offset="{'left': 100}"
-                                            ref={node => this.farmHeaders = node}
                                             tabIndex={1401+index*2+1}
                                           />
                                         </div>
