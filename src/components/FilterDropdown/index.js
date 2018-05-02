@@ -184,13 +184,13 @@ class FilterDropdown extends React.Component {
                     {
                       whichOneMultiple === YEAR_SELECTED && 
                         statesInfo.map((obj, index) => {
-                          return <Checkbox title={obj.name + ''} checked={obj.checked} isMultiple={false} onCheck={() => onSelectState(index)} key={index} tabIndex={1102+index} />
+                          return <Checkbox title={obj.name + ''} checked={obj.checked} isMultiple={false} onCheck={() => { onSelectState(index);this.onSecondToggle() }} key={index} tabIndex={1102+index} />
                         }) 
                     }
                     {
                       whichOneMultiple !== YEAR_SELECTED && 
                         yearsInfo.map((infoObj, index) => {
-                          return <Checkbox title={infoObj.year + ''} checked={infoObj.checked} isMultiple={false} onCheck={() => onSelectYear(index)} key={index}tabIndex={1102+index} />
+                          return <Checkbox title={infoObj.year + ''} checked={infoObj.checked} isMultiple={false} onCheck={() => { onSelectYear(index);this.onSecondToggle() }} key={index}tabIndex={1102+index} />
                         })
                     }    
                   </ul>
