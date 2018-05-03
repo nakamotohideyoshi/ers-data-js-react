@@ -70,7 +70,7 @@ class FilterDropdown extends React.Component {
       <div className="filterDropdownContainer">
       <Col md={6} sm={12} xs={12} lg={6}>
         <Col md={10} sm={12} xs={12} lg={8} lgOffset={4} mdOffset={2} className="filter-dropdown">
-          <div className="top-title right-title">{ whichOneMultiple === YEAR_SELECTED ? MULTIPLE_HEADING.concat(' ' + YEARS_CAPTION) : MULTIPLE_HEADING.concat(' ' + REGIONS_CAPTION) }</div>
+          <div className={`top-title right-title font-${fontSizeIndex}-small`}>{ whichOneMultiple === YEAR_SELECTED ? MULTIPLE_HEADING.concat(' ' + YEARS_CAPTION) : MULTIPLE_HEADING.concat(' ' + REGIONS_CAPTION) }</div>
           <button 
             className='btn-light btn-dd' 
             onClick={this.onFirstToggle} 
@@ -138,7 +138,7 @@ class FilterDropdown extends React.Component {
       </Col>
       <Col md={5} sm={11} xs={11} lg={5}>
           <Col md={10} sm={12} xs={12} lg={9} className="filter-dropdown">
-            <div className="top-title">{ whichOneMultiple === YEAR_SELECTED ? FILTERED_HEADING.concat(' ' + REGIONS_CAPTION.slice(0, -1)) : FILTERED_HEADING.concat(' ' + YEARS_CAPTION.slice(0, -1)) }</div>
+            <div className={`top-title font-${fontSizeIndex}-small`}>{ whichOneMultiple === YEAR_SELECTED ? FILTERED_HEADING.concat(' ' + REGIONS_CAPTION.slice(0, -1)) : FILTERED_HEADING.concat(' ' + YEARS_CAPTION.slice(0, -1)) }</div>
               <button 
                 className='btn-light btn-dd' 
                 onClick={this.onSecondToggle} 
