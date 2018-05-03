@@ -1,10 +1,11 @@
 import React from 'react';
-import { Grid } from 'react-bootstrap';
+import { Grid, Col } from 'react-bootstrap';
 import Sidebar from '../Sidebar';
 import MainContainer from '../MainContainer';
-import FilterDropdown from '../../components/FilterDropdown';
-import { Col } from 'react-bootstrap';
 import Footnote from '../Footnote';
+
+import FilterDropdown from '../../components/FilterDropdown';
+import OptionGroup from '../../components/OptionGroup'
 
 import { YEAR_SELECTED } from '../../helpers/constants'
 
@@ -16,6 +17,11 @@ const defaultSerie = 'farm'
 const defaultSerie_element = 0
 const dataSourceCounts = 8
 
+const fontSizeArray = [
+  { label: 'A', type: 'a1', size: '1em'},
+  { label: 'A', type: 'a2', size: '1.5em'},
+  { label: 'A', type: 'a2', size: '2em'},
+]
 export default class Layout extends React.Component {
   state = {
     selectedStateNames: [],
@@ -34,7 +40,8 @@ export default class Layout extends React.Component {
     isRemoveDataSource: false,
     isAllDataSources: false,
     isGetSurveyData: false,
-    isReset: false
+    isReset: false,
+    fontSizeIndex: 0
   }
 
   componentWillMount() {
@@ -1857,7 +1864,9 @@ export default class Layout extends React.Component {
     }
     this.setState({ isSelectedAll, yearsInfo, statesInfo, selectedYears, selectedStates, selectedStateNames })
   }
-
+  switchFontSize(fontSizeIndex) {
+    this.setState({ fontSizeIndex })
+  }
   render() {
     // console.log('%%%%%%%%%%%%', this.state.pre_filters, '%%%%%%%%%%%')
     const {
@@ -1877,7 +1886,8 @@ export default class Layout extends React.Component {
       isRemoveDataSource,
       isAllDataSources,
       isGetSurveyData,
-      isReset
+      isReset,
+      fontSizeIndex
     } = this.state
 
     let serie = []
@@ -1986,6 +1996,9 @@ export default class Layout extends React.Component {
           isReset = {isReset}
         />
         <Col xs={12} md={12} sm={12} lg={9}>
+          <div className="font-size-container">
+            <OptionGroup options={fontSizeArray} selectedIndex={fontSizeIndex} tabIndex={900} onSelect={(index) => this.switchFontSize(index)} />
+          </div>
           <h4 className="main-heading">
             {blockIndex > 0 ? 'ARMS Data Analysis' : 'Tailored Reports'}
           </h4>

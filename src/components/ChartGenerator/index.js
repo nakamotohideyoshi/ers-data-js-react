@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import ReactHighcharts from 'react-highcharts'
 import HighchartsExporting from 'highcharts-exporting'
@@ -487,8 +488,8 @@ export default class ChartGenerator extends React.Component {
                   <li tabIndex="1203" onClick={() => this.downloadFile('image/png')} onKeyDown={(event) => { if (event.keyCode === 13) this.downloadFile('image/png')} }><a>PNG</a></li>
                   <li tabIndex="1204" onClick={() => this.downloadFile('image/jpeg')} onKeyDown={(event) => { if (event.keyCode === 13) this.downloadFile('image/jpeg')} }><a>JPEG</a></li>
                   <li tabIndex="1205" onClick={() => this.downloadFile('application/svg')} onKeyDown={(event) => { if (event.keyCode === 13) this.downloadFile('application/svg')} }><a>SVG</a></li>
-                  <li tabIndex="1206">
-                    <CSVLink data={csvChartArray} filename={`${title}-chart.csv`} target="_self">
+                  <li tabIndex="1206" onKeyDown={(event) => { if (event.keyCode === 13) ReactDOM.findDOMNode(this).click() }}>
+                    <CSVLink data={csvChartArray} filename={`${title}-chart.csv`} target="_self" ref={node => this.chartCSV = node}>
                       Chart (CSV)
                     </CSVLink>     
                   </li>
