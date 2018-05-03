@@ -64,7 +64,7 @@ class FilterDropdown extends React.Component {
     }
   }
   render() {
-    const { yearsInfo, statesInfo, whichOneMultiple, isSelectedAll, onSelectAll, onSelectState, onSelectYear, onSwitchMultiple } = this.props
+    const { yearsInfo, statesInfo, whichOneMultiple, isSelectedAll, fontSizeIndex, onSelectAll, onSelectState, onSelectYear, onSwitchMultiple } = this.props
     const { isFirstOpened, isSecondOpened } = this.state
     return (
       <div className="filterDropdownContainer">
@@ -78,7 +78,7 @@ class FilterDropdown extends React.Component {
             data-place="top"
             ref={node => this.firstFilterButton = node}
           >
-            <div className="filter-options">
+            <div className={`filter-options font-${fontSizeIndex}-big`}>
               <div className="selected-headers" 
                 data-tip={
                   whichOneMultiple === YEAR_SELECTED ? 
@@ -113,17 +113,17 @@ class FilterDropdown extends React.Component {
           { 
             isFirstOpened && (
               <ul className="dropdown-menu collapse in" ref={node => this.firstUlGroup = node}>
-                <Checkbox title="Select All" checked={isSelectedAll} isMultiple={true} onCheck={() => onSelectAll(whichOneMultiple)} key={0} tabIndex={1001} />
+                <Checkbox title="Select All" checked={isSelectedAll} fontSizeIndex={fontSizeIndex} isMultiple={true} onCheck={() => onSelectAll(whichOneMultiple)} key={0} tabIndex={1001} />
                 {
                   whichOneMultiple === YEAR_SELECTED &&
                     yearsInfo.map((infoObj, index) => {
-                      return <Checkbox title={infoObj.year + ''} checked={infoObj.checked} isMultiple={true} onCheck={() => onSelectYear(index)} key={index+1} tabIndex={1002+index} />
+                      return <Checkbox title={infoObj.year + ''} fontSizeIndex={fontSizeIndex} checked={infoObj.checked} isMultiple={true} onCheck={() => onSelectYear(index)} key={index+1} tabIndex={1002+index} />
                     })
                 }
                 {
                   whichOneMultiple !== YEAR_SELECTED &&
                     statesInfo.map((obj, index) => {
-                      return <Checkbox title={obj.name + ''} checked={obj.checked} isMultiple={true} onCheck={() => onSelectState(index)} key={index} tabIndex={1002+index} />
+                      return <Checkbox title={obj.name + ''} fontSizeIndex={fontSizeIndex} checked={obj.checked} isMultiple={true} onCheck={() => onSelectState(index)} key={index} tabIndex={1002+index} />
                     })
                 }
               </ul>
@@ -146,7 +146,7 @@ class FilterDropdown extends React.Component {
                 ref={node => this.secondFilterButton = node}
                 data-place="top"
               >
-                <div className="filter-options">
+                <div className={`filter-options font-${fontSizeIndex}-big`}>
                   <div className="selected-headers" 
                     data-tip={
                       whichOneMultiple === YEAR_SELECTED ? 
@@ -184,13 +184,13 @@ class FilterDropdown extends React.Component {
                     {
                       whichOneMultiple === YEAR_SELECTED && 
                         statesInfo.map((obj, index) => {
-                          return <Checkbox title={obj.name + ''} checked={obj.checked} isMultiple={false} onCheck={() => { onSelectState(index);this.onSecondToggle() }} key={index} tabIndex={1102+index} />
+                          return <Checkbox title={obj.name + ''} fontSizeIndex={fontSizeIndex}  checked={obj.checked} isMultiple={false} onCheck={() => { onSelectState(index);this.onSecondToggle() }} key={index} tabIndex={1102+index} />
                         }) 
                     }
                     {
                       whichOneMultiple !== YEAR_SELECTED && 
                         yearsInfo.map((infoObj, index) => {
-                          return <Checkbox title={infoObj.year + ''} checked={infoObj.checked} isMultiple={false} onCheck={() => { onSelectYear(index);this.onSecondToggle() }} key={index}tabIndex={1102+index} />
+                          return <Checkbox title={infoObj.year + ''} fontSizeIndex={fontSizeIndex}  checked={infoObj.checked} isMultiple={false} onCheck={() => { onSelectYear(index);this.onSecondToggle() }} key={index}tabIndex={1102+index} />
                         })
                     }    
                   </ul>
