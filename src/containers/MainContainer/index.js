@@ -232,7 +232,7 @@ class MainContainer extends React.Component {
 
   render() {
     const { showList, showData, footnotes } = this.state
-    const { selectedYears, selectedStateNames, whichOneMultiple, blockIndex, isGetSurveyData } = this.props
+    const { selectedYears, selectedStateNames, whichOneMultiple, blockIndex, fontSizeIndex, isGetSurveyData } = this.props
     const categories = whichOneMultiple === YEAR_SELECTED ? selectedYears.sort(function(a, b){return a-b}) : selectedStateNames
 
     return (
@@ -243,6 +243,7 @@ class MainContainer extends React.Component {
           showList={showList}
           whichOneMultiple={whichOneMultiple}
           blockIndex={blockIndex}
+          fontSizeIndex={fontSizeIndex}              
           isGetSurveyData={isGetSurveyData}       
         />
         <TableContainer 
@@ -252,6 +253,7 @@ class MainContainer extends React.Component {
           footnotes={footnotes}
           whichOneMultiple={whichOneMultiple}
           blockIndex={blockIndex}
+          fontSizeIndex={fontSizeIndex}    
           hideItem={(dataId) => this.hideItem(dataId)}
           showItem={(dataId) => this.showItem(dataId)}
           showAllItem={() => this.showAllItem()}

@@ -9,7 +9,7 @@ import OptionGroup from '../../components/OptionGroup'
 
 import { YEAR_SELECTED } from '../../helpers/constants'
 
-// import { filter, concatSeries } from 'async';
+import './style.css'
 
 const defaultYearCount = 5
 const defaultStateCount = 1
@@ -1994,9 +1994,10 @@ export default class Layout extends React.Component {
           addDataSource = {this.addDataSource}
           removeDataSource = {this.removeDataSource}
           isReset = {isReset}
+          fontSizeIndex={fontSizeIndex}
         />
         <Col xs={12} md={12} sm={12} lg={9}>
-          <div className="font-size-container">
+          <div className="font-sizes">
             <OptionGroup options={fontSizeArray} selectedIndex={fontSizeIndex} tabIndex={900} onSelect={(index) => this.switchFontSize(index)} />
           </div>
           <h4 className="main-heading">
@@ -2005,9 +2006,10 @@ export default class Layout extends React.Component {
           <FilterDropdown 
             yearsInfo={sortedYears} 
             statesInfo={statesInfo} 
-            whichOneMultiple={whichOneMultiple}    
+            whichOneMultiple={whichOneMultiple}   
+            fontSizeIndex={fontSizeIndex} 
             isSelectedAll={isSelectedAll}    
-            onSelectAll={this.onSelectAll}  
+            onSelectAll={this.onSelectAll}
             onSelectYear={this.onSelectYear} 
             onSelectState={this.onSelectState}
             onSwitchMultiple={this.onSwitchMultiple}
@@ -2095,7 +2097,9 @@ export default class Layout extends React.Component {
             isAllDataSources = {isAllDataSources} 
             isGetSurveyData = {isGetSurveyData}
             filters={filters}
-            pre_filters={pre_filters}        
+            pre_filters={pre_filters}     
+            
+            fontSizeIndex={fontSizeIndex}  
           />        
           <Footnote
             blockIndex = {blockIndex}
