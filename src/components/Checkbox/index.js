@@ -9,10 +9,10 @@ export default class Checkbox extends React.Component {
     }
   }
   render() {
-    const { title, checked, isMultiple, tabIndex, onCheck } = this.props
+    const { title, checked, isMultiple, fontSizeIndex, tabIndex, onCheck } = this.props
     return (
       <div className="checkboxlist-item" tabIndex={tabIndex} onKeyDown={this.onEnterKeyDown}>
-        <label className="checkbox-container">
+        <label className={`checkbox-container font-${fontSizeIndex}-big`}>
           {title}
           <input type="checkbox" checked={checked} onChange={onCheck} />
           <span className={isMultiple ? "checkmark" : "checkmark single"}></span>
