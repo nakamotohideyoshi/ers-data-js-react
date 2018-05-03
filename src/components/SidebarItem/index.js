@@ -33,6 +33,7 @@ export default class SidebarItem extends React.Component {
       isDataReset, 
       isRemoval, 
       isDataLine, 
+      fontSizeIndex,
       removeDataSource, 
       toggleCategoryOptions, 
       updateFilter, 
@@ -72,6 +73,7 @@ export default class SidebarItem extends React.Component {
             tabIndex={tabIndex+1}
             headingTitle={headingTitle}
             isDataLine={isDataLine}
+            fontSizeIndex={fontSizeIndex}
             title={isDataLine ? datalineTitle : titles[selectedIndex].header} 
             isOpened={isOpened} 
             isCategory={isCategory} 
@@ -80,7 +82,7 @@ export default class SidebarItem extends React.Component {
           <SlideDown className='my-dropdown-slidedown'>
             {
               isOpened && (
-              <ul className="dropdown-menu_2 collapse in">
+              <ul className={`dropdown-menu_2 collapse in font-${fontSizeIndex}-big`}>
                 {
                   titles.map((val, index) => {
                     return (

@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ReactTooltip from 'react-tooltip'
 
-const SidebarDropdown = ({ tabIndex, title, isDataLine, headingTitle, isCategory, isOpened, onToggle }) => (
+const SidebarDropdown = ({ tabIndex, title, isDataLine, fontSizeIndex, headingTitle, isCategory, isOpened, onToggle }) => (
   <div className="dropdown_up dropdown_dd">
-    <button className={`${isCategory ? `btn-dark`:`btn-light`} btn_dd`} onClick={onToggle} tabIndex={tabIndex}>
+    <button className={`${isCategory ? `btn-dark`:`btn-light`} btn_dd font-${fontSizeIndex}-big`} onClick={onToggle} tabIndex={tabIndex}>
       <div className="filter-options">
         {
           headingTitle.length > 0 && (
