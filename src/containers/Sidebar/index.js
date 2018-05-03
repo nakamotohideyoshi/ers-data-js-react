@@ -1356,7 +1356,8 @@ class Sidebar extends React.Component {
   }
 
   render() {  
-    const {sidebarItems, categoryTitles} = this.state
+    const { sidebarItems, categoryTitles } = this.state
+    const { fontSizeIndex } = this.props
     let isAdd = true    
     return (
     <div className="col-lg-3 col-md-12 col-sm-12 col-xs-12">
@@ -1395,6 +1396,7 @@ class Sidebar extends React.Component {
                 isDataReset={isDataReset}
                 isBlock={isBlock}
                 isDataLine={isDataLine}
+                fontSizeIndex={fontSizeIndex}
                 toggleCategoryOptions={() => this.toggleCategoryOptions(i)}
                 updateFilter={(index) => this.updateFilter(i, index)}   
                 resetFilter={() => this.resetFilter(val.blockIndex)}
