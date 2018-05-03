@@ -2131,6 +2131,8 @@ export default class Layout extends React.Component {
 
             report_num_8 = {filters[8].report_num}
             topic_abb_8 = {filters[8].topic_abb}
+
+            fontSizeIndex={fontSizeIndex}  
           />
         </Col>  
       </Grid>
