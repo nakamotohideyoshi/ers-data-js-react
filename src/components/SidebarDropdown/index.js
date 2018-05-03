@@ -4,17 +4,17 @@ import ReactTooltip from 'react-tooltip'
 
 const SidebarDropdown = ({ tabIndex, title, isDataLine, fontSizeIndex, headingTitle, isCategory, isOpened, onToggle }) => (
   <div className="dropdown_up dropdown_dd">
-    <button className={`${isCategory ? `btn-dark`:`btn-light`} btn_dd font-${fontSizeIndex}-big`} onClick={onToggle} tabIndex={tabIndex}>
+    <button className={`${isCategory ? `btn-dark`:`btn-light`} btn_dd`} onClick={onToggle} tabIndex={tabIndex}>
       <div className="filter-options">
         {
           headingTitle.length > 0 && (
             <div>
-              <span className="top_heading">{headingTitle}</span>
+              <span className={`top_heading font-${fontSizeIndex}-small`}>{headingTitle}</span>
               <br />
             </div>
           )
         }
-        <div className="selected-headers" 
+        <div className={`selected-headers font-${fontSizeIndex}-big`} 
           data-tip={isDataLine ? title : ''}
           data-place="top"
           data-offset="{'top': 10, 'right': 50}"
