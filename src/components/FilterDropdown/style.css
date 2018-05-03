@@ -17,30 +17,7 @@
 .filterDropdownContainer .dropdown {
 	width: 100%;
 }
-.filterDropdownContainer .download-menu {
-	width: 100%;
-}
 
-.filterDropdownContainer .download-menu,
-.filterDropdownContainer .open > .download-menu  {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-radius: 0px;
-  background: #fafafa !important;
-  text-shadow: none;  
-  box-shadow: none;
-  border: none;
-  font-family: 'Roboto', sans-serif;
-  font-size: 1em;
-  color: #23527c;
-  line-height: 30px;
-  font-weight: 500;
-}
-
-.filterDropdownContainer .download-menu .caret {
-  margin-left: 10px;
-}
 .filterDropdownContainer .dropdown-menu {
   width: 100%;
   border-radius: 0px;
@@ -50,16 +27,7 @@
   height: 200px;
   overflow-y: scroll;
 }
-/* Seleted list */
-.filterDropdownContainer .download-menu .selected-list
-{
-  overflow: hidden;
-  margin: 0 auto;
-  text-overflow: ellipsis;
-}
-.filterDropdownContainer .download-menu .selected-list:hover {
-  color: #447bac;
-}
+
 /*  Left & Right Title position */
 .right-title {
 	text-align: right;  
