@@ -15,7 +15,7 @@ export default class Checkbox extends React.Component {
         <label className={`checkbox-container font-${fontSizeIndex}-big`}>
           {title}
           <input type="checkbox" checked={checked} onChange={onCheck} />
-          <span className={isMultiple ? "checkmark" : "checkmark single"} style={{ marginTop: fontSizeIndex*2.5 }}></span>
+          <span className={isMultiple ? "checkmark" : "checkmark single"} style={{ marginTop: Math.pow( fontSizeIndex, 2) }}></span>
         </label>
       </div>
     )
