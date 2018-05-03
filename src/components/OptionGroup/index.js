@@ -15,14 +15,11 @@ export default class OptionGroup extends React.Component {
       {
         options && (
           options.map((option, index) => {
-            let defaultFontSize = '1em'
-            if (fontSizeIndex === 1) defaultFontSize = '1.5em'
-            else if (fontSizeIndex === 2) defaultFontSize = '2em'
-            const fontSize =  { fontSize: option.size ? option.size : defaultFontSize }
+            let fontSizeStyle = option.size ? `font-increase-${index}` : `font-${fontSizeIndex}-big`
             if (index === selectedIndex) {
               return (
                 <div key={index.toString()} className="single-option center-aligned active" onClick={() => onSelect(index)} onKeyDown={event => this.onEnterKeyDown(event, index)} tabIndex={tabIndex+index}>
-                  <a style={fontSize}>
+                  <a className={fontSizeStyle}>
                     <i className="fa fa-check"></i>{option.label}
                   </a>
                 </div>
@@ -30,7 +27,7 @@ export default class OptionGroup extends React.Component {
             }  
             return (
               <div key={index.toString()} className="single-option center-aligned" onClick={() => onSelect(index)} onKeyDown={event => this.onEnterKeyDown(event, index)} tabIndex={tabIndex+index}>
-                <a style={fontSize}>
+                <a className={fontSizeStyle}>
                   {option.label}
                 </a>
               </div>
