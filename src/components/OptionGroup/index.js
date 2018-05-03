@@ -15,18 +15,19 @@ export default class OptionGroup extends React.Component {
       {
         options && (
           options.map((option, index) => {
+            const fontSize = option.size ? { fontSize: option.size } : null
             if (index === selectedIndex) {
               return (
-                <div key={index.toString()} className="single-option active" onClick={() => onSelect(index)} onKeyDown={event => this.onEnterKeyDown(event, index)} tabIndex={tabIndex+index}>
-                  <a>
+                <div key={index.toString()} className="single-option center-aligned active" onClick={() => onSelect(index)} onKeyDown={event => this.onEnterKeyDown(event, index)} tabIndex={tabIndex+index}>
+                  <a style={fontSize}>
                     <i className="fa fa-check"></i>{option.label}
                   </a>
                 </div>
               )
             }  
             return (
-              <div key={index.toString()} className="single-option" onClick={() => onSelect(index)} onKeyDown={event => this.onEnterKeyDown(event, index)} tabIndex={tabIndex+index}>
-                <a>
+              <div key={index.toString()} className="single-option center-aligned" onClick={() => onSelect(index)} onKeyDown={event => this.onEnterKeyDown(event, index)} tabIndex={tabIndex+index}>
+                <a style={fontSize}>
                   {option.label}
                 </a>
               </div>
