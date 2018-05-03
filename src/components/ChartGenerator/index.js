@@ -483,7 +483,7 @@ export default class ChartGenerator extends React.Component {
             </button>
             {
               isDropdownOpened && (
-                <ul role="menu" className="dropdown-menu dropdown-menu-right" ref={node => this.btnDropdown = node}>
+                <ul role="menu" className={`dropdown-menu dropdown-menu-right font-${fontSizeIndex}-big`} ref={node => this.btnDropdown = node}>
                   <li tabIndex="1201" onClick={() => this.printChart()} onKeyDown={(event) => { if (event.keyCode === 13) this.printChart()} }><a>Print</a></li>
                   <li tabIndex="1202" onClick={() => this.downloadFile('application/pdf')} onKeyDown={(event) => { if (event.keyCode === 13) this.downloadFile('application/pdf')} }><a>PDF</a></li>
                   <li tabIndex="1203" onClick={() => this.downloadFile('image/png')} onKeyDown={(event) => { if (event.keyCode === 13) this.downloadFile('image/png')} }><a>PNG</a></li>
