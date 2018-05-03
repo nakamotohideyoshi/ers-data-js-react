@@ -130,7 +130,7 @@ class TableContainer extends React.Component {
   }
   render() {
     const { incomeArr, isShowItemAll } = this.state
-    const { showList, categories, blockIndex, footnotes } = this.props
+    const { showList, categories, blockIndex, fontSizeIndex, footnotes } = this.props
 
     if (incomeArr.length === 0 || categories.length === 0)
       return ( <div className='center-notification'>No data to display</div> )
@@ -141,7 +141,7 @@ class TableContainer extends React.Component {
             <div className="indexing-option-container">
             </div>
           </div>
-          <div className="table-container">
+          <div className={`table-container font-${fontSizeIndex}-big`}>
             <div className="col-width-3">
               <table className="table table-static">
                   <thead>
