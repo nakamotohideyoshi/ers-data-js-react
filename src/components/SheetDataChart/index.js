@@ -94,7 +94,7 @@ class SheetDataChart extends Component {
         <div className="chart-container col-xs-12">
           <ChartGenerator series={incomeArr} categories={categories} title={chartTitle} chartType={chartType} fontSizeIndex={fontSizeIndex} whichOneMultiple={whichOneMultiple} />
           <div className="chart-type-container">
-            <span>Chart Type:</span>
+            <span className={`font-${fontSizeIndex}-small`}>Chart Type:</span>
             <OptionGroup options={chartTypesArray} selectedIndex={chartTypeIndex} fontSizeIndex={fontSizeIndex} onSelect={(index) => this.switchChartType(index)} tabIndex={1300} />
           </div>
         </div>
