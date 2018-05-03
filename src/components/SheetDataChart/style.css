@@ -56,13 +56,13 @@
 .chart-type-container {
   display: flex;
   align-items: center;
+  margin-top: 5px;
   margin-left: 52px;
 }
 .chart-type-container .option-group {
   margin-left: 15px;
 }
 .chart-type-container span {
-  font-size: 0.7em;
   color: #081827;
   margin: 0px;
   padding: 5px 10px;
