@@ -22,6 +22,7 @@ const fontSizeArray = [
   { label: 'A', type: 'a2', size: '1.5em'},
   { label: 'A', type: 'a2', size: '2em'},
 ]
+
 export default class Layout extends React.Component {
   state = {
     selectedStateNames: [],
@@ -45,11 +46,12 @@ export default class Layout extends React.Component {
   }
 
   componentWillMount() {
+
+    // filters, and pre_fileters initailize.
     let filters = []
     let pre_filters = []
-    const isRemoveDataSource = false
 
-    for (let i=0; i<dataSourceCounts+1; i++) {
+    for (let i=0; i<=dataSourceCounts; i++) {
       const obj = {}
       obj.report_num = []
       obj.subject_num = []
@@ -64,6 +66,7 @@ export default class Layout extends React.Component {
       }      
       obj.topic_abb = []
       filters.push(obj)
+      
       const obj1 = {}
       obj1.report_num = []
       obj1.subject_num = []
@@ -78,66 +81,22 @@ export default class Layout extends React.Component {
       }      
       obj1.topic_abb = []
       pre_filters.push(obj1)
-    }
-    
-    const isGetSurveyData = false
+    } 
 
-    this.setState({filters, pre_filters, isRemoveDataSource, isGetSurveyData})
+    this.setState({
+      filters,
+      pre_filters
+    })
   }
 
   componentWillReceiveProps(props) {
+    const runQuery = props.repors.length !== 0 ? 'initialize' : ''
+    const isReset = true
 
-    let {pre_filters, whichOneMultiple} = this.state
-
-    const yearCount = whichOneMultiple === YEAR_SELECTED ? defaultYearCount : 1
-
-    let yearsInfo = []
-    let selectedYears = []
-    props.years.forEach(year => {
-      const infoObj = {}
-        infoObj.year = year
-        if (props.years.indexOf(year) >= 0 && props.years.indexOf(year) < yearCount) {
-          infoObj.checked = true
-          selectedYears.push(year)
-        } else {
-          infoObj.checked = false
-        }          
-        yearsInfo.push(infoObj)
+    this.state({      
+      runQuery,
+      isReset
     })
-    
-
-    let statesInfo = []
-    let selectedStates = []
-    let selectedStateNames = []
-   
-    props.states.forEach(stateN => {
-      const obj = {}
-      obj.name = stateN.name
-      obj.id = stateN.id
-      if (props.states.indexOf(stateN) >= 0 && props.states.indexOf(stateN) < defaultStateCount) {
-        obj.checked = true
-        selectedStates.push(stateN.id)
-        selectedStateNames.push(stateN.name)
-      } else {
-        obj.checked = false 
-      } 
-      statesInfo.push(obj)     
-    })
-
-    const isRemoveDataSource = false
-    const isGetSurveyData = false
-
-
-    this.setState({
-      yearsInfo: yearsInfo,
-      selectedYears: selectedYears,
-      statesInfo: statesInfo,
-      selectedStates: selectedStates,
-      selectedStateNames: selectedStateNames,
-      pre_filters: pre_filters,
-      isRemoveDataSource,
-      isGetSurveyData
-    })    
     
   }
 
