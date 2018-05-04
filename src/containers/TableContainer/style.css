@@ -91,7 +91,6 @@
 }
 .table thead th {
   background: #F0F7F9;
-  font-size: 0.8em;
   font-family: 'Roboto', sans-serif;
   text-transform: uppercase;
   font-weight: 700;
@@ -99,7 +98,6 @@
 }
 .table-static tbody tr:nth-child(1) td {
   width: 350px;
-  font-size: 0.8em;
 }
 .table-static {
   position: relative;
@@ -165,7 +163,6 @@
   justify-content: center;
 }
 .estimate_rse .data-heading {
-  font-size: 0.8em;
   font-family: 'Roboto', sans-serif;
   text-transform: uppercase;
   font-weight: 700;
