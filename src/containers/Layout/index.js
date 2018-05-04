@@ -1282,7 +1282,7 @@ export default class Layout extends React.Component {
     if (blockIndex === 0) {
       if (priority.indexOf('state') === 0) {
         // State -> ... -> ...
-        runQuery = 'tQuery'
+        runQuery = 'dlftTailored'
       } else if (priority.indexOf('state') === 1 &&  priority.indexOf('year') === 0) {
         // Year -> State -> ...
         runQuery = 'tyQuery'
