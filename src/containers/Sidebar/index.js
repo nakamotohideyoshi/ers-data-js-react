@@ -6,7 +6,7 @@ import './style.css';
 import Reset from '../../images/reset.png'
 // import { selectLimit } from 'async';
 import resetQuery from '../../ApolloComponent/resetQuery'
-import reset1Query from '../../ApolloComponent/reset1Query'
+import dTailored from '../../ApolloComponent/dTailored'
 import sQuery from '../../ApolloComponent/sQuery'
 import seQuery from '../../ApolloComponent/seQuery'
 import setQuery from '../../ApolloComponent/setQuery'
@@ -64,8 +64,101 @@ class Sidebar extends React.Component {
       sidebarItems,
       currentBlock,
       isReports
-    })
+    })    
+  }
+
+  componentWillReceiveProps(props) {
     
+    if (props.runQuery.length !== 0){
+
+      let {categoryTitles, sidebarItems, currentBlock} = this.state
+      const runQuery = props.runQuery
+
+      if (['initialize'].indexOf(props.runQuery)>-1) {
+
+        const reports = this.generateReports(props.reports, currentBlock)
+        
+        categoryTitles.push(reports.categoryTitle)
+        sidebarItems.push(reports.sidebarItem)
+
+        this.setState({
+          categoryTitles,
+          sidebarItems,
+          currentBlock
+        }, props.resetFilterByBlockIndex(currentBlock))
+
+      } else if (props[runQuery].networkStatus === 7 && props[runQuery][runQuery]) {
+        
+        if (['dTailored'].indexOf(runQuery) > -1) {
+
+          const topic_abb = []
+          props[runQuery][runQuery].topic.forEach(topic => {
+            topic_abb.push(topic.abb)
+          })
+
+          
+          const subject_num = [props[runQuery][runQuery].subject[0].num]          
+          const subjects = this.generateSubjects(props[runQuery][runQuery].subject, currentBlock)          
+
+          if (categoryTitles.length < 3) {
+            categoryTitles.push(subjects.categoryTitle)
+            sidebarItems.push(subjects.sidebarItem)
+          }
+
+          this.setState({
+            categoryTitles,
+            sidebarItems,
+            currentBlock
+          }, props.initialLoadingTailor(topic_abb, subject_num, currentBlock))
+          
+        }
+      }
+    } 
+  }
+
+  generateReports(reports, currentBlock) {
+    const categoryTitle = []
+
+    reports.forEach(report => {
+      const obj = {}
+      obj.num = report.num
+      obj.header = report.header
+      categoryTitle.push(obj)
+    })
+
+    const sidebarItem = {
+      isOpened: false,
+      selectedIndex: 0,
+      isCategory: false,
+      blockIndex: currentBlock,
+      visible: true,
+      headingTitle: 'Report'
+    }
+
+    return { categoryTitle, sidebarItem }
+
+  }
+
+  generateSubjects(subjects, currentBlock) {
+
+    const categoryTitle = []
+    subjects.forEach(subject => {
+      const obj = {}
+      obj.num = subject.num
+      obj.header = subject.header
+      categoryTitle.push(obj)
+    })
+
+    const sidebarItem = {
+      isOpened: false,
+      selectedIndex: 0,
+      isCategory: false,
+      blockIndex: currentBlock,
+      visible: true,
+      headingTitle: 'Subject'
+    }
+
+    return { categoryTitle, sidebarItem }
   }
 
   // componentWillReceiveProps(props) {
@@ -1452,7 +1545,7 @@ class Sidebar extends React.Component {
 
 export default compose(
   resetQuery,
-  reset1Query,
+  dTailored,
   sQuery,
   seQuery,
   seyQuery,

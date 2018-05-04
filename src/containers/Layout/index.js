@@ -90,10 +90,15 @@ export default class Layout extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    const runQuery = props.reports.length !== 0 ? 'initialize' : ''
-    const isReset = true
-
-    this.setState({      
+    let {runQuery, isReset, pre_filters} = this.state
+    
+    if (props.reports.length !== 0) {
+      runQuery = 'initialize'
+      isReset = true
+      pre_filters[0].report_num = [1]
+    }
+    this.setState({
+      pre_filters,      
       runQuery,
       isReset
     })
@@ -130,7 +135,7 @@ export default class Layout extends React.Component {
     const isAllDataSources = false
 
     let {pre_filters} = this.state
-    let runQuery = 'reset1Query'
+    let runQuery = 'dTailored'
 
     pre_filters[blockIndex].report_num = [1]
     pre_filters[blockIndex].subject_num = []
@@ -165,7 +170,7 @@ export default class Layout extends React.Component {
     pre_filters[blockIndex].serie_element = []
 
     if (blockIndex === 0) {      
-      runQuery = 'reset1Query'
+      runQuery = 'dTailored'
     } else {
       pre_filters[blockIndex].serie2 = []
       pre_filters[blockIndex].serie2_element = []
@@ -1044,7 +1049,7 @@ export default class Layout extends React.Component {
       isRemoveDataSource,
       isGetSurveyData,
       blockIndex,
-      runQuery: 'reset1Query'
+      runQuery: 'dTailored'
     })
   }
 
