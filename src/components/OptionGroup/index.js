@@ -9,7 +9,7 @@ export default class OptionGroup extends React.Component {
     }
   }
   render() {
-    const { options, selectedIndex, onSelect, tabIndex, fontSizeIndex } = this.props
+    let { options, selectedIndex, onSelect, tabIndex, fontSizeIndex } = this.props
     return (
       <div className="option-group">
       {
