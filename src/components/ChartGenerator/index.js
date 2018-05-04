@@ -114,6 +114,8 @@ export default class ChartGenerator extends React.Component {
   }
   generateConfig(series, categories, title, chartType, whichOneMultiple, fontSizeIndex) {
  
+    const chartFont = fontSizeIndex/5+1
+
     // CSV Generation for Chart/Table
     this.generateCSVChart(series, categories)
     this.generateCSVTable(series, categories)  
@@ -171,7 +173,9 @@ export default class ChartGenerator extends React.Component {
     const config = {
       title: {
         text: title,
-        style: { fontSize: `${(fontSizeIndex/4+1.5)}em` }
+        style: { 
+          fontSize: chartFont*1.4+'em'
+        }
       },
       chart: {
         height: 500 + unitDescs.length * 50,
@@ -180,7 +184,7 @@ export default class ChartGenerator extends React.Component {
           load: function () {
             const label = this.renderer.label("Source: Economic Research Services, US Dept of Agriculture")
               .css({
-                fontSize: '10px',
+                fontSize: chartFont*0.9+'em',
                 color: '#cccccc'
               })
               .add();
@@ -191,7 +195,7 @@ export default class ChartGenerator extends React.Component {
               y: -10 // offset
             }), null, 'spacingBox');
 
-            this.renderer.image('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAUCAYAAABxnDbHAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAq1JREFUeNrElG1ozVEcx8+uu83zU9tKYWa2MBaTh6Zle6FbEqKwUkqSSChPuWWJW/JG44XEC4WWF2RR3KKrECLPxBReIDO0eRrTxuf33/fa/652SbP96nPO+Z//+Z3fw/mdk+JCkbBzbjJsctFwjTMJRSbRLuR7M+OZjFdABtyDjVAAFa5N3sEjOI7OK+eXUGQxbYz52vhUADJhLrz1LW2GUShM9TZybo2pQxoMhp/SuQjzYTeMhRp0FrhEMSdX+icCrmP5BMUy8ANPm+jXQWPCqmi4xctQNLycr7NwFMPZirKEdgKsYpz2N0ZNLiuyhyiZwVQ2b0iy/iD0hCX6Xg1bIQsW/clovaK4QWtn0gP2eOcWioxLYvSl+mGsG0rfW3q1ylJSoym+9NmZ5sA2sI22JzE6XP1TL6XOPYNZcAuKcGR63GidFmb5lG3zjywqluHPsIPRVRiUxOgyaFDxzYY7MBBOqTjXtkYUiuTrZ5W8S4cjsNfzzrnvsE9R2LotcB1uw3rYDyNhgyraqjnPWx8NV/iuzknaOZa1gO6mhR2E8171OXeM+Qv0JyAXTsMhz0g0fEDpr4ZSRWXX4qZ3zZy7BhPhXLssmNEzloEUV15mEfSFDx5VsSbXGVJe1k/7WjUP8P2pM6OHlZIWTX6BFyqC+3DF874q1uzb0K5RvtKaI7JVF5l6vVI7cKfSjI5mMEIexcWi/aYrMATGa6MpUAj95dRz8fp3ppx7r75eAQT0kqXHH52g3lXz+gE8UbmblyU6sz76dxd2eQ9F6/3L9e5ja6XbeJoizZCOpbSXDLaLtC1llpZysMjfwCV4DGNUGEV66PNk9F+lMqjzKZR31UpVqa5MQcJD0UkSlNd2ZvNghp68/ypmdCcsdV0oAdcN0i1GLb1f9Uh3lTT+EmAAt2yr1kwO7ucAAAAASUVORK5CYII=', label.alignAttr.x-40,label.alignAttr.y, 30, 20).add();
+            this.renderer.image('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAUCAYAAABxnDbHAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAq1JREFUeNrElG1ozVEcx8+uu83zU9tKYWa2MBaTh6Zle6FbEqKwUkqSSChPuWWJW/JG44XEC4WWF2RR3KKrECLPxBReIDO0eRrTxuf33/fa/652SbP96nPO+Z//+Z3fw/mdk+JCkbBzbjJsctFwjTMJRSbRLuR7M+OZjFdABtyDjVAAFa5N3sEjOI7OK+eXUGQxbYz52vhUADJhLrz1LW2GUShM9TZybo2pQxoMhp/SuQjzYTeMhRp0FrhEMSdX+icCrmP5BMUy8ANPm+jXQWPCqmi4xctQNLycr7NwFMPZirKEdgKsYpz2N0ZNLiuyhyiZwVQ2b0iy/iD0hCX6Xg1bIQsW/clovaK4QWtn0gP2eOcWioxLYvSl+mGsG0rfW3q1ylJSoym+9NmZ5sA2sI22JzE6XP1TL6XOPYNZcAuKcGR63GidFmb5lG3zjywqluHPsIPRVRiUxOgyaFDxzYY7MBBOqTjXtkYUiuTrZ5W8S4cjsNfzzrnvsE9R2LotcB1uw3rYDyNhgyraqjnPWx8NV/iuzknaOZa1gO6mhR2E8171OXeM+Qv0JyAXTsMhz0g0fEDpr4ZSRWXX4qZ3zZy7BhPhXLssmNEzloEUV15mEfSFDx5VsSbXGVJe1k/7WjUP8P2pM6OHlZIWTX6BFyqC+3DF874q1uzb0K5RvtKaI7JVF5l6vVI7cKfSjI5mMEIexcWi/aYrMATGa6MpUAj95dRz8fp3ppx7r75eAQT0kqXHH52g3lXz+gE8UbmblyU6sz76dxd2eQ9F6/3L9e5ja6XbeJoizZCOpbSXDLaLtC1llpZysMjfwCV4DGNUGEV66PNk9F+lMqjzKZR31UpVqa5MQcJD0UkSlNd2ZvNghp68/ypmdCcsdV0oAdcN0i1GLb1f9Uh3lTT+EmAAt2yr1kwO7ucAAAAASUVORK5CYII=', label.alignAttr.x-40,label.alignAttr.y+2*fontSizeIndex, 30, 20).add();
               
           }
         },
@@ -201,19 +205,25 @@ export default class ChartGenerator extends React.Component {
       },
       xAxis: {
         labels: {
-            formatter: function() {
-              return categories[this.value];
-            }
+          style: {
+            fontSize: chartFont+'em'
+          },
+          formatter: function() {
+            return categories[this.value];
+          }
         }
       },
       yAxis: [],
       plotOptions: {
         series: {
-            pointPadding: 0,
-            groupPadding: 0.3
+          pointPadding: 0,
+          groupPadding: 0.3
         }
       },
-      legend: {
+      legend: { 
+        itemStyle: {
+          fontSize: chartFont+'em'
+        },
         symbolRadius: 0,
         y: -40
       },
@@ -222,10 +232,13 @@ export default class ChartGenerator extends React.Component {
       },
       tooltip: {
         useHTML: true,
+        style: {
+          fontSize: chartFont*0.9+'em'
+        },
         shared: true,        
         formatter: function () {
-            let s = '<span style="font-size: 1em; padding:5px;">'+ categories[this.x] +'</span><br />'
-            s += '<div style="display: flex; flex-direction: column;  max-height: 350px; flex-wrap: no-wrap; margin-top: 5px;"><tr><th /><th /></tr>'
+            let s = '<div style="padding: 5px;">'+ categories[this.x] +'</div>'
+            s += '<div style="display: flex; flex-direction: column; flex-wrap: no-wrap;">'
             this.points.forEach((point, index) => {
               colorSet.push(point.color)
               let yVal = numberWithCommas(point.y)
@@ -256,7 +269,8 @@ export default class ChartGenerator extends React.Component {
         title: {
           text: "Number of Farms" + trailReduce,
           style: {
-            color: darkBlue
+            color: darkBlue,
+            fontSize: chartFont+'em'
           }           
         },
         lineWidth: 1,
@@ -264,10 +278,14 @@ export default class ChartGenerator extends React.Component {
         top: seriesOthers.length > 0 && seriesOthersShown ? '80%' : '0%',
         height: seriesOthers.length > 0 && seriesOthersShown ? '20%' : '100%',
         labels: {
+          style: {
+            fontSize: chartFont+'em'
+          },
           formatter: function () {
             const isReducePossible = this.value/1000 > 1
+
             let axisFormat = numberWithCommas(isReducePossible ? Math.round(this.value/1000) : this.value)
-            return '<span style="color:'+darkBlue+';margin-left:-30px">'+ numberWithCommas(axisFormat) +'</span>';
+            return '<span style="color:'+darkBlue+';margin-left:-30px" className="font-'+fontSizeIndex+'-normal">'+ numberWithCommas(axisFormat) +'</span>';
           }
         },
         events: {
@@ -341,6 +359,9 @@ export default class ChartGenerator extends React.Component {
         config.yAxis.push({
           title: {
             text: unitDescs[unitIndex] + trailReduce,
+            style: {
+              fontSize: chartFont+'em'
+            },
           },
           lineWidth: 1,
           breaks: this.getBreaingPoints(singleOther),
@@ -357,16 +378,16 @@ export default class ChartGenerator extends React.Component {
                 path = ['M', x, y, 'L', x + w * 0.25, y + 4, 'L', x + w * 0.75, y - 4, 'L', x + w, y];
         
                 if (!point[key]) {
-                    point[key] = this.chart.renderer.path(path)
-                        .attr({
-                            'stroke-width': 3,
-                            stroke: point.series.options.borderColor
-                        })
-                        .add(point.graphic.parentGroup);
+                  point[key] = this.chart.renderer.path(path)
+                      .attr({
+                          'stroke-width': 3,
+                          stroke: point.series.options.borderColor
+                      })
+                      .add(point.graphic.parentGroup);
                 } else {
-                    point[key].attr({
-                        d: path
-                    });
+                  point[key].attr({
+                      d: path
+                  });
                 }
               }
             }
@@ -375,6 +396,9 @@ export default class ChartGenerator extends React.Component {
           height: `${(totalHeightPercentage-3*(unitDescs.length-1))/unitDescs.length}%`,
           offset: 0,
           labels: {
+            style: {
+              fontSize: chartFont+'em'
+            },
             formatter: function () {
               const isReducePossible = this.value/1000 > 1
               let axisFormat = numberWithCommas(isReducePossible ? Math.round(this.value/1000) : this.value)
