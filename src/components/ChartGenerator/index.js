@@ -5,6 +5,7 @@ import ReactHighcharts from 'react-highcharts'
 import HighchartsExporting from 'highcharts-exporting'
 import HighchartsExportCSV from 'highcharts-export-csv'
 import BrokenAxis from 'highcharts/modules/broken-axis'
+import Accessibility from 'highcharts/modules/accessibility'
 import {CSVLink} from 'react-csv';
 
 import { numberWithCommas } from '../../helpers/NumberWithCommas'
@@ -13,7 +14,7 @@ import DownloadImg from '../../images/download.png'
 HighchartsExporting(ReactHighcharts.Highcharts)
 HighchartsExportCSV(ReactHighcharts.Highcharts)
 BrokenAxis(ReactHighcharts.Highcharts)
-
+Accessibility(ReactHighcharts.Highcharts)
 export default class ChartGenerator extends React.Component {
   state = {
     config: {},
