@@ -22,12 +22,12 @@ export default class ChartGenerator extends React.Component {
     csvTableArray: [],    
   }
   componentWillMount() {
-    const { series, categories, title, chartType, whichOneMultiple } = this.props
-    this.generateConfig(series, categories, title, chartType, whichOneMultiple)
+    const { series, categories, title, chartType, whichOneMultiple, fontSizeIndex } = this.props
+    this.generateConfig(series, categories, title, chartType, whichOneMultiple, fontSizeIndex)
   }
   componentWillReceiveProps(props) {
-    const { series, categories, title, chartType, whichOneMultiple } = props
-    this.generateConfig(series, categories, title, chartType, whichOneMultiple)
+    const { series, categories, title, chartType, whichOneMultiple, fontSizeIndex } = props
+    this.generateConfig(series, categories, title, chartType, whichOneMultiple, fontSizeIndex)
   }
   generateCSVChart(series, categories) {
       let csvChartArray = [["Categories"]]
@@ -112,7 +112,7 @@ export default class ChartGenerator extends React.Component {
     })
     return breaksArr
   }
-  generateConfig(series, categories, title, chartType, whichOneMultiple) {
+  generateConfig(series, categories, title, chartType, whichOneMultiple, fontSizeIndex) {
  
     // CSV Generation for Chart/Table
     this.generateCSVChart(series, categories)
@@ -170,7 +170,8 @@ export default class ChartGenerator extends React.Component {
     const darkBlue = '#23527c'
     const config = {
       title: {
-        text: title
+        text: title,
+        style: { fontSize: `${(fontSizeIndex/4+1.5)}em` }
       },
       chart: {
         height: 500 + unitDescs.length * 50,
