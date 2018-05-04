@@ -90,10 +90,10 @@ export default class Layout extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    const runQuery = props.repors.length !== 0 ? 'initialize' : ''
+    const runQuery = props.reports.length !== 0 ? 'initialize' : ''
     const isReset = true
 
-    this.state({      
+    this.setState({      
       runQuery,
       isReset
     })
