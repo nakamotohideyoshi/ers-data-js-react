@@ -124,7 +124,7 @@ export default class Layout extends React.Component {
       isGetSurveyData,
       priority: [],
       blockIndex,
-      runQuery: 'resetQuery'
+      runQuery: 'dlfTailored'
     })
   }
 
@@ -1068,7 +1068,7 @@ export default class Layout extends React.Component {
       isRemoveDataSource,
       isGetSurveyData,
       blockIndex,
-      runQuery: 'resetQuery'
+      runQuery: 'dlfTailored'
     })
   }
 
