@@ -2,14 +2,14 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
   export default graphql(gql`
-  query seyQuery (
+  query dlfseyTailored (
     $report_num: [Int],
     $subject_num: [Int],
     $serie: [String],
     $serie_element: [Int],
     $selectedYears: [Int]
   ){
-    seyQuery: arms_filter(
+    dlfseyTailored: arms_filter(
       survey_abb: "finance",
       report_num: $report_num,
       subject_num: $subject_num,
@@ -24,6 +24,6 @@ import gql from 'graphql-tag';
     }     
   }
 `, {
-    skip: (ownProps) => ownProps.runQuery !== 'seyQuery',
-    name: 'seyQuery',
+    skip: (ownProps) => ownProps.runQuery !== 'dlfseyTailored',
+    name: 'dlfseyTailored',
   });

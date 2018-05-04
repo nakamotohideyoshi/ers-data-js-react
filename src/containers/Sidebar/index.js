@@ -10,7 +10,7 @@ import dTailored from '../../ApolloComponent/dTailored'
 import dlfsTailored from '../../ApolloComponent/dlfsTailored'
 import dlfseTailored from '../../ApolloComponent/dlfseTailored'
 import setQuery from '../../ApolloComponent/setQuery'
-import seyQuery from '../../ApolloComponent/seyQuery'
+import dlfseyTailored from '../../ApolloComponent/dlfseyTailored'
 import tQuery from '../../ApolloComponent/tQuery'
 import dlftsTailored from '../../ApolloComponent/dlftsTailored'
 import tyQuery from '../../ApolloComponent/yQuery'
@@ -236,6 +236,7 @@ class Sidebar extends React.Component {
             break
 
           case 'dlfseTailored':
+          case 'dlfseyTailored':
             
             if (props[runQuery][runQuery].year) {
 
@@ -245,6 +246,12 @@ class Sidebar extends React.Component {
                 currentBlock,
               }, props.resetYFilter(props[runQuery][runQuery].year, currentBlock))
 
+            } else if (props[runQuery][runQuery].state) {
+              this.setState({
+                categoryTitles,
+                sidebarItems,
+                currentBlock,
+              }, props.resetRFilter(props[runQuery][runQuery].state, currentBlock))
             }
             
             break
@@ -1779,7 +1786,7 @@ export default compose(
   dTailored,
   dlfsTailored,
   dlfseTailored,
-  seyQuery,
+  dlfseyTailored,
   setQuery,
   tQuery,
   dlftsTailored,
