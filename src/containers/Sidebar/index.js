@@ -8,7 +8,7 @@ import Reset from '../../images/reset.png'
 import dlfTailored from '../../ApolloComponent/dlfTailored'
 import dTailored from '../../ApolloComponent/dTailored'
 import dlfsTailored from '../../ApolloComponent/dlfsTailored'
-import seQuery from '../../ApolloComponent/seQuery'
+import dlfseTailored from '../../ApolloComponent/dlfseTailored'
 import setQuery from '../../ApolloComponent/setQuery'
 import seyQuery from '../../ApolloComponent/seyQuery'
 import tQuery from '../../ApolloComponent/tQuery'
@@ -230,6 +230,20 @@ class Sidebar extends React.Component {
                 sidebarItems,
                 currentBlock,
               }, props.resetEFilter(serie_element, currentBlock))
+
+            }
+            
+            break
+
+          case 'dlfseTailored':
+            
+            if (props[runQuery][runQuery].year) {
+
+              this.setState({
+                categoryTitles,
+                sidebarItems,
+                currentBlock,
+              }, props.resetYFilter(props[runQuery][runQuery].year, currentBlock))
 
             }
             
@@ -1764,7 +1778,7 @@ export default compose(
   dlfTailored,
   dTailored,
   dlfsTailored,
-  seQuery,
+  dlfseTailored,
   seyQuery,
   setQuery,
   tQuery,
