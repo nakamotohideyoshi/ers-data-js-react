@@ -19,6 +19,7 @@ class SheetDataChart extends Component {
   componentWillReceiveProps(props) {
     const { showList, surveyData, categories, whichOneMultiple } = props
     let incomeArr = []
+    console.log(surveyData)
     if (surveyData) {
       surveyData.forEach((dataSourceCategories, index) => {
         dataSourceCategories.data.forEach((element, i) => {
@@ -40,18 +41,22 @@ class SheetDataChart extends Component {
             singleIncome.unit_desc = element.topic_dim.unit_desc
               let estimateList = []
               let rseList = []
+              let medianList = []
               categories.forEach(category => {
-                const comparedCategory = whichOneMultiple === YEAR_SELECTED ? element.year: element.state.name
+                const comparedCategory = whichOneMultiple === YEAR_SELECTED ? element.year : element.state.name
                 if (comparedCategory === category) {
                   estimateList.push(element.estimate < 0 ? 0 : element.estimate)
                   rseList.push(element.rse < 0 ? 0 : element.rse)
+                  medianList.push(element.median === null ? 0 : element.median)
                 } else {
                   estimateList.push(0)
                   rseList.push(0)
+                  medianList.push(0)                  
                 }
               })
               singleIncome.estimateList = estimateList
               singleIncome.rseList = rseList
+              singleIncome.medianList = medianList
               incomeArr.push(singleIncome)
           } else {
               categories.forEach((category, index) => {
@@ -59,6 +64,7 @@ class SheetDataChart extends Component {
                 if (comparedCategory === category) {
                   singleIncome.estimateList[index] = element.estimate < 0 ? 0 : element.estimate;
                   singleIncome.rseList[index] = element.rse < 0 ? 0 : element.rse;
+                  singleIncome.medianList[index] = element.median === null ? 0 : element.rse;                  
                 } 
               })
               incomeArr[currentIndex] = singleIncome

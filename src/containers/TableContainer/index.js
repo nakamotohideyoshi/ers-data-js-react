@@ -23,6 +23,8 @@ class TableContainer extends React.Component {
     const asterix = element.unreliable_est === 0 ? '':'*'
     let estimateVal = 'NA'
     let rseVal = 'NA'
+    let medianVal = 'NA'  
+      
     if (element.estimate > 0) {
       estimateVal = element.estimate + asterix
       rseVal = element.rse
@@ -30,16 +32,23 @@ class TableContainer extends React.Component {
     if (element.rse !== 0 && element.rse !== null) {
       rseVal = element.rse
     }
-    if (element.rse === null)
+    if (element.rse === null) {
       rseVal = 'NA'
+    }
+    if (element.median !== 0 && element.median !== null) {
+      medianVal = element.median
+    }
+
     estimateVal = numberWithCommas(estimateVal)
     rseVal = rseVal === 'NA' ? rseVal : (element.rse).toFixed(1)
+    medianVal = numberWithCommas(medianVal)
 
-    return { estimateVal, rseVal }
+    return { estimateVal, rseVal, medianVal }
   }
   componentWillReceiveProps(props) {
     const { surveyData, categories, whichOneMultiple } = props
     let incomeArr = []
+    console.log(surveyData)
     if (surveyData) {
       surveyData.forEach((dataSourceCategories, index) => {
         if (dataSourceCategories.data.length  > 0)
@@ -67,18 +76,22 @@ class TableContainer extends React.Component {
             singleIncome.topic_abb = element.topic_abb
             let estimateList = []
             let rseList = []
+            let medianList = []
             categories.forEach(category => {
               const comparedCategory = whichOneMultiple === YEAR_SELECTED ? element.year: element.state.name
               if (comparedCategory === category) {
                 estimateList.push(this.formatEstimateRse(element).estimateVal)
                 rseList.push(this.formatEstimateRse(element).rseVal)
+                medianList.push(this.formatEstimateRse(element).medianVal)                
               } else {
                 estimateList.push('NA')
                 rseList.push('NA')
+                medianList.push('NA')                
               }
             })
             singleIncome.estimateList = estimateList
             singleIncome.rseList = rseList
+            singleIncome.medianList = medianList            
             incomeArr.push(singleIncome)
           } else {
             categories.forEach((category, index) => {
@@ -86,6 +99,7 @@ class TableContainer extends React.Component {
               if (comparedCategory === category) {
                 singleIncome.estimateList[index] = this.formatEstimateRse(element).estimateVal
                 singleIncome.rseList[index] = this.formatEstimateRse(element).rseVal
+                singleIncome.medianList[index] = this.formatEstimateRse(element).medianVal                
               } 
             })
             incomeArr[currentIndex] = singleIncome
