@@ -1092,7 +1092,7 @@ export default class Layout extends React.Component {
       runQuery = 'dlfsTailored'
     } else if (priority.indexOf('serie') === 1 &&  priority.indexOf('year') === 0) {
       // Year -> Serie -> ...
-      runQuery = 'ysQuery'
+      runQuery = 'dlfysTailored'
     } else if (priority.indexOf('serie') === 1 &&  priority.indexOf('state') === 0) {
       // State -> Serie -> ...
       runQuery = 'tsQuery'
