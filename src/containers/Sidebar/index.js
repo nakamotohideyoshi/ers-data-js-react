@@ -11,7 +11,7 @@ import dlfsTailored from '../../ApolloComponent/dlfsTailored'
 import dlfseTailored from '../../ApolloComponent/dlfseTailored'
 import dlfsetTailored from '../../ApolloComponent/dlfsetTailored'
 import dlfseyTailored from '../../ApolloComponent/dlfseyTailored'
-import tQuery from '../../ApolloComponent/tQuery'
+import dlftTailored from '../../ApolloComponent/dlftTailored'
 import dlftsTailored from '../../ApolloComponent/dlftsTailored'
 import tyQuery from '../../ApolloComponent/yQuery'
 import dlftysTailored from '../../ApolloComponent/dlftysTailored'
@@ -131,11 +131,10 @@ class Sidebar extends React.Component {
             break
           
           case 'dlfTailored':
+          case 'dlftTailored':
 
             let serie = [props[runQuery][runQuery].serie[0].abb]
             const series = this.generateSeries(props[runQuery][runQuery].serie, currentBlock)
-            const years = props[runQuery][runQuery].year
-            const states = props[runQuery][runQuery].state
 
             if (categoryTitles.length < 4) {
 
@@ -157,11 +156,23 @@ class Sidebar extends React.Component {
 
             }
 
-            this.setState({
-              categoryTitles,
-              sidebarItems,
-              currentBlock
-            }, props.resetSYRFilter(serie, years, states, currentBlock))
+            if (props[runQuery][runQuery].year && props[runQuery][runQuery].state) {
+
+              this.setState({
+                categoryTitles,
+                sidebarItems,
+                currentBlock
+              }, props.resetSYRFilter(serie, props[runQuery][runQuery].year, props[runQuery][runQuery].state, currentBlock))
+
+            } else if (props[runQuery][runQuery].year) {
+
+              this.setState({
+                categoryTitles,
+                sidebarItems,
+                currentBlock
+              }, props.resetSYFilter(serie, props[runQuery][runQuery].year, currentBlock))
+              
+            }
             break
 
           case 'dlftysTailored':
@@ -1797,7 +1808,7 @@ export default compose(
   dlfseTailored,
   dlfseyTailored,
   dlfsetTailored,
-  tQuery,
+  dlftTailored,
   dlftsTailored,
   tyQuery,
   dlftysTailored,
