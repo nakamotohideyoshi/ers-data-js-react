@@ -195,7 +195,7 @@ class TableContainer extends React.Component {
                         </div>
                       </th>
                     </tr>
-                    <tr><td>&nbsp;</td></tr>
+                    <tr><th>&nbsp;</th></tr>
                   </thead>
                   <tbody onScroll={this.onScrollTable1} ref={node=>this.headerBody=node} className="header-body">
                     {
@@ -340,7 +340,7 @@ class TableContainer extends React.Component {
                       categories && (
                         categories.map((category, pos) => {
                           return (
-                            <td className="estimate-rse-td" key={`est-th-${pos}`}>
+                            <th className="estimate-rse-td" key={`est-th-${pos}`}>
                               <div className='estimate_rse' tabIndex={1500+incomeArr.length}>
                                 <div className="data-heading data-value">ESTIMATE</div>
                                 {
@@ -354,7 +354,7 @@ class TableContainer extends React.Component {
                                   )
                                 }
                               </div>
-                            </td>
+                            </th>
                           )
                         })
                       )
