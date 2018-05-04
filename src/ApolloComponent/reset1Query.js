@@ -15,8 +15,12 @@ import gql from 'graphql-tag';
         num
         header
       }
-    }
-     
+      sub_report {
+        id
+        name
+        report_num
+      }
+    }     
   }
 `, {
     skip: (ownProps) => ownProps.runQuery !== 'reset1Query',
