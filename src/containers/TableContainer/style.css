@@ -73,7 +73,7 @@
   display: block; /*seperates the header from the body allowing it to be positioned*/
   z-index: 10;
 }
-.table thead th {
+.table thead tr:nth-of-type(odd) th {
   background: #F0F7F9;
   font-family: 'Roboto', sans-serif;
   text-transform: uppercase;
