@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ReactTooltip from 'react-tooltip'
 
+import OptionGroup from '../../components/OptionGroup'
+
 import { numberWithCommas } from '../../helpers/NumberWithCommas'
 import { YEAR_SELECTED } from '../../helpers/constants'
 import { REMOVING_ELEMENTS } from '../../helpers/constants'
@@ -11,9 +13,15 @@ import ShownImg from '../../images/show.png'
 import HelpImg from '../../images/help.png'
 
 import './style.css'
+import { select } from 'async';
 class TableContainer extends React.Component {
   state = {
     incomeArr: [],
+    showTypes: [
+      { label: 'RSE', selected: false },
+      { label: 'Median', selected: false }
+    ],
+    selectedShowIndex: -1,
     isShowItemAll: true,
     optionsIndex: 0,
     scrollLeft: 0,
@@ -142,8 +150,21 @@ class TableContainer extends React.Component {
   onScrollTable1 = () => {
     this.tbody.scrollTop = this.headerBody.scrollTop
   }
+  selectShowType(index) {
+    const { showTypes } = this.state
+    showTypes[index].selected = !showTypes[index].selected
+    if (showTypes[index].selected) {
+      showTypes.forEach((type, i) => {
+        if (i !== index) type.selected = false
+      })
+      this.setState({ selectedShowIndex: index })
+    } else {
+      this.setState({ selectedShowIndex: -1 })
+    }
+    this.setState({ showTypes: showTypes.slice() })
+  }
   render() {
-    const { incomeArr, isShowItemAll } = this.state
+    const { incomeArr, showTypes, selectedShowIndex, isShowItemAll } = this.state
     const { showList, categories, blockIndex, fontSizeIndex, footnotes } = this.props
 
     if (incomeArr.length === 0 || categories.length === 0)
@@ -152,8 +173,8 @@ class TableContainer extends React.Component {
       return (
         <div>
           <div className="heading-option-container">
-            <div className="indexing-option-container">
-            </div>
+            <span className={`font-${fontSizeIndex}-small`}>Show Type:</span>
+            <OptionGroup options={showTypes} selectedIndex={selectedShowIndex} fontSizeIndex={fontSizeIndex} onSelect={(index) => this.selectShowType(index)} tabIndex={1310} />
           </div>
           <div className={`table-container font-${fontSizeIndex}-big`}>
             <div className="col-width-3">
@@ -174,9 +195,9 @@ class TableContainer extends React.Component {
                         </div>
                       </th>
                     </tr>
+                    <tr><td>&nbsp;</td></tr>
                   </thead>
                   <tbody onScroll={this.onScrollTable1} ref={node=>this.headerBody=node} className="header-body">
-                    <tr><td>&nbsp;</td></tr>
                     {
                         incomeArr.map((data, index) => {
                           if (!data.id) {
@@ -314,8 +335,6 @@ class TableContainer extends React.Component {
                       )
                     }
                   </tr>
-                </thead>
-                <tbody onScroll={this.onScrollTable} ref={node=>this.tbody=node}>
                   <tr>
                     {
                       categories && (
@@ -324,7 +343,16 @@ class TableContainer extends React.Component {
                             <td className="estimate-rse-td" key={`est-th-${pos}`}>
                               <div className='estimate_rse' tabIndex={1500+incomeArr.length}>
                                 <div className="data-heading data-value">ESTIMATE</div>
-                                <div className="data-heading data-value">RSEᵃ</div>
+                                {
+                                  selectedShowIndex === 0 && (
+                                    <div className="data-heading data-value">RSEᵃ</div>
+                                  )
+                                }
+                                {
+                                  selectedShowIndex === 1 && (
+                                    <div className="data-heading data-value">Median</div>
+                                  )
+                                }
                               </div>
                             </td>
                           )
@@ -332,6 +360,8 @@ class TableContainer extends React.Component {
                       )
                     }
                   </tr>
+                </thead>
+                <tbody onScroll={this.onScrollTable} ref={node=>this.tbody=node}>
                   {
                     incomeArr.map((data, index) => {
                       if (!data.id) {
@@ -355,7 +385,16 @@ class TableContainer extends React.Component {
                                     <td className="estimate-rse-td nowrap-div" key={`est-td-${pos}`}>
                                       <div className='estimate_rse'>
                                         <div className="data-value">{incomeArr[index].estimateList[pos]}</div>
-                                        <div className="data-value">{incomeArr[index].rseList[pos]}</div>
+                                        {
+                                          selectedShowIndex === 0 && (
+                                            <div className="data-value">{incomeArr[index].rseList[pos]}</div>
+                                          )
+                                        }
+                                        {
+                                          selectedShowIndex === 1 && (
+                                            <div className="data-value">{incomeArr[index].medianList[pos]}</div>
+                                          )
+                                        }
                                       </div>
                                     </td>
                                   )
