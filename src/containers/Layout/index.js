@@ -1138,7 +1138,7 @@ export default class Layout extends React.Component {
       runQuery = 'dlfseyTailored'
     } else if (priority.indexOf('serie') === 1 &&  priority.indexOf('state') === 0) {
       // State -> Serie/Serie_element -> ...
-      runQuery = 'setQuery'
+      runQuery = 'dlfsetTailored'
     } else if (priority.indexOf('serie') === 2){
       // ... -> ... -> Serie/Serie_element
       runQuery = ''
@@ -1288,7 +1288,7 @@ export default class Layout extends React.Component {
         runQuery = 'tyQuery'
       } else if (priority.indexOf('state') === 1 &&  priority.indexOf('serie') === 0) {
         // Serie -> State -> ...
-        runQuery = 'setQuery'
+        runQuery = 'dlfsetTailored'
       } else if (priority.indexOf('state') === 2) {
         // ... -> ... -> State
         runQuery = ''
