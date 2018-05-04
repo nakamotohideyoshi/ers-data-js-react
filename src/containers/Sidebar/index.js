@@ -12,7 +12,7 @@ import seQuery from '../../ApolloComponent/seQuery'
 import setQuery from '../../ApolloComponent/setQuery'
 import seyQuery from '../../ApolloComponent/seyQuery'
 import tQuery from '../../ApolloComponent/tQuery'
-import tsQuery from '../../ApolloComponent/tsQuery'
+import dlftsTailored from '../../ApolloComponent/dlftsTailored'
 import tyQuery from '../../ApolloComponent/yQuery'
 import dlftysTailored from '../../ApolloComponent/dlftysTailored'
 import yQuery from '../../ApolloComponent/yQuery'
@@ -167,6 +167,7 @@ class Sidebar extends React.Component {
           case 'dlftysTailored':
           case 'dlfsTailored':
           case 'dlfysTailored':
+          case 'dlftsTailored':
             
             const series_element = this.generateElements(props[runQuery][runQuery].serie_element, currentBlock)
             let serie_element = series_element.serie_element
@@ -199,23 +200,37 @@ class Sidebar extends React.Component {
             }
 
             if (props[runQuery][runQuery].year && props[runQuery][runQuery].state) {
+
               this.setState({
                 categoryTitles,
                 sidebarItems,
                 currentBlock,
               }, props.resetEYRFilter(serie_element, props[runQuery][runQuery].year, props[runQuery][runQuery].state, currentBlock))
+
             } else if (props[runQuery][runQuery].state) {
+
               this.setState({
                 categoryTitles,
                 sidebarItems,
                 currentBlock,
               }, props.resetERFilter(serie_element, props[runQuery][runQuery].state, currentBlock))
+              
+            } else if (props[runQuery][runQuery].year) {
+
+              this.setState({
+                categoryTitles,
+                sidebarItems,
+                currentBlock,
+              }, props.resetEYFilter(serie_element, props[runQuery][runQuery].year, currentBlock))
+
             } else {
+
               this.setState({
                 categoryTitles,
                 sidebarItems,
                 currentBlock,
               }, props.resetEFilter(serie_element, currentBlock))
+
             }
             
             break
@@ -1753,7 +1768,7 @@ export default compose(
   seyQuery,
   setQuery,
   tQuery,
-  tsQuery,
+  dlftsTailored,
   tyQuery,
   dlftysTailored,
   yQuery,
