@@ -311,7 +311,7 @@ export default class Layout extends React.Component {
       temp_States,
       selectedStates: reSelectedStates,
       selectedStateNames: selectedStateNames,
-      runQuery: 'tysQuery'
+      runQuery: 'dlftysTailored'
     })
   }
 
@@ -791,7 +791,7 @@ export default class Layout extends React.Component {
       yearsInfo: yearsInfo,
       temp_Years,
       selectedYears: reSelectedYears,
-      runQuery: 'tysQuery'
+      runQuery: 'dlftysTailored'
     })
   }
 
@@ -810,7 +810,7 @@ export default class Layout extends React.Component {
       isRemoveDataSource,
       isGetSurveyData,
       blockIndex,
-      runQuery: 'tysQuery'
+      runQuery: 'dlftysTailored'
     })
   }
 
@@ -953,7 +953,7 @@ export default class Layout extends React.Component {
       temp_States,
       selectedStates: reSelectedStates,
       selectedStateNames: selectedStateNames,
-      runQuery: 'tysQuery'
+      runQuery: 'dlftysTailored'
     })
   }
 
@@ -1098,7 +1098,7 @@ export default class Layout extends React.Component {
       runQuery = 'tsQuery'
     } else if (priority.indexOf('serie') === 2){
       // ... -> ... -> Serie
-      runQuery = 'tysQuery'
+      runQuery = 'dlftysTailored'
     }
 
     const isRemoveDataSource = false

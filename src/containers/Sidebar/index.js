@@ -14,7 +14,7 @@ import seyQuery from '../../ApolloComponent/seyQuery'
 import tQuery from '../../ApolloComponent/tQuery'
 import tsQuery from '../../ApolloComponent/tsQuery'
 import tyQuery from '../../ApolloComponent/yQuery'
-import tysQuery from '../../ApolloComponent/tysQuery'
+import dlftysTailored from '../../ApolloComponent/dlftysTailored'
 import yQuery from '../../ApolloComponent/yQuery'
 import ysQuery from '../../ApolloComponent/ysQuery'
 import initAnalysis from '../../ApolloComponent/initAnalysis'
@@ -102,8 +102,23 @@ class Sidebar extends React.Component {
             const subjects = this.generateSubjects(props[runQuery][runQuery].subject, currentBlock)          
 
             if (categoryTitles.length < 3) {
+
               categoryTitles.push(subjects.categoryTitle)
               sidebarItems.push(subjects.sidebarItem)
+              
+            } else {
+              const prev_subject = [categoryTitles[2][sidebarItems[2].selectedIndex].header]
+              
+              const current_index = this.updateSubjects(prev_subject, subjects.categoryTitle)
+              subjects.sidebarItem.selectedIndex = current_index
+
+              if (subjects.categoryTitle.length === 1) {
+                subjects.sidebarItem.visible = false
+              }
+
+              categoryTitles[2] = subjects.categoryTitle
+              sidebarItems[2] = subjects.sidebarItem
+              
             }
 
             this.setState({
@@ -113,7 +128,7 @@ class Sidebar extends React.Component {
             }, props.initialLoadingTailor(topic_abb, subject_num, currentBlock))
             break
           
-          case 'dlfTailored' :
+          case 'dlfTailored':
 
             const serie = [props[runQuery][runQuery].serie[0].abb]
             const series = this.generateSeries(props[runQuery][runQuery].serie, currentBlock)
@@ -130,6 +145,24 @@ class Sidebar extends React.Component {
               sidebarItems,
               currentBlock
             }, props.resetSYRFilter(serie, years, states, currentBlock))
+            break
+
+          case 'dlftysTailored':
+            
+            const series_element = this.generateElement(props[runQuery][runQuery].serie_element, currentBlock)
+            const serie_element = series_element.serie_element
+
+            if (categoryTitles.length < 5) {
+              categoryTitles.push(series_element.categoryTitle)
+              sidebarItems.push(series_element.sidebarItem)
+            }
+
+            this.setState({
+              categoryTitles,
+              sidebarItems,
+              currentBlock,
+            }, props.resetEFilter(serie_element, currentBlock))
+
             break
 
           default: break          
@@ -184,6 +217,20 @@ class Sidebar extends React.Component {
     return { categoryTitle, sidebarItem }
   }
 
+  updateSubjects(prev_subject, subjects) {
+    let current_index = 0
+
+    if (!this.props.isReset) {
+      subjects.forEach((subject, i) => {
+        if (prev_subject.indexOf(subject.header) > -1) {
+          current_index = i
+        }
+      })
+    }
+
+    return current_index
+  }
+
   generateSeries(series, currentBlock) {
     
     const categoryTitle = []
@@ -204,6 +251,34 @@ class Sidebar extends React.Component {
     }
 
     return { categoryTitle, sidebarItem }
+  }
+
+  generateElement(elements, currentBlock) {
+    const serie_element = []
+
+    const categoryTitle = [{
+      num: 0,
+      header: 'All'
+    }]
+    elements.forEach(element => {
+      const obj = {}
+      obj.num = element.id
+      obj.header = element.name
+      categoryTitle.push(obj)
+      serie_element.push(element.id)
+    })
+
+    const sidebarItem = {
+      isOpened: false,
+      selectedIndex: 0,
+      isCategory: false,
+      blockIndex: currentBlock,
+      visible: true,
+      headingTitle: ''
+    }
+
+    return { categoryTitle, sidebarItem, serie_element}
+
   }
 
   // componentWillReceiveProps(props) {
@@ -1598,7 +1673,7 @@ export default compose(
   tQuery,
   tsQuery,
   tyQuery,
-  tysQuery,
+  dlftysTailored,
   yQuery,
   ysQuery,
   initAnalysis,
