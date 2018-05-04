@@ -2,12 +2,12 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
   export default graphql(gql`
-  query sQuery (
+  query dlfsTailored (
     $report_num: [Int],
     $subject_num: [Int],
     $serie: [String]
   ){
-    sQuery: arms_filter(
+    dlfsTailored: arms_filter(
       survey_abb: "finance",
       report_num: $report_num,
       subject_num: $subject_num,
@@ -25,6 +25,6 @@ import gql from 'graphql-tag';
     }
   }
 `, {
-    skip: (ownProps) => ownProps.runQuery !== 'sQuery',    
-    name: 'sQuery',
+    skip: (ownProps) => ownProps.runQuery !== 'dlfsTailored',    
+    name: 'dlfsTailored',
   });
