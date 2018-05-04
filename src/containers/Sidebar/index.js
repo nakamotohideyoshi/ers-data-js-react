@@ -98,14 +98,14 @@ class Sidebar extends React.Component {
             })
 
             
-            const subject_num = [props[runQuery][runQuery].subject[0].num]          
+            let subject_num = [props[runQuery][runQuery].subject[0].num]          
             const subjects = this.generateSubjects(props[runQuery][runQuery].subject, currentBlock)          
 
             if (categoryTitles.length < 3) {
 
               categoryTitles.push(subjects.categoryTitle)
               sidebarItems.push(subjects.sidebarItem)
-              
+
             } else {
               const prev_subject = [categoryTitles[2][sidebarItems[2].selectedIndex].header]
               
@@ -118,6 +118,8 @@ class Sidebar extends React.Component {
 
               categoryTitles[2] = subjects.categoryTitle
               sidebarItems[2] = subjects.sidebarItem
+
+              subject_num = [subjects.categoryTitle[current_index].num]
               
             }
 
@@ -130,14 +132,29 @@ class Sidebar extends React.Component {
           
           case 'dlfTailored':
 
-            const serie = [props[runQuery][runQuery].serie[0].abb]
+            let serie = [props[runQuery][runQuery].serie[0].abb]
             const series = this.generateSeries(props[runQuery][runQuery].serie, currentBlock)
             const years = props[runQuery][runQuery].year
             const states = props[runQuery][runQuery].state
 
             if (categoryTitles.length < 4) {
+
               categoryTitles.push(series.categoryTitle)
               sidebarItems.push(series.sidebarItem)
+
+            } else  {
+              
+              const prev_serie = [categoryTitles[3][sidebarItems[3].selectedIndex].header]
+
+              const current_index = this.updateSeries(prev_serie, series.categoryTitle)
+
+              series.sidebarItem.selectedIndex = current_index
+
+              categoryTitles[3] = series.categoryTitle
+              sidebarItems[3] = series.sidebarItem
+
+              serie = [series.categoryTitle[current_index].num]
+
             }
 
             this.setState({
@@ -149,12 +166,34 @@ class Sidebar extends React.Component {
 
           case 'dlftysTailored':
             
-            const series_element = this.generateElement(props[runQuery][runQuery].serie_element, currentBlock)
-            const serie_element = series_element.serie_element
+            const series_element = this.generateElements(props[runQuery][runQuery].serie_element, currentBlock)
+            let serie_element = series_element.serie_element
 
             if (categoryTitles.length < 5) {
+
               categoryTitles.push(series_element.categoryTitle)
               sidebarItems.push(series_element.sidebarItem)
+
+            } else {
+
+              const prev_serie_element = [categoryTitles[4][sidebarItems[4].selectedIndex].header]
+
+              const current_index = this.updateElements(prev_serie_element, series_element.categoryTitle)
+
+              series_element.sidebarItem.selectedIndex = current_index
+              
+              if (series_element.categoryTitle[current_index].num !== 0) {
+                serie_element = [series_element.categoryTitle[current_index].num]
+              }
+
+              categoryTitles[4] = series_element.categoryTitle
+              sidebarItems[4] = series_element.sidebarItem
+
+            }
+
+            sidebarItems[4].headingTitle = categoryTitles[3][sidebarItems[3].selectedIndex].header
+            if (props[runQuery][runQuery].serie_element.length === 1 && props[runQuery][runQuery].serie_element[0].id === 0) {
+              sidebarItems[4].visible = false
             }
 
             this.setState({
@@ -253,7 +292,21 @@ class Sidebar extends React.Component {
     return { categoryTitle, sidebarItem }
   }
 
-  generateElement(elements, currentBlock) {
+  updateSeries(prev_serie, series) {
+    let current_index = 0
+
+    if (!this.props.isReset) {
+      series.forEach((serie, i) => {
+        if ( prev_serie.indexOf(serie.header) > -1) {
+          current_index = i
+        }
+      })
+    }
+
+    return current_index
+  }
+
+  generateElements(elements, currentBlock) {
     const serie_element = []
 
     const categoryTitle = [{
@@ -279,6 +332,19 @@ class Sidebar extends React.Component {
 
     return { categoryTitle, sidebarItem, serie_element}
 
+  }
+
+  updateElements(prev_element, elements) {
+
+    let current_index = 0
+
+    elements.forEach((element, i) => {
+      if (prev_element.indexOf(element.header) > -1) {
+        current_index = i
+      }
+    })
+
+    return current_index
   }
 
   // componentWillReceiveProps(props) {
