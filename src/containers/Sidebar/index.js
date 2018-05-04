@@ -1164,7 +1164,7 @@ class Sidebar extends React.Component {
 
   updateFilter = (sidebarItemIndex, selectedIndex) => {
 
-    const { sidebarItems, categoryTitles} =this.state
+    let { sidebarItems, categoryTitles, currentBlock, isReports} =this.state
 
     // current Block index
     currentBlock = sidebarItems[sidebarItemIndex].blockIndex
@@ -1191,7 +1191,7 @@ class Sidebar extends React.Component {
         sidebarItems[1].selectedIndex = 0
         sidebarItems[2].visible = true
        
-        this.setState({sidebarItems}, this.props.onSelectReportCategory())        
+        this.setState({sidebarItems, isReports, currentBlock}, this.props.onSelectReportCategory())        
       } else {
         // Arms Data Analaysis      
         currentBlock = 1
@@ -1345,7 +1345,7 @@ class Sidebar extends React.Component {
   }
 
   addDataSource() {
-    let {blockCount} = this.state
+    let {blockCount, currentBlock} = this.state
     if (blockCount <8) {
       blockCount++
 
@@ -1355,8 +1355,8 @@ class Sidebar extends React.Component {
   }
 
   resetFilter = ( blockIndex ) => {
-    currentBlock = blockIndex
-    this.props.resetFilterByBlockIndex(blockIndex)
+    const currentBlock = blockIndex
+    this.setState({currentBlock}, this.props.resetFilterByBlockIndex(blockIndex))
     
   }
 
@@ -1379,7 +1379,7 @@ class Sidebar extends React.Component {
   }
 
   render() {  
-    const { sidebarItems, categoryTitles } = this.state
+    const { sidebarItems, categoryTitles, isReports} = this.state
     const { fontSizeIndex } = this.props
     let isAdd = true    
     return (
