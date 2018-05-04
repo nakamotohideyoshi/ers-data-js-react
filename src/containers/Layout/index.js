@@ -1203,7 +1203,7 @@ export default class Layout extends React.Component {
         runQuery = 'yQuery'
       } else if (priority.indexOf('year') === 1 &&  priority.indexOf('state') === 0) {
         // State -> Year -> ...
-        runQuery = 'tyQuery'
+        runQuery = 'dlftyTailored'
       } else if (priority.indexOf('year') === 1 &&  priority.indexOf('serie') === 0) {
         // Serie -> Year -> ...
         runQuery = 'dlfseyTailored'
@@ -1285,7 +1285,7 @@ export default class Layout extends React.Component {
         runQuery = 'dlftTailored'
       } else if (priority.indexOf('state') === 1 &&  priority.indexOf('year') === 0) {
         // Year -> State -> ...
-        runQuery = 'tyQuery'
+        runQuery = 'dlftyTailored'
       } else if (priority.indexOf('state') === 1 &&  priority.indexOf('serie') === 0) {
         // Serie -> State -> ...
         runQuery = 'dlfsetTailored'
