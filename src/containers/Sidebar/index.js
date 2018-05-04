@@ -7,7 +7,7 @@ import Reset from '../../images/reset.png'
 // import { selectLimit } from 'async';
 import dlfTailored from '../../ApolloComponent/dlfTailored'
 import dTailored from '../../ApolloComponent/dTailored'
-import sQuery from '../../ApolloComponent/sQuery'
+import dlfsTailored from '../../ApolloComponent/dlfsTailored'
 import seQuery from '../../ApolloComponent/seQuery'
 import setQuery from '../../ApolloComponent/setQuery'
 import seyQuery from '../../ApolloComponent/seyQuery'
@@ -165,6 +165,7 @@ class Sidebar extends React.Component {
             break
 
           case 'dlftysTailored':
+          case 'dlfsTailored':
             
             const series_element = this.generateElements(props[runQuery][runQuery].serie_element, currentBlock)
             let serie_element = series_element.serie_element
@@ -196,12 +197,20 @@ class Sidebar extends React.Component {
               sidebarItems[4].visible = false
             }
 
-            this.setState({
-              categoryTitles,
-              sidebarItems,
-              currentBlock,
-            }, props.resetEFilter(serie_element, currentBlock))
-
+            if (props[runQuery][runQuery].year && props[runQuery][runQuery].state) {
+              this.setState({
+                categoryTitles,
+                sidebarItems,
+                currentBlock,
+              }, props.resetEYRFilter(serie_element, props[runQuery][runQuery].year, props[runQuery][runQuery].state, currentBlock))
+            } else {
+              this.setState({
+                categoryTitles,
+                sidebarItems,
+                currentBlock,
+              }, props.resetEFilter(serie_element, currentBlock))
+            }
+            
             break
 
           default: break          
@@ -1732,7 +1741,7 @@ class Sidebar extends React.Component {
 export default compose(
   dlfTailored,
   dTailored,
-  sQuery,
+  dlfsTailored,
   seQuery,
   seyQuery,
   setQuery,
