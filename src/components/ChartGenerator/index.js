@@ -494,6 +494,29 @@ export default class ChartGenerator extends React.Component {
     this.setState({ isDropdownOpened: false })
     }
   }
+  onEnterKeyDown(event, type) {
+    if (event.keyCode === 13) {
+      switch (type) {
+        case 'print': 
+          this.printChart()
+          break
+        case 'application/pdf': 
+        case 'image/png': 
+        case 'image/jpeg': 
+        case 'application/svg': 
+          this.downloadFile(type)
+          break
+        case 'chart-csv': 
+          ReactDOM.findDOMNode(this.chartCSV).click()
+          break
+        case 'table-csv': 
+          ReactDOM.findDOMNode(this.tableCSV).click()
+          break
+        default: break
+      }
+      this.toggleDropdown()
+    }
+  }
   render() {
     const { title, fontSizeIndex } = this.props
     const { config, isDropdownOpened, csvChartArray, csvTableArray } = this.state
@@ -510,18 +533,18 @@ export default class ChartGenerator extends React.Component {
             {
               isDropdownOpened && (
                 <ul role="menu" className={`dropdown-menu dropdown-menu-right font-${fontSizeIndex}-big`} ref={node => this.btnDropdown = node}>
-                  <li tabIndex="1201" onClick={() => this.printChart()} onKeyDown={(event) => { if (event.keyCode === 13) this.printChart()} }><a>Print</a></li>
-                  <li tabIndex="1202" onClick={() => this.downloadFile('application/pdf')} onKeyDown={(event) => { if (event.keyCode === 13) this.downloadFile('application/pdf')} }><a>PDF</a></li>
-                  <li tabIndex="1203" onClick={() => this.downloadFile('image/png')} onKeyDown={(event) => { if (event.keyCode === 13) this.downloadFile('image/png')} }><a>PNG</a></li>
-                  <li tabIndex="1204" onClick={() => this.downloadFile('image/jpeg')} onKeyDown={(event) => { if (event.keyCode === 13) this.downloadFile('image/jpeg')} }><a>JPEG</a></li>
-                  <li tabIndex="1205" onClick={() => this.downloadFile('application/svg')} onKeyDown={(event) => { if (event.keyCode === 13) this.downloadFile('application/svg')} }><a>SVG</a></li>
-                  <li tabIndex="1206" onKeyDown={(event) => { if (event.keyCode === 13) ReactDOM.findDOMNode(this).click() }}>
+                  <li tabIndex="1201" onClick={() => this.printChart()} onKeyDown={(event) => this.onEnterKeyDown(event, 'print') }><a>Print</a></li>
+                  <li tabIndex="1202" onClick={() => this.downloadFile('application/pdf')} onKeyDown={(event) => this.onEnterKeyDown(event, 'application/pdf') }><a>PDF</a></li>
+                  <li tabIndex="1203" onClick={() => this.downloadFile('image/png')} onKeyDown={(event) => this.onEnterKeyDown(event, 'image/png') }><a>PNG</a></li>
+                  <li tabIndex="1204" onClick={() => this.downloadFile('image/jpeg')} onKeyDown={(event) => this.onEnterKeyDown(event, 'image/jpeg') }><a>JPEG</a></li>
+                  <li tabIndex="1205" onClick={() => this.downloadFile('application/svg')} onKeyDown={(event) => this.onEnterKeyDown(event, 'application/svg') }><a>SVG</a></li>
+                  <li tabIndex="1206" onKeyDown={(event) => this.onEnterKeyDown(event, 'chart-csv') }>
                     <CSVLink data={csvChartArray} filename={`${title}-chart.csv`} target="_self" ref={node => this.chartCSV = node}>
                       Chart (CSV)
                     </CSVLink>     
                   </li>
-                  <li tabIndex="1207">
-                    <CSVLink data={csvTableArray} filename={`${title}-table.csv`} target="_self">
+                  <li tabIndex="1207" onKeyDown={(event) => this.onEnterKeyDown(event, 'table-csv') }>
+                    <CSVLink data={csvTableArray} filename={`${title}-table.csv`} target="_self" ref={node => this.tableCSV = node}>
                       Table (CSV)
                     </CSVLink>     
                   </li>  
