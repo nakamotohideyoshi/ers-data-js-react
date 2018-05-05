@@ -466,6 +466,18 @@ class Sidebar extends React.Component {
             }, props.selectYearAnalysis(props[runQuery][runQuery].year))
 
             break
+
+          case 'dlfsesetAnalysis':
+          case 'dlfseseytAnalysis':
+
+            this.setState({
+              categoryTitles,
+              sidebarItems,
+              currentBlock
+            }, props.selectStateAnalysis(props[runQuery][runQuery].state))
+
+            break
+
           default: break          
           
         }
