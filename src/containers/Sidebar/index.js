@@ -92,14 +92,14 @@ class Sidebar extends React.Component {
         switch (props.runQuery) {
           case 'dTailored':
 
-            const topic_abb = []
+            let topic_abb = []
             props[runQuery][runQuery].topic.forEach(topic => {
               topic_abb.push(topic.abb)
             })
 
             
             let subject_num = [props[runQuery][runQuery].subject[0].num]          
-            const subjects = this.generateSubjects(props[runQuery][runQuery].subject, currentBlock)          
+            let subjects = this.generateSubjects(props[runQuery][runQuery].subject, currentBlock)          
 
             if (categoryTitles.length < 3) {
 
@@ -136,7 +136,7 @@ class Sidebar extends React.Component {
           case 'dlftyTailored':
 
             let serie = [props[runQuery][runQuery].serie[0].abb]
-            const series = this.generateSeries(props[runQuery][runQuery].serie, currentBlock)
+            let series = this.generateSeries(props[runQuery][runQuery].serie, currentBlock)
 
             if (categoryTitles.length < 4) {
 
@@ -197,7 +197,7 @@ class Sidebar extends React.Component {
           case 'dlfysTailored':
           case 'dlftsTailored':
             
-            const series_element = this.generateElements(props[runQuery][runQuery].serie_element, currentBlock)
+            let series_element = this.generateElements(props[runQuery][runQuery].serie_element, currentBlock)
             let serie_element = series_element.serie_element
 
             if (categoryTitles.length < 5) {
@@ -295,45 +295,47 @@ class Sidebar extends React.Component {
 
           case 'dAnalysis':
 
-            const reports1 = this.generateDataSource(props.reports, currentBlock)
-            const topics1 = this.generateDataLine(props[runQuery][runQuery].topic, currentBlock)
-            const subjects1 = this.generateFarmType(props[runQuery][runQuery].subject, currentBlock)
+            const reports = this.generateDataSource(props.reports, currentBlock)
+            const topics = this.generateDataLine(props[runQuery][runQuery].topic, currentBlock)
+            subjects = this.generateFarmType(props[runQuery][runQuery].subject, currentBlock)
 
-            const index = 7*(currentBlock-1) + 5
+            let index = 7*(currentBlock-1) + 5
 
             if (categoryTitles.length<index+1) {
-              categoryTitles.push(reports1.categoryTitle)
-              categoryTitles.push(topics1.categoryTitle)
-              categoryTitles.push(subjects1.categoryTitle)
+              categoryTitles.push(reports.categoryTitle)
+              categoryTitles.push(topics.categoryTitle)
+              categoryTitles.push(subjects.categoryTitle)
 
-              sidebarItems.push(reports1.sidebarItem)
-              sidebarItems.push(topics1.sidebarItem)
-              sidebarItems.push(subjects1.sidebarItem)
+              sidebarItems.push(reports.sidebarItem)
+              sidebarItems.push(topics.sidebarItem)
+              sidebarItems.push(subjects.sidebarItem)
             } else {
 
             }
 
-            if (subjects1.categoryTitle.length === 1) {
+            if (subjects.categoryTitle.length === 1) {
               sidebarItems[index+2].visible = false
             }
 
-            const topic_abb1 = [categoryTitles[index+1][0].num]
-            const subject_num1 = [categoryTitles[index+2][0].num]
+            topic_abb = [categoryTitles[index+1][0].num]
+            subject_num = [categoryTitles[index+2][0].num]
 
             this.setState({
               categoryTitles,
               sidebarItems,
               currentBlock
-            }, props.initialBlockLoadAnalysis(topic_abb1, subject_num1, currentBlock))
+            }, props.initialBlockLoadAnalysis(topic_abb, subject_num, currentBlock))
             
             break
 
           case 'dlfAnalysis':
             
-            let serie1 = [props[runQuery][runQuery].serie[0].abb]
-            const series1 = this.generateFilter1(props[runQuery][runQuery].serie, currentBlock)
+            serie = [props[runQuery][runQuery].serie[0].abb]
+            series = this.generateFilter1(props[runQuery][runQuery].serie, currentBlock)
 
-            if (categoryTitles.length < 4) {
+            index = 7*(currentBlock-1) + 8
+
+            if (categoryTitles.length < index+1) {
 
               categoryTitles.push(series.categoryTitle)
               sidebarItems.push(series.sidebarItem)
@@ -573,6 +575,28 @@ class Sidebar extends React.Component {
 
   }
 
+  generateFilter1(series, currentBlock) {
+    
+    const categoryTitle = []
+    series.forEach(serie => {
+      const obj = {}
+      obj.num = serie.abb
+      obj.header = serie.header
+      categoryTitle.push(obj)
+    })
+
+    const sidebarItem = {
+      isOpened: false,
+      selectedIndex: 0,
+      isCategory: false,
+      blockIndex: currentBlock,
+      visible: true,
+      headingTitle: 'Filter1'
+    }
+
+    return { categoryTitle, sidebarItem }
+  }
+ 
   // componentWillReceiveProps(props) {
   //   let {categoryTitles, sidebarItems} = this.state
 
