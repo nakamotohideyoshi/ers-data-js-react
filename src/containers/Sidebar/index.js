@@ -267,7 +267,7 @@ class Sidebar extends React.Component {
           case 'dlfseyTailored':
           case 'dlfsetTailored':
             
-            if (props[runQuery][runQuery].year && props[runQuery][runQuery].year) {
+            if (props[runQuery][runQuery].year && props[runQuery][runQuery].state) {
 
               this.setState({
                 categoryTitles,
@@ -291,6 +291,74 @@ class Sidebar extends React.Component {
               }, props.resetRFilter(props[runQuery][runQuery].state, currentBlock))
             }
             
+            break
+
+          case 'dAnalysis':
+
+            const reports1 = this.generateDataSource(props.reports, currentBlock)
+            const topics1 = this.generateDataLine(props[runQuery][runQuery].topic, currentBlock)
+            const subjects1 = this.generateFarmType(props[runQuery][runQuery].subject, currentBlock)
+
+            const index = 7*(currentBlock-1) + 5
+
+            if (categoryTitles.length<index+1) {
+              categoryTitles.push(reports1.categoryTitle)
+              categoryTitles.push(topics1.categoryTitle)
+              categoryTitles.push(subjects1.categoryTitle)
+
+              sidebarItems.push(reports1.sidebarItem)
+              sidebarItems.push(topics1.sidebarItem)
+              sidebarItems.push(subjects1.sidebarItem)
+            } else {
+
+            }
+
+            if (subjects1.categoryTitle.length === 1) {
+              sidebarItems[index+2].visible = false
+            }
+
+            const topic_abb1 = [categoryTitles[index+1][0].num]
+            const subject_num1 = [categoryTitles[index+2][0].num]
+
+            this.setState({
+              categoryTitles,
+              sidebarItems,
+              currentBlock
+            }, props.initialBlockLoadAnalysis(topic_abb1, subject_num1, currentBlock))
+            
+            break
+
+          case 'dlfAnalysis':
+            
+            let serie1 = [props[runQuery][runQuery].serie[0].abb]
+            const series1 = this.generateFilter1(props[runQuery][runQuery].serie, currentBlock)
+
+            if (categoryTitles.length < 4) {
+
+              categoryTitles.push(series.categoryTitle)
+              sidebarItems.push(series.sidebarItem)
+
+            } else  {
+              
+              // const prev_serie = [categoryTitles[3][sidebarItems[3].selectedIndex].header]
+
+              // const current_index = this.updateSeries(prev_serie, series.categoryTitle)
+
+              // series.sidebarItem.selectedIndex = current_index
+
+              // categoryTitles[3] = series.categoryTitle
+              // sidebarItems[3] = series.sidebarItem
+
+              // serie = [series.categoryTitle[current_index].num]
+
+            }
+
+            this.setState({
+              categoryTitles,
+              sidebarItems,
+              currentBlock
+            }, props.selectFilter1Analysis(serie, currentBlock))
+
             break
 
           default: break          
@@ -321,7 +389,7 @@ class Sidebar extends React.Component {
 
     return { categoryTitle, sidebarItem }
 
-  }
+  }  
 
   generateSubjects(subjects, currentBlock) {
 
@@ -434,6 +502,75 @@ class Sidebar extends React.Component {
     })
 
     return current_index
+  }
+
+  generateDataSource(reports, currentBlock) {
+    const categoryTitle = []
+
+    reports.forEach(report => {
+      const obj = {}
+      obj.num = report.num
+      obj.header = report.header
+      categoryTitle.push(obj)
+    })
+
+    const sidebarItem = {
+      isOpened: false,
+      selectedIndex: 0,
+      isCategory: false,
+      blockIndex: currentBlock,
+      visible: true,
+      headingTitle: 'Data Source ' + currentBlock 
+    }
+
+    return { categoryTitle, sidebarItem }
+
+  }
+
+  generateDataLine(topics, currentBlock) {
+    const categoryTitle = []
+
+    topics.forEach(topic => {
+      const obj = {}
+      obj.num = topic.abb
+      obj.header = topic.header
+      categoryTitle.push(obj)
+    })
+
+    const sidebarItem = {
+      isOpened: false,
+      selectedIndex: [0],
+      isCategory: false,
+      blockIndex: currentBlock,
+      visible: true,
+      headingTitle: 'Data Line'
+    }
+
+    return { categoryTitle, sidebarItem }
+
+  }
+
+  generateFarmType(subjects, currentBlock) {
+    const categoryTitle = []
+
+    subjects.forEach(subject => {
+      const obj = {}
+      obj.num = subject.num
+      obj.header = subject.header
+      categoryTitle.push(obj)
+    })
+
+    const sidebarItem = {
+      isOpened: false,
+      selectedIndex: 0,
+      isCategory: false,
+      blockIndex: currentBlock,
+      visible: true,
+      headingTitle: 'Farm Type'
+    }
+
+    return { categoryTitle, sidebarItem }
+
   }
 
   // componentWillReceiveProps(props) {
@@ -1563,8 +1700,13 @@ class Sidebar extends React.Component {
       } else {
         // Arms Data Analaysis      
         currentBlock = 1
-        this.props.selectAnalysisCategory()
+        
         isReports = false
+        this.setState({
+          sidebarItems,
+          isReports,
+          currentBlock
+        }, this.props.selectAnalysisCategory())
       }
     } else {
 
