@@ -331,7 +331,9 @@ class Sidebar extends React.Component {
           case 'dlfAnalysis':
             
             serie = [props[runQuery][runQuery].serie[0].abb]
-            series = this.generateFilter1(props[runQuery][runQuery].serie, currentBlock)
+            series = this.generateSeries(props[runQuery][runQuery].serie, currentBlock)
+
+            series.sidebarItem.headingTitle = 'Filter1'
 
             index = 7*(currentBlock-1) + 8
 
@@ -362,6 +364,45 @@ class Sidebar extends React.Component {
             }, props.selectFilter1Analysis(serie, currentBlock))
 
             break
+
+          case 'dlfsAnalysis':
+
+            series_element = this.generateElements(props[runQuery][runQuery].serie_element, currentBlock)
+            serie_element = series_element.serie_element
+
+            index = 7*(currentBlock-1) + 9
+
+            if (categoryTitles.length < index+1) {
+
+              categoryTitles.push(series_element.categoryTitle)
+              sidebarItems.push(series_element.sidebarItem)
+
+            } else {
+
+              // const prev_serie_element = [categoryTitles[4][sidebarItems[4].selectedIndex].header]
+
+              // const current_index = this.updateElements(prev_serie_element, series_element.categoryTitle)
+
+              // series_element.sidebarItem.selectedIndex = current_index
+              
+              // if (series_element.categoryTitle[current_index].num !== 0) {
+              //   serie_element = [series_element.categoryTitle[current_index].num]
+              // }
+
+              // categoryTitles[4] = series_element.categoryTitle
+              // sidebarItems[4] = series_element.sidebarItem
+
+            }
+            
+            this.setState({
+              categoryTitles,
+              sidebarItems,
+              currentBlock
+            }, props.selectSubFilter1Analysis(serie_element, currentBlock))
+
+            break
+
+
 
           default: break          
           
@@ -575,27 +616,7 @@ class Sidebar extends React.Component {
 
   }
 
-  generateFilter1(series, currentBlock) {
-    
-    const categoryTitle = []
-    series.forEach(serie => {
-      const obj = {}
-      obj.num = serie.abb
-      obj.header = serie.header
-      categoryTitle.push(obj)
-    })
 
-    const sidebarItem = {
-      isOpened: false,
-      selectedIndex: 0,
-      isCategory: false,
-      blockIndex: currentBlock,
-      visible: true,
-      headingTitle: 'Filter1'
-    }
-
-    return { categoryTitle, sidebarItem }
-  }
  
   // componentWillReceiveProps(props) {
   //   let {categoryTitles, sidebarItems} = this.state
