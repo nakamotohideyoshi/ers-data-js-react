@@ -334,8 +334,8 @@ class Sidebar extends React.Component {
           case 'dlfAnalysis':
             
             serie = [props[runQuery][runQuery].serie[0].abb]
+            
             series = this.generateSeries(props[runQuery][runQuery].serie, currentBlock)
-
             series.sidebarItem.headingTitle = 'Filter1'
 
             index = 7*(currentBlock-1) + 8
@@ -347,16 +347,14 @@ class Sidebar extends React.Component {
 
             } else  {
               
-              // const prev_serie = [categoryTitles[3][sidebarItems[3].selectedIndex].header]
+              const prev_serie = [categoryTitles[index][sidebarItems[index].selectedIndex].header]
+              const current_index = this.updateSeries(prev_serie, series.categoryTitle)
+              series.sidebarItem.selectedIndex = current_index
 
-              // const current_index = this.updateSeries(prev_serie, series.categoryTitle)
+              categoryTitles[index] = series.categoryTitle
+              sidebarItems[index] = series.sidebarItem
 
-              // series.sidebarItem.selectedIndex = current_index
-
-              // categoryTitles[3] = series.categoryTitle
-              // sidebarItems[3] = series.sidebarItem
-
-              // serie = [series.categoryTitle[current_index].num]
+              serie = [series.categoryTitle[current_index].num]
 
             }
 
