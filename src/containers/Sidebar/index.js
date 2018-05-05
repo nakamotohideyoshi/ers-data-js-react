@@ -295,9 +295,12 @@ class Sidebar extends React.Component {
 
           case 'dAnalysis':
 
-            const reports = this.generateDataSource(props.reports, currentBlock)
-            const topics = this.generateDataLine(props[runQuery][runQuery].topic, currentBlock)
-            subjects = this.generateFarmType(props[runQuery][runQuery].subject, currentBlock)
+            let reports = this.generateReports(props.reports, currentBlock)
+            reports.sidebarItem.headingTitle = 'Data Source' + currentBlock
+
+            let topics = this.generateDataLine(props[runQuery][runQuery].topic, currentBlock)
+            subjects = this.generateSubjects(props[runQuery][runQuery].subject, currentBlock)
+            subjects.sidebarItem.headingTitle = 'Farm Type'
 
             let index = 7*(currentBlock-1) + 5
 
@@ -661,29 +664,6 @@ class Sidebar extends React.Component {
       blockIndex: currentBlock,
       visible: true,
       headingTitle: 'Data Line'
-    }
-
-    return { categoryTitle, sidebarItem }
-
-  }
-
-  generateFarmType(subjects, currentBlock) {
-    const categoryTitle = []
-
-    subjects.forEach(subject => {
-      const obj = {}
-      obj.num = subject.num
-      obj.header = subject.header
-      categoryTitle.push(obj)
-    })
-
-    const sidebarItem = {
-      isOpened: false,
-      selectedIndex: 0,
-      isCategory: false,
-      blockIndex: currentBlock,
-      visible: true,
-      headingTitle: 'Farm Type'
     }
 
     return { categoryTitle, sidebarItem }
@@ -1979,7 +1959,7 @@ class Sidebar extends React.Component {
       blockCount++
 
       currentBlock = blockCount
-      this.setState({blockCount}, this.props.addDataSource(currentBlock))
+      this.setState({blockCount, currentBlock}, this.props.addDataSource(currentBlock))
     }    
   }
 
