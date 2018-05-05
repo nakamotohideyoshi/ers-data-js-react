@@ -1338,7 +1338,7 @@ export default class Layout extends React.Component {
       isGetSurveyData,
       isAllDataSources,
       pre_filters,
-      runQuery: 'initAnalysis',
+      runQuery: 'dAnalysis',
       blockIndex
     })
   }
@@ -1671,7 +1671,7 @@ export default class Layout extends React.Component {
     pre_filters[blockIndex].serie2 = []
     pre_filters[blockIndex].serie2_element = []
 
-    const runQuery = 'initAnalysis'
+    const runQuery = 'dAnalysis'
 
     const isRemoveDataSource = false
     const isGetSurveyData = false
