@@ -423,7 +423,11 @@ class Sidebar extends React.Component {
 
             } else {
               const prev_serie = [categoryTitles[index][sidebarItems[index].selectedIndex].header]
-              const current_index = this.updateSeries(prev_serie, series.categoryTitle)
+              let current_index = this.updateSeries(prev_serie, series.categoryTitle)
+
+              if (serie_element_num === 0) {
+                current_index = 0
+              }
               series.sidebarItem.selectedIndex = current_index
 
               categoryTitles[index] = series.categoryTitle
@@ -457,10 +461,24 @@ class Sidebar extends React.Component {
               sidebarItems.push(series_element.sidebarItem)
 
             } else {
+              const prev_serie_element = [categoryTitles[index][sidebarItems[index].selectedIndex].header]
+              const current_index = this.updateElements(prev_serie_element, series_element.categoryTitle)
+              series_element.sidebarItem.selectedIndex = current_index
+              
+              if (series_element.categoryTitle[current_index].num !== 0) {
+                serie_element = [series_element.categoryTitle[current_index].num]
+              }
+
+              categoryTitles[index] = series_element.categoryTitle
+              sidebarItems[index] = series_element.sidebarItem
 
             }
 
             sidebarItems[index].headingTitle = categoryTitles[index-1][sidebarItems[index-1].selectedIndex].header
+
+            if (props[runQuery][runQuery].serie2_element.length === 1 && props[runQuery][runQuery].serie2_element[0].id === 0) {
+              sidebarItems[index].visible = false
+            }
 
             this.setState({
               categoryTitles,
