@@ -393,6 +393,8 @@ class Sidebar extends React.Component {
               // sidebarItems[4] = series_element.sidebarItem
 
             }
+
+            sidebarItems[index].headingTitle = categoryTitles[index-1][sidebarItems[index-1].selectedIndex].header
             
             this.setState({
               categoryTitles,
@@ -402,7 +404,31 @@ class Sidebar extends React.Component {
 
             break
 
+          case 'dlfseAnalysis':
 
+            serie = [props[runQuery][runQuery].serie2[0].abb]
+            series = this.generateSeries(props[runQuery][runQuery].serie2, currentBlock)
+
+            series.sidebarItem.headingTitle = 'Filter2'
+
+            index = 7*(currentBlock-1) + 11
+
+            if (categoryTitles.length < index+1) {
+
+              categoryTitles.push(series.categoryTitle)
+              sidebarItems.push(series.sidebarItem)
+
+            } else {
+
+            }
+            
+            this.setState({
+              categoryTitles,
+              sidebarItems,
+              currentBlock
+            }, props.selectFilter2Analysis(serie, currentBlock))
+
+            break
 
           default: break          
           
