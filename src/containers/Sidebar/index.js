@@ -334,7 +334,7 @@ class Sidebar extends React.Component {
           case 'dlfAnalysis':
             
             serie = [props[runQuery][runQuery].serie[0].abb]
-            
+
             series = this.generateSeries(props[runQuery][runQuery].serie, currentBlock)
             series.sidebarItem.headingTitle = 'Filter1'
 
@@ -380,22 +380,24 @@ class Sidebar extends React.Component {
 
             } else {
 
-              // const prev_serie_element = [categoryTitles[4][sidebarItems[4].selectedIndex].header]
-
-              // const current_index = this.updateElements(prev_serie_element, series_element.categoryTitle)
-
-              // series_element.sidebarItem.selectedIndex = current_index
+              const prev_serie_element = [categoryTitles[index][sidebarItems[index].selectedIndex].header]
+              const current_index = this.updateElements(prev_serie_element, series_element.categoryTitle)
+              series_element.sidebarItem.selectedIndex = current_index
               
-              // if (series_element.categoryTitle[current_index].num !== 0) {
-              //   serie_element = [series_element.categoryTitle[current_index].num]
-              // }
+              if (series_element.categoryTitle[current_index].num !== 0) {
+                serie_element = [series_element.categoryTitle[current_index].num]
+              }
 
-              // categoryTitles[4] = series_element.categoryTitle
-              // sidebarItems[4] = series_element.sidebarItem
+              categoryTitles[index] = series_element.categoryTitle
+              sidebarItems[index] = series_element.sidebarItem
 
             }
 
             sidebarItems[index].headingTitle = categoryTitles[index-1][sidebarItems[index-1].selectedIndex].header
+
+            if (props[runQuery][runQuery].serie_element.length === 1 && props[runQuery][runQuery].serie_element[0].id === 0) {
+              sidebarItems[index].visible = false
+            }
             
             this.setState({
               categoryTitles,
@@ -409,10 +411,10 @@ class Sidebar extends React.Component {
 
             serie = [props[runQuery][runQuery].serie2[0].abb]
             series = this.generateSeries(props[runQuery][runQuery].serie2, currentBlock)
-
             series.sidebarItem.headingTitle = 'Filter2'
 
             index = 7*(currentBlock-1) + 10
+            const serie_element_num = sidebarItems[index-1].selectedIndex
 
             if (categoryTitles.length < index+1) {
 
@@ -420,7 +422,18 @@ class Sidebar extends React.Component {
               sidebarItems.push(series.sidebarItem)
 
             } else {
+              const prev_serie = [categoryTitles[index][sidebarItems[index].selectedIndex].header]
+              const current_index = this.updateSeries(prev_serie, series.categoryTitle)
+              series.sidebarItem.selectedIndex = current_index
 
+              categoryTitles[index] = series.categoryTitle
+              sidebarItems[index] = series.sidebarItem
+
+              serie = [series.categoryTitle[current_index].num]
+            }
+
+            if (serie_element === 0) {
+              sidebarItems[index].visible = false
             }
             
             this.setState({
