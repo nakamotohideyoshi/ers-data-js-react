@@ -15,7 +15,7 @@ import dlftTailored from '../../ApolloComponent/dlftTailored'
 import dlftsTailored from '../../ApolloComponent/dlftsTailored'
 import dlftyTailored from '../../ApolloComponent/dlftyTailored'
 import dlftysTailored from '../../ApolloComponent/dlftysTailored'
-import yQuery from '../../ApolloComponent/yQuery'
+import dlfyTailored from '../../ApolloComponent/dlfyTailored'
 import dlfysTailored from '../../ApolloComponent/dlfysTailored'
 import initAnalysis from '../../ApolloComponent/initAnalysis'
 import dAnalysis from '../../ApolloComponent/dAnalysis'
@@ -132,6 +132,7 @@ class Sidebar extends React.Component {
           
           case 'dlfTailored':
           case 'dlftTailored':
+          case 'dlfyTailored':
           case 'dlftyTailored':
 
             let serie = [props[runQuery][runQuery].serie[0].abb]
@@ -173,6 +174,12 @@ class Sidebar extends React.Component {
                 currentBlock
               }, props.resetSYFilter(serie, props[runQuery][runQuery].year, currentBlock))
               
+            } else if (props[runQuery][runQuery].state) {
+              this.setState({
+                categoryTitles,
+                sidebarItems,
+                currentBlock
+              }, props.resetSRFilter(serie, props[runQuery][runQuery].state, currentBlock))
             } else {
 
               this.setState({
@@ -1822,7 +1829,7 @@ export default compose(
   dlftsTailored,
   dlftyTailored,
   dlftysTailored,
-  yQuery,
+  dlfyTailored,
   dlfysTailored,
   initAnalysis,
   dAnalysis,
