@@ -13,7 +13,6 @@ import ShownImg from '../../images/show.png'
 import HelpImg from '../../images/help.png'
 
 import './style.css'
-import { select } from 'async';
 class TableContainer extends React.Component {
   state = {
     incomeArr: [],
@@ -71,7 +70,7 @@ class TableContainer extends React.Component {
               return
             }
           })
-          if (REMOVING_ELEMENTS.indexOf(element.topic_dim.header) > -1) {
+          if (REMOVING_ELEMENTS.indexOf(element.topic_dim.header) > -1 && element.topic_dim.level > 1) {
             return
           }
           if (!singleIncome.id) {
