@@ -1175,7 +1175,7 @@ export default class Layout extends React.Component {
       runQuery = pre_filters[blockIndex].report_num[0] === 6 ? 'dlrfseyTailored' : 'dlfseyTailored'
     } else if (priority.indexOf('serie') === 1 &&  priority.indexOf('state') === 0) {
       // State -> Serie/Serie_element -> ...
-      runQuery = 'dlfsetTailored'
+      runQuery = pre_filters[blockIndex].report_num[0] === 6 ? 'dlrfsetTailored' : 'dlfsetTailored'
     } else if (priority.indexOf('serie') === 2){
       // ... -> ... -> Serie/Serie_element
       runQuery = ''
@@ -1325,7 +1325,7 @@ export default class Layout extends React.Component {
         runQuery = pre_filters[blockIndex].report_num[0] === 6 ? 'dlrftyTailored' : 'dlftyTailored'
       } else if (priority.indexOf('state') === 1 &&  priority.indexOf('serie') === 0) {
         // Serie -> State -> ...
-        runQuery = 'dlfsetTailored'
+        runQuery = pre_filters[blockIndex].report_num[0] === 6 ? 'dlrfsetTailored' : 'dlfsetTailored'
       } else if (priority.indexOf('state') === 2) {
         // ... -> ... -> State
         runQuery = ''
