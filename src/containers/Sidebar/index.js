@@ -11,16 +11,25 @@ import dlrTailored from '../../ApolloComponent/dlrTailored'
 import dlfTailored from '../../ApolloComponent/dlfTailored'
 import dlrfTailored from '../../ApolloComponent/dlrfTailored'
 import dlfsTailored from '../../ApolloComponent/dlfsTailored'
+import dlrfsTailored from '../../ApolloComponent/dlrfsTailored'
 import dlfseTailored from '../../ApolloComponent/dlfseTailored'
+import dlrfseTailored from '../../ApolloComponent/dlrfseTailored'
 import dlfsetTailored from '../../ApolloComponent/dlfsetTailored'
+import dlrfsetTailored from '../../ApolloComponent/dlrfsetTailored'
 import dlfseyTailored from '../../ApolloComponent/dlfseyTailored'
+import dlrfseyTailored from '../../ApolloComponent/dlrfseyTailored'
 import dlftTailored from '../../ApolloComponent/dlftTailored'
 import dlrftTailored from '../../ApolloComponent/dlrftTailored'
 import dlftsTailored from '../../ApolloComponent/dlftsTailored'
+import dlrftsTailored from '../../ApolloComponent/dlrftsTailored'
 import dlftyTailored from '../../ApolloComponent/dlftyTailored'
+import dlrftyTailored from '../../ApolloComponent/dlrftyTailored'
 import dlftysTailored from '../../ApolloComponent/dlftysTailored'
+import dlrftysTailored from '../../ApolloComponent/dlrftysTailored'
 import dlfyTailored from '../../ApolloComponent/dlfyTailored'
+import dlrfyTailored from '../../ApolloComponent/dlrfyTailored'
 import dlfysTailored from '../../ApolloComponent/dlfysTailored'
+import dlrfysTailored from '../../ApolloComponent/dlrfysTailored'
 import initAnalysis from '../../ApolloComponent/initAnalysis'
 import dAnalysis from '../../ApolloComponent/dAnalysis'
 import dlfAnalysis from '../../ApolloComponent/dlfAnalysis'
@@ -92,7 +101,7 @@ class Sidebar extends React.Component {
         }, props.resetFilterByBlockIndex(currentBlock))
 
       } else if (props[runQuery].networkStatus === 7 && props[runQuery][runQuery]) {
-        console.log('props:', props[runQuery])
+        console.log('props:', runQuery)
         switch (props.runQuery) {
 
           case 'dTailored':
@@ -175,11 +184,13 @@ class Sidebar extends React.Component {
             break
           
           case 'dlfTailored':
-          case 'dlrfTailored':
-          case 'dlftTailored':
-          case 'dlrftTailored':
+          case 'dlftTailored':          
           case 'dlfyTailored':
           case 'dlftyTailored':
+          case 'dlrfTailored':
+          case 'dlrftTailored':
+          case 'dlrfyTailored':
+          case 'dlrftyTailored':
 
             let serie = [props[runQuery][runQuery].serie[0].abb]
             let series = this.generateSeries(props[runQuery][runQuery].serie, currentBlock)
@@ -243,6 +254,10 @@ class Sidebar extends React.Component {
           case 'dlfsTailored':
           case 'dlfysTailored':
           case 'dlftsTailored':
+          case 'dlrftysTailored':
+          case 'dlrfsTailored':
+          case 'dlrfysTailored':
+          case 'dlrftsTailored':
             
             let series_element = this.generateElements(props[runQuery][runQuery].serie_element, currentBlock)
             let serie_element = series_element.serie_element
@@ -312,6 +327,9 @@ class Sidebar extends React.Component {
           case 'dlfseTailored':
           case 'dlfseyTailored':
           case 'dlfsetTailored':
+          case 'dlrfseTailored':
+          case 'dlrfseyTailored':
+          case 'dlrfsetTailored':
             
             if (props[runQuery][runQuery].year && props[runQuery][runQuery].state) {
 
@@ -1096,16 +1114,25 @@ export default compose(
   dlfTailored,
   dlrfTailored,
   dlfsTailored,
+  dlrfsTailored,
   dlfseTailored,
+  dlrfseTailored,
   dlfseyTailored,
+  dlrfseyTailored,
   dlfsetTailored,
+  dlrfsetTailored,
   dlftTailored,
   dlrftTailored,
   dlftsTailored,
+  dlrftsTailored,
   dlftyTailored,
+  dlrftyTailored,
   dlftysTailored,
+  dlrftysTailored,
   dlfyTailored,
+  dlrfyTailored,
   dlfysTailored,
+  dlrfysTailored,
   initAnalysis,
   dAnalysis,
   dlfAnalysis,
