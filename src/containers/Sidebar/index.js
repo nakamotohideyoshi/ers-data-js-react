@@ -15,6 +15,7 @@ import dlfseTailored from '../../ApolloComponent/dlfseTailored'
 import dlfsetTailored from '../../ApolloComponent/dlfsetTailored'
 import dlfseyTailored from '../../ApolloComponent/dlfseyTailored'
 import dlftTailored from '../../ApolloComponent/dlftTailored'
+import dlrftTailored from '../../ApolloComponent/dlrftTailored'
 import dlftsTailored from '../../ApolloComponent/dlftsTailored'
 import dlftyTailored from '../../ApolloComponent/dlftyTailored'
 import dlftysTailored from '../../ApolloComponent/dlftysTailored'
@@ -176,6 +177,7 @@ class Sidebar extends React.Component {
           case 'dlfTailored':
           case 'dlrfTailored':
           case 'dlftTailored':
+          case 'dlrftTailored':
           case 'dlfyTailored':
           case 'dlftyTailored':
 
@@ -1098,6 +1100,7 @@ export default compose(
   dlfseyTailored,
   dlfsetTailored,
   dlftTailored,
+  dlrftTailored,
   dlftsTailored,
   dlftyTailored,
   dlftysTailored,
