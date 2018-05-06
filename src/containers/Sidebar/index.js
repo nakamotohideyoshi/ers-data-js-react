@@ -5,10 +5,11 @@ import SidebarItem from '../../components/SidebarItem'
 import './style.css';
 import Reset from '../../images/reset.png'
 // import { selectLimit } from 'async';
-import dlfTailored from '../../ApolloComponent/dlfTailored'
 import dTailored from '../../ApolloComponent/dTailored'
 import dlTailored from '../../ApolloComponent/dlTailored'
 import dlrTailored from '../../ApolloComponent/dlrTailored'
+import dlfTailored from '../../ApolloComponent/dlfTailored'
+import dlrfTailored from '../../ApolloComponent/dlrfTailored'
 import dlfsTailored from '../../ApolloComponent/dlfsTailored'
 import dlfseTailored from '../../ApolloComponent/dlfseTailored'
 import dlfsetTailored from '../../ApolloComponent/dlfsetTailored'
@@ -173,6 +174,7 @@ class Sidebar extends React.Component {
             break
           
           case 'dlfTailored':
+          case 'dlrfTailored':
           case 'dlftTailored':
           case 'dlfyTailored':
           case 'dlftyTailored':
@@ -1090,6 +1092,7 @@ export default compose(
   dlTailored,
   dlrTailored,
   dlfTailored,
+  dlrfTailored,
   dlfsTailored,
   dlfseTailored,
   dlfseyTailored,
