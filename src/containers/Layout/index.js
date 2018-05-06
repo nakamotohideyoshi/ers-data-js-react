@@ -1437,7 +1437,7 @@ export default class Layout extends React.Component {
       isGetSurveyData,
       isAllDataSources,
       pre_filters,
-      runQuery: 'dlrAnalysis',
+      runQuery: '',
       isReset: false,
       blockIndex
     })
@@ -1457,7 +1457,7 @@ export default class Layout extends React.Component {
       isGetSurveyData,
       isAllDataSources,
       pre_filters,
-      runQuery: '',
+      runQuery: 'dlrAnalysis',
       isReset: false,
       blockIndex
     })
@@ -1471,6 +1471,7 @@ export default class Layout extends React.Component {
     const isRemoveDataSource = false
     const isGetSurveyData = false
     const isAllDataSources = false
+    const runQuery = pre_filters[blockIndex].report_num[0] === 6 ? 'dlrfAnalysis' : 'dlfAnalysis'
 
 
     this.setState({
@@ -1478,7 +1479,7 @@ export default class Layout extends React.Component {
       isGetSurveyData,
       isAllDataSources,
       pre_filters,
-      runQuery: 'dlfAnalysis',
+      runQuery,
       blockIndex
     })
   }
