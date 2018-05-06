@@ -44,6 +44,7 @@ import dlfsesetyAnalysis from '../../ApolloComponent/dlfsesetyAnalysis'
 import dlrAnalysis from '../../ApolloComponent/dlrAnalysis'
 import dlrfAnalysis from '../../ApolloComponent/dlfAnalysis'
 import dlrfsAnalysis from '../../ApolloComponent/dlrfsAnalysis'
+import dlrfseAnalysis from '../../ApolloComponent/dlrfseAnalysis'
 import { compose } from 'react-apollo'
 
 class Sidebar extends React.Component {
@@ -533,12 +534,13 @@ class Sidebar extends React.Component {
             break
 
           case 'dlfseAnalysis':
+          case 'dlrfseAnalysis':
 
             serie = [props[runQuery][runQuery].serie2[0].abb]
             series = this.generateSeries(props[runQuery][runQuery].serie2, currentBlock)
             series.sidebarItem.headingTitle = 'Filter2'
 
-            index = 7*(currentBlock-1) + 10
+            index = 7*(currentBlock-1) + 12
             const serie_element_num = sidebarItems[index-1].selectedIndex
 
             if (categoryTitles.length < index+1) {
@@ -561,7 +563,7 @@ class Sidebar extends React.Component {
               serie = [series.categoryTitle[current_index].num]
             }
 
-            if (serie_element === 0) {
+            if (serie_element_num === 0) {
               sidebarItems[index].visible = false
             }
             
@@ -578,7 +580,7 @@ class Sidebar extends React.Component {
             series_element = this.generateElements(props[runQuery][runQuery].serie2_element, currentBlock)
             serie_element = series_element.serie_element
 
-            index = 7*(currentBlock-1) + 11
+            index = 7*(currentBlock-1) + 13
 
             if (categoryTitles.length < index+1) {
 
@@ -1230,5 +1232,6 @@ export default compose(
   dlrAnalysis,
   dlrfAnalysis,
   dlrfsAnalysis,
+  dlrfseAnalysis,
 )(Sidebar)
 
