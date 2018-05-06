@@ -7,6 +7,7 @@ import Reset from '../../images/reset.png'
 // import { selectLimit } from 'async';
 import dlfTailored from '../../ApolloComponent/dlfTailored'
 import dTailored from '../../ApolloComponent/dTailored'
+import dlTailored from '../../ApolloComponent/dlTailored'
 import dlfsTailored from '../../ApolloComponent/dlfsTailored'
 import dlfseTailored from '../../ApolloComponent/dlfseTailored'
 import dlfsetTailored from '../../ApolloComponent/dlfsetTailored'
@@ -68,6 +69,8 @@ class Sidebar extends React.Component {
   }
 
   componentWillReceiveProps(props) {
+
+    console.log('props:', props)
     
     if (props.runQuery.length !== 0) {
 
@@ -90,35 +93,39 @@ class Sidebar extends React.Component {
       } else if (props[runQuery].networkStatus === 7 && props[runQuery][runQuery]) {
         
         switch (props.runQuery) {
-          
+
           case 'dTailored':
 
             let topic_abb = []
             props[runQuery][runQuery].topic.forEach(topic => {
               topic_abb.push(topic.abb)
-            })            
-            let subject_num = [props[runQuery][runQuery].subject[0].num]          
-            let subjects = this.generateSubjects(props[runQuery][runQuery].subject, currentBlock)          
+            })
+
+            let sub_reports = this.generateSubReports(props[runQuery][runQuery].sub_report, currentBlock)
+            let sub_report_num = 1
+                      
 
             if (categoryTitles.length < 3) {
 
-              categoryTitles.push(subjects.categoryTitle)
-              sidebarItems.push(subjects.sidebarItem)
+              categoryTitles.push(sub_reports.categoryTitle)
+              sidebarItems.push(sub_reports.categoryTitle)
 
             } else {
 
-              const prev_subject = [categoryTitles[2][sidebarItems[2].selectedIndex].header]      
-              const current_index = this.updateSubjects(prev_subject, subjects.categoryTitle)
-              subjects.sidebarItem.selectedIndex = current_index
+              const prev_sub_report = categoryTitles[2].length !== 0 ? [categoryTitles[2][sidebarItems[2].selectedIndex].header] : ''
+              const sub_report_current_index = this.updateSubReports(prev_sub_report, sub_reports.categoryTitle)
 
-              if (subjects.categoryTitle.length === 1) {
-                subjects.sidebarItem.visible = false
+              sub_reports.sidebarItem.selectedIndex = 0
+
+              if (sidebarItems[1].selectedIndex === 5) {
+                sub_reports.sidebarItem.visible = true
+                sub_reports.sidebarItem.selectedIndex = sub_report_current_index 
+                sub_report_num = [sub_reports.categoryTitle[sub_report_current_index].num]
               }
-
-              categoryTitles[2] = subjects.categoryTitle
-              sidebarItems[2] = subjects.sidebarItem
-
-              subject_num = [subjects.categoryTitle[current_index].num]
+             
+              categoryTitles[2] = sub_reports.categoryTitle
+              sidebarItems[2] = sub_reports.sidebarItem
+              
               
             }
 
@@ -126,7 +133,42 @@ class Sidebar extends React.Component {
               categoryTitles,
               sidebarItems,
               currentBlock
-            }, props.initialLoadingTailor(topic_abb, subject_num, currentBlock))
+            }, props.initialLoadingTailor(topic_abb, sub_report_num, currentBlock))
+
+            break
+          
+          case 'dlTailored':
+
+            let subject_num = [props[runQuery][runQuery].subject[0].num]       
+            let subjects = this.generateSubjects(props[runQuery][runQuery].subject, currentBlock)
+
+            if (categoryTitles.length < 4) {
+
+              categoryTitles.push(subjects.categoryTitle)
+              sidebarItems.push(subjects.sidebarItem)
+
+            } else {
+
+              const prev_subject = [categoryTitles[3][sidebarItems[3].selectedIndex].header]      
+              const subject_current_index = this.updateSubjects(prev_subject, subjects.categoryTitle)
+              subjects.sidebarItem.selectedIndex = subject_current_index
+
+              if (subjects.categoryTitle.length === 1) {
+                subjects.sidebarItem.visible = false
+              } 
+
+              categoryTitles[3] = subjects.categoryTitle
+              sidebarItems[3] = subjects.sidebarItem
+
+              subject_num = [subjects.categoryTitle[subject_current_index].num]
+              
+            }
+
+            this.setState({
+              categoryTitles,
+              sidebarItems,
+              currentBlock
+            }, props.onSelectSubjectFilter(subject_num, currentBlock))
 
             break
           
@@ -138,20 +180,20 @@ class Sidebar extends React.Component {
             let serie = [props[runQuery][runQuery].serie[0].abb]
             let series = this.generateSeries(props[runQuery][runQuery].serie, currentBlock)
 
-            if (categoryTitles.length < 4) {
+            if (categoryTitles.length < 5) {
 
               categoryTitles.push(series.categoryTitle)
               sidebarItems.push(series.sidebarItem)
 
             } else  {
               
-              const prev_serie = [categoryTitles[3][sidebarItems[3].selectedIndex].header]
+              const prev_serie = [categoryTitles[4][sidebarItems[4].selectedIndex].header]
               const current_index = this.updateSeries(prev_serie, series.categoryTitle)
 
               series.sidebarItem.selectedIndex = current_index
 
-              categoryTitles[3] = series.categoryTitle
-              sidebarItems[3] = series.sidebarItem
+              categoryTitles[4] = series.categoryTitle
+              sidebarItems[4] = series.sidebarItem
 
               serie = [series.categoryTitle[current_index].num]
 
@@ -201,14 +243,14 @@ class Sidebar extends React.Component {
             let series_element = this.generateElements(props[runQuery][runQuery].serie_element, currentBlock)
             let serie_element = series_element.serie_element
 
-            if (categoryTitles.length < 5) {
+            if (categoryTitles.length < 6) {
 
               categoryTitles.push(series_element.categoryTitle)
               sidebarItems.push(series_element.sidebarItem)
 
             } else {
 
-              const prev_serie_element = [categoryTitles[4][sidebarItems[4].selectedIndex].header]
+              const prev_serie_element = [categoryTitles[5][sidebarItems[5].selectedIndex].header]
               const current_index = this.updateElements(prev_serie_element, series_element.categoryTitle)
 
               series_element.sidebarItem.selectedIndex = current_index
@@ -217,14 +259,14 @@ class Sidebar extends React.Component {
                 serie_element = [series_element.categoryTitle[current_index].num]
               }
 
-              categoryTitles[4] = series_element.categoryTitle
-              sidebarItems[4] = series_element.sidebarItem
+              categoryTitles[5] = series_element.categoryTitle
+              sidebarItems[5] = series_element.sidebarItem
 
             }
 
-            sidebarItems[4].headingTitle = categoryTitles[3][sidebarItems[3].selectedIndex].header
+            sidebarItems[5].headingTitle = categoryTitles[4][sidebarItems[4].selectedIndex].header
             if (props[runQuery][runQuery].serie_element.length === 1 && props[runQuery][runQuery].serie_element[0].id === 0) {
-              sidebarItems[4].visible = false
+              sidebarItems[5].visible = false
             }
 
             if (props[runQuery][runQuery].year && props[runQuery][runQuery].state) {
@@ -537,7 +579,45 @@ class Sidebar extends React.Component {
 
     return { categoryTitle, sidebarItem }
 
-  }  
+  }
+
+  generateSubReports(sub_reports, currentBlock) {
+
+    const categoryTitle = []
+
+    sub_reports.forEach(report => {
+      const obj = {}
+      obj.num = report.id
+      obj.header = report.name
+      categoryTitle.push(obj)
+    })
+
+    const sidebarItem = {
+      isOpened: false,
+      selectedIndex: 0,
+      isCategory: false,
+      blockIndex: currentBlock,
+      visible: false,
+      headingTitle: 'Sub Reports'
+    }
+
+    return { categoryTitle, sidebarItem }
+
+  }
+
+  updateSubReports(prev_sub_report, sub_reports) {
+    let current_index = 0
+
+    if (!this.props.isReset) {
+      sub_reports.forEach((sub_report, i) => {
+        if (prev_sub_report.indexOf(sub_report.header) > -1) {
+          current_index = i
+        }
+      })
+    }
+
+    return current_index
+  }
 
   generateSubjects(subjects, currentBlock) {
 
@@ -759,27 +839,33 @@ class Sidebar extends React.Component {
 
       } else if (sidebarItemIndex === 2) {
 
+        const sub_report = []
+        sub_report.push(categoryTitles[2][sidebarItems[2].selectedIndex].num)
+
+        this.setState({sidebarItems, categoryTitles}, this.props.onSelectSubReportFilter(sub_report, currentBlock))
+      } else if (sidebarItemIndex === 3) {
+
         // Tailored Report/Subject
         const subject_num = []
-        subject_num.push(categoryTitles[2][sidebarItems[2].selectedIndex].num)
+        subject_num.push(categoryTitles[3][sidebarItems[3].selectedIndex].num)
         this.setState({sidebarItems, categoryTitles}, this.props.onSelectSubjectFilter(subject_num, currentBlock))
 
-      } else if (sidebarItemIndex === 3) {
+      } else if (sidebarItemIndex === 4) {
 
         // Tailored Report/Filter By
         const serie = []
-        serie.push(categoryTitles[3][sidebarItems[3].selectedIndex].num)
+        serie.push(categoryTitles[4][sidebarItems[4].selectedIndex].num)
         this.setState({sidebarItems, categoryTitles}, this.props.onSelectFilterByFilter(serie, currentBlock))
 
-      } else if (sidebarItemIndex === 4) {
+      } else if (sidebarItemIndex === 5) {
 
         // Tailoared Reort/Sub Filter By
         const serie_element = []
         if (selectedIndex !== 0) {
-          serie_element.push(categoryTitles[4][sidebarItems[4].selectedIndex].num)
+          serie_element.push(categoryTitles[5][sidebarItems[5].selectedIndex].num)
         } else {
-          for (let i = 1; i<categoryTitles[4].length; i++) {
-            serie_element.push(categoryTitles[4][i].num)
+          for (let i = 1; i<categoryTitles[5].length; i++) {
+            serie_element.push(categoryTitles[5][i].num)
           }
         }        
         this.setState({sidebarItems, categoryTitles}, this.props.onSelectSubFilterByFilter(serie_element, currentBlock))
@@ -940,17 +1026,17 @@ class Sidebar extends React.Component {
             let isDataReset = false
             let isRemoval = false
             let isDataLine = false
-            if ((i-11)%7 === 1) {
+            if ((i-12)%8 === 1) {
               isRemoval = true
-            }else if ((i-4)%7 === 2){
+            }else if ((i-5)%8 === 2){
               isDataReset = true
-            } else if ((i-4)%7 === 0) {
+            } else if ((i-5)%8 === 0) {
               isBlock = true
             }
-            if ((i-5)%7===1) {
+            if ((i-6)%8===1) {
               isDataLine = true
             }
-            if ((i-4)/7>7) {
+            if ((i-5)/8>7) {
               isAdd = false
             }
             return (
@@ -1002,6 +1088,7 @@ class Sidebar extends React.Component {
 export default compose(
   dlfTailored,
   dTailored,
+  dlTailored,
   dlfsTailored,
   dlfseTailored,
   dlfseyTailored,

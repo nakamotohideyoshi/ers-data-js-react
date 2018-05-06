@@ -10,6 +10,7 @@ import OptionGroup from '../../components/OptionGroup'
 import { YEAR_SELECTED } from '../../helpers/constants'
 
 import './style.css'
+import { filter } from 'graphql-anywhere';
 
 const defaultYearCount = 5
 const defaultStateCount = 1
@@ -55,6 +56,7 @@ export default class Layout extends React.Component {
       const obj = {}
       obj.report_num = []
       obj.subject_num = []
+      obj.sub_report = []
       obj.serie = []
       obj.serie_element = []
       if (i === 0) {
@@ -69,6 +71,7 @@ export default class Layout extends React.Component {
       
       const obj1 = {}
       obj1.report_num = []
+      obj1.sub_report = []
       obj1.subject_num = []
       obj1.serie = []
       obj1.serie_element = []
@@ -107,14 +110,15 @@ export default class Layout extends React.Component {
 
   // initial LHS loading in `tailored report`
   // run query to refresh [serie, year, state]
-  initialLoadingTailor = (topic_abb, subject_num, blockIndex) => {
+  initialLoadingTailor = (topic_abb, sub_report, blockIndex) => {
     let {pre_filters} = this.state
 
     const isRemoveDataSource = false
     const isGetSurveyData = false
 
+    pre_filters[blockIndex].sub_report = sub_report
     pre_filters[blockIndex].topic_abb = topic_abb
-    pre_filters[blockIndex].subject_num = subject_num
+    pre_filters[blockIndex].subject_num = []
     pre_filters[blockIndex].serie = []
     pre_filters[blockIndex].serie_element = []
 
@@ -124,7 +128,7 @@ export default class Layout extends React.Component {
       isGetSurveyData,
       priority: [],
       blockIndex,
-      runQuery: 'dlfTailored'
+      runQuery: 'dlTailored'
     })
   }
 
@@ -1030,7 +1034,7 @@ export default class Layout extends React.Component {
       isReset: false,
       runQuery: ''
     })
-  }
+  }  
 
   // report_num selected
   onSelectReportFilter = (report_num, blockIndex) => {
@@ -1051,6 +1055,28 @@ export default class Layout extends React.Component {
       blockIndex,
       runQuery: 'dTailored'
     })
+  }
+
+  onSelectSubReportFilter = (sub_report, blockIndex) => {
+    let {pre_filters} = this.state
+    pre_filters[blockIndex].sub_report = sub_report
+    pre_filters[blockIndex].topic_abb = []
+    pre_filters[blockIndex].subject_num = []
+    pre_filters[blockIndex].serie = []
+    pre_filters[blockIndex].serie_element = []
+
+    const isRemoveDataSource = false
+    const isGetSurveyData = false
+
+    this.setState({
+      pre_filters,
+      isRemoveDataSource,
+      isGetSurveyData,
+
+      blockIndex,
+      runQuery: 'dlTailored'
+    })
+
   }
 
   // subject_num selected
@@ -1862,6 +1888,7 @@ export default class Layout extends React.Component {
     for (let i=0; i<9; i++) {
       if (isGetSurveyData) {
         filters[i].report_num = pre_filters[i].report_num
+        filters[i].sub_report = pre_filters[i].sub_report
         filters[i].subject_num = pre_filters[i].subject_num
         filters[i].topic_abb = pre_filters[i].topic_abb
         filters[i].serie = pre_filters[i].serie
@@ -1886,6 +1913,7 @@ export default class Layout extends React.Component {
     }
 
     let arms_report_num = []
+    let arms_sub_report = []
     let arms_subject_num = []
     let arms_serie = []
     let arms_serie_element = []
@@ -1895,6 +1923,7 @@ export default class Layout extends React.Component {
 
     for (let i=1; i<dataSourceCounts+1; i++) {
       arms_report_num = arms_report_num.concat(pre_filters[i].report_num)
+      arms_sub_report = arms_sub_report.concat(pre_filters[i].sub_report)
       arms_subject_num = arms_subject_num.concat(pre_filters[i].subject_num)
       arms_serie = arms_serie.concat(pre_filters[i].serie)
       arms_serie_element = arms_serie_element.concat(pre_filters[i].serie_element)
@@ -1907,16 +1936,16 @@ export default class Layout extends React.Component {
       <Grid>
         <Sidebar
           arms_report_num = {arms_report_num}
+          arms_sub_report = {arms_sub_report}
           arms_subject_num = {arms_subject_num}
           arms_topic_abb = {arms_topic_abb}
           arms_serie = {arms_serie}
           arms_serie_element = {arms_serie_element}
           arms_serie2 = {arms_serie2}
           arms_serie2_element = {arms_serie2_element}
-          topics = {this.props.topics}
           reports = {this.props.reports}
-          subjects = {this.props.subjects}
           report_num = {pre_filters[blockIndex].report_num}
+          sub_report = {pre_filters[blockIndex].sub_report}
           topic_abb = {pre_filters[blockIndex].topic_abb}
           subject_num = {pre_filters[blockIndex].subject_num}
           serie = {pre_filters[blockIndex].serie}
@@ -1941,6 +1970,7 @@ export default class Layout extends React.Component {
           resetERFilter = {this.resetERFilter}
           onSelectReportFilter = {this.onSelectReportFilter}
           onSelectReportCategory = {this.onSelectReportCategory}
+          onSelectSubReportFilter = {this.onSelectSubReportFilter}
           onSelectSubjectFilter = {this.onSelectSubjectFilter}
           onSelectFilterByFilter = {this.onSelectFilterByFilter}
           onSelectSubFilterByFilter = {this.onSelectSubFilterByFilter} 
