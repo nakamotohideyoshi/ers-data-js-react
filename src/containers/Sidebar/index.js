@@ -32,6 +32,7 @@ import dlfysTailored from '../../ApolloComponent/dlfysTailored'
 import dlrfysTailored from '../../ApolloComponent/dlrfysTailored'
 import initAnalysis from '../../ApolloComponent/initAnalysis'
 import dAnalysis from '../../ApolloComponent/dAnalysis'
+import dlAnalysis from '../../ApolloComponent/dlAnalysis'
 import dlfAnalysis from '../../ApolloComponent/dlfAnalysis'
 import dlfsAnalysis from '../../ApolloComponent/dlfsAnalysis'
 import dlfseAnalysis from '../../ApolloComponent/dlfseAnalysis'
@@ -40,6 +41,7 @@ import dlfsesetAnalysis from '../../ApolloComponent/dlfsesetAnalysis'
 import dlfseseyAnalysis from '../../ApolloComponent/dlfseseyAnalysis'
 import dlfseseytAnalysis from '../../ApolloComponent/dlfseseytAnalysis'
 import dlfsesetyAnalysis from '../../ApolloComponent/dlfsesetyAnalysis'
+import dlrAnalysis from '../../ApolloComponent/dlrAnalysis'
 import { compose } from 'react-apollo'
 
 class Sidebar extends React.Component {
@@ -112,7 +114,7 @@ class Sidebar extends React.Component {
             })
 
             let sub_reports = this.generateSubReports(props[runQuery][runQuery].sub_report, currentBlock)
-            let sub_report_num = 1
+            let sub_report_num = [1]
                       
 
             if (categoryTitles.length < 3) {
@@ -362,36 +364,92 @@ class Sidebar extends React.Component {
             let reports = this.generateReports(props.reports, currentBlock)
             reports.sidebarItem.headingTitle = 'Data Source' + currentBlock
             let topics = this.generateDataLine(props[runQuery][runQuery].topic, currentBlock)
-            subjects = this.generateSubjects(props[runQuery][runQuery].subject, currentBlock)
-            subjects.sidebarItem.headingTitle = 'Farm Type'
+            sub_reports = this.generateSubReports(props[runQuery][runQuery].sub_report, currentBlock)
+            sub_report_num = [1]          
 
-            let index = 7*(currentBlock-1) + 5
+            let index = 7*(currentBlock-1) + 6
+            topic_abb = [topics.categoryTitle[0].num]
 
             if (categoryTitles.length<index+1) {
               categoryTitles.push(reports.categoryTitle)
               categoryTitles.push(topics.categoryTitle)
-              categoryTitles.push(subjects.categoryTitle)
+              categoryTitles.push(sub_reports.categoryTitle)
 
               sidebarItems.push(reports.sidebarItem)
               sidebarItems.push(topics.sidebarItem)
-              sidebarItems.push(subjects.sidebarItem)
+              sidebarItems.push(sub_reports.sidebarItem)
             } else {
 
-            }
+              let prev_topic = []
 
-            if (subjects.categoryTitle.length === 1) {
-              sidebarItems[index+2].visible = false
-            }
+              sidebarItems[index+1].selectedIndex.forEach(i => {
+                prev_topic.push(categoryTitles[index+1][i].header)
+              })
 
-            topic_abb = [categoryTitles[index+1][0].num]
-            subject_num = [categoryTitles[index+2][0].num]
+              let topic_index = this.updateDataLine(prev_topic, topics.categoryTitle).topic_index
+
+              if (topic_index.length === 0) {
+                topic_abb = this.updateDataLine(prev_topic, topics.categoryTitle).topic_abb
+              }
+
+              const prev_sub_report = categoryTitles[index+2].length !== 0 ? [categoryTitles[index+2][sidebarItems[index+2].selectedIndex].header] : ''
+              const sub_report_current_index = this.updateSubReports(prev_sub_report, sub_reports.categoryTitle)
+
+              sub_reports.sidebarItem.selectedIndex = 0
+
+              if (sidebarItems[index].selectedIndex === 5) {
+                sub_reports.sidebarItem.visible = true
+                sub_reports.sidebarItem.selectedIndex = sub_report_current_index 
+                sub_report_num = [sub_reports.categoryTitle[sub_report_current_index].num]
+              }
+             
+              categoryTitles[2] = sub_reports.categoryTitle
+              sidebarItems[2] = sub_reports.sidebarItem
+
+            }
 
             this.setState({
               categoryTitles,
               sidebarItems,
               currentBlock
-            }, props.initialBlockLoadAnalysis(topic_abb, subject_num, currentBlock))
+            }, props.initialBlockLoadAnalysis(topic_abb, sub_report_num, currentBlock))
             
+            break
+
+          case 'dlAnalysis':
+          case 'dlrAnalysis':
+          
+            subjects = this.generateSubjects(props[runQuery][runQuery].subject, currentBlock)
+            subjects.sidebarItem.headingTitle = 'Farm Type'
+
+            subject_num = subjects.categoryTitle[0].num
+
+            index = 7*(currentBlock-1) + 9
+
+            if (categoryTitles.length<index+1) {
+              categoryTitles.push(subjects.categoryTitle)
+              sidebarItems.push(subjects.sidebarItem)
+            } else {
+              const prev_subject = [categoryTitles[index][sidebarItems[index].selectedIndex].header]      
+              const subject_current_index = this.updateSubjects(prev_subject, subjects.categoryTitle)
+              subjects.sidebarItem.selectedIndex = subject_current_index
+
+              if (subjects.categoryTitle.length === 1) {
+                subjects.sidebarItem.visible = false
+              } 
+
+              categoryTitles[index] = subjects.categoryTitle
+              sidebarItems[index] = subjects.sidebarItem
+
+              subject_num = [subjects.categoryTitle[subject_current_index].num]
+            }
+
+            this.setState({
+              categoryTitles,
+              sidebarItems,
+              currentBlock
+            })
+
             break
 
           case 'dlfAnalysis':
@@ -800,6 +858,20 @@ class Sidebar extends React.Component {
 
   }
 
+  updateDataLine(prev_topic, topics) {
+    let topic_index =[]
+    let topic_abb = []
+
+    topics.forEach((topic, i) => {
+      if (prev_topic.indexOf(topic.header) > - 1) {
+        topic_index.push(i)
+        topic_abb(topic.abb)
+      }
+    })
+
+    return { topic_index, topic_abb }
+  }
+
   toggleCategoryOptions = (selectedItemIndex) => {
     if (this.props.runQuery.length === 0) {    
       const { sidebarItems } =this.state    
@@ -1135,6 +1207,7 @@ export default compose(
   dlrfysTailored,
   initAnalysis,
   dAnalysis,
+  dlAnalysis,
   dlfAnalysis,
   dlfsAnalysis,
   dlfseAnalysis,
@@ -1143,5 +1216,6 @@ export default compose(
   dlfseseyAnalysis,
   dlfseseytAnalysis,
   dlfsesetyAnalysis,
+  dlrAnalysis,
 )(Sidebar)
 
