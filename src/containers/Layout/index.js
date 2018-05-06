@@ -1381,21 +1381,23 @@ export default class Layout extends React.Component {
   }
 
   // Datasource block inital loading
-  initialBlockLoadAnalysis = (topic_abb, subject_num, blockIndex) => {
+  initialBlockLoadAnalysis = (topic_abb, sub_report, blockIndex) => {
     let {pre_filters} = this.state
 
     pre_filters[blockIndex].topic_abb = topic_abb
-    pre_filters[blockIndex].subject_num = subject_num
+    pre_filters[blockIndex].sub_report = sub_report
     const isRemoveDataSource = false
     const isGetSurveyData = false
     const isAllDataSources = false
+
+    const runQuery = pre_filters[blockIndex].report_num[0] === 6 ? 'dlrAnalysis' : 'dlAnalysis'
 
     this.setState({
       isRemoveDataSource,
       isGetSurveyData,
       isAllDataSources,
       pre_filters,
-      runQuery: 'dlfAnalysis',
+      runQuery,
       blockIndex
     })
   }
@@ -1427,6 +1429,26 @@ export default class Layout extends React.Component {
     pre_filters[blockIndex].topic_abb = topic_abb
     const isRemoveDataSource = false
     const isGetSurveyData = true
+    const isAllDataSources = false
+
+    this.setState({
+      filters,
+      isRemoveDataSource,
+      isGetSurveyData,
+      isAllDataSources,
+      pre_filters,
+      runQuery: 'dlrAnalysis',
+      isReset: false,
+      blockIndex
+    })
+  }
+
+  selectSubReportAnalysis = (sub_report, blockIndex) => {
+    let {filters, pre_filters} = this.state
+
+    pre_filters[blockIndex].sub_report = sub_report
+    const isRemoveDataSource = false
+    const isGetSurveyData = false
     const isAllDataSources = false
 
     this.setState({
