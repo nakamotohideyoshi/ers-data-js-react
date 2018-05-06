@@ -1172,7 +1172,7 @@ export default class Layout extends React.Component {
       runQuery = pre_filters[blockIndex].report_num[0] === 6 ? 'dlrfseTailored' : 'dlfseTailored'
     } else if (priority.indexOf('serie') === 1 &&  priority.indexOf('year') === 0) {
       // Year -> Serie/Serie_element -> ...
-      runQuery = 'dlfseyTailored'
+      runQuery = pre_filters[blockIndex].report_num[0] === 6 ? 'dlrfseyTailored' : 'dlfseyTailored'
     } else if (priority.indexOf('serie') === 1 &&  priority.indexOf('state') === 0) {
       // State -> Serie/Serie_element -> ...
       runQuery = 'dlfsetTailored'
@@ -1243,7 +1243,7 @@ export default class Layout extends React.Component {
         runQuery = pre_filters[blockIndex].report_num[0] === 6 ? 'dlrftyTailored' : 'dlftyTailored'
       } else if (priority.indexOf('year') === 1 &&  priority.indexOf('serie') === 0) {
         // Serie -> Year -> ...
-        runQuery = 'dlfseyTailored'
+        runQuery = pre_filters[blockIndex].report_num[0] === 6 ? 'dlrfseyTailored' : 'dlfseyTailored'
       } else if (priority.indexOf('year') === 2){
         // ... -> ... -> Year
         runQuery = ''
