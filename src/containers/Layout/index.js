@@ -1132,7 +1132,7 @@ export default class Layout extends React.Component {
       runQuery = pre_filters[blockIndex].report_num[0] === 6 ? 'dlrfysTailored' : 'dlfysTailored'
     } else if (priority.indexOf('serie') === 1 &&  priority.indexOf('state') === 0) {
       // State -> Serie -> ...
-      runQuery = 'dlftsTailored'
+      runQuery = pre_filters[blockIndex].report_num[0] === 6 ? 'dlrftsTailored' : 'dlftsTailored'
     } else if (priority.indexOf('serie') === 2){
       // ... -> ... -> Serie
       runQuery = pre_filters[blockIndex].report_num[0] === 6 ? 'dlrftysTailored' : 'dlftysTailored'
