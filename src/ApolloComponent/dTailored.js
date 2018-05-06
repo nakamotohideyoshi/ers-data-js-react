@@ -11,10 +11,6 @@ import gql from 'graphql-tag';
         abb
         header
       }
-    	subject{
-        num
-        header
-      }
       sub_report {
         id
         name
