@@ -1535,12 +1535,14 @@ export default class Layout extends React.Component {
     const isGetSurveyData = false
     const isAllDataSources = false
 
+    const runQuery = pre_filters[blockIndex].report_num[0] === 6 ? 'dlrfsesAnalysis' : 'dlfsesAnalysis'
+
     this.setState({
       isRemoveDataSource,
       isGetSurveyData,
       isAllDataSources,
       pre_filters,
-      runQuery: 'dlfsesAnalysis',
+      runQuery,
       blockIndex
     })
   }
