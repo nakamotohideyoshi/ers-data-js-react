@@ -1126,7 +1126,7 @@ export default class Layout extends React.Component {
     pre_filters[blockIndex].serie_element = []
     if (priority.indexOf('serie') === 0) {
       // Serie -> ... -> ...
-      runQuery = 'dlfsTailored'
+      runQuery = pre_filters[blockIndex].report_num[0] === 6 ? 'dlrfsTailored' : 'dlfsTailored'
     } else if (priority.indexOf('serie') === 1 &&  priority.indexOf('year') === 0) {
       // Year -> Serie -> ...
       runQuery = 'dlfysTailored'
