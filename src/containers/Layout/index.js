@@ -304,6 +304,7 @@ export default class Layout extends React.Component {
     
     const isRemoveDataSource = false
     const isGetSurveyData = false
+    const runQuery = pre_filters[blockIndex].report_num[0] === 6 ? 'dlrftysTailored' : 'dlftysTailored'
 
     this.setState({
       pre_filters,
@@ -317,7 +318,7 @@ export default class Layout extends React.Component {
       temp_States,
       selectedStates: reSelectedStates,
       selectedStateNames: selectedStateNames,
-      runQuery: 'dlftysTailored'
+      runQuery
     })
   }
 
@@ -789,6 +790,8 @@ export default class Layout extends React.Component {
     const isRemoveDataSource = false
     const isGetSurveyData = false
 
+    const runQuery = pre_filters[blockIndex].report_num[0] === 6 ? 'dlrftysTailored' : 'dlftysTailored'
+
     this.setState({
       pre_filters,
       isRemoveDataSource,
@@ -797,7 +800,7 @@ export default class Layout extends React.Component {
       yearsInfo: yearsInfo,
       temp_Years,
       selectedYears: reSelectedYears,
-      runQuery: 'dlftysTailored'
+      runQuery
     })
   }
 
@@ -811,12 +814,14 @@ export default class Layout extends React.Component {
     const isRemoveDataSource = false
     const isGetSurveyData = false
 
+    const runQuery = pre_filters[blockIndex].report_num[0] === 6 ? 'dlrftysTailored' : 'dlftysTailored'
+
     this.setState({
       pre_filters,
       isRemoveDataSource,
       isGetSurveyData,
       blockIndex,
-      runQuery: 'dlftysTailored'
+      runQuery
     })
   }
 
@@ -950,6 +955,8 @@ export default class Layout extends React.Component {
     const isRemoveDataSource = false
     const isGetSurveyData = false
 
+    const runQuery = pre_filters[blockIndex].report_num[0] === 6 ? 'dlrftysTailored' : 'dlftysTailored'
+
     this.setState({
       pre_filters,
       isRemoveDataSource,
@@ -959,7 +966,7 @@ export default class Layout extends React.Component {
       temp_States,
       selectedStates: reSelectedStates,
       selectedStateNames: selectedStateNames,
-      runQuery: 'dlftysTailored'
+      runQuery
     })
   }
 
@@ -1128,7 +1135,7 @@ export default class Layout extends React.Component {
       runQuery = 'dlftsTailored'
     } else if (priority.indexOf('serie') === 2){
       // ... -> ... -> Serie
-      runQuery = 'dlftysTailored'
+      runQuery = pre_filters[blockIndex].report_num[0] === 6 ? 'dlrftysTailored' : 'dlftysTailored'
     }
 
     const isRemoveDataSource = false
