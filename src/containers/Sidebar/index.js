@@ -43,6 +43,7 @@ import dlfseseytAnalysis from '../../ApolloComponent/dlfseseytAnalysis'
 import dlfsesetyAnalysis from '../../ApolloComponent/dlfsesetyAnalysis'
 import dlrAnalysis from '../../ApolloComponent/dlrAnalysis'
 import dlrfAnalysis from '../../ApolloComponent/dlfAnalysis'
+import dlrfsAnalysis from '../../ApolloComponent/dlrfsAnalysis'
 import { compose } from 'react-apollo'
 
 class Sidebar extends React.Component {
@@ -490,11 +491,12 @@ class Sidebar extends React.Component {
             break
 
           case 'dlfsAnalysis':
+          case 'dlrfsAnalysis':
 
             series_element = this.generateElements(props[runQuery][runQuery].serie_element, currentBlock)
             serie_element = series_element.serie_element
 
-            index = 7*(currentBlock-1) + 9
+            index = 7*(currentBlock-1) + 11
 
             if (categoryTitles.length < index+1) {
 
@@ -1227,5 +1229,6 @@ export default compose(
   dlfsesetyAnalysis,
   dlrAnalysis,
   dlrfAnalysis,
+  dlrfsAnalysis,
 )(Sidebar)
 
