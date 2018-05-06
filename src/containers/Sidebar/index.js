@@ -8,6 +8,7 @@ import Reset from '../../images/reset.png'
 import dlfTailored from '../../ApolloComponent/dlfTailored'
 import dTailored from '../../ApolloComponent/dTailored'
 import dlTailored from '../../ApolloComponent/dlTailored'
+import dlrTailored from '../../ApolloComponent/dlrTailored'
 import dlfsTailored from '../../ApolloComponent/dlfsTailored'
 import dlfseTailored from '../../ApolloComponent/dlfseTailored'
 import dlfsetTailored from '../../ApolloComponent/dlfsetTailored'
@@ -68,9 +69,7 @@ class Sidebar extends React.Component {
     })    
   }
 
-  componentWillReceiveProps(props) {
-
-    console.log('props:', props)
+  componentWillReceiveProps(props) {    
     
     if (props.runQuery.length !== 0) {
 
@@ -91,7 +90,7 @@ class Sidebar extends React.Component {
         }, props.resetFilterByBlockIndex(currentBlock))
 
       } else if (props[runQuery].networkStatus === 7 && props[runQuery][runQuery]) {
-        
+        console.log('props:', props[runQuery])
         switch (props.runQuery) {
 
           case 'dTailored':
@@ -138,6 +137,7 @@ class Sidebar extends React.Component {
             break
           
           case 'dlTailored':
+          case 'dlrTailored':
 
             let subject_num = [props[runQuery][runQuery].subject[0].num]       
             let subjects = this.generateSubjects(props[runQuery][runQuery].subject, currentBlock)
@@ -1085,10 +1085,11 @@ class Sidebar extends React.Component {
   }
 }
 
-export default compose(
-  dlfTailored,
+export default compose(  
   dTailored,
   dlTailored,
+  dlrTailored,
+  dlfTailored,
   dlfsTailored,
   dlfseTailored,
   dlfseyTailored,

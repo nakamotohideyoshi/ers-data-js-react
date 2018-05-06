@@ -122,13 +122,15 @@ export default class Layout extends React.Component {
     pre_filters[blockIndex].serie = []
     pre_filters[blockIndex].serie_element = []
 
+    const runQuery = pre_filters[blockIndex].report_num[0] === 6 ? 'dlrTailored' : 'dlTailored'
+
     this.setState({
       pre_filters,
       isRemoveDataSource,
       isGetSurveyData,
       priority: [],
       blockIndex,
-      runQuery: 'dlTailored'
+      runQuery
     })
   }
 
@@ -1074,7 +1076,7 @@ export default class Layout extends React.Component {
       isGetSurveyData,
 
       blockIndex,
-      runQuery: 'dlTailored'
+      runQuery: 'dlrTailored'
     })
 
   }
@@ -1089,12 +1091,14 @@ export default class Layout extends React.Component {
     const isRemoveDataSource = false
     const isGetSurveyData = false
 
+    const runQuery = pre_filters[blockIndex].report_num[0] === 6 ? 'dlrfTailored' : 'dlfTailored'
+
     this.setState({
       pre_filters,
       isRemoveDataSource,
       isGetSurveyData,
       blockIndex,
-      runQuery: 'dlfTailored'
+      runQuery
     })
   }
 
