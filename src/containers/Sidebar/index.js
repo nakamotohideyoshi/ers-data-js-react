@@ -42,6 +42,7 @@ import dlfseseyAnalysis from '../../ApolloComponent/dlfseseyAnalysis'
 import dlfseseytAnalysis from '../../ApolloComponent/dlfseseytAnalysis'
 import dlfsesetyAnalysis from '../../ApolloComponent/dlfsesetyAnalysis'
 import dlrAnalysis from '../../ApolloComponent/dlrAnalysis'
+import dlrfAnalysis from '../../ApolloComponent/dlfAnalysis'
 import { compose } from 'react-apollo'
 
 class Sidebar extends React.Component {
@@ -448,18 +449,19 @@ class Sidebar extends React.Component {
               categoryTitles,
               sidebarItems,
               currentBlock
-            })
+            }, props.selectFarmTypeAnalsysis(subject_num, currentBlock))
 
             break
 
           case 'dlfAnalysis':
+          case 'dlrfAnalysis':
             
             serie = [props[runQuery][runQuery].serie[0].abb]
 
             series = this.generateSeries(props[runQuery][runQuery].serie, currentBlock)
             series.sidebarItem.headingTitle = 'Filter1'
 
-            index = 7*(currentBlock-1) + 8
+            index = 7*(currentBlock-1) + 10
 
             if (categoryTitles.length < index+1) {
 
@@ -964,7 +966,7 @@ class Sidebar extends React.Component {
         }        
         this.setState({sidebarItems, categoryTitles}, this.props.onSelectSubFilterByFilter(serie_element, currentBlock))
 
-      } else if ((sidebarItemIndex - 5)%7===0){
+      } else if ((sidebarItemIndex - 5)%8===0){
         
         // Arms Data Analaysis/Data Source
         const report_num = []
@@ -973,7 +975,7 @@ class Sidebar extends React.Component {
 
         this.setState({sidebarItems, categoryTitles}, this.props.selectDataSource(report_num, currentBlock))
 
-      } else if ((sidebarItemIndex - 5)%7===1){
+      } else if ((sidebarItemIndex - 5)%8===1){
 
         // Arms Data Analysis/Data Line
         const topic_abb = []
@@ -992,7 +994,14 @@ class Sidebar extends React.Component {
 
         this.setState({sidebarItems, categoryTitles}, this.props.selectDataLineAnalysis(topic_abb, currentBlock))
 
-      } else if ((sidebarItemIndex - 5)%7===2){
+      } else if ((sidebarItemIndex - 5)%8===2) {
+
+        const sub_report = []
+        sub_report.push(categoryTitles[sidebarItemIndex][sidebarItems[sidebarItemIndex].selectedIndex].num)
+
+        this.setState({sidebarItems, categoryTitles}, this.props.selectSubReportAnalysis(sub_report, currentBlock))
+
+      } else if ((sidebarItemIndex - 5)%8===3){
 
         // Arms Data Analaysis/Farm Type
         const subject_num = []
@@ -1001,14 +1010,14 @@ class Sidebar extends React.Component {
         
         this.setState({sidebarItems, categoryTitles}, this.props.selectFarmTypeAnalsysis(subject_num, currentBlock))
 
-      } else if ((sidebarItemIndex - 5)%7===3){
+      } else if ((sidebarItemIndex - 5)%8===4){
 
         // Arms Data Analysis/Filter1
         const serie = []
         serie.push(categoryTitles[sidebarItemIndex][sidebarItems[sidebarItemIndex].selectedIndex].num)
         this.setState({sidebarItems, categoryTitles}, this.props.selectFilter1Analysis(serie, currentBlock))
 
-      } else if ((sidebarItemIndex - 5)%7===4){
+      } else if ((sidebarItemIndex - 5)%8===5){
 
         // Arms Data Analaysis/Sub Filter1
         const serie_element = []
@@ -1022,13 +1031,13 @@ class Sidebar extends React.Component {
 
         this.setState({sidebarItems, categoryTitles}, this.props.selectSubFilter1Analysis(serie_element, currentBlock))
 
-      } else if ((sidebarItemIndex - 5)%7===5){
+      } else if ((sidebarItemIndex - 5)%8===6){
 
         // Arms Data Analysis/Filter2
         const serie2 = []
         serie2.push(categoryTitles[sidebarItemIndex][sidebarItems[sidebarItemIndex].selectedIndex].num)
         this.setState({sidebarItems, categoryTitles}, this.props.selectFilter2Analysis(serie2, currentBlock))
-      } else if ((sidebarItemIndex - 5)%7===6){
+      } else if ((sidebarItemIndex - 5)%8===7){
 
         // Arms Data Analysis/Sub Filter2
         const serie2_element = []
@@ -1217,5 +1226,6 @@ export default compose(
   dlfseseytAnalysis,
   dlfsesetyAnalysis,
   dlrAnalysis,
+  dlrfAnalysis,
 )(Sidebar)
 
