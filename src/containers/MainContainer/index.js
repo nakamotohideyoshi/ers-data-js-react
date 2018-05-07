@@ -4,6 +4,7 @@ import SheetDataChart from '../../components/SheetDataChart';
 import TableContainer from '../TableContainer';
 import './style.css';
 import charts from '../../ApolloComponent/chartsQuery'
+import charts1 from '../../ApolloComponent/charts1Query'
 import tailorfootnote from '../../ApolloComponent/tailorFootNote'
 import armsdatafootnote from '../../ApolloComponent/armsdataFootNote'
 import dataSource1 from '../../ApolloComponent/dataSource1'
@@ -50,6 +51,7 @@ class MainContainer extends React.Component {
       this.setState({ showList, surveyData, showData })
 
     } else if (props.isGetSurveyData) {
+      console.log('-----', props)
       if (props.charts) {
         if(props.charts.networkStatus === 7) {
           let isTailored = false
@@ -72,6 +74,33 @@ class MainContainer extends React.Component {
               }
             })            
             surveyData[0] = props.charts.arms_surveydata            
+          } else {            
+            surveyData[0] = []
+            showList = {}            
+          }          
+        }
+      } else if (props.charts1) {
+        if(props.charts1.networkStatus === 7) {
+          let isTailored = false
+          if(props.charts1.arms_surveydata) {
+            // Tailored Report
+            if (surveyData[0].length === 0) {
+              showList = {}
+              isTailored = true
+            } else if (props.report_num_0[0] !== surveyData[0][0].report_num) {
+              showList = {}
+              isTailored = true
+            }
+            props.charts1.arms_surveydata.forEach(data => {
+              if (isTailored) {
+                if (data.topic_dim.level > 1) {
+                  showList[0+data.topic_abb] = false
+                } else {
+                  showList[0+data.topic_abb] = true
+                }
+              }
+            })            
+            surveyData[0] = props.charts1.arms_surveydata            
           } else {            
             surveyData[0] = []
             showList = {}            
@@ -282,6 +311,7 @@ MainContainer.propTypes = {
 
 export default compose(
   charts,
+  charts1,
   tailorfootnote,
   armsdatafootnote,
   dataSource1,

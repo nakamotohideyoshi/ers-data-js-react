@@ -2095,6 +2095,7 @@ export default class Layout extends React.Component {
             selectedYears={selectedYears}
 
             report_num_0 = {filters[0].report_num}
+            sub_report_0 = {filters[0].sub_report}
             subject_num_0 = {filters[0].subject_num}
             serie_0 = {serie[0]}
             serie_element_0 = {serie_element[0]}
