@@ -473,8 +473,26 @@ export default class ChartGenerator extends React.Component {
 
     this.setState({ config: Object.assign({}, config) })
   }
+  getCurrentDateTimeFormat() {
+    const dateNow = new Date()
+    let hrs = dateNow.getHours()
+    let mins = dateNow.getMinutes()
+    let secs = dateNow.getSeconds()
+    hrs = hrs < 10 ? '0' + hrs : hrs;
+    mins = mins < 10 ? '0' + mins : mins;
+    secs = secs < 10 ? '0' + secs : secs;
+    var strTime = hrs + '-' + mins + '-' + secs;
+    const dateFormat = (dateNow.getMonth()+1) + '-' + dateNow.getDate() + '-' + dateNow.getFullYear() + '-' + strTime
+    let fileName = dateFormat + '-arms-'
+    const reportTitle = this.props.title ? this.props.title + '-' : 'data-analysis-'
+    fileName = fileName.concat(reportTitle)
+    return fileName
+  }
   downloadFile(type) {
-    this.refs.chart.getChart().exportChart({ type })
+    let filename  = this.getCurrentDateTimeFormat()
+    let ext = type.split('/')
+    filename = filename.concat(ext[1])
+    this.refs.chart.getChart().exportChart({ type, filename })
   }
   printChart() {
     this.refs.chart.getChart().print()
