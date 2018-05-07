@@ -536,7 +536,7 @@ export default class ChartGenerator extends React.Component {
     }
   }
   render() {
-    const { title, fontSizeIndex } = this.props
+    const { fontSizeIndex } = this.props
     const { config, isDropdownOpened, csvChartArray, csvTableArray } = this.state
 
     return (
