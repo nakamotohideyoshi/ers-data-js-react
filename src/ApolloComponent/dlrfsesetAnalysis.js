@@ -5,7 +5,7 @@ import gql from 'graphql-tag';
   query dlrfsesetAnalysis (
     $arms_report_num: [Int]
     $arms_topic_abb: [String]
-    $sub_report: [Int]
+    $arms_sub_report: [Int]
     $arms_subject_num: [Int]
     $arms_serie: [String]
     $arms_serie_element: [Int]
@@ -15,7 +15,7 @@ import gql from 'graphql-tag';
     dlrfsesetAnalysis: arms_filter(
       report_num: $arms_report_num,
       topic_abb: $arms_topic_abb,
-      sub_report: $sub_report,
+      sub_report: $arms_sub_report,
       subject_num: $arms_subject_num,
       serie: $arms_serie,
       serie_element: $arms_serie_element,

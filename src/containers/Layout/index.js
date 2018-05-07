@@ -1556,7 +1556,7 @@ export default class Layout extends React.Component {
     const isGetSurveyData = false
     const isAllDataSources = false
 
-    const runQuery = whichOneMultiple === YEAR_SELECTED ? 'dlfseseyAnalysis' : (pre_filters[blockIndex].report_num[0] === 6 ? 'dlrfsesetAnalysis' : 'dlfsesetAnalysis')
+    const runQuery = whichOneMultiple === YEAR_SELECTED ? (pre_filters[blockIndex].report_num[0] === 6 ? 'dlrfseseyAnalysis' : 'dlfseseyAnalysis') : (pre_filters[blockIndex].report_num[0] === 6 ? 'dlrfsesetAnalysis' : 'dlfsesetAnalysis')
 
 
     this.setState({
