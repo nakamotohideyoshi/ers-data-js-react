@@ -44,7 +44,7 @@ import dlfseseytAnalysis from '../../ApolloComponent/dlfseseytAnalysis'
 import dlfsesetyAnalysis from '../../ApolloComponent/dlfsesetyAnalysis'
 
 import dlrAnalysis from '../../ApolloComponent/dlrAnalysis'
-import dlrfAnalysis from '../../ApolloComponent/dlfAnalysis'
+import dlrfAnalysis from '../../ApolloComponent/dlrfAnalysis'
 import dlrfsAnalysis from '../../ApolloComponent/dlrfsAnalysis'
 import dlrfseAnalysis from '../../ApolloComponent/dlrfseAnalysis'
 import dlrfsesAnalysis from '../../ApolloComponent/dlrfsesAnalysis'
@@ -98,22 +98,27 @@ class Sidebar extends React.Component {
 
       let {categoryTitles, sidebarItems, currentBlock} = this.state
       const runQuery = props.runQuery
-
+      console.log('props:', runQuery, this.state)
       if (['initialize'].indexOf(props.runQuery)>-1) {
 
         const reports = this.generateReports(props.reports, currentBlock)
-        
-        categoryTitles.push(reports.categoryTitle)
-        sidebarItems.push(reports.sidebarItem)
+
+        if (categoryTitles.length === 1) {
+          categoryTitles.push(reports.categoryTitle)
+          sidebarItems.push(reports.sidebarItem)
+        } else {
+          categoryTitles[1] = reports.categoryTitle
+          sidebarItems[1] = reports.sidebarItem
+        }
 
         this.setState({
           categoryTitles,
           sidebarItems,
-          currentBlock
-        }, props.resetFilterByBlockIndex(currentBlock))
+          currentBlock: 0,
+        }, props.resetFilterByBlockIndex(0))
 
       } else if (props[runQuery].networkStatus === 7 && props[runQuery][runQuery]) {
-        console.log('props:', runQuery)
+       
         switch (props.runQuery) {
 
           case 'dTailored':
@@ -377,7 +382,7 @@ class Sidebar extends React.Component {
             sub_reports = this.generateSubReports(props[runQuery][runQuery].sub_report, currentBlock)
             sub_report_num = [1]          
 
-            let index = 7*(currentBlock-1) + 6
+            let index = 8*(currentBlock-1) + 6
             topic_abb = [topics.categoryTitle[0].num]
 
             if (categoryTitles.length<index+1) {
@@ -393,14 +398,19 @@ class Sidebar extends React.Component {
               let prev_topic = []
 
               sidebarItems[index+1].selectedIndex.forEach(i => {
-                prev_topic.push(categoryTitles[index+1][i].header)
+                prev_topic.push(categoryTitles[index+1][i].num)
               })
 
-              let topic_index = this.updateDataLine(prev_topic, topics.categoryTitle).topic_index
+              let data = this.updateDataLine(prev_topic, topics.categoryTitle)
+              let topic_index = data.topic_index
 
-              if (topic_index.length === 0) {
-                topic_abb = this.updateDataLine(prev_topic, topics.categoryTitle).topic_abb
+              if (topic_index.length !== 0) {
+                topic_abb = data.topic_abb
+                topics.sidebarItem.selectedIndex = topic_index
               }
+
+              categoryTitles[index+1] = topics.categoryTitle
+              sidebarItems[index+1] = topics.sidebarItem
 
               const prev_sub_report = categoryTitles[index+2].length !== 0 ? [categoryTitles[index+2][sidebarItems[index+2].selectedIndex].header] : ''
               const sub_report_current_index = this.updateSubReports(prev_sub_report, sub_reports.categoryTitle)
@@ -408,13 +418,13 @@ class Sidebar extends React.Component {
               sub_reports.sidebarItem.selectedIndex = 0
 
               if (sidebarItems[index].selectedIndex === 5) {
-                sub_reports.sidebarItem.visible = true
+                sub_reports.sidebarItem.visible = false
                 sub_reports.sidebarItem.selectedIndex = sub_report_current_index 
                 sub_report_num = [sub_reports.categoryTitle[sub_report_current_index].num]
               }
              
-              categoryTitles[2] = sub_reports.categoryTitle
-              sidebarItems[2] = sub_reports.sidebarItem
+              categoryTitles[index+2] = sub_reports.categoryTitle
+              sidebarItems[index+2] = sub_reports.sidebarItem
 
             }
 
@@ -434,7 +444,7 @@ class Sidebar extends React.Component {
 
             subject_num = subjects.categoryTitle[0].num
 
-            index = 7*(currentBlock-1) + 9
+            index = 8*(currentBlock-1) + 9
 
             if (categoryTitles.length<index+1) {
               categoryTitles.push(subjects.categoryTitle)
@@ -470,7 +480,7 @@ class Sidebar extends React.Component {
             series = this.generateSeries(props[runQuery][runQuery].serie, currentBlock)
             series.sidebarItem.headingTitle = 'Filter1'
 
-            index = 7*(currentBlock-1) + 10
+            index = 8*(currentBlock-1) + 10
 
             if (categoryTitles.length < index+1) {
 
@@ -504,7 +514,7 @@ class Sidebar extends React.Component {
             series_element = this.generateElements(props[runQuery][runQuery].serie_element, currentBlock)
             serie_element = series_element.serie_element
 
-            index = 7*(currentBlock-1) + 11
+            index = 8*(currentBlock-1) + 11
 
             if (categoryTitles.length < index+1) {
 
@@ -547,7 +557,7 @@ class Sidebar extends React.Component {
             series = this.generateSeries(props[runQuery][runQuery].serie2, currentBlock)
             series.sidebarItem.headingTitle = 'Filter2'
 
-            index = 7*(currentBlock-1) + 12
+            index = 8*(currentBlock-1) + 12
             const serie_element_num = sidebarItems[index-1].selectedIndex
 
             if (categoryTitles.length < index+1) {
@@ -588,7 +598,7 @@ class Sidebar extends React.Component {
             series_element = this.generateElements(props[runQuery][runQuery].serie2_element, currentBlock)
             serie_element = series_element.serie_element
 
-            index = 7*(currentBlock-1) + 13
+            index = 8*(currentBlock-1) + 13
 
             if (categoryTitles.length < index+1) {
 
@@ -881,9 +891,9 @@ class Sidebar extends React.Component {
     let topic_abb = []
 
     topics.forEach((topic, i) => {
-      if (prev_topic.indexOf(topic.header) > - 1) {
+      if (prev_topic.indexOf(topic.num) > - 1) {
         topic_index.push(i)
-        topic_abb(topic.abb)
+        topic_abb.push(topic.num)
       }
     })
 
@@ -905,38 +915,50 @@ class Sidebar extends React.Component {
     // current Block index
     currentBlock = sidebarItems[sidebarItemIndex].blockIndex
 
-    if ((sidebarItemIndex - 5)%7!==1) {
+    if ((sidebarItemIndex - 6)%8!==1) {
       sidebarItems[sidebarItemIndex].selectedIndex = selectedIndex
     }
 
     if (sidebarItemIndex === 0) {
 
-      // Category
-      const count = sidebarItems.length
-      for (let i = 1; i<count; i++) {
-        sidebarItems[i].visible = false
-        sidebarItems[i].selectedIndex = 0  
-        sidebarItems[i].isOpened = false
-      }
+      
       if (selectedIndex === 0) {
+        const count = categoryTitles.length
+
+        // Category
+        categoryTitles.splice(1, count-1)
+        sidebarItems.splice(1, count-1)
         // Tailored Report
         currentBlock = 0
         isReports = true
-        
-        sidebarItems[1].visible = true
-        sidebarItems[1].selectedIndex = 0
-        sidebarItems[2].visible = true
+        const blockCount = 1
        
-        this.setState({sidebarItems, isReports, currentBlock}, this.props.onSelectReportCategory())        
+        this.setState({
+          categoryTitles,
+          sidebarItems,
+          isReports,
+          currentBlock: 0,
+          blockCount
+        }, this.props.onSelectReportCategory())        
       } else {
-        // Arms Data Analaysis      
+        // Arms Data Analaysis
+        const count = categoryTitles.length
+
+        if (count > 6) {
+          categoryTitles.splice(6, count-6)
+          sidebarItems.splice(6, count-6)
+        }
+
         currentBlock = 1
+        const blockCount = 1
         
         isReports = false
         this.setState({
+          categoryTitles,
           sidebarItems,
           isReports,
-          currentBlock
+          currentBlock: 1,
+          blockCount
         }, this.props.selectAnalysisCategory())
       }
     } else {
@@ -947,27 +969,43 @@ class Sidebar extends React.Component {
         const report_num = []
         report_num.push(categoryTitles[1][sidebarItems[1].selectedIndex].num)
 
-        this.setState({sidebarItems, categoryTitles}, this.props.onSelectReportFilter(report_num, currentBlock))
+        this.setState({
+          sidebarItems,
+          categoryTitles,
+          currentBlock
+        }, this.props.onSelectReportFilter(report_num, currentBlock))
 
       } else if (sidebarItemIndex === 2) {
 
         const sub_report = []
         sub_report.push(categoryTitles[2][sidebarItems[2].selectedIndex].num)
 
-        this.setState({sidebarItems, categoryTitles}, this.props.onSelectSubReportFilter(sub_report, currentBlock))
+        this.setState({
+          sidebarItems,
+          categoryTitles,
+          currentBlock
+        }, this.props.onSelectSubReportFilter(sub_report, currentBlock))
       } else if (sidebarItemIndex === 3) {
 
         // Tailored Report/Subject
         const subject_num = []
         subject_num.push(categoryTitles[3][sidebarItems[3].selectedIndex].num)
-        this.setState({sidebarItems, categoryTitles}, this.props.onSelectSubjectFilter(subject_num, currentBlock))
+        this.setState({
+          sidebarItems,
+          categoryTitles,
+          currentBlock
+        }, this.props.onSelectSubjectFilter(subject_num, currentBlock))
 
       } else if (sidebarItemIndex === 4) {
 
         // Tailored Report/Filter By
         const serie = []
         serie.push(categoryTitles[4][sidebarItems[4].selectedIndex].num)
-        this.setState({sidebarItems, categoryTitles}, this.props.onSelectFilterByFilter(serie, currentBlock))
+        this.setState({
+          sidebarItems,
+          categoryTitles,
+          currentBlock
+        }, this.props.onSelectFilterByFilter(serie, currentBlock))
 
       } else if (sidebarItemIndex === 5) {
 
@@ -980,18 +1018,26 @@ class Sidebar extends React.Component {
             serie_element.push(categoryTitles[5][i].num)
           }
         }        
-        this.setState({sidebarItems, categoryTitles}, this.props.onSelectSubFilterByFilter(serie_element, currentBlock))
+        this.setState({
+          sidebarItems,
+          categoryTitles,
+          currentBlock
+        }, this.props.onSelectSubFilterByFilter(serie_element, currentBlock))
 
-      } else if ((sidebarItemIndex - 5)%8===0){
+      } else if ((sidebarItemIndex - 6)%8===0){
         
         // Arms Data Analaysis/Data Source
         const report_num = []
 
         report_num.push(categoryTitles[sidebarItemIndex][sidebarItems[sidebarItemIndex].selectedIndex].num)
 
-        this.setState({sidebarItems, categoryTitles}, this.props.selectDataSource(report_num, currentBlock))
+        this.setState({
+          sidebarItems,
+          categoryTitles,
+          currentBlock
+        }, this.props.selectDataSource(report_num, currentBlock))
 
-      } else if ((sidebarItemIndex - 5)%8===1){
+      } else if ((sidebarItemIndex - 6)%8===1){
 
         // Arms Data Analysis/Data Line
         const topic_abb = []
@@ -1008,32 +1054,48 @@ class Sidebar extends React.Component {
           topic_abb.push(categoryTitles[sidebarItemIndex][sidebarItems[sidebarItemIndex].selectedIndex[i]].num)
         }        
 
-        this.setState({sidebarItems, categoryTitles}, this.props.selectDataLineAnalysis(topic_abb, currentBlock))
+        this.setState({
+          sidebarItems,
+          categoryTitles,
+          currentBlock
+        }, this.props.selectDataLineAnalysis(topic_abb, currentBlock))
 
-      } else if ((sidebarItemIndex - 5)%8===2) {
+      } else if ((sidebarItemIndex - 6)%8===2) {
 
         const sub_report = []
         sub_report.push(categoryTitles[sidebarItemIndex][sidebarItems[sidebarItemIndex].selectedIndex].num)
 
-        this.setState({sidebarItems, categoryTitles}, this.props.selectSubReportAnalysis(sub_report, currentBlock))
+        this.setState({
+          sidebarItems,
+          categoryTitles,
+          currentBlock
+        }, this.props.selectSubReportAnalysis(sub_report, currentBlock))
 
-      } else if ((sidebarItemIndex - 5)%8===3){
+      } else if ((sidebarItemIndex - 6)%8===3){
 
         // Arms Data Analaysis/Farm Type
         const subject_num = []
 
         subject_num.push(categoryTitles[sidebarItemIndex][sidebarItems[sidebarItemIndex].selectedIndex].num)
         
-        this.setState({sidebarItems, categoryTitles}, this.props.selectFarmTypeAnalsysis(subject_num, currentBlock))
+        this.setState({
+          sidebarItems,
+          categoryTitles,
+          currentBlock
+        }, this.props.selectFarmTypeAnalsysis(subject_num, currentBlock))
 
-      } else if ((sidebarItemIndex - 5)%8===4){
+      } else if ((sidebarItemIndex - 6)%8===4){
 
         // Arms Data Analysis/Filter1
         const serie = []
         serie.push(categoryTitles[sidebarItemIndex][sidebarItems[sidebarItemIndex].selectedIndex].num)
-        this.setState({sidebarItems, categoryTitles}, this.props.selectFilter1Analysis(serie, currentBlock))
+        this.setState({
+          sidebarItems,
+          categoryTitles,
+          currentBlock
+        }, this.props.selectFilter1Analysis(serie, currentBlock))
 
-      } else if ((sidebarItemIndex - 5)%8===5){
+      } else if ((sidebarItemIndex - 6)%8===5){
 
         // Arms Data Analaysis/Sub Filter1
         const serie_element = []
@@ -1045,15 +1107,23 @@ class Sidebar extends React.Component {
           }
         }
 
-        this.setState({sidebarItems, categoryTitles}, this.props.selectSubFilter1Analysis(serie_element, currentBlock))
+        this.setState({
+          sidebarItems,
+          categoryTitles,
+          currentBlock
+        }, this.props.selectSubFilter1Analysis(serie_element, currentBlock))
 
-      } else if ((sidebarItemIndex - 5)%8===6){
+      } else if ((sidebarItemIndex - 6)%8===6){
 
         // Arms Data Analysis/Filter2
         const serie2 = []
         serie2.push(categoryTitles[sidebarItemIndex][sidebarItems[sidebarItemIndex].selectedIndex].num)
-        this.setState({sidebarItems, categoryTitles}, this.props.selectFilter2Analysis(serie2, currentBlock))
-      } else if ((sidebarItemIndex - 5)%8===7){
+        this.setState({
+          sidebarItems,
+          categoryTitles,
+          currentBlock
+        }, this.props.selectFilter2Analysis(serie2, currentBlock))
+      } else if ((sidebarItemIndex - 6)%8===7){
 
         // Arms Data Analysis/Sub Filter2
         const serie2_element = []
@@ -1065,11 +1135,15 @@ class Sidebar extends React.Component {
           }
         }
 
-        this.setState({sidebarItems, categoryTitles}, this.props.selectSubFilter2Analysis(serie2_element, currentBlock))
+        this.setState({
+          sidebarItems,
+          categoryTitles,
+          currentBlock
+        }, this.props.selectSubFilter2Analysis(serie2_element, currentBlock))
 
       }      
     }
-    if((sidebarItemIndex - 5)%7!==1) {
+    if((sidebarItemIndex - 6)%8!==1) {
       this.toggleCategoryOptions(sidebarItemIndex)
     }
     
@@ -1081,16 +1155,16 @@ class Sidebar extends React.Component {
     blockCount--
 
     for (let i=blockindex; i<=blockCount; i++) {
-      const index = 7*(i-1) + 5
-      for (let j=0; j<7; j++) {
-        categoryTitles[index+j] = categoryTitles[index+j+7]
-        sidebarItems[index+j] = sidebarItems[index+j+7]
+      const index = 8*(i-1) + 6
+      for (let j=0; j<8; j++) {
+        categoryTitles[index+j] = categoryTitles[index+j+8]
+        sidebarItems[index+j] = sidebarItems[index+j+8]
         sidebarItems[index+j].blockIndex = i       
       }
       sidebarItems[index].headingTitle = 'Data Source ' + i
     }
 
-    for (let i=0; i<7; i++) {
+    for (let i=0; i<8; i++) {
       categoryTitles.pop()
       sidebarItems.pop()
     }
@@ -1145,7 +1219,7 @@ class Sidebar extends React.Component {
             let isDataReset = false
             let isRemoval = false
             let isDataLine = false
-            if ((i-12)%8 === 1) {
+            if ((i-13)%8 === 1) {
               isRemoval = true
             }else if ((i-5)%8 === 2){
               isDataReset = true

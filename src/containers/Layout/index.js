@@ -141,7 +141,7 @@ export default class Layout extends React.Component {
     const isAllDataSources = false
 
     let {pre_filters} = this.state
-    let runQuery = 'dTailored'
+    let runQuery = 'initialize'
 
     pre_filters[blockIndex].report_num = [1]
     pre_filters[blockIndex].subject_num = []
@@ -1265,7 +1265,7 @@ export default class Layout extends React.Component {
         isGetSurveyData = true
         isAllDataSources = true
       } else {
-        runQuery = isGovernment ? 'dlrfseseytAnalysis' : 'dlfseseytAnalysis'
+        runQuery = isGovernment ? 'dlfseseytAnalysis' : 'dlfseseytAnalysis'
       }
     }
 
@@ -1350,7 +1350,7 @@ export default class Layout extends React.Component {
       }
     } else {
       if (whichOneMultiple === YEAR_SELECTED) {
-        runQuery = isGovernment ? 'dlrfsesetyAnalysis' : 'dlfsesetyAnalysis'
+        runQuery = isGovernment ? 'dlfsesetyAnalysis' : 'dlfsesetyAnalysis'
       } else {
         runQuery = ''
         isReset = false
@@ -1406,7 +1406,7 @@ export default class Layout extends React.Component {
     const isGetSurveyData = false
     const isAllDataSources = false
 
-    const runQuery = pre_filters[blockIndex].report_num[0] === 6 ? 'dlrAnalysis' : 'dlAnalysis'
+    const runQuery = pre_filters[blockIndex].report_num[0] === 6 ? 'dlAnalysis' : 'dlAnalysis'
 
     this.setState({
       isRemoveDataSource,
@@ -1473,7 +1473,7 @@ export default class Layout extends React.Component {
       isGetSurveyData,
       isAllDataSources,
       pre_filters,
-      runQuery: 'dlrAnalysis',
+      runQuery: 'dlAnalysis',
       isReset: false,
       blockIndex
     })
@@ -1487,7 +1487,7 @@ export default class Layout extends React.Component {
     const isRemoveDataSource = false
     const isGetSurveyData = false
     const isAllDataSources = false
-    const runQuery = pre_filters[blockIndex].report_num[0] === 6 ? 'dlrfAnalysis' : 'dlfAnalysis'
+    const runQuery = pre_filters[blockIndex].report_num[0] === 6 ? 'dlfAnalysis' : 'dlfAnalysis'
 
 
     this.setState({
@@ -1509,7 +1509,7 @@ export default class Layout extends React.Component {
     const isGetSurveyData = false
     const isAllDataSources = false
 
-    const runQuery = pre_filters[blockIndex].report_num[0] === 6 ? 'dlrfsAnalysis' : 'dlfsAnalysis'
+    const runQuery = pre_filters[blockIndex].report_num[0] === 6 ? 'dlfsAnalysis' : 'dlfsAnalysis'
 
     this.setState({
       isRemoveDataSource,
@@ -1530,7 +1530,7 @@ export default class Layout extends React.Component {
     const isGetSurveyData = false
     const isAllDataSources = false
 
-    const runQuery = pre_filters[blockIndex].report_num[0] === 6 ? 'dlrfseAnalysis' : 'dlfseAnalysis'
+    const runQuery = pre_filters[blockIndex].report_num[0] === 6 ? 'dlfseAnalysis' : 'dlfseAnalysis'
 
     this.setState({
       isRemoveDataSource,
@@ -1551,7 +1551,7 @@ export default class Layout extends React.Component {
     const isGetSurveyData = false
     const isAllDataSources = false
 
-    const runQuery = pre_filters[blockIndex].report_num[0] === 6 ? 'dlrfsesAnalysis' : 'dlfsesAnalysis'
+    const runQuery = pre_filters[blockIndex].report_num[0] === 6 ? 'dlfsesAnalysis' : 'dlfsesAnalysis'
 
     this.setState({
       isRemoveDataSource,
@@ -1580,7 +1580,7 @@ export default class Layout extends React.Component {
       }
     }
 
-    const runQuery = whichOneMultiple === YEAR_SELECTED ? (isGovernment ? 'dlrfseseyAnalysis' : 'dlfseseyAnalysis') : (isGovernment ? 'dlrfsesetAnalysis' : 'dlfsesetAnalysis')
+    const runQuery = whichOneMultiple === YEAR_SELECTED ? (isGovernment ? 'dlfseseyAnalysis' : 'dlfseseyAnalysis') : (isGovernment ? 'dlfsesetAnalysis' : 'dlfsesetAnalysis')
 
 
     this.setState({
@@ -1605,7 +1605,7 @@ export default class Layout extends React.Component {
       }
     }
 
-    const runQuery = whichOneMultiple === YEAR_SELECTED ? (isGovernment ? 'dlrfseseytAnalysis' : 'dlfseseytAnalysis') : ''    
+    const runQuery = whichOneMultiple === YEAR_SELECTED ? (isGovernment ? 'dlfseseytAnalysis' : 'dlfseseytAnalysis') : ''    
 
     let prevYearCount = 0
 
@@ -1686,7 +1686,7 @@ export default class Layout extends React.Component {
       }
     }
 
-    const runQuery = whichOneMultiple === YEAR_SELECTED ? '' : (isGovernment ? 'dlrfsesetyAnalysis' : 'dlfsesetyAnalysis')
+    const runQuery = whichOneMultiple === YEAR_SELECTED ? '' : (isGovernment ? 'dlfsesetyAnalysis' : 'dlfsesetyAnalysis')
 
     let prevStateCount = 0
 
@@ -2058,6 +2058,7 @@ export default class Layout extends React.Component {
           initialBlockLoadAnalysis = {this.initialBlockLoadAnalysis}
           selectDataSource = {this.selectDataSource}
           selectDataLineAnalysis = {this.selectDataLineAnalysis}
+          selectSubReportAnalysis = {this.selectSubReportAnalysis}
           selectFarmTypeAnalsysis = {this.selectFarmTypeAnalsysis}
           selectFilter1Analysis = {this.selectFilter1Analysis}
           selectSubFilter1Analysis = {this.selectSubFilter1Analysis}
