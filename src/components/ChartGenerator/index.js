@@ -557,12 +557,12 @@ export default class ChartGenerator extends React.Component {
                   <li tabIndex="1204" onClick={() => this.downloadFile('image/jpeg')} onKeyDown={(event) => this.onEnterKeyDown(event, 'image/jpeg') }><a>JPEG</a></li>
                   <li tabIndex="1205" onClick={() => this.downloadFile('application/svg')} onKeyDown={(event) => this.onEnterKeyDown(event, 'application/svg') }><a>SVG</a></li>
                   <li tabIndex="1206" onKeyDown={(event) => this.onEnterKeyDown(event, 'chart-csv') }>
-                    <CSVLink data={csvChartArray} filename={`${title}-chart.csv`} target="_self" ref={node => this.chartCSV = node}>
+                    <CSVLink data={csvChartArray} filename={`${this.getCurrentDateTimeFormat()}chart-csv.csv`} target="_self" ref={node => this.chartCSV = node}>
                       Chart (CSV)
                     </CSVLink>     
                   </li>
                   <li tabIndex="1207" onKeyDown={(event) => this.onEnterKeyDown(event, 'table-csv') }>
-                    <CSVLink data={csvTableArray} filename={`${title}-table.csv`} target="_self" ref={node => this.tableCSV = node}>
+                    <CSVLink data={csvTableArray} filename={`${this.getCurrentDateTimeFormat()}table-csv.csv`} target="_self" ref={node => this.tableCSV = node}>
                       Table (CSV)
                     </CSVLink>     
                   </li>  
