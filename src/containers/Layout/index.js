@@ -1556,7 +1556,15 @@ export default class Layout extends React.Component {
     const isGetSurveyData = false
     const isAllDataSources = false
 
-    const runQuery = whichOneMultiple === YEAR_SELECTED ? (pre_filters[blockIndex].report_num[0] === 6 ? 'dlrfseseyAnalysis' : 'dlfseseyAnalysis') : (pre_filters[blockIndex].report_num[0] === 6 ? 'dlrfsesetAnalysis' : 'dlfsesetAnalysis')
+    let isGovernment = false
+    for (let i=1; i<9; i++) {
+      if (pre_filters[i].report_num.length !== 0 && pre_filters[i].report_num[0] === 6) {
+        isGovernment = true
+        break
+      }
+    }
+
+    const runQuery = whichOneMultiple === YEAR_SELECTED ? (isGovernment ? 'dlrfseseyAnalysis' : 'dlfseseyAnalysis') : (isGovernment ? 'dlrfsesetAnalysis' : 'dlfsesetAnalysis')
 
 
     this.setState({
@@ -1571,9 +1579,17 @@ export default class Layout extends React.Component {
 
   // reset year in `Arms Data Analysis`
   selectYearAnalysis = (years) => {
-    let {temp_Years, selectedYears, whichOneMultiple, isReset} = this.state
+    let {temp_Years, selectedYears, whichOneMultiple, isReset, pre_filters} = this.state
 
-    const runQuery = whichOneMultiple === YEAR_SELECTED ? 'dlfseseytAnalysis' : ''    
+    let isGovernment = false
+    for (let i=1; i<9; i++) {
+      if (pre_filters[i].report_num.length !== 0 && pre_filters[i].report_num[0] === 6) {
+        isGovernment = true
+        break
+      }
+    }
+
+    const runQuery = whichOneMultiple === YEAR_SELECTED ? (isGovernment ? 'dlrfseseytAnalysis' : 'dlfseseytAnalysis') : ''    
 
     let prevYearCount = 0
 
