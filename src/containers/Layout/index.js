@@ -1199,7 +1199,15 @@ export default class Layout extends React.Component {
   onSelectYear = (index) => {
     let { filters, pre_filters, yearsInfo, whichOneMultiple, priority, blockIndex, isReset } = this.state
     let runQuery = ''
-    let isAllDataSources = false    
+    let isAllDataSources = false 
+    
+    let isGovernment = false
+    for (let i=1; i<9; i++) {
+      if (pre_filters[i].report_num.length !== 0 && pre_filters[i].report_num[0] === 6) {
+        isGovernment = true
+        break
+      }
+    }
 
     const priorityIndex = priority.indexOf('year')
     if (priority.length === 3) {
@@ -1257,7 +1265,7 @@ export default class Layout extends React.Component {
         isGetSurveyData = true
         isAllDataSources = true
       } else {
-        runQuery = 'dlfseseytAnalysis'
+        runQuery = isGovernment ? 'dlrfseseytAnalysis' : 'dlfseseytAnalysis'
       }
     }
 
@@ -1283,6 +1291,14 @@ export default class Layout extends React.Component {
     let { filters, pre_filters, statesInfo, whichOneMultiple, priority, blockIndex, isReset } = this.state
     let runQuery = ''
     let isAllDataSources = false
+
+    let isGovernment = false
+    for (let i=1; i<9; i++) {
+      if (pre_filters[i].report_num.length !== 0 && pre_filters[i].report_num[0] === 6) {
+        isGovernment = true
+        break
+      }
+    }
 
     const priorityIndex = priority.indexOf('state')
     if (priority.length === 3) {
@@ -1334,7 +1350,7 @@ export default class Layout extends React.Component {
       }
     } else {
       if (whichOneMultiple === YEAR_SELECTED) {
-        runQuery = 'dlfsesetyAnalysis'
+        runQuery = isGovernment ? 'dlrfsesetyAnalysis' : 'dlfsesetyAnalysis'
       } else {
         runQuery = ''
         isReset = false
@@ -1660,9 +1676,17 @@ export default class Layout extends React.Component {
 
   // reset Region in `Arms Data Analysis`
   selectStateAnalysis = (states) => {
-    let {temp_States, selectedStates, whichOneMultiple, isReset} = this.state
+    let {temp_States, selectedStates, whichOneMultiple, isReset, pre_filters} = this.state
 
-    const runQuery = whichOneMultiple === YEAR_SELECTED ? '' : 'dlfsesetyAnalysis'
+    let isGovernment = false
+    for (let i=1; i<9; i++) {
+      if (pre_filters[i].report_num.length !== 0 && pre_filters[i].report_num[0] === 6) {
+        isGovernment = true
+        break
+      }
+    }
+
+    const runQuery = whichOneMultiple === YEAR_SELECTED ? '' : (isGovernment ? 'dlrfsesetyAnalysis' : 'dlfsesetyAnalysis')
 
     let prevStateCount = 0
 
