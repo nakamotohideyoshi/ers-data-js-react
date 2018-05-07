@@ -24,23 +24,24 @@ export default class ChartGenerator extends React.Component {
   }
   componentWillMount() {
     const { series, categories, title, chartType, whichOneMultiple, fontSizeIndex } = this.props
+    if (series.length > 0)
     this.generateConfig(series, categories, title, chartType, whichOneMultiple, fontSizeIndex)
   }
   componentWillReceiveProps(props) {
     const { series, categories, title, chartType, whichOneMultiple, fontSizeIndex } = props
+    if (series.length > 0)    
     this.generateConfig(series, categories, title, chartType, whichOneMultiple, fontSizeIndex)
   }
   generateCSVChart(series, categories) {
       let csvChartArray = [["Categories"]]
-      categories.forEach((category, index) => {
-        csvChartArray[index+1] = [category]
-      })
-      series.forEach(element => {
+      let i = 0
+      csvChartArray[0] = csvChartArray[0].concat(categories)
+      series.forEach((element, seriesIndex) => {
         if (element.shown) {
-          csvChartArray[0].push(element.header)
-          element.estimateList.forEach((est, estIndex) => {
-            csvChartArray[estIndex+1].push(numberWithCommas(est))
-          })
+          i++
+          csvChartArray[i] = [element.header]
+          const estimateList = element.estimateList.map(est => numberWithCommas(est))
+          csvChartArray[i] = csvChartArray[i].concat(estimateList)
         }
       })
       this.setState({ csvChartArray })
@@ -219,7 +220,10 @@ export default class ChartGenerator extends React.Component {
         series: {
           pointPadding: 0,
           groupPadding: 0.3
-        }
+        },
+        // line: {
+        //   animation: false
+        // }
       },
       legend: { 
         itemStyle: {
