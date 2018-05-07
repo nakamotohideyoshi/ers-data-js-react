@@ -340,7 +340,7 @@ class TableContainer extends React.Component {
                         categories.map((category, pos) => {
                           return (
                             <th className="estimate-rse-td" key={`est-th-${pos}`}>
-                              <div className='estimate_rse' tabIndex={1500+incomeArr.length}>
+                              <div className={`estimate_rse ${selectedShowIndex<0 ? 'estimate_rse_center':''}`} tabIndex={1500+incomeArr.length}>
                                 <div className="data-heading data-value">ESTIMATE</div>
                                 {
                                   selectedShowIndex === 0 && (
@@ -382,7 +382,7 @@ class TableContainer extends React.Component {
                                 categories.map((category, pos) => {
                                   return (
                                     <td className="estimate-rse-td nowrap-div" key={`est-td-${pos}`}>
-                                      <div className='estimate_rse'>
+                                      <div className={`estimate_rse ${selectedShowIndex<0 ? 'estimate_rse_center':''}`}>
                                         <div className="data-value">{incomeArr[index].estimateList[pos]}</div>
                                         {
                                           selectedShowIndex === 0 && (
