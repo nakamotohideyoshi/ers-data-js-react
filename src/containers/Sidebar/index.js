@@ -7,30 +7,31 @@ import Reset from '../../images/reset.png'
 // import { selectLimit } from 'async';
 import dTailored from '../../ApolloComponent/dTailored'
 import dlTailored from '../../ApolloComponent/dlTailored'
-import dlrTailored from '../../ApolloComponent/dlrTailored'
 import dlfTailored from '../../ApolloComponent/dlfTailored'
-import dlrfTailored from '../../ApolloComponent/dlrfTailored'
 import dlfsTailored from '../../ApolloComponent/dlfsTailored'
-import dlrfsTailored from '../../ApolloComponent/dlrfsTailored'
 import dlfseTailored from '../../ApolloComponent/dlfseTailored'
-import dlrfseTailored from '../../ApolloComponent/dlrfseTailored'
 import dlfsetTailored from '../../ApolloComponent/dlfsetTailored'
-import dlrfsetTailored from '../../ApolloComponent/dlrfsetTailored'
 import dlfseyTailored from '../../ApolloComponent/dlfseyTailored'
-import dlrfseyTailored from '../../ApolloComponent/dlrfseyTailored'
 import dlftTailored from '../../ApolloComponent/dlftTailored'
-import dlrftTailored from '../../ApolloComponent/dlrftTailored'
 import dlftsTailored from '../../ApolloComponent/dlftsTailored'
-import dlrftsTailored from '../../ApolloComponent/dlrftsTailored'
 import dlftyTailored from '../../ApolloComponent/dlftyTailored'
-import dlrftyTailored from '../../ApolloComponent/dlrftyTailored'
 import dlftysTailored from '../../ApolloComponent/dlftysTailored'
-import dlrftysTailored from '../../ApolloComponent/dlrftysTailored'
 import dlfyTailored from '../../ApolloComponent/dlfyTailored'
-import dlrfyTailored from '../../ApolloComponent/dlrfyTailored'
 import dlfysTailored from '../../ApolloComponent/dlfysTailored'
+
+import dlrTailored from '../../ApolloComponent/dlrTailored'
+import dlrfTailored from '../../ApolloComponent/dlrfTailored'
+import dlrfsTailored from '../../ApolloComponent/dlrfsTailored'
+import dlrfseTailored from '../../ApolloComponent/dlrfseTailored'
+import dlrfsetTailored from '../../ApolloComponent/dlrfsetTailored'
+import dlrfseyTailored from '../../ApolloComponent/dlrfseyTailored'
+import dlrftTailored from '../../ApolloComponent/dlrftTailored'
+import dlrftsTailored from '../../ApolloComponent/dlrftsTailored'
+import dlrftyTailored from '../../ApolloComponent/dlrftyTailored'
+import dlrftysTailored from '../../ApolloComponent/dlrftysTailored'
+import dlrfyTailored from '../../ApolloComponent/dlrfyTailored'
 import dlrfysTailored from '../../ApolloComponent/dlrfysTailored'
-import initAnalysis from '../../ApolloComponent/initAnalysis'
+
 import dAnalysis from '../../ApolloComponent/dAnalysis'
 import dlAnalysis from '../../ApolloComponent/dlAnalysis'
 import dlfAnalysis from '../../ApolloComponent/dlfAnalysis'
@@ -41,11 +42,16 @@ import dlfsesetAnalysis from '../../ApolloComponent/dlfsesetAnalysis'
 import dlfseseyAnalysis from '../../ApolloComponent/dlfseseyAnalysis'
 import dlfseseytAnalysis from '../../ApolloComponent/dlfseseytAnalysis'
 import dlfsesetyAnalysis from '../../ApolloComponent/dlfsesetyAnalysis'
+
 import dlrAnalysis from '../../ApolloComponent/dlrAnalysis'
 import dlrfAnalysis from '../../ApolloComponent/dlfAnalysis'
 import dlrfsAnalysis from '../../ApolloComponent/dlrfsAnalysis'
 import dlrfseAnalysis from '../../ApolloComponent/dlrfseAnalysis'
 import dlrfsesAnalysis from '../../ApolloComponent/dlrfsesAnalysis'
+import dlrfsesetAnalysis from '../../ApolloComponent/dlrfsesetAnalysis'
+import dlrfseseyAnalysis from '../../ApolloComponent/dlrfseseyAnalysis'
+import dlrfseseytAnalysis from '../../ApolloComponent/dlrfseseytAnalysis'
+import dlrfsesetyAnalysis from '../../ApolloComponent/dlrfsesetyAnalysis'
 import { compose } from 'react-apollo'
 
 class Sidebar extends React.Component {
@@ -619,6 +625,8 @@ class Sidebar extends React.Component {
 
           case 'dlfseseyAnalysis':
           case 'dlfsesetyAnalysis':
+          case 'dlrfseseyAnalysis':
+          case 'dlrfsesetyAnalysis':
 
             this.setState({
               categoryTitles,
@@ -630,6 +638,8 @@ class Sidebar extends React.Component {
 
           case 'dlfsesetAnalysis':
           case 'dlfseseytAnalysis':
+          case 'dlrfsesetAnalysis':
+          case 'dlrfseseytAnalysis':
 
             this.setState({
               categoryTitles,
@@ -1220,7 +1230,6 @@ export default compose(
   dlrfyTailored,
   dlfysTailored,
   dlrfysTailored,
-  initAnalysis,
   dAnalysis,
   dlAnalysis,
   dlfAnalysis,
@@ -1236,5 +1245,9 @@ export default compose(
   dlrfsAnalysis,
   dlrfseAnalysis,
   dlrfsesAnalysis,
+  dlrfsesetAnalysis,
+  dlrfseseyAnalysis,
+  dlrfseseytAnalysis,
+  dlrfsesetyAnalysis,
 )(Sidebar)
 
