@@ -141,6 +141,9 @@
   padding: 0 10px 0 0;
   display: flex;
   width: 200px;
+  justify-content: space-between;
+}
+.estimate_rse_center {
   justify-content: space-around;
 }
 .center-heading {
