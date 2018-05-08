@@ -2,19 +2,18 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
   export default graphql(gql`
-  query tyQuery (
+  query dlrftTailored (
     $report_num: [Int],
     $subject_num: [Int],
-    $selectedStates: [String],
-    $selectedYears: [Int]
+    $selectedStates: [String]
   ){
-    tyQuery: arms_filter(
+    dlrftTailored: arms_filter(
       survey_abb: "finance",
       report_num: $report_num,
       subject_num: $subject_num,
-      state_id: $selectedStates,
-      year: $selectedYears
+      state_id: $selectedStates
     ){
+      year
       serie{
         abb
         header
@@ -22,6 +21,6 @@ import gql from 'graphql-tag';
     }     
   }
 `, {
-    skip: (ownProps) => ownProps.runQuery !== 'tyQuery',
-    name: 'tyQuery',
+    skip: (ownProps) => ownProps.runQuery !== 'dlrftTailored',
+    name: 'dlrftTailored',
   });

@@ -2,8 +2,8 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
   export default graphql(gql`
-  query resetQuery ($report_num: [Int], $subject_num: [Int]){
-    resetQuery: arms_filter(
+  query dlfTailored ($report_num: [Int], $subject_num: [Int]){
+    dlfTailored: arms_filter(
       survey_abb: "finance",
       report_num: $report_num,
       subject_num: $subject_num
@@ -21,6 +21,6 @@ import gql from 'graphql-tag';
      
   }
 `, {
-    skip: (ownProps) => ownProps.runQuery !== 'resetQuery',
-    name: 'resetQuery',
+    skip: (ownProps) => ownProps.runQuery !== 'dlfTailored',
+    name: 'dlfTailored',
   });

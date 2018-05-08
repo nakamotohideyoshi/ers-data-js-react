@@ -2,21 +2,21 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
   export default graphql(gql`
-  query yQuery (
+  query dlrftyTailored (
     $report_num: [Int],
+    $sub_report: [Int],
     $subject_num: [Int],
+    $selectedStates: [String],
     $selectedYears: [Int]
   ){
-    yQuery: arms_filter(
+    dlrftyTailored: arms_filter(
       survey_abb: "finance",
       report_num: $report_num,
+      sub_report: $sub_report,
       subject_num: $subject_num,
+      state_id: $selectedStates,
       year: $selectedYears
     ){
-      state{
-        id
-        name
-      }
       serie{
         abb
         header
@@ -24,6 +24,6 @@ import gql from 'graphql-tag';
     }     
   }
 `, {
-    skip: (ownProps) => ownProps.runQuery !== 'yQuery',
-    name: 'yQuery',
+    skip: (ownProps) => ownProps.runQuery !== 'dlrftyTailored',
+    name: 'dlrftyTailored',
   });
