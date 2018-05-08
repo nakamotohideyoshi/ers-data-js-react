@@ -17,7 +17,7 @@ class TableContainer extends React.Component {
   state = {
     incomeArr: [],
     showTypes: [
-      { label: 'RSE', selected: false },
+      { label: 'Relative Standard Error', selected: false },
       { label: 'Median', selected: false }
     ],
     selectedShowIndex: -1,
