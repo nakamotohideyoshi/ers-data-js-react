@@ -43,9 +43,10 @@ class TableContainer extends React.Component {
       rseVal = 'NA'
     }
     if (element.median !== 0 && element.median !== null) {
-      medianVal = element.median
+        medianVal = element.median
     }
-
+    if (element.report_dim.header !== 'Farm Business Balance Sheet' && element.report_dim.header !== 'Farm Business Income Statement' &&element.report_dim.header !== 'Farm Business Debt Repayment Capacity' && element.report_dim.header !== 'Operator Household Income' && element.report_dim.header !== 'Operator Household Balance Sheet')
+      medianVal = ''
     estimateVal = numberWithCommas(estimateVal)
     rseVal = rseVal === 'NA' ? rseVal : (element.rse).toFixed(1)
     medianVal = numberWithCommas(medianVal)
@@ -89,11 +90,17 @@ class TableContainer extends React.Component {
               if (comparedCategory === category) {
                 estimateList.push(this.formatEstimateRse(element).estimateVal)
                 rseList.push(this.formatEstimateRse(element).rseVal)
-                medianList.push(this.formatEstimateRse(element).medianVal)                
+                if (element.report_dim.header === 'Farm Business Balance Sheet' || element.report_dim.header === 'Farm Business Income Statement' || element.report_dim.header === 'Farm Business Debt Repayment Capacity' || element.report_dim.header === 'Operator Household Income' || element.report_dim.header === 'Operator Household Balance Sheet' )
+                  medianList.push(this.formatEstimateRse(element).medianVal)
+                else 
+                  medianList.push('')           
               } else {
                 estimateList.push('NA')
                 rseList.push('NA')
-                medianList.push('NA')                
+                if (element.report_dim.header === 'Farm Business Balance Sheet' || element.report_dim.header === 'Farm Business Income Statement' || element.report_dim.header === 'Farm Business Debt Repayment Capacity' || element.report_dim.header === 'Operator Household Income' || element.report_dim.header === 'Operator Household Balance Sheet' )
+                  medianList.push('NA') 
+                else 
+                  medianList.push('')             
               }
             })
             singleIncome.estimateList = estimateList
