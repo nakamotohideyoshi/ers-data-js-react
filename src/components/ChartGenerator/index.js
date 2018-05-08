@@ -48,13 +48,27 @@ export default class ChartGenerator extends React.Component {
   }
   generateCSVTable(series, categories) {
     const csvTableArray = [];
+    const headerSpacing = ['', '']
     const header = ['', '']
+
+    console.log(series.length)
+    series.forEach((data, index) => {
+      const headerFilter = ['']
+      console.log(':::::', data)
+      headerFilter.push('Source:')
+      headerFilter.push(data.dataSource > 0 ? data.dataSource : "Tailored Report")  
+      csvTableArray.push(headerFilter)
+    })
+
+    csvTableArray.push(headerSpacing)
+
     if (categories) {
       categories.forEach( category => {
         header.push(category)
       })
     }
     csvTableArray.push(header)
+    
     series.forEach( element => {
       let estRow = [element.header, 'Estimate']
       let rseRow = ['', 'RSEᵃ']
@@ -117,7 +131,6 @@ export default class ChartGenerator extends React.Component {
   generateConfig(series, categories, title, chartType, whichOneMultiple, fontSizeIndex) {
  
     const chartFont = fontSizeIndex/5+1
-
     // CSV Generation for Chart/Table
     this.generateCSVChart(series, categories)
     this.generateCSVTable(series, categories)  
