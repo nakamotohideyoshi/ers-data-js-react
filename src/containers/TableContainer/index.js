@@ -172,7 +172,7 @@ class TableContainer extends React.Component {
       return (
         <div>
           <div className="heading-option-container">
-            <span className={`font-${fontSizeIndex}-small`}>Show Type:</span>
+            <span className={`font-${fontSizeIndex}-small`}>Show Data:</span>
             <OptionGroup options={showTypes} selectedIndex={selectedShowIndex} fontSizeIndex={fontSizeIndex} onSelect={(index) => this.selectShowType(index)} tabIndex={1310} />
           </div>
           <div className={`table-container font-${fontSizeIndex}-big`}>
