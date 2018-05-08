@@ -2,25 +2,27 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
   export default graphql(gql`
-  query tQuery (
+  query dlfseTailored (
     $report_num: [Int],
     $subject_num: [Int],
-    $selectedStates: [String]
+    $serie: [String],
+    $serie_element: [Int]
   ){
-    tQuery: arms_filter(
+    dlfseTailored: arms_filter(
       survey_abb: "finance",
       report_num: $report_num,
       subject_num: $subject_num,
-      state_id: $selectedStates
+      serie: $serie,
+      serie_element: $serie_element
     ){
       year
-      serie{
-        abb
-        header
+      state {
+        id
+        name
       }
     }     
   }
 `, {
-    skip: (ownProps) => ownProps.runQuery !== 'tQuery',
-    name: 'tQuery',
+  skip: (ownProps) => ownProps.runQuery !== 'dlfseTailored',
+    name: 'dlfseTailored',
   });
