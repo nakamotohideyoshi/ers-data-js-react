@@ -3,6 +3,7 @@
 }
 .heading-info {
   white-space: nowrap;
+  color: #304550;
 }
 .heading-option-container {
   display: flex;
