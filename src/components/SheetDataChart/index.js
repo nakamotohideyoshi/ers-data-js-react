@@ -87,15 +87,17 @@ class SheetDataChart extends Component {
   }
   render() {
     const { incomeArr, chartTypeIndex, isLineEnabled } = this.state
-    const { categories, blockIndex, fontSizeIndex, whichOneMultiple } = this.props
+    const { categories, blockIndex, fontSizeIndex, whichOneMultiple, isLoading } = this.props
     let chartTitle = ''
     if (incomeArr.length > 0 && blockIndex < 1) chartTitle = incomeArr[0].report
     const chartType = chartTypes[chartTypeIndex].type
     let chartTypesArray = isLineEnabled ? chartTypes : [chartTypes[0]]
 
-    if (incomeArr.length === 0)
+    if (isLoading)
+      return (<div className="empty-data-notification">Loading</div>)
+    else if (incomeArr.length === 0)
       return (<div className="empty-data-notification">No data to display</div>)
-    else
+    else if (incomeArr.length !== 0)
       return (
         <div className="chart-container col-xs-12">
           <ChartGenerator series={incomeArr} categories={categories} title={chartTitle} chartType={chartType} fontSizeIndex={fontSizeIndex} whichOneMultiple={whichOneMultiple} />
