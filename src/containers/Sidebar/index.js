@@ -375,6 +375,9 @@ class Sidebar extends React.Component {
             break
 
           case 'dAnalysis':
+            for(let i=1; i<6; i++) {
+              sidebarItems[i].visible = false
+            }
 
             let reports = this.generateReports(props.reports, currentBlock)
             reports.sidebarItem.headingTitle = 'Data Source' + currentBlock
