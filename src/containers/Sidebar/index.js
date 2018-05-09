@@ -945,6 +945,7 @@ class Sidebar extends React.Component {
         const count = categoryTitles.length
 
         for(let i=1; i<6; i++) {
+          sidebarItems.isOpened = false
           sidebarItems[i].visible = false
         }
 
