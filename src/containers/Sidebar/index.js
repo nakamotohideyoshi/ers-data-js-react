@@ -375,9 +375,6 @@ class Sidebar extends React.Component {
             break
 
           case 'dAnalysis':
-            for(let i=1; i<6; i++) {
-              sidebarItems[i].visible = false
-            }
 
             let reports = this.generateReports(props.reports, currentBlock)
             reports.sidebarItem.headingTitle = 'Data Source' + currentBlock
@@ -946,6 +943,10 @@ class Sidebar extends React.Component {
       } else {
         // Arms Data Analaysis
         const count = categoryTitles.length
+
+        for(let i=1; i<6; i++) {
+          sidebarItems[i].visible = false
+        }
 
         if (count > 6) {
           categoryTitles.splice(6, count-6)
