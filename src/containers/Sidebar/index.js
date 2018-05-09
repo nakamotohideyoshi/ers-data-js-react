@@ -944,6 +944,11 @@ class Sidebar extends React.Component {
         // Arms Data Analaysis
         const count = categoryTitles.length
 
+        for(let i=1; i<6; i++) {
+          sidebarItems.isOpened = false
+          sidebarItems[i].visible = false
+        }
+
         if (count > 6) {
           categoryTitles.splice(6, count-6)
           sidebarItems.splice(6, count-6)
