@@ -151,7 +151,8 @@ class TableContainer extends React.Component {
         gpDataSet.push({ 
           groupName: income.header,
           totalCount: gpCount, 
-          count: gpList[income.header] ? (gpList[income.header]).length : 0
+          count: gpList[income.header] ? (gpList[income.header]).length : 0,
+          isGovernmentPayments: true
         })
         gpDataSet = gpDataSet.concat(gpList[income.header])
       }
@@ -159,6 +160,7 @@ class TableContainer extends React.Component {
     if (isGovernmentPayments)
       incomeArr = gpDataSet
     // ------------------------------------
+    console.log(incomeArr)
     this.setState({ incomeArr })
     this.setState({ scrollLeft: 0 })
   }
@@ -288,7 +290,13 @@ class TableContainer extends React.Component {
                           if (!data.id) {
                               return (
                                 <tr key={`${index}`}>
-                                  <td><div className="heading-info">{this.generatorHeadinInfo(data)}&ensp;</div></td>
+                                  <td>
+                                    <div className="heading-info">
+                                      { data.isGovernmentPayments && `${data.groupName} (${data.count}/${data.totalCount})` }
+                                      { !data.isGovernmentPayments && this.generatorHeadinInfo(data) }
+                                      &ensp;
+                                    </div>
+                                  </td>
                                 </tr>
                               )
                           } else {
@@ -324,7 +332,8 @@ class TableContainer extends React.Component {
                                         <div 
                                           className={`level-${data.level} nowrap-div` } 
                                         >
-                                        {data.header}
+                                        {data.isGovernmentPayments && data.group_header}
+                                        {!data.isGovernmentPayments && data.header}
                                         <sup>&nbsp;{sign}</sup> 
                                         {data.header && data.unit_desc !== 'Dollars per farm' ? '('+data.unit_desc+')' : ''}
                                         <img 
@@ -411,7 +420,7 @@ class TableContainer extends React.Component {
                 <tbody onScroll={this.onScrollTable} ref={node=>this.tbody=node}>
                   {
                     incomeArr.map((data, index) => {
-                      if (!data.id && !data.isGovernmentPayments) {
+                      if (!data.id) {
                           return (
                             <tr key={`ltr-${index}`}>
                             {
