@@ -20,7 +20,6 @@ class TableContainer extends React.Component {
       { label: 'Relative Standard Error', selected: false },
       { label: 'Median', selected: false }
     ],
-    governmentPaymentList: {},
     selectedShowIndex: -1,
     isShowItemAll: true,
     optionsIndex: 0,
@@ -59,7 +58,6 @@ class TableContainer extends React.Component {
     let incomeArr = []
     let tempGPArr = []
     
-    console.log(surveyData)
     if (surveyData) {
       surveyData.forEach((dataSourceCategories, index) => {
         if (dataSourceCategories.data.length  > 0)
@@ -113,7 +111,7 @@ class TableContainer extends React.Component {
 
             if (dataSourceCategories.report === 'Government Payments') {
               let duplicateHeaderElement = false
-              incomeArr.map(function(item) {
+              incomeArr.forEach(item => {
                 if (singleIncome.header === item.header)
                   duplicateHeaderElement = true
               })  
@@ -139,18 +137,37 @@ class TableContainer extends React.Component {
         })
       })
     }
-    const governmentPaymentList = {}
+
+    // Generate specific data set for Government Payments
+    const gpList = {}
+    let gpDataSet = []
+    let gpCount = 0
+
     tempGPArr.forEach(income => {
       if (income.group_header !== undefined)
-        if (governmentPaymentList[income.header]) {
-          const result = governmentPaymentList[income.header].find( element => element.group_header === income.group_header );
-          if (!result) governmentPaymentList[income.header].push(income)
+        if (gpList[income.header]) {
+          const result = gpList[income.header].find( element => element.group_header === income.group_header );
+          if (!result) {
+            gpList[income.header].push(income)
+            gpCount++
+          }            
         } else {
-          governmentPaymentList[income.header] = [income]
+          gpList[income.header] = [income]
+          gpCount++
         }
     })
-    console.log(governmentPaymentList)
-    this.setState({ incomeArr, governmentPaymentList })
+    incomeArr.forEach(income => {
+      if (income.id) {
+        gpDataSet.push({ 
+          groupName: income.header,
+          totalCount: gpCount, 
+          count: gpList[income.header] ? (gpList[income.header]).length : 0
+        })
+        gpDataSet = gpDataSet.concat(gpList[income.header])
+      }
+    })
+    // ------------------------------------
+    this.setState({ incomeArr, gpDataSet })
     this.setState({ scrollLeft: 0 })
   }
   componentDidMount() {
@@ -199,7 +216,7 @@ class TableContainer extends React.Component {
     this.setState({ showTypes: showTypes.slice() })
   }
   render() {
-    const { incomeArr, governmentPaymentList, showTypes, selectedShowIndex, isShowItemAll } = this.state
+    const { incomeArr, showTypes, selectedShowIndex, isShowItemAll } = this.state
     const { showList, categories, blockIndex, fontSizeIndex, footnotes } = this.props
 
     if (incomeArr.length === 0 || categories.length === 0)
@@ -276,6 +293,7 @@ class TableContainer extends React.Component {
                               
                               if (data.isGovernmentPayments)
                                 headingInfo = data.header
+                              
                               return (
                                 <tr key={`${index}`}>
                                   <td><div className="heading-info">{headingInfo}&ensp;</div></td>
