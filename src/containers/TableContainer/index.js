@@ -57,6 +57,8 @@ class TableContainer extends React.Component {
   componentWillReceiveProps(props) {
     const { surveyData, categories, whichOneMultiple } = props
     let incomeArr = []
+    let tempGPArr = []
+    
     console.log(surveyData)
     if (surveyData) {
       surveyData.forEach((dataSourceCategories, index) => {
@@ -116,14 +118,13 @@ class TableContainer extends React.Component {
                   duplicateHeaderElement = true
               })  
               if (!duplicateHeaderElement) {
-                delete singleIncome.id
                 singleIncome.isGovernmentPayments = true
                 incomeArr.push(singleIncome)
               }
             } else {
               incomeArr.push(singleIncome)
-            }       
-
+            }
+            tempGPArr.push(singleIncome)
           } else {
             categories.forEach((category, index) => {
               const comparedCategory = whichOneMultiple === YEAR_SELECTED ? element.year: element.state.name
@@ -139,15 +140,16 @@ class TableContainer extends React.Component {
       })
     }
     const governmentPaymentList = {}
-    incomeArr.forEach(income => {
+    tempGPArr.forEach(income => {
       if (income.group_header !== undefined)
         if (governmentPaymentList[income.header]) {
-          governmentPaymentList[income.header].push(income)
+          const result = governmentPaymentList[income.header].find( element => element.group_header === income.group_header );
+          if (!result) governmentPaymentList[income.header].push(income)
         } else {
           governmentPaymentList[income.header] = [income]
         }
     })
-    // console.log(incomeArr)
+    console.log(governmentPaymentList)
     this.setState({ incomeArr, governmentPaymentList })
     this.setState({ scrollLeft: 0 })
   }
