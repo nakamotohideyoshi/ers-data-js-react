@@ -56,6 +56,7 @@ class TableContainer extends React.Component {
   componentWillReceiveProps(props) {
     const { surveyData, categories, whichOneMultiple } = props
     let incomeArr = []
+    let gpArr = []
     let isGovernmentPayments = false
     
     if (surveyData) {
@@ -111,7 +112,16 @@ class TableContainer extends React.Component {
             singleIncome.rseList = rseList
             singleIncome.medianList = medianList  
             singleIncome.isGovernmentPayments = isGovernmentPayments
-            
+            if (isGovernmentPayments) {
+              let duplicateHeaderElement = false
+              incomeArr.forEach(item => {
+                if (singleIncome.header === item.header)
+                  duplicateHeaderElement = true
+              })  
+              if (!duplicateHeaderElement) {
+                gpArr.push(singleIncome)
+              }
+            }
             incomeArr.push(singleIncome)
           } else {
             categories.forEach((category, index) => {
@@ -146,7 +156,8 @@ class TableContainer extends React.Component {
           gpCount++
         }
     })
-    incomeArr.forEach(income => {
+    
+    gpArr.forEach(income => {
       if (income.id) {
         gpDataSet.push({ 
           groupName: income.header,
