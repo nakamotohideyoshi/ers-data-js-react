@@ -56,10 +56,12 @@ class TableContainer extends React.Component {
   componentWillReceiveProps(props) {
     const { surveyData, categories, whichOneMultiple } = props
     let incomeArr = []
-    let tempGPArr = []
+    let isGovernmentPayments = false
     
     if (surveyData) {
       surveyData.forEach((dataSourceCategories, index) => {
+        if (dataSourceCategories.report === 'Government Payments')
+          isGovernmentPayments = true
         if (dataSourceCategories.data.length  > 0)
           incomeArr.push(dataSourceCategories)
         dataSourceCategories.data.forEach((element, index) => {
@@ -108,21 +110,9 @@ class TableContainer extends React.Component {
             singleIncome.estimateList = estimateList
             singleIncome.rseList = rseList
             singleIncome.medianList = medianList  
-
-            if (dataSourceCategories.report === 'Government Payments') {
-              let duplicateHeaderElement = false
-              incomeArr.forEach(item => {
-                if (singleIncome.header === item.header)
-                  duplicateHeaderElement = true
-              })  
-              if (!duplicateHeaderElement) {
-                singleIncome.isGovernmentPayments = true
-                incomeArr.push(singleIncome)
-              }
-            } else {
-              incomeArr.push(singleIncome)
-            }
-            tempGPArr.push(singleIncome)
+            singleIncome.isGovernmentPayments = isGovernmentPayments
+            
+            incomeArr.push(singleIncome)
           } else {
             categories.forEach((category, index) => {
               const comparedCategory = whichOneMultiple === YEAR_SELECTED ? element.year: element.state.name
@@ -143,7 +133,7 @@ class TableContainer extends React.Component {
     let gpDataSet = []
     let gpCount = 0
 
-    tempGPArr.forEach(income => {
+    incomeArr.forEach(income => {
       if (income.group_header !== undefined)
         if (gpList[income.header]) {
           const result = gpList[income.header].find( element => element.group_header === income.group_header );
@@ -166,8 +156,10 @@ class TableContainer extends React.Component {
         gpDataSet = gpDataSet.concat(gpList[income.header])
       }
     })
+    if (isGovernmentPayments)
+      incomeArr = gpDataSet
     // ------------------------------------
-    this.setState({ incomeArr, gpDataSet })
+    this.setState({ incomeArr })
     this.setState({ scrollLeft: 0 })
   }
   componentDidMount() {
@@ -215,6 +207,47 @@ class TableContainer extends React.Component {
     }
     this.setState({ showTypes: showTypes.slice() })
   }
+  generatorHeadinInfo(data) {
+    let headingInfo = ""
+    let filterFirst = ""
+    let filterSecond = ""
+    let filter1Header = ""
+    let filter2Header = ""
+    let filter1Content = ""
+    let filter2Content = ""
+    let filterContent = ""
+
+    if (data.serie_element !== "TOTAL") {
+      filterFirst = data.serie2 === "All Farms" || data.serie2 === undefined ? "Filter - " : "Filter1 - "
+      filterSecond = data.serie === "TOTAL" ? "Filter - " : "Filter2 - "
+
+      filter1Header = filterFirst + data.serie
+      filter1Content = data.serie_element === "TOTAL" ? "" : ": " + data.serie_element
+
+      if (data.serie2_element !== "TOTAL") {
+        filter2Header = ", " + filterSecond + data.serie2
+        filter2Content = data.serie2_element === "TOTAL" ? "" : ": " + data.serie2_element
+      } else {
+        filter2Header = ""
+        filter2Content = ""
+      }
+      filterContent = filter1Header + filter1Content
+      if (data.dataSource > 0)
+        filterContent += filter2Header + filter2Content
+    } else {
+      filterContent = ""
+    }
+
+    headingInfo += data.dataSource > 0 ? "Data Source: " + data.dataSource + ", " : "Tailored Report - "
+    headingInfo += "Report: " + data.report + ", "
+    headingInfo += "Subject: " + data.subject + ", "
+    headingInfo += filterContent + ", "                              
+    headingInfo = headingInfo.slice(0, -2)
+    if (filterContent === "")
+      headingInfo = headingInfo.slice(0, -2)
+
+    return headingInfo
+  }
   render() {
     const { incomeArr, showTypes, selectedShowIndex, isShowItemAll } = this.state
     const { showList, categories, blockIndex, fontSizeIndex, footnotes } = this.props
@@ -253,50 +286,9 @@ class TableContainer extends React.Component {
                     {
                         incomeArr.map((data, index) => {
                           if (!data.id) {
-                              let headingInfo = ""
-                              let filterFirst = ""
-                              let filterSecond = ""
-                              let filter1Header = ""
-                              let filter2Header = ""
-                              let filter1Content = ""
-                              let filter2Content = ""
-                              let filterContent = ""
-
-                              if (data.serie_element !== "TOTAL") {
-                                filterFirst = data.serie2 === "All Farms" || data.serie2 === undefined ? "Filter - " : "Filter1 - "
-                                filterSecond = data.serie === "TOTAL" ? "Filter - " : "Filter2 - "
-
-                                filter1Header = filterFirst + data.serie
-                                filter1Content = data.serie_element === "TOTAL" ? "" : ": " + data.serie_element
-
-                                if (data.serie2_element !== "TOTAL") {
-                                  filter2Header = ", " + filterSecond + data.serie2
-                                  filter2Content = data.serie2_element === "TOTAL" ? "" : ": " + data.serie2_element
-                                } else {
-                                  filter2Header = ""
-                                  filter2Content = ""
-                                }
-                                filterContent = filter1Header + filter1Content
-                                if (data.dataSource > 0)
-                                  filterContent += filter2Header + filter2Content
-                              } else {
-                                filterContent = ""
-                              }
-
-                              headingInfo += data.dataSource > 0 ? "Data Source: " + data.dataSource + ", " : "Tailored Report - "
-                              headingInfo += "Report: " + data.report + ", "
-                              headingInfo += "Subject: " + data.subject + ", "
-                              headingInfo += filterContent + ", "                              
-                              headingInfo = headingInfo.slice(0, -2)
-                              if (filterContent === "")
-                                headingInfo = headingInfo.slice(0, -2)
-                              
-                              if (data.isGovernmentPayments)
-                                headingInfo = data.header
-                              
                               return (
                                 <tr key={`${index}`}>
-                                  <td><div className="heading-info">{headingInfo}&ensp;</div></td>
+                                  <td><div className="heading-info">{this.generatorHeadinInfo(data)}&ensp;</div></td>
                                 </tr>
                               )
                           } else {
