@@ -20,6 +20,7 @@ class TableContainer extends React.Component {
       { label: 'Relative Standard Error', selected: false },
       { label: 'Median', selected: false }
     ],
+    governmentPaymentList: {},
     selectedShowIndex: -1,
     isShowItemAll: true,
     optionsIndex: 0,
@@ -78,6 +79,7 @@ class TableContainer extends React.Component {
             singleIncome.id = dataSourceCategories.dataSource + element.topic_abb
             singleIncome.dataSource = dataSourceCategories.dataSource
             singleIncome.header = element.topic_dim.header
+            singleIncome.group_header = element.topic_dim.group_header
             singleIncome.desc = element.topic_dim.desc
             singleIncome.unit_desc = element.topic_dim.unit_desc
             singleIncome.level = element.topic_dim.level
@@ -105,8 +107,23 @@ class TableContainer extends React.Component {
             })
             singleIncome.estimateList = estimateList
             singleIncome.rseList = rseList
-            singleIncome.medianList = medianList            
-            incomeArr.push(singleIncome)
+            singleIncome.medianList = medianList  
+
+            if (dataSourceCategories.report === 'Government Payments') {
+              let duplicateHeaderElement = false
+              incomeArr.map(function(item) {
+                if (singleIncome.header === item.header)
+                  duplicateHeaderElement = true
+              })  
+              if (!duplicateHeaderElement) {
+                delete singleIncome.id
+                singleIncome.isGovernmentPayments = true
+                incomeArr.push(singleIncome)
+              }
+            } else {
+              incomeArr.push(singleIncome)
+            }       
+
           } else {
             categories.forEach((category, index) => {
               const comparedCategory = whichOneMultiple === YEAR_SELECTED ? element.year: element.state.name
@@ -121,7 +138,17 @@ class TableContainer extends React.Component {
         })
       })
     }
-    this.setState({ incomeArr })
+    const governmentPaymentList = {}
+    incomeArr.forEach(income => {
+      if (income.group_header !== undefined)
+        if (governmentPaymentList[income.header]) {
+          governmentPaymentList[income.header].push(income)
+        } else {
+          governmentPaymentList[income.header] = [income]
+        }
+    })
+    // console.log(incomeArr)
+    this.setState({ incomeArr, governmentPaymentList })
     this.setState({ scrollLeft: 0 })
   }
   componentDidMount() {
@@ -170,7 +197,7 @@ class TableContainer extends React.Component {
     this.setState({ showTypes: showTypes.slice() })
   }
   render() {
-    const { incomeArr, showTypes, selectedShowIndex, isShowItemAll } = this.state
+    const { incomeArr, governmentPaymentList, showTypes, selectedShowIndex, isShowItemAll } = this.state
     const { showList, categories, blockIndex, fontSizeIndex, footnotes } = this.props
 
     if (incomeArr.length === 0 || categories.length === 0)
@@ -245,6 +272,8 @@ class TableContainer extends React.Component {
                               if (filterContent === "")
                                 headingInfo = headingInfo.slice(0, -2)
                               
+                              if (data.isGovernmentPayments)
+                                headingInfo = data.header
                               return (
                                 <tr key={`${index}`}>
                                   <td><div className="heading-info">{headingInfo}&ensp;</div></td>
@@ -370,7 +399,7 @@ class TableContainer extends React.Component {
                 <tbody onScroll={this.onScrollTable} ref={node=>this.tbody=node}>
                   {
                     incomeArr.map((data, index) => {
-                      if (!data.id) {
+                      if (!data.id && !data.isGovernmentPayments) {
                           return (
                             <tr key={`ltr-${index}`}>
                             {
