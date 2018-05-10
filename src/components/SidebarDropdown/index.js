@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ReactTooltip from 'react-tooltip'
+import HelpImg from '../../images/help.png'
 
 const SidebarDropdown = ({ tabIndex, title, isDataLine, fontSizeIndex, headingTitle, isCategory, isOpened, onToggle }) => (
   <div className="dropdown_up dropdown_dd">
@@ -14,12 +15,17 @@ const SidebarDropdown = ({ tabIndex, title, isDataLine, fontSizeIndex, headingTi
             </div>
           )
         }
-        <div className={`selected-headers font-${fontSizeIndex}-big`} 
-          data-tip={isDataLine ? title : ''}
+        <div className={`selected-headers font-${fontSizeIndex}-big`}
+        >
+        <span>{title}</span>
+        <img 
+          src={HelpImg}
+          className="lhs-help-img"
+          alt="Help Icon" 
+          data-tip={title} 
           data-place="top"
           data-offset="{'top': 10, 'right': 50}"
-        >
-          {title}
+        />        
         </div>
       </div>
       {
