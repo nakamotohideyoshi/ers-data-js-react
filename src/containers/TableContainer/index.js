@@ -397,15 +397,15 @@ class TableContainer extends React.Component {
                           return (
                             <th className="estimate-rse-td" key={`est-th-${pos}`}>
                               <div className={`estimate_rse ${selectedShowIndex<0 ? 'estimate_rse_center':''}`} tabIndex={1500+incomeArr.length}>
-                                <div className="data-heading data-value">ESTIMATE</div>
+                                <div className={`data-heading data-value font-${fontSizeIndex}-smaller`}>Estimate</div>
                                 {
                                   selectedShowIndex === 0 && (
-                                    <div className="data-heading data-value">RSEᵃ</div>
+                                    <div className={`data-heading data-value font-${fontSizeIndex}-smaller`}>RSEᵃ</div>
                                   )
                                 }
                                 {
                                   selectedShowIndex === 1 && (
-                                    <div className="data-heading data-value">Median</div>
+                                    <div className={`data-heading data-value font-${fontSizeIndex}-smaller`}>Median</div>
                                   )
                                 }
                               </div>
