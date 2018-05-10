@@ -128,6 +128,8 @@ class MainContainer extends React.Component {
               surveyData[props.blockIndex] = []
             }
             isLoading = false
+          } else {
+            isLoading = true
           }
         }
       } else {
