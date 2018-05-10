@@ -5,7 +5,7 @@
   display: flex;
   padding: 7px 15px;
   margin-left: 10px;
-  color: #081827;
+  color: #000000;
 }
 .option-group .single-option a {
   text-decoration: none;
@@ -15,7 +15,7 @@
   background: #edf5f8;
 }
 .option-group .active:hover {
-  color: red
+  color: #000000
 }
 .option-group .active i {
   margin-right: 7px;
