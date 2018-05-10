@@ -200,7 +200,7 @@ export default class ChartGenerator extends React.Component {
             const label = this.renderer.label("Source: Economic Research Services, US Dept of Agriculture")
               .css({
                 fontSize: chartFont*0.9+'em',
-                color: '#cccccc'
+                color: '#000000'
               })
               .add();
             label.align(ReactHighcharts.Highcharts.extend(label.getBBox(), {
@@ -287,7 +287,6 @@ export default class ChartGenerator extends React.Component {
         title: {
           text: "Number of Farms" + trailReduce,
           style: {
-            color: darkBlue,
             fontSize: chartFont+'em'
           }           
         },
@@ -303,7 +302,7 @@ export default class ChartGenerator extends React.Component {
             const isReducePossible = this.value/1000 > 1
 
             let axisFormat = numberWithCommas(isReducePossible ? Math.round(this.value/1000) : this.value)
-            return '<span style="color:'+darkBlue+';margin-left:-30px" className="font-'+fontSizeIndex+'-normal">'+ numberWithCommas(axisFormat) +'</span>';
+            return '<span className="font-'+fontSizeIndex+'-normal">'+ numberWithCommas(axisFormat) +'</span>';
           }
         },
         events: {

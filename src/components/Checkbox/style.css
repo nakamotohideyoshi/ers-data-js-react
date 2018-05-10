@@ -9,7 +9,7 @@
   margin-bottom: 12px;
   font-family: 'Roboto', sans-serif;
   font-weight: 400;
-  color: #23527c;
+  color: #000000;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -17,7 +17,7 @@
   user-select: none;
 }
 .checkbox-container:hover {
-  color: #447bac;
+  color: #000000;
 }
 
 /* Hide the browser's default checkbox */
