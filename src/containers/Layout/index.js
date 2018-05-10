@@ -10,7 +10,6 @@ import OptionGroup from '../../components/OptionGroup'
 import { YEAR_SELECTED } from '../../helpers/constants'
 
 import './style.css'
-import { filter } from 'graphql-anywhere';
 
 const defaultYearCount = 5
 const defaultStateCount = 1
