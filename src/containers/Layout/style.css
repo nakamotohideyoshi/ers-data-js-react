@@ -12,6 +12,9 @@
 .font-0-small {
   font-size: 0.7em
 }
+.font-0-smaller {
+  font-size: 0.9em
+}
 
 .font-1-big {
   font-size: 1.2em
@@ -22,6 +25,9 @@
 .font-1-small {
   font-size: 0.8em
 }
+.font-1-smaller {
+  font-size: 1.1em
+}
 
 .font-2-big {
   font-size: 1.5em
@@ -31,6 +37,9 @@
 }
 .font-2-small {
   font-size: 1.0em
+}
+.font-2-smaller {
+  font-size: 1.4em
 }
 
 .font-increase-0 {

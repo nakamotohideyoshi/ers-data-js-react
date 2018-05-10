@@ -76,8 +76,6 @@
 .table thead tr:nth-of-type(odd) th {
   background: #F0F7F9;
   font-family: 'Roboto', sans-serif;
-  text-transform: uppercase;
-  font-weight: 700;
   color:#000000;  
 }
 .table-static tbody tr:nth-child(1) td {
@@ -151,8 +149,6 @@
 }
 .estimate_rse .data-heading {
   font-family: 'Roboto', sans-serif;
-  text-transform: uppercase;
-  font-weight: 700;
   color:#000000;
 }
 .estimate_rse .data-value {
