@@ -56,7 +56,8 @@ class TableContainer extends React.Component {
   componentWillReceiveProps(props) {
     const { surveyData, categories, whichOneMultiple } = props
     let incomeArr = []
-    console.log(surveyData)
+    let tempGPArr = []
+    
     if (surveyData) {
       surveyData.forEach((dataSourceCategories, index) => {
         if (dataSourceCategories.data.length  > 0)
@@ -78,6 +79,7 @@ class TableContainer extends React.Component {
             singleIncome.id = dataSourceCategories.dataSource + element.topic_abb
             singleIncome.dataSource = dataSourceCategories.dataSource
             singleIncome.header = element.topic_dim.header
+            singleIncome.group_header = element.topic_dim.group_header
             singleIncome.desc = element.topic_dim.desc
             singleIncome.unit_desc = element.topic_dim.unit_desc
             singleIncome.level = element.topic_dim.level
@@ -105,8 +107,22 @@ class TableContainer extends React.Component {
             })
             singleIncome.estimateList = estimateList
             singleIncome.rseList = rseList
-            singleIncome.medianList = medianList            
-            incomeArr.push(singleIncome)
+            singleIncome.medianList = medianList  
+
+            if (dataSourceCategories.report === 'Government Payments') {
+              let duplicateHeaderElement = false
+              incomeArr.forEach(item => {
+                if (singleIncome.header === item.header)
+                  duplicateHeaderElement = true
+              })  
+              if (!duplicateHeaderElement) {
+                singleIncome.isGovernmentPayments = true
+                incomeArr.push(singleIncome)
+              }
+            } else {
+              incomeArr.push(singleIncome)
+            }
+            tempGPArr.push(singleIncome)
           } else {
             categories.forEach((category, index) => {
               const comparedCategory = whichOneMultiple === YEAR_SELECTED ? element.year: element.state.name
@@ -121,7 +137,37 @@ class TableContainer extends React.Component {
         })
       })
     }
-    this.setState({ incomeArr })
+
+    // Generate specific data set for Government Payments
+    const gpList = {}
+    let gpDataSet = []
+    let gpCount = 0
+
+    tempGPArr.forEach(income => {
+      if (income.group_header !== undefined)
+        if (gpList[income.header]) {
+          const result = gpList[income.header].find( element => element.group_header === income.group_header );
+          if (!result) {
+            gpList[income.header].push(income)
+            gpCount++
+          }            
+        } else {
+          gpList[income.header] = [income]
+          gpCount++
+        }
+    })
+    incomeArr.forEach(income => {
+      if (income.id) {
+        gpDataSet.push({ 
+          groupName: income.header,
+          totalCount: gpCount, 
+          count: gpList[income.header] ? (gpList[income.header]).length : 0
+        })
+        gpDataSet = gpDataSet.concat(gpList[income.header])
+      }
+    })
+    // ------------------------------------
+    this.setState({ incomeArr, gpDataSet })
     this.setState({ scrollLeft: 0 })
   }
   componentDidMount() {
@@ -244,6 +290,9 @@ class TableContainer extends React.Component {
                               headingInfo = headingInfo.slice(0, -2)
                               if (filterContent === "")
                                 headingInfo = headingInfo.slice(0, -2)
+                              
+                              if (data.isGovernmentPayments)
+                                headingInfo = data.header
                               
                               return (
                                 <tr key={`${index}`}>
@@ -370,7 +419,7 @@ class TableContainer extends React.Component {
                 <tbody onScroll={this.onScrollTable} ref={node=>this.tbody=node}>
                   {
                     incomeArr.map((data, index) => {
-                      if (!data.id) {
+                      if (!data.id && !data.isGovernmentPayments) {
                           return (
                             <tr key={`ltr-${index}`}>
                             {
