@@ -13,13 +13,15 @@ import ShownImg from '../../images/show.png'
 import HelpImg from '../../images/help.png'
 
 import './style.css'
+
+const defaultShowTypes = [
+  { label: 'Relative Standard Error', selected: false },
+  { label: 'Median', selected: false }
+]
 class TableContainer extends React.Component {
   state = {
     incomeArr: [],
-    showTypes: [
-      { label: 'Relative Standard Error', selected: false },
-      { label: 'Median', selected: false }
-    ],
+    showTypes: defaultShowTypes,
     selectedShowIndex: -1,
     isShowItemAll: true,
     optionsIndex: 0,
@@ -45,8 +47,7 @@ class TableContainer extends React.Component {
     if (element.median !== 0 && element.median !== null) {
         medianVal = element.median
     }
-    if (element.report_dim.header !== 'Farm Business Balance Sheet' && element.report_dim.header !== 'Farm Business Income Statement' &&element.report_dim.header !== 'Farm Business Debt Repayment Capacity' && element.report_dim.header !== 'Operator Household Income' && element.report_dim.header !== 'Operator Household Balance Sheet')
-      medianVal = ''
+
     estimateVal = numberWithCommas(estimateVal)
     rseVal = rseVal === 'NA' ? rseVal : (element.rse).toFixed(1)
     medianVal = numberWithCommas(medianVal)
@@ -55,6 +56,7 @@ class TableContainer extends React.Component {
   }
   componentWillReceiveProps(props) {
     const { surveyData, categories, whichOneMultiple } = props
+    
     let incomeArr = []
     let tempGPArr = []
     
@@ -65,6 +67,16 @@ class TableContainer extends React.Component {
         dataSourceCategories.data.forEach((element, index) => {
           let singleIncome = {}
           let currentIndex = 1
+          const isMedianEnabled = element.report_dim.header === 'Farm Business Balance Sheet' || 
+                                  element.report_dim.header === 'Farm Business Income Statement' || 
+                                  element.report_dim.header === 'Farm Business Debt Repayment Capacity' || 
+                                  element.report_dim.header === 'Operator Household Income' || 
+                                  element.report_dim.header === 'Operator Household Balance Sheet'
+          if (!isMedianEnabled) 
+            this.setState({ showTypes: defaultShowTypes.slice(0,1), selectedShowIndex: -1 })
+          else 
+            this.setState({ showTypes: defaultShowTypes, selectedShowIndex: -1 })
+          
           incomeArr.forEach((income, i) => {
             if (income.id === dataSourceCategories.dataSource + element.topic_abb) {
               singleIncome = income
@@ -92,17 +104,11 @@ class TableContainer extends React.Component {
               if (comparedCategory === category) {
                 estimateList.push(this.formatEstimateRse(element).estimateVal)
                 rseList.push(this.formatEstimateRse(element).rseVal)
-                if (element.report_dim.header === 'Farm Business Balance Sheet' || element.report_dim.header === 'Farm Business Income Statement' || element.report_dim.header === 'Farm Business Debt Repayment Capacity' || element.report_dim.header === 'Operator Household Income' || element.report_dim.header === 'Operator Household Balance Sheet' )
-                  medianList.push(this.formatEstimateRse(element).medianVal)
-                else 
-                  medianList.push('')           
+                medianList.push(this.formatEstimateRse(element).medianVal)         
               } else {
                 estimateList.push('NA')
                 rseList.push('NA')
-                if (element.report_dim.header === 'Farm Business Balance Sheet' || element.report_dim.header === 'Farm Business Income Statement' || element.report_dim.header === 'Farm Business Debt Repayment Capacity' || element.report_dim.header === 'Operator Household Income' || element.report_dim.header === 'Operator Household Balance Sheet' )
-                  medianList.push('NA') 
-                else 
-                  medianList.push('')             
+                medianList.push('NA')            
               }
             })
             singleIncome.estimateList = estimateList
