@@ -72,8 +72,8 @@ class Sidebar extends React.Component {
 
     // Generate Category LHS
     categoryTitles.push([
-      {num: 0, header: 'Tailored Reports', tootip: ''},
-      { num: 1, header: 'ARMS Data Analysis', tootip: ''}
+      {num: 0, header: 'Tailored Reports', tooltip: ''},
+      { num: 1, header: 'ARMS Data Analysis', tooltip: ''}
     ])
 
     sidebarItems.push({
@@ -99,7 +99,7 @@ class Sidebar extends React.Component {
 
       let {categoryTitles, sidebarItems, currentBlock} = this.state
       const runQuery = props.runQuery
-      console.log('props:', runQuery, props[runQuery])
+      console.log('props:', this.state)
       if (['initialize'].indexOf(props.runQuery)>-1) {
 
         const reports = this.generateReports(props.reports, currentBlock)
@@ -674,7 +674,7 @@ class Sidebar extends React.Component {
       const obj = {}
       obj.num = report.num
       obj.header = report.header
-      obj.tootip = ''
+      obj.tooltip = ''
       categoryTitle.push(obj)
     })
 
@@ -699,7 +699,7 @@ class Sidebar extends React.Component {
       const obj = {}
       obj.num = report.id
       obj.header = report.name
-      obj.tootip = ''
+      obj.tooltip = ''
       categoryTitle.push(obj)
     })
 
@@ -737,7 +737,7 @@ class Sidebar extends React.Component {
       const obj = {}
       obj.num = subject.num
       obj.header = subject.header
-      obj.tootip = ''
+      obj.tooltip = ''
       categoryTitle.push(obj)
     })
 
@@ -774,7 +774,7 @@ class Sidebar extends React.Component {
       const obj = {}
       obj.num = serie.abb
       obj.header = serie.header
-      obj.tootip = tooltip_mock[serie.header] ? tooltip_mock[serie.header].menu : ''
+      obj.tooltip = tooltip_mock[serie.header] ? tooltip_mock[serie.header].menu : ''
       categoryTitle.push(obj)
     })
 
@@ -810,13 +810,13 @@ class Sidebar extends React.Component {
     const categoryTitle = [{
       num: 0,
       header: 'All',
-      tootip: ''
+      tooltip: ''
     }]
     elements.forEach(element => {
       const obj = {}
       obj.num = element.id
       obj.header = element.name
-      obj.tootip = ''
+      obj.tooltip = ''
       categoryTitle.push(obj)
       serie_element.push(element.id)
     })
@@ -854,7 +854,7 @@ class Sidebar extends React.Component {
       const obj = {}
       obj.num = report.num
       obj.header = report.header
-      obj.tootip = ''
+      obj.tooltip = ''
       categoryTitle.push(obj)
     })
 
@@ -878,7 +878,7 @@ class Sidebar extends React.Component {
       const obj = {}
       obj.num = topic.abb
       obj.header = topic.header
-      obj.tootip = ''
+      obj.tooltip = ''
       categoryTitle.push(obj)
     })
 
