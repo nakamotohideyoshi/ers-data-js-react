@@ -72,8 +72,8 @@ class Sidebar extends React.Component {
 
     // Generate Category LHS
     categoryTitles.push([
-      {num: 0, header: 'Tailored Reports'},
-      { num: 1, header: 'ARMS Data Analysis'}
+      {num: 0, header: 'Tailored Reports', tootip: ''},
+      { num: 1, header: 'ARMS Data Analysis', tootip: ''}
     ])
 
     sidebarItems.push({
@@ -674,6 +674,7 @@ class Sidebar extends React.Component {
       const obj = {}
       obj.num = report.num
       obj.header = report.header
+      obj.tootip = ''
       categoryTitle.push(obj)
     })
 
@@ -698,6 +699,7 @@ class Sidebar extends React.Component {
       const obj = {}
       obj.num = report.id
       obj.header = report.name
+      obj.tootip = ''
       categoryTitle.push(obj)
     })
 
@@ -735,6 +737,7 @@ class Sidebar extends React.Component {
       const obj = {}
       obj.num = subject.num
       obj.header = subject.header
+      obj.tootip = ''
       categoryTitle.push(obj)
     })
 
@@ -771,6 +774,7 @@ class Sidebar extends React.Component {
       const obj = {}
       obj.num = serie.abb
       obj.header = serie.header
+      obj.tootip = ''
       categoryTitle.push(obj)
     })
 
@@ -805,12 +809,14 @@ class Sidebar extends React.Component {
 
     const categoryTitle = [{
       num: 0,
-      header: 'All'
+      header: 'All',
+      tootip: ''
     }]
     elements.forEach(element => {
       const obj = {}
       obj.num = element.id
       obj.header = element.name
+      obj.tootip = ''
       categoryTitle.push(obj)
       serie_element.push(element.id)
     })
@@ -848,6 +854,7 @@ class Sidebar extends React.Component {
       const obj = {}
       obj.num = report.num
       obj.header = report.header
+      obj.tootip = ''
       categoryTitle.push(obj)
     })
 
@@ -871,6 +878,7 @@ class Sidebar extends React.Component {
       const obj = {}
       obj.num = topic.abb
       obj.header = topic.header
+      obj.tootip = ''
       categoryTitle.push(obj)
     })
 
