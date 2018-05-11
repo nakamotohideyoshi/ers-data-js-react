@@ -234,9 +234,6 @@ export default class ChartGenerator extends React.Component {
           pointPadding: 0,
           groupPadding: 0.3
         },
-        // line: {
-        //   animation: false
-        // }
       },
       legend: { 
         itemStyle: {
@@ -419,7 +416,6 @@ export default class ChartGenerator extends React.Component {
             formatter: function () {
               const isReducePossible = this.value/1000 > 1
               let axisFormat = numberWithCommas(isReducePossible ? Math.round(this.value/1000) : this.value)
-              // if (unitDescs[unitIndex] === "Dollars per farm") axisFormat = '$' + axisFormat
               return '<span>'+ axisFormat +'</span>';
             },
           },
