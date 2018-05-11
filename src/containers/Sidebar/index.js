@@ -98,7 +98,6 @@ class Sidebar extends React.Component {
 
       let {categoryTitles, sidebarItems, currentBlock} = this.state
       const runQuery = props.runQuery
-      console.log('props:', runQuery, props[runQuery])
       if (['initialize'].indexOf(props.runQuery)>-1) {
 
         const reports = this.generateReports(props.reports, currentBlock)

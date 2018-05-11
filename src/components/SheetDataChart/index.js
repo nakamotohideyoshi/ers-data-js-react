@@ -19,9 +19,17 @@ class SheetDataChart extends Component {
   componentWillReceiveProps(props) {
     const { showList, surveyData, categories, whichOneMultiple } = props
     let incomeArr = []
-    console.log(surveyData)
+    let isGovernmentPayments = false
+
     if (surveyData) {
       surveyData.forEach((dataSourceCategories, index) => {
+        if (dataSourceCategories.report === 'Government Payments') {
+          isGovernmentPayments = true
+          dataSourceCategories.data.forEach((element, i) => {
+            let singleIncome = {}
+            
+          })
+        }
         dataSourceCategories.data.forEach((element, i) => {
           let singleIncome = {}
           let currentIndex = 0

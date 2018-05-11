@@ -1937,7 +1937,6 @@ export default class Layout extends React.Component {
     this.setState({ fontSizeIndex })
   }
   render() {
-    // console.log('%%%%%%%%%%%%', this.state.pre_filters, '%%%%%%%%%%%')
     const {
       selectedStateNames,
       blockIndex, 
