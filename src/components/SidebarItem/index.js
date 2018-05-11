@@ -74,6 +74,7 @@ export default class SidebarItem extends React.Component {
             headingTitle={headingTitle}
             isDataLine={isDataLine}
             fontSizeIndex={fontSizeIndex}
+            tooltip = {titles[selectedIndex].tooltip}
             title={isDataLine ? datalineTitle : titles[selectedIndex].header} 
             isOpened={isOpened} 
             isCategory={isCategory} 
