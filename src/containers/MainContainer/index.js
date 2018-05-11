@@ -51,7 +51,6 @@ class MainContainer extends React.Component {
       this.setState({ showList, surveyData, showData })
 
     } else if (props.isGetSurveyData) {
-      console.log('-----', props)
       if (props.charts) {
         if(props.charts.networkStatus === 7) {
           let isTailored = false

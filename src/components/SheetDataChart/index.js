@@ -19,7 +19,6 @@ class SheetDataChart extends Component {
   componentWillReceiveProps(props) {
     const { showList, surveyData, categories, whichOneMultiple } = props
     let incomeArr = []
-    console.log(surveyData)
     if (surveyData) {
       surveyData.forEach((dataSourceCategories, index) => {
         dataSourceCategories.data.forEach((element, i) => {
