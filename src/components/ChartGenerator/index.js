@@ -81,6 +81,8 @@ export default class ChartGenerator extends React.Component {
     let breaksArr = []   
     const estList = []
     const estCount = dataSource[0].estimateList.length
+
+    estList[0] = []
     for (let ee=0;ee<estCount;ee++) {
       let indexedArr = []
       dataSource.forEach((element, i) => {
@@ -88,20 +90,21 @@ export default class ChartGenerator extends React.Component {
           indexedArr.push(element.estimateList[ee])
         }
       })
-      estList[ee] = indexedArr
+      if (dataSource.length === 1) estList[0] = estList[0].concat(indexedArr)
+      else estList[ee] = indexedArr
     }
 
     let diffList = []
     for (let ee=0;ee<estList.length;ee++) {
       let estSingleList = estList[ee]
-      if (estSingleList.length < 2) return []
       estSingleList = estSingleList.sort(function(a, b){return a - b});
-
+      
       const isBreakable = estSingleList[0]/estSingleList[estSingleList.length-1] <= 0.05
       if (isBreakable === false) return []
 
       let diff = 0
       let diffObj = {start: 0, to: 0, diff: 0}
+        
       for (let i=0;i<estSingleList.length-1;i++) {
         const start = estSingleList[i]
         const to = estSingleList[i+1]
@@ -112,18 +115,20 @@ export default class ChartGenerator extends React.Component {
           diffObj.diff = diff
         }
       }
+      
       diffList.push(diffObj)
     }
-
+    
     const maxFrom = Math.max.apply(Math, diffList.map(function(o){return o.start;}))
     const minTo =  Math.min.apply(Math, diffList.map(function(o){return o.to;}))
-    const roundedFrom = Math.floor((maxFrom*1.2)/1000 + 1) * 1000
-    const roundedTo = Math.floor((minTo*0.8)/1000) * 1000
+    const roundedFrom = Math.ceil((maxFrom*1.1)/1000) * 1000
+    const roundedTo = Math.floor((minTo*0.9)/1000) * 1000
         
     breaksArr.push({
       from: roundedFrom,
       to: roundedTo
     })
+    
     return breaksArr
   }
   generateConfig(series, categories, title, chartType, whichOneMultiple, fontSizeIndex) {
@@ -278,6 +283,9 @@ export default class ChartGenerator extends React.Component {
       if (Math.min.apply(null, seriesFarms[0].estimateList) > 1000) {
         trailReduce = " (000's)"
       }
+      const maxVal = Math.max.apply(null, seriesFarms[0].estimateList)
+      const interval = Math.pow(10, (maxVal.toString()).length - 2)
+      const axisMax = Math.ceil(maxVal/interval)*interval
       config.yAxis.push({
         title: {
           text: "Number of Farms" + trailReduce,
@@ -285,8 +293,10 @@ export default class ChartGenerator extends React.Component {
             fontSize: chartFont+'em'
           }           
         },
+        max: axisMax,
+        tickInterval: interval,
         lineWidth: 1,
-        breaks: categories.length > 1 ? this.getBreaingPoints(seriesFarms) : [],          
+        breaks: this.getBreaingPoints(seriesFarms),         
         top: seriesOthers.length > 0 && seriesOthersShown ? '80%' : '0%',
         height: seriesOthers.length > 0 && seriesOthersShown ? '20%' : '100%',
         labels: {
