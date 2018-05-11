@@ -51,10 +51,8 @@ export default class ChartGenerator extends React.Component {
     const headerSpacing = ['', '']
     const header = ['', '']
 
-    console.log(series.length)
     series.forEach((data, index) => {
       const headerFilter = ['']
-      console.log(':::::', data)
       headerFilter.push('Source:')
       headerFilter.push(data.dataSource > 0 ? data.dataSource : "Tailored Report")  
       csvTableArray.push(headerFilter)
