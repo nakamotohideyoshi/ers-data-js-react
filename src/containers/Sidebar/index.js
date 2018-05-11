@@ -4,6 +4,7 @@ import 'react-slidedown/lib/slidedown.css'
 import SidebarItem from '../../components/SidebarItem'
 import './style.css';
 import Reset from '../../images/reset.png'
+import tootip from '../../mock/tootipDemo';
 // import { selectLimit } from 'async';
 import dTailored from '../../ApolloComponent/dTailored'
 import dlTailored from '../../ApolloComponent/dlTailored'
