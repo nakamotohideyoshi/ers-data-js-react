@@ -171,7 +171,6 @@ class TableContainer extends React.Component {
     if (isGovernmentPayments)
       incomeArr = gpDataSet
     // ------------------------------------
-    console.log(incomeArr)
     this.setState({ incomeArr })
     this.setState({ scrollLeft: 0 })
   }
