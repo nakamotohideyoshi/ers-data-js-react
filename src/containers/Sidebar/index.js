@@ -4,7 +4,7 @@ import 'react-slidedown/lib/slidedown.css'
 import SidebarItem from '../../components/SidebarItem'
 import './style.css';
 import Reset from '../../images/reset.png'
-import tootip from '../../mock/tootipDemo';
+import tooltip_mock from '../../mock/tooltip';
 // import { selectLimit } from 'async';
 import dTailored from '../../ApolloComponent/dTailored'
 import dlTailored from '../../ApolloComponent/dlTailored'
@@ -774,7 +774,7 @@ class Sidebar extends React.Component {
       const obj = {}
       obj.num = serie.abb
       obj.header = serie.header
-      obj.tootip = ''
+      obj.tootip = tooltip_mock[serie.header] ? tooltip_mock[serie.header].menu : ''
       categoryTitle.push(obj)
     })
 
