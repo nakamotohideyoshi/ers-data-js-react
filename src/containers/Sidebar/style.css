@@ -156,3 +156,10 @@ span.top_heading{
   text-overflow: ellipsis;
   white-space: pre-wrap;
 }
+
+.lhs-help-img {
+  margin-left: 10px;
+  margin-right: 10px;
+  width: 15px;
+  height: 15px;
+}
