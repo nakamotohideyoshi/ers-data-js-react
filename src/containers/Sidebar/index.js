@@ -136,7 +136,7 @@ class Sidebar extends React.Component {
             if (categoryTitles.length < 3) {
 
               categoryTitles.push(sub_reports.categoryTitle)
-              sidebarItems.push(sub_reports.categoryTitle)
+              sidebarItems.push(sub_reports.sidebarItem)
 
             } else {
 
@@ -277,7 +277,7 @@ class Sidebar extends React.Component {
           case 'dlrfysTailored':
           case 'dlrftsTailored':
             
-            let series_element = this.generateElements(props[runQuery][runQuery].serie_element, currentBlock)
+            let series_element = this.generateElements(categoryTitles[4][sidebarItems[4].selectedIndex].header, props[runQuery][runQuery].serie_element, currentBlock)
             let serie_element = series_element.serie_element
 
             if (categoryTitles.length < 6) {
@@ -512,10 +512,11 @@ class Sidebar extends React.Component {
           case 'dlfsAnalysis':
           case 'dlrfsAnalysis':
 
-            series_element = this.generateElements(props[runQuery][runQuery].serie_element, currentBlock)
-            serie_element = series_element.serie_element
-
             index = 8*(currentBlock-1) + 11
+
+            series_element = this.generateElements(categoryTitles[index-1][sidebarItems[index-1].selectedIndex].header, props[runQuery][runQuery].serie_element, currentBlock)
+            serie_element = series_element.serie_element
+            
 
             if (categoryTitles.length < index+1) {
 
@@ -595,11 +596,12 @@ class Sidebar extends React.Component {
 
           case 'dlfsesAnalysis':
           case 'dlrfsesAnalysis':
-
-            series_element = this.generateElements(props[runQuery][runQuery].serie2_element, currentBlock)
-            serie_element = series_element.serie_element
-
+            
             index = 8*(currentBlock-1) + 13
+
+            series_element = this.generateElements(categoryTitles[index-1][sidebarItems[index-1].selectedIndex].header, props[runQuery][runQuery].serie2_element, currentBlock)
+            serie_element = series_element.serie_element
+            
 
             if (categoryTitles.length < index+1) {
 
@@ -804,8 +806,9 @@ class Sidebar extends React.Component {
     return current_index
   }
 
-  generateElements(elements, currentBlock) {
+  generateElements(serie, elements, currentBlock) {
     const serie_element = []
+    console.log(',m,m,mm,m,m', tooltip_mock[serie] ? tooltip_mock[serie].category : '')
 
     const categoryTitle = [{
       num: 0,
@@ -816,7 +819,7 @@ class Sidebar extends React.Component {
       const obj = {}
       obj.num = element.id
       obj.header = element.name
-      obj.tooltip = ''
+      obj.tooltip = tooltip_mock[serie] ? tooltip_mock[serie].category[element.name] : ''
       categoryTitle.push(obj)
       serie_element.push(element.id)
     })
