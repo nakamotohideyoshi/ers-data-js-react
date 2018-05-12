@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import ReactTooltip from 'react-tooltip'
 import HelpImg from '../../images/help.png'
 
-const SidebarDropdown = ({ tabIndex, title, isDataLine, fontSizeIndex, headingTitle, isCategory, isOpened, onToggle }) => (
+const SidebarDropdown = ({ tabIndex, title, isDataLine, fontSizeIndex, headingTitle, isCategory, isOpened, onToggle, tooltip }) => (
   <div className="dropdown_up dropdown_dd">
     <button className={`${isCategory ? `btn-dark`:`btn-light`} btn_dd`} onClick={onToggle} tabIndex={tabIndex}>
       <div className="filter-options">
@@ -18,14 +18,18 @@ const SidebarDropdown = ({ tabIndex, title, isDataLine, fontSizeIndex, headingTi
         <div className={`selected-headers font-${fontSizeIndex}-big`}
         >
         <span>{title}</span>
-        <img 
-          src={HelpImg}
-          className="lhs-help-img"
-          alt="Help Icon" 
-          data-tip={title} 
-          data-place="top"
-          data-offset="{'top': 10, 'right': 50}"
-        />        
+        {
+          tooltip.length > 0 && (
+            <img 
+              src={HelpImg}
+              className="lhs-help-img"
+              alt="Help Icon" 
+              data-tip={tooltip} 
+              data-place="top"
+              data-offset="{'top': 10, 'right': 50}"
+            />
+          )
+        }        
         </div>
       </div>
       {
@@ -54,6 +58,7 @@ const SidebarDropdown = ({ tabIndex, title, isDataLine, fontSizeIndex, headingTi
 SidebarDropdown.propTypes = {
   title: PropTypes.string,
   headingTitle: PropTypes.string,
+  tooltip: PropTypes.string,
   isCategory: PropTypes.bool,
   onToggle: PropTypes.func,
 };
