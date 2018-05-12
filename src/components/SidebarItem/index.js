@@ -21,6 +21,11 @@ export default class SidebarItem extends React.Component {
       }
     }
   }
+
+  componentDidUpdate() {
+    ReactTooltip.rebuild()
+  }
+  
   render() {
     const {
       tabIndex,
