@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ReactTooltip from 'react-tooltip'
 import HelpImg from '../../images/help.png'
 
 const SidebarDropdown = ({ tabIndex, title, isDataLine, fontSizeIndex, headingTitle, isCategory, isOpened, onToggle, tooltip }) => (
@@ -45,12 +44,7 @@ const SidebarDropdown = ({ tabIndex, title, isDataLine, fontSizeIndex, headingTi
             <i className="fa fa-caret-down"></i>
           </span>
         )
-      }
-      <ReactTooltip 
-        place="top"
-        type="info" 
-        effect="float"
-      />
+      }     
     </button>
   </div>
 );
