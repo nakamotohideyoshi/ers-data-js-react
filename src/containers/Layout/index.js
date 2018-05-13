@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactLoading from 'react-loading';
 import { Grid, Col } from 'react-bootstrap';
 import Sidebar from '../Sidebar';
 import MainContainer from '../MainContainer';
