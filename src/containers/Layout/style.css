@@ -42,3 +42,16 @@
 .font-increase-2 {
   font-size: 2em
 }
+.loading-bar {
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  background-color: #1c1e1fb3;
+  position: absolute;  
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+  flex-flow: column;
+}
