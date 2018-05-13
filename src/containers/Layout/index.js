@@ -2013,8 +2013,13 @@ export default class Layout extends React.Component {
       arms_topic_abb = arms_topic_abb.concat(pre_filters[i].topic_abb)
     }
     let sortedYears = yearsInfo.sort(function(a, b){return parseInt(b.year, 10) - parseInt(a.year, 10)})
-    return (
+    return (      
       <Grid>
+        <ReactLoading
+          className='loading-bar'
+          type='bars'
+          color='#95ceff'
+        />
         <Sidebar
           arms_report_num = {arms_report_num}
           arms_sub_report = {arms_sub_report}
