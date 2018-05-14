@@ -154,7 +154,6 @@ span.top_heading{
 .selected-headers {
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: pre-wrap;
 }
 
 .lhs-help-img {
