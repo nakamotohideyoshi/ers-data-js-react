@@ -24,13 +24,15 @@ export default class ChartGenerator extends React.Component {
   }
   componentWillMount() {
     const { series, categories, title, chartType, whichOneMultiple, fontSizeIndex } = this.props
-    if (series.length > 0)
-    this.generateConfig(series, categories, title, chartType, whichOneMultiple, fontSizeIndex)
+    if (series.length > 0) {
+      this.generateConfig(series, categories, title, chartType, whichOneMultiple, fontSizeIndex)
+    }
   }
   componentWillReceiveProps(props) {
     const { series, categories, title, chartType, whichOneMultiple, fontSizeIndex } = props
-    if (series.length > 0)    
-    this.generateConfig(series, categories, title, chartType, whichOneMultiple, fontSizeIndex)
+    if (series.length > 0)  {
+      this.generateConfig(series, categories, title, chartType, whichOneMultiple, fontSizeIndex)
+    }
   }
   generateCSVChart(series, categories) {
       let csvChartArray = [["Categories"]]
@@ -556,7 +558,7 @@ export default class ChartGenerator extends React.Component {
     }
   }
   render() {
-    const { fontSizeIndex } = this.props
+    const { fontSizeIndex, isGovernmentPayments, incomeArr } = this.props
     const { config, isDropdownOpened, csvChartArray, csvTableArray } = this.state
 
     return (
@@ -591,7 +593,14 @@ export default class ChartGenerator extends React.Component {
             }
           </div>
         </div>
-        <ReactHighcharts config = {config} ref="chart" />
+        {
+          isGovernmentPayments && <ReactHighcharts config = {config} ref="chart" />
+        }
+        {
+          !isGovernmentPayments && (
+
+          )
+        }
       </div>
     )
   }
