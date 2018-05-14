@@ -14,11 +14,13 @@ class SheetDataChart extends Component {
   state = {
     incomeArr: [],
     chartTypeIndex: 0,
-    isLineEnabled: true
+    isLineEnabled: true,
+    isGovernmentPayments: false
   }
   componentWillReceiveProps(props) {
     const { showList, surveyData, categories, whichOneMultiple } = props
     let incomeArr = []
+    let gpArr = []    
     let isGovernmentPayments = false
 
     if (surveyData) {
@@ -46,6 +48,7 @@ class SheetDataChart extends Component {
             singleIncome.id = dataSourceCategories.dataSource + element.topic_abb
             singleIncome.report = element.report_dim.header
             singleIncome.header = element.topic_dim.header
+            singleIncome.group_header = element.topic_dim.group_header
             singleIncome.unit_desc = element.topic_dim.unit_desc
               let estimateList = []
               let rseList = []
@@ -65,6 +68,17 @@ class SheetDataChart extends Component {
               singleIncome.estimateList = estimateList
               singleIncome.rseList = rseList
               singleIncome.medianList = medianList
+              singleIncome.isGovernmentPayments = isGovernmentPayments
+              if (isGovernmentPayments) {
+                let duplicateHeaderElement = false
+                incomeArr.forEach(item => {
+                  if (singleIncome.header === item.header)
+                    duplicateHeaderElement = true
+                })  
+                if (!duplicateHeaderElement) {
+                  gpArr.push(singleIncome)
+                }
+              }
               incomeArr.push(singleIncome)
           } else {
               categories.forEach((category, index) => {
@@ -80,6 +94,30 @@ class SheetDataChart extends Component {
         })
       })
     }
+
+    const gpList = {}
+    let gpDataSet = []
+
+    incomeArr.forEach(income => {
+      if (income.group_header !== undefined)
+        if (gpList[income.header]) {
+          const result = gpList[income.header].find( element => element.group_header === income.group_header );
+          if (!result) {
+            gpList[income.header].push(income)
+          }            
+        } else {
+          gpList[income.header] = [income]
+        }
+    })
+
+    let indx = 0
+    gpArr.forEach(income => {
+      if (income.id) {
+        gpDataSet[indx] = gpList[income.header]
+        indx++
+      }
+    })
+
     if (incomeArr.length > 0) {
       if (incomeArr[0].estimateList.length === 1) {
         this.switchChartType(0)
@@ -89,12 +127,14 @@ class SheetDataChart extends Component {
       }
     }
     this.setState({ incomeArr: incomeArr.slice() })
+    this.setState({ isGovernmentPayments })
+    
   }
   switchChartType(chartTypeIndex) {
     this.setState({ chartTypeIndex })
   }
   render() {
-    const { incomeArr, chartTypeIndex, isLineEnabled } = this.state
+    const { incomeArr, chartTypeIndex, isLineEnabled, isGovernmentPayments } = this.state
     const { categories, blockIndex, fontSizeIndex, whichOneMultiple } = this.props
     let chartTitle = ''
     if (incomeArr.length > 0 && blockIndex < 1) chartTitle = incomeArr[0].report
@@ -106,7 +146,7 @@ class SheetDataChart extends Component {
     else
       return (
         <div className="chart-container col-xs-12">
-          <ChartGenerator series={incomeArr} categories={categories} title={chartTitle} chartType={chartType} fontSizeIndex={fontSizeIndex} whichOneMultiple={whichOneMultiple} />
+          <ChartGenerator series={incomeArr} categories={categories} title={chartTitle} chartType={chartType} fontSizeIndex={fontSizeIndex} whichOneMultiple={whichOneMultiple} isGovernmentPayments={isGovernmentPayments} />
           <div className="chart-type-container">
             <span className={`font-${fontSizeIndex}-small`}>Chart Type:</span>
             <OptionGroup options={chartTypesArray} selectedIndex={chartTypeIndex} fontSizeIndex={fontSizeIndex} onSelect={(index) => this.switchChartType(index)} tabIndex={1300} />
