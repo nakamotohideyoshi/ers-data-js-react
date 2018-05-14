@@ -23,15 +23,21 @@ export default class ChartGenerator extends React.Component {
     csvTableArray: [],    
   }
   componentWillMount() {
-    const { series, categories, title, chartType, whichOneMultiple, fontSizeIndex } = this.props
+    const { series, categories, title, chartType, whichOneMultiple, fontSizeIndex, isGovernmentPayments } = this.props
     if (series.length > 0) {
-      this.generateConfig(series, categories, title, chartType, whichOneMultiple, fontSizeIndex)
+      if (isGovernmentPayments)
+        this.generateGPConfig(series, categories, title, chartType, whichOneMultiple, fontSizeIndex)
+      else 
+        this.generateConfig(series, categories, title, chartType, whichOneMultiple, fontSizeIndex)
     }
   }
   componentWillReceiveProps(props) {
-    const { series, categories, title, chartType, whichOneMultiple, fontSizeIndex } = props
+    const { series, categories, title, chartType, whichOneMultiple, fontSizeIndex, isGovernmentPayments } = props
     if (series.length > 0)  {
-      this.generateConfig(series, categories, title, chartType, whichOneMultiple, fontSizeIndex)
+      if (isGovernmentPayments)
+        this.generateGPConfig(series, categories, title, chartType, whichOneMultiple, fontSizeIndex)
+      else 
+        this.generateConfig(series, categories, title, chartType, whichOneMultiple, fontSizeIndex)
     }
   }
   generateCSVChart(series, categories) {
@@ -132,6 +138,78 @@ export default class ChartGenerator extends React.Component {
     })
     
     return breaksArr
+  }
+  generateGPConfig(series, categories, title, chartType, whichOneMultiple, fontSizeIndex) {
+    const chartFont = fontSizeIndex/5+1
+    const radius = 100
+    const xSpace = 30
+    const ySpace = 10
+    console.log(series)
+
+    const config = {
+      title: {
+        text: title,
+        style: { 
+          fontSize: chartFont*1.4+'em'
+        }
+      },
+      chart: {
+        height: (radius+ySpace)*(series.filter(item=> item.length > 1).length+1.5),
+        type: 'pie',
+        events: {
+          load: function () {
+            const label = this.renderer.label("Source: Economic Research Services, US Dept of Agriculture")
+              .css({
+                fontSize: chartFont*0.9+'em',
+                color: '#000000'
+              })
+              .add();
+            label.align(ReactHighcharts.Highcharts.extend(label.getBBox(), {
+              align: 'right',
+              x: 0, // offset
+              verticalAlign: 'bottom',
+              y: -10 // offset
+            }), null, 'spacingBox');
+
+            this.renderer.image('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAUCAYAAABxnDbHAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAq1JREFUeNrElG1ozVEcx8+uu83zU9tKYWa2MBaTh6Zle6FbEqKwUkqSSChPuWWJW/JG44XEC4WWF2RR3KKrECLPxBReIDO0eRrTxuf33/fa/652SbP96nPO+Z//+Z3fw/mdk+JCkbBzbjJsctFwjTMJRSbRLuR7M+OZjFdABtyDjVAAFa5N3sEjOI7OK+eXUGQxbYz52vhUADJhLrz1LW2GUShM9TZybo2pQxoMhp/SuQjzYTeMhRp0FrhEMSdX+icCrmP5BMUy8ANPm+jXQWPCqmi4xctQNLycr7NwFMPZirKEdgKsYpz2N0ZNLiuyhyiZwVQ2b0iy/iD0hCX6Xg1bIQsW/clovaK4QWtn0gP2eOcWioxLYvSl+mGsG0rfW3q1ylJSoym+9NmZ5sA2sI22JzE6XP1TL6XOPYNZcAuKcGR63GidFmb5lG3zjywqluHPsIPRVRiUxOgyaFDxzYY7MBBOqTjXtkYUiuTrZ5W8S4cjsNfzzrnvsE9R2LotcB1uw3rYDyNhgyraqjnPWx8NV/iuzknaOZa1gO6mhR2E8171OXeM+Qv0JyAXTsMhz0g0fEDpr4ZSRWXX4qZ3zZy7BhPhXLssmNEzloEUV15mEfSFDx5VsSbXGVJe1k/7WjUP8P2pM6OHlZIWTX6BFyqC+3DF874q1uzb0K5RvtKaI7JVF5l6vVI7cKfSjI5mMEIexcWi/aYrMATGa6MpUAj95dRz8fp3ppx7r75eAQT0kqXHH52g3lXz+gE8UbmblyU6sz76dxd2eQ9F6/3L9e5ja6XbeJoizZCOpbSXDLaLtC1llpZysMjfwCV4DGNUGEV66PNk9F+lMqjzKZR31UpVqa5MQcJD0UkSlNd2ZvNghp68/ypmdCcsdV0oAdcN0i1GLb1f9Uh3lTT+EmAAt2yr1kwO7ucAAAAASUVORK5CYII=', label.alignAttr.x-40,label.alignAttr.y+2*fontSizeIndex, 30, 20).add();
+              
+          }
+        },
+      },  
+      credits: {
+        enabled: false
+      },
+      exporting: {
+        enabled: false
+      },
+      series: []
+    }
+    series.forEach((singleGroup, groupIndex) => {
+      if (singleGroup.length > 1) {
+        categories.forEach((category, catIndex) => {
+          const singleLine = {
+            type: 'pie',
+            colorByPoint: true,
+            name: category,
+            center: [(radius+xSpace)*(catIndex+1), (radius+ySpace)*(groupIndex+1)],
+            size: radius,
+            dataLabels: {
+              enabled: false
+            },
+            data: [
+            ]
+          }
+          const singleLineData = []
+            singleGroup.forEach((subItem, subIndex) => {
+              if (subItem.group_header !== 'All farms')
+              singleLineData.push([subItem.group_header, subItem.estimateList[catIndex]])
+            })
+          singleLine.data = singleLineData
+          config.series.push(singleLine)
+        })
+      }
+    })
+    this.setState({ config: Object.assign({}, config) })
   }
   generateConfig(series, categories, title, chartType, whichOneMultiple, fontSizeIndex) {
  
@@ -558,7 +636,7 @@ export default class ChartGenerator extends React.Component {
     }
   }
   render() {
-    const { fontSizeIndex, isGovernmentPayments, incomeArr } = this.props
+    const { fontSizeIndex } = this.props
     const { config, isDropdownOpened, csvChartArray, csvTableArray } = this.state
 
     return (
@@ -594,12 +672,7 @@ export default class ChartGenerator extends React.Component {
           </div>
         </div>
         {
-          isGovernmentPayments && <ReactHighcharts config = {config} ref="chart" />
-        }
-        {
-          !isGovernmentPayments && (
-
-          )
+          <ReactHighcharts config = {config} ref="chart" />
         }
       </div>
     )
