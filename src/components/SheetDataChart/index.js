@@ -117,7 +117,9 @@ class SheetDataChart extends Component {
         indx++
       }
     })
-
+    if (isGovernmentPayments)
+      incomeArr = gpDataSet
+      
     if (incomeArr.length > 0) {
       if (incomeArr[0].estimateList.length === 1) {
         this.switchChartType(0)
