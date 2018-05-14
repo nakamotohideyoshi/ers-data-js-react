@@ -2014,7 +2014,7 @@ export default class Layout extends React.Component {
     }
     let sortedYears = yearsInfo.sort(function(a, b){return parseInt(b.year, 10) - parseInt(a.year, 10)})
     return (      
-      <Grid>
+      <Grid>        
         <div
           className='loading-bar'
         >
@@ -2022,7 +2022,7 @@ export default class Layout extends React.Component {
             type='bars'
             color='#95ceff'
           />
-        </div>
+        </div>      
         <Sidebar
           arms_report_num = {arms_report_num}
           arms_sub_report = {arms_sub_report}
