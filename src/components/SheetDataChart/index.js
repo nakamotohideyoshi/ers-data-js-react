@@ -26,6 +26,9 @@ class SheetDataChart extends Component {
     if (surveyData) {
       surveyData.forEach((dataSourceCategories, index) => {
         dataSourceCategories.data.forEach((element, i) => {
+          if (dataSourceCategories.report === 'Government Payments') {
+            isGovernmentPayments = true
+          }
           let singleIncome = {}
           let currentIndex = 0
 
