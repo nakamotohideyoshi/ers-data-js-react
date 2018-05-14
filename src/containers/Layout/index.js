@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactLoading from 'react-loading';
 import { Grid, Col } from 'react-bootstrap';
 import Sidebar from '../Sidebar';
 import MainContainer from '../MainContainer';
@@ -2010,8 +2011,16 @@ export default class Layout extends React.Component {
       arms_topic_abb = arms_topic_abb.concat(pre_filters[i].topic_abb)
     }
     let sortedYears = yearsInfo.sort(function(a, b){return parseInt(b.year, 10) - parseInt(a.year, 10)})
-    return (
-      <Grid>
+    return (      
+      <Grid>        
+        <div
+          className='loading-bar'
+        >
+          <ReactLoading
+            type='bars'
+            color='#95ceff'
+          />
+        </div>      
         <Sidebar
           arms_report_num = {arms_report_num}
           arms_sub_report = {arms_sub_report}

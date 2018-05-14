@@ -24,7 +24,8 @@ class MainContainer extends React.Component {
     years: [],
     surveyData: [],
     showData: [],
-    footnotes: []    
+    footnotes: [],
+    isLoading: true    
   }
 
   componentWillMount() {
@@ -37,7 +38,7 @@ class MainContainer extends React.Component {
 
   componentWillReceiveProps(props) {
 
-    let {surveyData, showList} = this.state
+    let {surveyData, showList, isLoading} = this.state
     let showData = []
     
     if (!props.isGetSurveyData && props.isRemoveDataSource) {
@@ -47,8 +48,9 @@ class MainContainer extends React.Component {
       const updateArmsData = this.updateArmsData(surveyData)
       showList = updateArmsData.showList
       showData = updateArmsData.showData
+      isLoading = false
       
-      this.setState({ showList, surveyData, showData })
+      this.setState({ showList, surveyData, showData, isLoading})
 
     } else if (props.isGetSurveyData) {
       if (props.charts) {
@@ -76,7 +78,11 @@ class MainContainer extends React.Component {
           } else {            
             surveyData[0] = []
             showList = {}            
-          }          
+          }
+          
+          isLoading = false
+        } else {
+          isLoading = true
         }
       } else if (props.charts1) {
         if(props.charts1.networkStatus === 7) {
@@ -103,7 +109,10 @@ class MainContainer extends React.Component {
           } else {            
             surveyData[0] = []
             showList = {}            
-          }          
+          }
+          isLoading = false          
+        } else {
+          isLoading = true
         }
       }
 
@@ -117,6 +126,9 @@ class MainContainer extends React.Component {
             } else {
               surveyData[props.blockIndex] = []
             }
+            isLoading = false
+          } else {
+            isLoading = true
           }
         }
       } else {
@@ -129,6 +141,7 @@ class MainContainer extends React.Component {
               } else {
                 surveyData[i] = []
               }
+              isLoading = false
             }
           }
         }
@@ -163,7 +176,7 @@ class MainContainer extends React.Component {
         showData = updateArmsData.showData
       }
       // ---------------------------------
-      this.setState({ showList, surveyData, showData })
+      this.setState({ showList, surveyData, showData, isLoading })
 
       // Compose footnote
       let footnotes = []
@@ -201,6 +214,9 @@ class MainContainer extends React.Component {
       }
       // ---------------------------------
       
+    } else {
+      isLoading = true
+      this.setState({isLoading})
     }
   
   }
@@ -235,6 +251,17 @@ class MainContainer extends React.Component {
     })
     return { showList, showData }
   }
+
+  showLoadingbar() {
+    document.getElementById('root').className = 'loading'
+    document.body.style.overflow = 'hidden'
+  }
+
+  hideLoadingbar() {
+    document.getElementById('root').className = ''
+    document.body.style.overflow = 'unset'
+  }
+
   hideItem(dataId) {
     const { showList } = this.state
     showList[dataId] = false
@@ -259,10 +286,14 @@ class MainContainer extends React.Component {
   }
 
   render() {
-    const { showList, showData, footnotes } = this.state
+    const { showList, showData, footnotes, isLoading } = this.state
     const { selectedYears, selectedStateNames, whichOneMultiple, blockIndex, fontSizeIndex, isGetSurveyData } = this.props
     const categories = whichOneMultiple === YEAR_SELECTED ? selectedYears.sort(function(a, b){return a-b}) : selectedStateNames
-
+    if (isLoading) {
+      this.showLoadingbar()
+    } else {
+      this.hideLoadingbar()
+    }
     return (
       <div>
         <SheetDataChart 
@@ -272,7 +303,8 @@ class MainContainer extends React.Component {
           whichOneMultiple={whichOneMultiple}
           blockIndex={blockIndex}
           fontSizeIndex={fontSizeIndex}              
-          isGetSurveyData={isGetSurveyData}       
+          isGetSurveyData={isGetSurveyData}
+          isLoading = {isLoading}     
         />
         <TableContainer 
           categories={categories}
