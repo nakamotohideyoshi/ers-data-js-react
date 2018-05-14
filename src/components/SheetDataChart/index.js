@@ -117,15 +117,16 @@ class SheetDataChart extends Component {
         indx++
       }
     })
-    if (isGovernmentPayments)
+    if (isGovernmentPayments) {
       incomeArr = gpDataSet
-      
-    if (incomeArr.length > 0) {
-      if (incomeArr[0].estimateList.length === 1) {
-        this.switchChartType(0)
-        this.setState({ isLineEnabled: false })
-      } else {
-        this.setState({ isLineEnabled: true })
+    } else {
+      if (incomeArr.length > 0) {
+        if (incomeArr[0].estimateList.length === 1) {
+          this.switchChartType(0)
+          this.setState({ isLineEnabled: false })
+        } else {
+          this.setState({ isLineEnabled: true })
+        }
       }
     }
     this.setState({ incomeArr: incomeArr.slice() })
