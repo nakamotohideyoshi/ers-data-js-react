@@ -252,6 +252,17 @@ class MainContainer extends React.Component {
     })
     return { showList, showData }
   }
+
+  showLoadingbar() {
+    document.getElementById('root').className = 'loading'
+    document.body.style.overflow = 'hidden'
+  }
+
+  hideLoadingbar() {
+    document.getElementById('root').className = ''
+    document.body.style.overflow = 'unset'
+  }
+
   hideItem(dataId) {
     const { showList } = this.state
     showList[dataId] = false
@@ -279,7 +290,11 @@ class MainContainer extends React.Component {
     const { showList, showData, footnotes, isLoading } = this.state
     const { selectedYears, selectedStateNames, whichOneMultiple, blockIndex, fontSizeIndex, isGetSurveyData } = this.props
     const categories = whichOneMultiple === YEAR_SELECTED ? selectedYears.sort(function(a, b){return a-b}) : selectedStateNames
-
+    if (isLoading) {
+      this.showLoadingbar()
+    } else {
+      this.hideLoadingbar()
+    }
     return (
       <div>
         <SheetDataChart 
