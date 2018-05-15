@@ -17,9 +17,7 @@ class Footnote extends React.Component{
         if (props.tailorfootnote) {
           if(props.tailorfootnote.networkStatus === 7 && props.tailorfootnote.tailorfootnote) {
             props.tailorfootnote.tailorfootnote.forEach(footnote => {
-              const obj = {}
-              obj.text = footnote.text
-              footnotes.push(obj)
+              footnotes.push(footnote)
             })
           }
         }
@@ -30,9 +28,7 @@ class Footnote extends React.Component{
             const datasource = 'datasource'+i
             if (props.armsdatafootnote[datasource]) {
               props.armsdatafootnote[datasource].forEach(footnote => {
-                const obj = {}
-                obj.text = footnote.text
-                footnotes.push(obj)
+                footnotes.push(footnote)
               })
             }
           }
@@ -51,22 +47,18 @@ class Footnote extends React.Component{
         <div className={`footnote font-${fontSizeIndex}-normal`}>
           <br />
           <span>Footnote</span><br />
-          <strong>*</strong> — Statistically unreliable due to a low sample size.<br />
-          <strong>ª</strong> — The Relative Standard Error (RSE) is the standard error of the estimate expressed as a percent of the estimate.<br />
           {
             footnotes.map((val, index) => {
+               if (val.is_global == 1 || (val.is_global === 0 && val.report_num === this.props.report_num_0[0]))
               return(
                 (
                   <div key={index.toString()}>
-                    <strong>{index+1}</strong> {' - ' + val.text}<br />
+                    <strong>{val.sign}</strong> {' - ' + val.text}<br />
                   </div>
                 )                
               )
             })
           }
-          <strong>NA</strong> — Estimate does not comply with NASS disclosure practices, is not available, or is not applicable.<br />
-          <strong>Source:</strong>  Agricultural Resource Management Survey (ARMS), USDA.<br />
-          <strong>Date</strong>: Published on December 8, 2016 (see Update &amp; Revision History for details).<br />
         </div>
       </Col>
     )
