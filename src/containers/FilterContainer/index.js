@@ -46,8 +46,7 @@ export default class FilterContainer extends React.Component {
     // filters, and pre_filters state intialize
     let filters = this.initFilterState()
     let pre_filters = this.initFilterState()
-
-    console.log('test', filters, pre_filters)
+    
     this.setState({
       filters,
       pre_filters
@@ -92,31 +91,7 @@ export default class FilterContainer extends React.Component {
     })    
   }
 
-
-  initialLoadingTailor = (topic_abb, sub_report, blockIndex) => {
-    let {pre_filters} = this.state
-
-    const isRemoveDataSource = false
-    const isGetSurveyData = false
-
-    pre_filters[blockIndex].sub_report = sub_report
-    pre_filters[blockIndex].topic_abb = topic_abb
-    pre_filters[blockIndex].subject_num = []
-    pre_filters[blockIndex].serie = []
-    pre_filters[blockIndex].serie_element = []
-
-    const runQuery = pre_filters[blockIndex].report_num[0] === 6 ? 'dlrTailored' : 'dlTailored'
-
-    this.setState({
-      pre_filters,
-      isRemoveDataSource,
-      isGetSurveyData,
-      priority: [],
-      blockIndex,
-      runQuery
-    })
-  }
-
+  // Repot category
 
   onSelectReportCategory = () => {
     const blockIndex = 0
@@ -124,14 +99,10 @@ export default class FilterContainer extends React.Component {
     const isGetSurveyData = false
     const isAllDataSources = false
 
-    let {pre_filters} = this.state
+    let pre_filters = this.initFilterState()
     let runQuery = 'initialize'
 
     pre_filters[blockIndex].report_num = [1]
-    pre_filters[blockIndex].subject_num = []
-    pre_filters[blockIndex].topic_abb = []
-    pre_filters[blockIndex].serie = []
-    pre_filters[blockIndex].serie_element = []
 
     this.setState({
       pre_filters,
@@ -145,8 +116,27 @@ export default class FilterContainer extends React.Component {
     })
   }
 
-  resetFilterByBlockIndex = (blockIndex) => {
+  // Arms Data Analysis Category selected firstly
+  selectAnalysisCategory = () => {
+    let pre_filters = this.initFilterState()
+    const blockIndex = 1
+    pre_filters[blockIndex].report_num = [1]
+    const isRemoveDataSource = false
+    const isGetSurveyData = false
+    const isAllDataSources = false
 
+    this.setState({
+      isRemoveDataSource,
+      isGetSurveyData,
+      isAllDataSources,
+      pre_filters,
+      runQuery: 'dAnalysis',
+      blockIndex
+    })
+  }
+
+  // Reset LHS Filter
+  resetFilterByBlockIndex = (blockIndex) => {
     const isRemoveDataSource = false
     const isGetSurveyData = false
     const isAllDataSources = false
@@ -180,14 +170,34 @@ export default class FilterContainer extends React.Component {
   }  
 
 
-  // reset [Filter By, Year, State]
-  // run query to refresh [serie_element]
-  resetSYRFilter = (serie, years, states, blockIndex) => {
-    let {pre_filters, temp_Years, selectedYears, temp_States, selectedStates, whichOneMultiple, isReset} = this.state
+  initialLoadingTailor = (topic_abb, sub_report, blockIndex) => {
+    let {pre_filters} = this.state
 
-    pre_filters[blockIndex].serie = serie
+    const isRemoveDataSource = false
+    const isGetSurveyData = false
+
+    pre_filters[blockIndex].sub_report = sub_report
+    pre_filters[blockIndex].topic_abb = topic_abb
+    pre_filters[blockIndex].subject_num = []
+    pre_filters[blockIndex].serie = []
     pre_filters[blockIndex].serie_element = []
-    
+
+    const runQuery = pre_filters[blockIndex].report_num[0] === 6 ? 'dlrTailored' : 'dlTailored'
+
+    this.setState({
+      pre_filters,
+      isRemoveDataSource,
+      isGetSurveyData,
+      priority: [],
+      blockIndex,
+      runQuery
+    })
+  }
+
+  // Reset Year List
+  resetYears(years) {
+    let {temp_Years, selectedYears, whichOneMultiple, isReset} = this.state
+
     let prevYearCount = 0
 
     years.forEach(year => {
@@ -234,6 +244,12 @@ export default class FilterContainer extends React.Component {
       temp_Years = []
     }
 
+    return { yearsInfo, temp_Years, reSelectedYears }
+  }
+
+  // reset States List 
+  resetStates(states) {
+    let {temp_States, selectedStates, whichOneMultiple, isReset} = this.state
 
     let prevStateCount = 0
 
@@ -285,6 +301,23 @@ export default class FilterContainer extends React.Component {
     if (reSelectedStates.length !== 0) {
       temp_States = []
     }
+
+    return {statesInfo, temp_States, reSelectedStates, selectedStateNames}
+
+  }
+
+
+  // reset [Filter By, Year, State]
+  // run query to refresh [serie_element]
+  resetSYRFilter = (serie, years, states, blockIndex) => {
+    let {pre_filters} = this.state
+
+    pre_filters[blockIndex].serie = serie
+    pre_filters[blockIndex].serie_element = []
+
+    const yearsData = this.resetYears(years)
+    const statesData = this.resetStates(states)
+    
     
     const isRemoveDataSource = false
     const isGetSurveyData = false
@@ -294,28 +327,27 @@ export default class FilterContainer extends React.Component {
       pre_filters,
       isRemoveDataSource,
       isGetSurveyData,
-      blockIndex: blockIndex,
-      yearsInfo: yearsInfo,
-      temp_Years,
-      selectedYears: reSelectedYears,
-      statesInfo: statesInfo,
-      temp_States,
-      selectedStates: reSelectedStates,
-      selectedStateNames: selectedStateNames,
+      blockIndex,
+      yearsInfo: yearsData.yearsInfo,
+      temp_Years: yearsData.temp_Years,
+      selectedYears: yearsData.reSelectedYears,
+      statesInfo: statesData.statesInfo,
+      temp_States: statesData.temp_States,
+      selectedStates: statesData.selectedStates,
+      selectedStateNames: statesData.selectedStateNames,
       runQuery
     })
   }
 
   // resest [ Filter By/Sub ]
   resetEFilter = (serie_element, blockIndex) => {
-    let {pre_filters, filters} = this.state
+    let {pre_filters} = this.state
     pre_filters[blockIndex].serie_element = serie_element
     const isRemoveDataSource = false
     const isGetSurveyData = true
 
     this.setState({
       pre_filters,
-      filters,
       isRemoveDataSource,
       isGetSurveyData,
       blockIndex: blockIndex,
@@ -326,250 +358,55 @@ export default class FilterContainer extends React.Component {
 
   // reset [ Filter By/Sub, Year, Region]
   resetEYRFilter = (serie_element, years, states, blockIndex) => {
-    let {filters, pre_filters, temp_Years, selectedYears, temp_States, selectedStates, whichOneMultiple, isReset} = this.state
+    let {pre_filters} = this.state
     pre_filters[blockIndex].serie_element = serie_element
 
-    let prevYearCount = 0
-
-    years.forEach(year => {
-      if (selectedYears.indexOf(year) > -1) {
-        prevYearCount++
-      }
-    })
-
-    let yearCount = whichOneMultiple === YEAR_SELECTED ? (prevYearCount === 0 ? (temp_Years.length===0 ? defaultYearCount : 0) : prevYearCount) : (temp_Years.length===0 ? 1 : 0)
-
-    if (isReset) {
-      yearCount = whichOneMultiple === YEAR_SELECTED ? defaultYearCount : 1
-      prevYearCount = 0
-    }
-
-    let yearsInfo = []
-    let reSelectedYears = []
-    let currentYearCount = 0
-    temp_Years = []
-
-    years.forEach(year => {
-      temp_Years.push(year)
-      const infoObj = {}
-      infoObj.year = year
-      if (prevYearCount === 0) {
-        if (years.indexOf(year) >= 0 && years.indexOf(year) < yearCount) {
-          infoObj.checked = true
-          reSelectedYears.push(year)
-        } else {
-          infoObj.checked = false
-        }
-      } else {
-        if (selectedYears.indexOf(year) > -1 && currentYearCount < yearCount) {
-          infoObj.checked = true
-          reSelectedYears.push(year)
-          currentYearCount++
-        } else {
-          infoObj.checked = false
-        }
-      }        
-      yearsInfo.push(infoObj)
-    })
-    
-    if (reSelectedYears.length !== 0) {
-      temp_Years = []
-    }
-
-    let prevStateCount = 0
-
-    states.forEach(stateN => {
-      if (selectedStates.indexOf(stateN.id) > -1) {
-        prevStateCount++
-      }
-    })
-
-    let stateCount = whichOneMultiple === YEAR_SELECTED ? (temp_States.length === 0 ? defaultStateCount : 0) : (prevStateCount === 0 ? (temp_States.length === 0 ? defaultStateCount : 0) : prevStateCount)
-
-    if (isReset) {
-      prevStateCount = 0
-      stateCount = defaultStateCount
-    }
-
-    let statesInfo = []
-    let reSelectedStates = []
-    let selectedStateNames = []
-    let currentStateCount = 0
-    temp_States = []
-
-    states.forEach(stateN => {
-      temp_States.push(stateN.id)
-      const obj = {}
-      obj.name = stateN.name
-      obj.id = stateN.id
-      if (prevStateCount === 0) {
-        if (states.indexOf(stateN) >= 0 && states.indexOf(stateN) < stateCount) {
-          obj.checked = true
-          reSelectedStates.push(stateN.id)
-          selectedStateNames.push(stateN.name)
-        } else {
-          obj.checked = false 
-        }
-      } else {
-        if (selectedStates.indexOf(stateN.id) > -1 && currentStateCount < stateCount) {
-          obj.checked = true
-          reSelectedStates.push(stateN.id)
-          selectedStateNames.push(stateN.name)
-          currentStateCount++
-        } else {
-          obj.checked = false
-        }
-      }   
-      statesInfo.push(obj)     
-    })
-
-    if (reSelectedStates.length !== 0) {
-      temp_States = []
-    }
+    const yearsData = this.resetYears(years)
+    const statesData = this.resetStates(states)
 
     const isRemoveDataSource = false
     const isGetSurveyData = true
 
     this.setState({
-      filters,
       pre_filters,
       isRemoveDataSource,
       isGetSurveyData,
       blockIndex,
-      yearsInfo: yearsInfo,
-      temp_Years,
-      selectedYears: reSelectedYears,
-      statesInfo: statesInfo,
-      temp_States,
-      selectedStates: reSelectedStates,
-      selectedStateNames: selectedStateNames,
+      yearsInfo: yearsData.yearsInfo,
+      temp_Years: yearsData.temp_Years,
+      selectedYears: yearsData.reSelectedYears,
+      statesInfo: statesData.statesInfo,
+      temp_States: statesData.temp_States,
+      selectedStates: statesData.selectedStates,
+      selectedStateNames: statesData.selectedStateNames,
       isReset: false,
       runQuery: ''
     })
-
   }
 
   // reset [ Year, Region ]
   resetYRFilter = (years, states, blockIndex) => {
-
-    let {filters, pre_filters, temp_Years, selectedYears, temp_States, selectedStates, whichOneMultiple, isReset} = this.state
-
-    let prevYearCount = 0
-
-    years.forEach(year => {
-      if (selectedYears.indexOf(year) > -1) {
-        prevYearCount++
-      }
-    })
-    let yearCount = whichOneMultiple === YEAR_SELECTED ? (prevYearCount === 0 ? (temp_Years.length===0 ? defaultYearCount : 0) : prevYearCount) : (temp_Years.length===0 ? 1 : 0)
-
-    if (isReset) {
-      yearCount = whichOneMultiple === YEAR_SELECTED ? defaultYearCount : 1
-      prevYearCount = 0
-    }
-
-    let yearsInfo = []
-    let reSelectedYears = []
-    let currentYearCount = 0
-    temp_Years = []
-
-    years.forEach(year => {
-      const infoObj = {}
-      infoObj.year = year
-      if (prevYearCount === 0) {
-        if (years.indexOf(year) >= 0 && years.indexOf(year) < yearCount) {
-          infoObj.checked = true
-          reSelectedYears.push(year)
-        } else {
-          infoObj.checked = false
-        }
-      } else {
-        if (selectedYears.indexOf(year) > -1 && currentYearCount < yearCount) {
-          infoObj.checked = true
-          reSelectedYears.push(year)
-          currentYearCount++
-        } else {
-          infoObj.checked = false
-        }
-      }        
-      yearsInfo.push(infoObj)
-    })
-
-    if (reSelectedYears.length !== 0) {
-      temp_Years = []
-    }
-
-    let prevStateCount = 0
-
-    states.forEach(stateN => {
-      if (selectedStates.indexOf(stateN.id) > -1) {
-        prevStateCount++
-      }
-    })
-
-    let stateCount = whichOneMultiple === YEAR_SELECTED ? (temp_States.length === 0 ? defaultStateCount : 0) : (prevStateCount === 0 ? (temp_States.length === 0 ? defaultStateCount : 0) : prevStateCount)
-
-    if (isReset) {
-      prevStateCount = 0
-      stateCount = defaultStateCount
-    }
-
-    let statesInfo = []
-    let reSelectedStates = []
-    let selectedStateNames = []
-    let currentStateCount = 0
-    temp_States = []
-
-    states.forEach(stateN => {
-      temp_States.push(stateN.id)
-      const obj = {}
-      obj.name = stateN.name
-      obj.id = stateN.id
-      if (prevStateCount === 0) {
-        if (states.indexOf(stateN) >= 0 && states.indexOf(stateN) < stateCount) {
-          obj.checked = true
-          reSelectedStates.push(stateN.id)
-          selectedStateNames.push(stateN.name)
-        } else {
-          obj.checked = false 
-        }
-      } else {
-        if (selectedStates.indexOf(stateN.id) > -1 && currentStateCount < stateCount) {
-          obj.checked = true
-          reSelectedStates.push(stateN.id)
-          selectedStateNames.push(stateN.name)
-          currentStateCount++
-        } else {
-          obj.checked = false
-        }
-      }   
-      statesInfo.push(obj)     
-    })
-
-    if (reSelectedStates.length !== 0) {
-      temp_States = []
-    }
+    const yearsData = this.resetYears(years)
+    const statesData = this.resetStates(states)
+    
 
     const isRemoveDataSource = false
     const isGetSurveyData = true
 
     this.setState({
-      filters,
-      pre_filters,
       isRemoveDataSource,
       isGetSurveyData,
       blockIndex,
-      yearsInfo: yearsInfo,
-      temp_Years,
-      selectedYears: reSelectedYears,
-      temp_States,
-      selectedStates: reSelectedStates,
-      statesInfo: statesInfo,
-      selectedStateNames: selectedStateNames,
+      yearsInfo: yearsData.yearsInfo,
+      temp_Years: yearsData.temp_Years,
+      selectedYears: yearsData.reSelectedYears,
+      statesInfo: statesData.statesInfo,
+      temp_States: statesData.temp_States,
+      selectedStates: statesData.selectedStates,
+      selectedStateNames: statesData.selectedStateNames,
       isReset: false,
       runQuery: ''
     })
-
   }
 
   // reset [ Year ]
@@ -1361,24 +1198,7 @@ export default class FilterContainer extends React.Component {
     })
   }
 
-  // Arms Data Analysis Category selected firstly
-  selectAnalysisCategory = () => {
-    let {pre_filters} = this.state
-    const blockIndex = 1
-    pre_filters[blockIndex].report_num = [1]
-    const isRemoveDataSource = false
-    const isGetSurveyData = false
-    const isAllDataSources = false
-
-    this.setState({
-      isRemoveDataSource,
-      isGetSurveyData,
-      isAllDataSources,
-      pre_filters,
-      runQuery: 'dAnalysis',
-      blockIndex
-    })
-  }
+  
 
   // Datasource block inital loading
   initialBlockLoadAnalysis = (topic_abb, sub_report, blockIndex) => {
@@ -1920,6 +1740,165 @@ export default class FilterContainer extends React.Component {
   }
   switchFontSize(fontSizeIndex) {
     this.setState({ fontSizeIndex })
+  }
+
+  render() {
+    const {
+      selectedStateNames,
+      blockIndex, 
+      yearsInfo,
+      selectedYears,
+      temp_Years,
+      statesInfo,
+      selectedStates,
+      temp_States,
+      whichOneMultiple,
+      isSelectedAll,
+      filters,
+      pre_filters,
+      runQuery,
+      isRemoveDataSource,
+      isAllDataSources,
+      isGetSurveyData,
+      isReset,
+      fontSizeIndex
+    } = this.state
+
+    let serie = []
+    let serie_element = []
+    let serie2 = []
+    let serie2_element = []
+
+    for (let i=0; i<9; i++) {
+      if (isGetSurveyData) {
+        filters[i].report_num = pre_filters[i].report_num
+        filters[i].sub_report = pre_filters[i].sub_report
+        filters[i].subject_num = pre_filters[i].subject_num
+        filters[i].topic_abb = pre_filters[i].topic_abb
+        filters[i].serie = pre_filters[i].serie
+        filters[i].serie_element = pre_filters[i].serie_element
+        filters[i].serie2 = pre_filters[i].serie2
+        filters[i].serie2_element = pre_filters[i].serie2_element
+      }
+      if (filters[i].serie_element.length > 1){
+        serie_element.push([0])
+        serie.push(['farm'])
+      } else {
+        serie.push(filters[i].serie)
+        serie_element.push(filters[i].serie_element)
+      }
+      if (filters[i].serie2_element.length > 1){
+        serie2_element.push([0])
+        serie2.push(['farm'])
+      } else {
+        serie2.push(filters[i].serie2)
+        serie2_element.push(filters[i].serie2_element)
+      }
+    }
+
+    let arms_report_num = []
+    let arms_sub_report = []
+    let arms_subject_num = []
+    let arms_serie = []
+    let arms_serie_element = []
+    let arms_serie2 = []
+    let arms_serie2_element = []
+    let arms_topic_abb = []
+
+    for (let i=1; i<dataSourceCounts+1; i++) {
+      arms_report_num = arms_report_num.concat(pre_filters[i].report_num)
+      arms_sub_report = arms_sub_report.concat(pre_filters[i].sub_report)
+      arms_subject_num = arms_subject_num.concat(pre_filters[i].subject_num)
+      arms_serie = arms_serie.concat(pre_filters[i].serie)
+      arms_serie_element = arms_serie_element.concat(pre_filters[i].serie_element)
+      arms_serie2 = arms_serie2.concat(pre_filters[i].serie2)
+      arms_serie2_element = arms_serie2_element.concat(pre_filters[i].serie2_element)
+      arms_topic_abb = arms_topic_abb.concat(pre_filters[i].topic_abb)
+    }
+    let sortedYears = yearsInfo.sort(function(a, b){return parseInt(b.year, 10) - parseInt(a.year, 10)})
+    console.log('test', filters, pre_filters)
+
+
+    return (  
+      <div>
+        <Sidebar
+          arms_report_num = {arms_report_num}
+          arms_sub_report = {arms_sub_report}
+          arms_subject_num = {arms_subject_num}
+          arms_topic_abb = {arms_topic_abb}
+          arms_serie = {arms_serie}
+          arms_serie_element = {arms_serie_element}
+          arms_serie2 = {arms_serie2}
+          arms_serie2_element = {arms_serie2_element}
+          reports = {this.props.reports}
+          report_num = {pre_filters[blockIndex].report_num}
+          sub_report = {pre_filters[blockIndex].sub_report}
+          topic_abb = {pre_filters[blockIndex].topic_abb}
+          subject_num = {pre_filters[blockIndex].subject_num}
+          serie = {pre_filters[blockIndex].serie}
+          serie_element={pre_filters[blockIndex].serie_element}
+          serie2 = {pre_filters[blockIndex].serie2}
+          serie2_element = {pre_filters[blockIndex].serie2_element}
+          selectedStates = {selectedStates.length === 0 ? temp_States : selectedStates}
+          selectedYears={selectedYears.length === 0 ? temp_Years : selectedYears}
+          runQuery={runQuery}
+          resetFilterByBlockIndex = {this.resetFilterByBlockIndex}
+          initialLoadingTailor  = {this.initialLoadingTailor }
+          resetSYRFilter = {this.resetSYRFilter}
+          resetEFilter = {this.resetEFilter}
+          resetEYRFilter = {this.resetEYRFilter}
+          resetYRFilter = {this.resetYRFilter}
+          resetYFilter = {this.resetYFilter}
+          resetRFilter = {this.resetRFilter}
+          resetSYFilter = {this.resetSYFilter}
+          resetSFilter = {this.resetSFilter}
+          resetEYFilter = {this.resetEYFilter}
+          resetSRFilter = {this.resetSRFilter}
+          resetERFilter = {this.resetERFilter}
+          onSelectReportFilter = {this.onSelectReportFilter}
+          onSelectReportCategory = {this.onSelectReportCategory}
+          onSelectSubReportFilter = {this.onSelectSubReportFilter}
+          onSelectSubjectFilter = {this.onSelectSubjectFilter}
+          onSelectFilterByFilter = {this.onSelectFilterByFilter}
+          onSelectSubFilterByFilter = {this.onSelectSubFilterByFilter} 
+          selectAnalysisCategory = {this.selectAnalysisCategory}
+          initialBlockLoadAnalysis = {this.initialBlockLoadAnalysis}
+          selectDataSource = {this.selectDataSource}
+          selectDataLineAnalysis = {this.selectDataLineAnalysis}
+          selectSubReportAnalysis = {this.selectSubReportAnalysis}
+          selectFarmTypeAnalsysis = {this.selectFarmTypeAnalsysis}
+          selectFilter1Analysis = {this.selectFilter1Analysis}
+          selectSubFilter1Analysis = {this.selectSubFilter1Analysis}
+          selectFilter2Analysis =  {this.selectFilter2Analysis}
+          selectSubFilter2Analysis = {this.selectSubFilter2Analysis}
+          selectYearAnalysis = {this.selectYearAnalysis}
+          selectStateAnalysis = {this.selectStateAnalysis}          
+          addDataSource = {this.addDataSource}
+          removeDataSource = {this.removeDataSource}
+          isReset = {isReset}
+          fontSizeIndex={fontSizeIndex}
+        />
+        <Col xs={12} md={12} sm={12} lg={9}>
+          <div className="font-sizes">
+            <OptionGroup options={fontSizeArray} selectedIndex={fontSizeIndex} tabIndex={900} onSelect={(index) => this.switchFontSize(index)} />
+          </div>
+          <h4 className="main-heading">
+            {blockIndex > 0 ? 'ARMS Data Analysis' : 'Tailored Reports'}
+          </h4>
+          <FilterDropdown 
+            yearsInfo={sortedYears} 
+            statesInfo={statesInfo} 
+            whichOneMultiple={whichOneMultiple}   
+            fontSizeIndex={fontSizeIndex} 
+            isSelectedAll={isSelectedAll}    
+            onSelectAll={this.onSelectAll}
+            onSelectYear={this.onSelectYear} 
+            onSelectState={this.onSelectState}
+            onSwitchMultiple={this.onSwitchMultiple}
+          />
+        </Col>
+      </div>
+    )
   }
 
 
