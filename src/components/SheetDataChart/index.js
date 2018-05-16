@@ -140,11 +140,10 @@ class SheetDataChart extends Component {
     const chartType = chartTypes[chartTypeIndex].type
     let chartTypesArray = isLineEnabled ? chartTypes : [chartTypes[0]]
 
-    if (isLoading)
-      return (<div className="empty-data-notification">Loading</div>)
-    else if (incomeArr.length === 0)
+    
+    if (incomeArr.length === 0)
       return (<div className="empty-data-notification">No data to display</div>)
-    else if (incomeArr.length !== 0)
+    else
       return (
         <div className="chart-container col-xs-12">
           <ChartGenerator series={incomeArr} categories={categories} title={chartTitle} chartType={chartType} fontSizeIndex={fontSizeIndex} whichOneMultiple={whichOneMultiple} isGovernmentPayments={isGovernmentPayments} />
