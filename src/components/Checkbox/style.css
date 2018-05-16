@@ -9,7 +9,7 @@
   margin-bottom: 12px;
   font-family: 'Roboto', sans-serif;
   font-weight: 400;
-  color: #000000;
+  color: #046B99;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -17,7 +17,7 @@
   user-select: none;
 }
 .checkbox-container:hover {
-  color: #000000;
+  color: #447bac;
 }
 
 /* Hide the browser's default checkbox */
@@ -43,7 +43,7 @@
 
 /* When the checkbox is checked, add a blue background */
 .checkbox-container input:checked ~ .checkmark {
-  background-color: #23527c;
+  background-color: #046B99;
 }
 .checkbox-container input:checked ~ .checkmark.single {
   background: none;
@@ -78,7 +78,7 @@
   top: 3px;
   width: 5px;
   height: 10px;
-  border: solid #304550;
+  border: solid #046B99;
   border-width: 0 2px 2px 0;
   -webkit-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
