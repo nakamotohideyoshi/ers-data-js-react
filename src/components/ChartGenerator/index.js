@@ -415,7 +415,7 @@ export default class ChartGenerator extends React.Component {
             const isReducePossible = this.value/1000 > 1
 
             let axisFormat = numberWithCommas(isReducePossible ? Math.round(this.value/1000) : this.value)
-            return '<span className="font-'+fontSizeIndex+'-normal">'+ numberWithCommas(axisFormat) +'</span>';
+            return '<span style="margin-left:-30px" className="font-'+fontSizeIndex+'-normal">'+ numberWithCommas(axisFormat) +'</span>';
           }
         },
         events: {
