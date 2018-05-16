@@ -14,7 +14,7 @@
 }
 .heading-option-container span {
   line-height: 20px;
-  color: #000000;
+  color: #1C304A;
   padding: 15px 17px;
   font-weight: bold;
   text-transform: uppercase;
@@ -41,15 +41,15 @@
 }
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #E5F3FA; 
+  background: #B3EFFF; 
 }
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #00A9DB; 
+  background: #00CFFF; 
 }
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #00A9DB; 
+  background: #00CFFF; 
 }
 
 .table-container {

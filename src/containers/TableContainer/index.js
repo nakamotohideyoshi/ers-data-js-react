@@ -298,7 +298,7 @@ class TableContainer extends React.Component {
                         </div>
                       </th>
                     </tr>
-                    <tr><th>&nbsp;</th></tr>
+                    <tr><th className={`font-${fontSizeIndex}-smaller`}>&nbsp;</th></tr>
                   </thead>
                   <tbody onScroll={this.onScrollTable1} ref={node=>this.headerBody=node} className="header-body">
                     {
