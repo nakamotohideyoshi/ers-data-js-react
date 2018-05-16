@@ -975,15 +975,11 @@ export default class FilterContainer extends React.Component {
     pre_filters[blockIndex].topic_abb = topic_abb
     pre_filters[blockIndex].sub_report = sub_report
     const isRemoveDataSource = false
-    const isGetSurveyData = false
-    const isAllDataSources = false
 
     const runQuery = pre_filters[blockIndex].report_num[0] === 6 ? 'dlAnalysis' : 'dlAnalysis'
 
     this.setState({
       isRemoveDataSource,
-      isGetSurveyData,
-      isAllDataSources,
       pre_filters,
       runQuery,
       blockIndex
@@ -997,13 +993,9 @@ export default class FilterContainer extends React.Component {
     pre_filters[blockIndex].report_num = report_num
 
     const isRemoveDataSource = false
-    const isGetSurveyData = false
-    const isAllDataSources = false
 
     this.setState({
       isRemoveDataSource,
-      isGetSurveyData,
-      isAllDataSources,
       pre_filters,
       runQuery: 'dAnalysis',
       blockIndex
@@ -1012,23 +1004,28 @@ export default class FilterContainer extends React.Component {
 
   // selected DataLine in `Arms Data Analysis`
   selectDataLineAnalysis = (topic_abb, blockIndex) => {
-    let {filters, pre_filters} = this.state
+    let {pre_filters, selectedYears, selectedStates, selectedStateNames, whichOneMultiple} = this.state
 
     pre_filters[blockIndex].topic_abb = topic_abb
     const isRemoveDataSource = false
-    const isGetSurveyData = true
-    const isAllDataSources = false
+    const runQuery = ''
 
     this.setState({
-      filters,
       isRemoveDataSource,
-      isGetSurveyData,
-      isAllDataSources,
       pre_filters,
-      runQuery: '',
+      runQuery,
       isReset: false,
       blockIndex
-    }, this.getSurveyData())
+    }, this.props.getSurveyData(
+      runQuery,
+      pre_filters,
+      selectedYears,
+      selectedStates,
+      selectedStateNames, 
+      isRemoveDataSource,
+      blockIndex,
+      whichOneMultiple
+    ))
   }
 
   selectSubReportAnalysis = (sub_report, blockIndex) => {
@@ -1036,14 +1033,10 @@ export default class FilterContainer extends React.Component {
 
     pre_filters[blockIndex].sub_report = sub_report
     const isRemoveDataSource = false
-    const isGetSurveyData = false
-    const isAllDataSources = false
 
     this.setState({
       filters,
       isRemoveDataSource,
-      isGetSurveyData,
-      isAllDataSources,
       pre_filters,
       runQuery: 'dlAnalysis',
       isReset: false,
@@ -1057,15 +1050,11 @@ export default class FilterContainer extends React.Component {
 
     pre_filters[blockIndex].subject_num = subject_num
     const isRemoveDataSource = false
-    const isGetSurveyData = false
-    const isAllDataSources = false
     const runQuery = pre_filters[blockIndex].report_num[0] === 6 ? 'dlfAnalysis' : 'dlfAnalysis'
 
 
     this.setState({
       isRemoveDataSource,
-      isGetSurveyData,
-      isAllDataSources,
       pre_filters,
       runQuery,
       blockIndex
@@ -1078,15 +1067,11 @@ export default class FilterContainer extends React.Component {
 
     pre_filters[blockIndex].serie = serie
     const isRemoveDataSource = false
-    const isGetSurveyData = false
-    const isAllDataSources = false
 
     const runQuery = pre_filters[blockIndex].report_num[0] === 6 ? 'dlfsAnalysis' : 'dlfsAnalysis'
 
     this.setState({
       isRemoveDataSource,
-      isGetSurveyData,
-      isAllDataSources,
       pre_filters,
       runQuery,
       blockIndex
