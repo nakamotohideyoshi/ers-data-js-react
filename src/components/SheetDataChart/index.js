@@ -134,7 +134,7 @@ class SheetDataChart extends Component {
   }
   render() {
     const { incomeArr, chartTypeIndex, isLineEnabled, isGovernmentPayments } = this.state
-    const { categories, blockIndex, fontSizeIndex, whichOneMultiple, isLoading } = this.props
+    const { categories, blockIndex, fontSizeIndex, whichOneMultiple } = this.props
     let chartTitle = ''
     if (incomeArr.length > 0 && blockIndex < 1) chartTitle = incomeArr[0].report
     const chartType = chartTypes[chartTypeIndex].type
