@@ -85,7 +85,7 @@ export default class ChartGenerator extends React.Component {
     })
     this.setState({csvTableArray})
   }
-  getBreaingPoints(dataSource) {
+  getBreakingPoints(dataSource) {
     let breaksArr = []   
     const estList = []
     const estCount = dataSource[0].estimateList.length
@@ -394,6 +394,7 @@ export default class ChartGenerator extends React.Component {
       const maxVal = Math.max.apply(null, seriesFarms[0].estimateList)
       const interval = Math.pow(10, (maxVal.toString()).length - 2)
       const axisMax = Math.ceil(maxVal/interval)*interval
+      const breakPoints = this.getBreakingPoints(seriesFarms)
       config.yAxis.push({
         title: {
           text: "Number of Farms" + trailReduce,
@@ -404,7 +405,7 @@ export default class ChartGenerator extends React.Component {
         max: axisMax,
         tickInterval: interval,
         lineWidth: 1,
-        breaks: this.getBreaingPoints(seriesFarms),         
+        breaks: breakPoints,         
         top: seriesOthers.length > 0 && seriesOthersShown ? '80%' : '0%',
         height: seriesOthers.length > 0 && seriesOthersShown ? '20%' : '100%',
         labels: {
@@ -446,6 +447,9 @@ export default class ChartGenerator extends React.Component {
           }
         },
       })
+      if (breakPoints.length === 0) {
+        delete config.yAxis[config.yAxis.length-1].tickInterval
+      }
 
       // Populate dataset into the chart view
       if (seriesFarms.length > 0 && seriesFarmsShown) {
@@ -494,7 +498,7 @@ export default class ChartGenerator extends React.Component {
             },
           },
           lineWidth: 1,
-          breaks: this.getBreaingPoints(singleOther),
+          breaks: this.getBreakingPoints(singleOther),
           events: {
             pointBreak: function(e) {
               if (chartType === 'column') {
