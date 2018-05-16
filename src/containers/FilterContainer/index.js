@@ -486,7 +486,7 @@ export default class FilterContainer extends React.Component {
       selectedStates: statesData.reSelectedStates,
       selectedStateNames: statesData.selectedStateNames,
       isReset: false,
-      runQuery: ''
+      runQuery
     }, this.props.getSurveyData(
       runQuery,
       pre_filters,
@@ -510,14 +510,12 @@ export default class FilterContainer extends React.Component {
     const yearsData = this.resetYears(years)
 
     const isRemoveDataSource = false
-    const isGetSurveyData = false
 
     const runQuery = pre_filters[blockIndex].report_num[0] === 6 ? 'dlrftysTailored' : 'dlftysTailored'
 
     this.setState({
       pre_filters,
       isRemoveDataSource,
-      isGetSurveyData,
       blockIndex,
       yearsInfo: yearsData.yearsInfo,
       temp_Years: yearsData.temp_Years,
@@ -549,7 +547,7 @@ export default class FilterContainer extends React.Component {
 
   // reset [ Filter By/Sub, Year ]
   resetEYFilter = (serie_element, years, blockIndex) => {
-    let {pre_filters} = this.state
+    let {pre_filters, selectedStates, selectedStateNames, whichOneMultiple} = this.state
 
     pre_filters[blockIndex].serie_element = serie_element
 
@@ -557,6 +555,7 @@ export default class FilterContainer extends React.Component {
 
     const isRemoveDataSource = false
     const isGetSurveyData = true
+    const runQuery = ''
 
     this.setState({
       pre_filters,
@@ -567,8 +566,17 @@ export default class FilterContainer extends React.Component {
       temp_Years: yearsData.temp_Years,
       selectedYears: yearsData.reSelectedYears,
       isReset: false,
-      runQuery: ''
-    }, this.getSurveyData())
+      runQuery
+    }, this.props.getSurveyData(
+      runQuery,
+      pre_filters,
+      yearsData.reSelectedYears,
+      selectedStates,
+      selectedStateNames, 
+      isRemoveDataSource,
+      blockIndex,
+      whichOneMultiple
+    ))
   }
 
   // reset[ Filter, Region ]
@@ -581,14 +589,12 @@ export default class FilterContainer extends React.Component {
     const statesData = this.resetStates(states)
     
     const isRemoveDataSource = false
-    const isGetSurveyData = false
 
     const runQuery = pre_filters[blockIndex].report_num[0] === 6 ? 'dlrftysTailored' : 'dlftysTailored'
 
     this.setState({
       pre_filters,
       isRemoveDataSource,
-      isGetSurveyData,
       blockIndex,
       statesInfo: statesData.statesInfo,
       temp_States: statesData.temp_States,
@@ -601,26 +607,34 @@ export default class FilterContainer extends React.Component {
 
   // reset [ Filter By/Sub, Region ]
   resetERFilter = (serie_element, states, blockIndex) => {
-    let {pre_filters} = this.state
+    let {pre_filters, selectedYears, whichOneMultiple} = this.state
     pre_filters[blockIndex].serie_element = serie_element
 
     const statesData = this.resetStates(states)
     
     const isRemoveDataSource = false
-    const isGetSurveyData = true
+    const runQuery = ''
 
     this.setState({
       pre_filters,
       isRemoveDataSource,
-      isGetSurveyData,
       blockIndex,
       statesInfo: statesData.statesInfo,
       temp_States: statesData.temp_States,
       selectedStates: statesData.reSelectedStates,
       selectedStateNames: statesData.selectedStateNames,
       isReset: false,
-      runQuery: ''
-    }, this.getSurveyData())
+      runQuery
+    }, this.props.getSurveyData(
+      runQuery,
+      pre_filters,
+      selectedYears,
+      statesData.reSelectedStates,
+      statesData.selectedStateNames, 
+      isRemoveDataSource,
+      blockIndex,
+      whichOneMultiple
+    ))
   }  
 
   // report_num selected
@@ -633,12 +647,10 @@ export default class FilterContainer extends React.Component {
     pre_filters[blockIndex].serie_element = []
 
     const isRemoveDataSource = false
-    const isGetSurveyData = false
 
     this.setState({
       pre_filters,
       isRemoveDataSource,
-      isGetSurveyData,
       blockIndex,
       runQuery: 'dTailored'
     })
@@ -653,12 +665,10 @@ export default class FilterContainer extends React.Component {
     pre_filters[blockIndex].serie_element = []
 
     const isRemoveDataSource = false
-    const isGetSurveyData = false
 
     this.setState({
       pre_filters,
       isRemoveDataSource,
-      isGetSurveyData,
       blockIndex,
       runQuery: 'dlrTailored'
     })
@@ -672,14 +682,12 @@ export default class FilterContainer extends React.Component {
     pre_filters[blockIndex].serie_element = []
 
     const isRemoveDataSource = false
-    const isGetSurveyData = false
 
     const runQuery = pre_filters[blockIndex].report_num[0] === 6 ? 'dlrfTailored' : 'dlfTailored'
 
     this.setState({
       pre_filters,
       isRemoveDataSource,
-      isGetSurveyData,
       blockIndex,
       runQuery
     })
@@ -715,20 +723,18 @@ export default class FilterContainer extends React.Component {
     }
 
     const isRemoveDataSource = false
-    const isGetSurveyData = false
     this.setState({
       pre_filters,
       isRemoveDataSource,
-      isGetSurveyData,
       blockIndex,
       priority: priority,
-      runQuery: runQuery
+      runQuery
     })
   }
 
   // serie_element selected
   onSelectSubFilterByFilter = (serie_element, blockIndex) => {
-    let {filters, pre_filters, priority, isReset} = this.state
+    let {pre_filters, priority, isReset, selectedYears, selectedStates, selectedStateNames, whichOneMultiple} = this.state
     let runQuery = ''
 
     const priorityIndex = priority.indexOf('serie')
@@ -740,7 +746,6 @@ export default class FilterContainer extends React.Component {
       priority.push('serie')
     }
     const isRemoveDataSource = false
-    let isGetSurveyData = false
 
     pre_filters[blockIndex].serie_element = serie_element
     if (priority.indexOf('serie') === 0) {
@@ -756,27 +761,31 @@ export default class FilterContainer extends React.Component {
       // ... -> ... -> Serie/Serie_element
       runQuery = ''
       isReset = false
-      isGetSurveyData = true
     }
 
-    //mark1
     this.setState({
-      filters,
       pre_filters,
       isRemoveDataSource,
-      isGetSurveyData,
       blockIndex,
       priority: priority,
-      runQuery: runQuery,
+      runQuery,
       isReset
-    })
+    }, this.props.getSurveyData(
+      runQuery,
+      pre_filters,
+      selectedYears,
+      selectedStates,
+      selectedStateNames, 
+      isRemoveDataSource,
+      blockIndex,
+      whichOneMultiple
+    ))
   }
 
   // Year selected
   onSelectYear = (index) => {
-    let { filters, pre_filters, yearsInfo, whichOneMultiple, priority, blockIndex, isReset } = this.state
+    let {pre_filters, yearsInfo, whichOneMultiple, priority, blockIndex, isReset, selectedStates, selectedStateNames } = this.state
     let runQuery = ''
-    let isAllDataSources = false 
     
     let isGovernment = false
     for (let i=1; i<9; i++) {
@@ -815,8 +824,6 @@ export default class FilterContainer extends React.Component {
       temp_Years = []
     }
 
-    let isGetSurveyData = false
-
     if (blockIndex === 0) {
 
       if (priority.indexOf('year') === 0) {
@@ -833,43 +840,43 @@ export default class FilterContainer extends React.Component {
         // ... -> ... -> Year
         runQuery = ''
         isReset = false
-        isGetSurveyData = true
       }
     } else {
       if (whichOneMultiple === YEAR_SELECTED) {
         runQuery = ''
         isReset = false
-        isGetSurveyData = true
-        isAllDataSources = true
       } else {
         runQuery = isGovernment ? 'dlfseseytAnalysis' : 'dlfseseytAnalysis'
       }
     }
 
-    //mark1
-
     const isRemoveDataSource = false
 
     this.setState({
-      filters,
       pre_filters,
       isRemoveDataSource,
-      isGetSurveyData,
       priority: priority,
       yearsInfo: yearsInfo.slice(),
-      selectedYears: selectedYears,
+      selectedYears,
       temp_Years: temp_Years,
-      runQuery: runQuery,
-      isAllDataSources,
+      runQuery,
       isReset
-    })
+    }, this.props.getSurveyData(
+      runQuery,
+      pre_filters,
+      selectedYears,
+      selectedStates,
+      selectedStateNames, 
+      isRemoveDataSource,
+      blockIndex,
+      whichOneMultiple
+    ))
   }
 
   // state selected
   onSelectState = (index) => {
-    let { filters, pre_filters, statesInfo, whichOneMultiple, priority, blockIndex, isReset } = this.state
+    let { pre_filters, statesInfo, whichOneMultiple, priority, blockIndex, isReset, selectedYears } = this.state
     let runQuery = ''
-    let isAllDataSources = false
 
     let isGovernment = false
     for (let i=1; i<9; i++) {
@@ -908,8 +915,6 @@ export default class FilterContainer extends React.Component {
     if (selectedStates.length !== 0) {
       temp_States = []
     }
-
-    let isGetSurveyData = false
     
     if (blockIndex === 0) {
       if (priority.indexOf('state') === 0) {
@@ -925,7 +930,6 @@ export default class FilterContainer extends React.Component {
         // ... -> ... -> State
         runQuery = ''
         isReset = false
-        isGetSurveyData = true
       }
     } else {
       if (whichOneMultiple === YEAR_SELECTED) {
@@ -933,8 +937,6 @@ export default class FilterContainer extends React.Component {
       } else {
         runQuery = ''
         isReset = false
-        isGetSurveyData = true
-        isAllDataSources = true
       }
     }
 
@@ -943,19 +945,25 @@ export default class FilterContainer extends React.Component {
     const isRemoveDataSource = false
 
     this.setState({
-      filters,
       pre_filters,
       isRemoveDataSource,
-      isGetSurveyData,
       selectedStateNames,
       priority: priority,
       statesInfo: statesInfo.slice(),
-      selectedStates: selectedStates,
+      selectedStates,
       temp_States: temp_States,
-      runQuery: runQuery,
-      isAllDataSources,
+      runQuery,
       isReset
-    })
+    }, this.props.getSurveyData(
+      runQuery,
+      pre_filters,
+      selectedYears,
+      selectedStates,
+      selectedStateNames, 
+      isRemoveDataSource,
+      blockIndex,
+      whichOneMultiple
+    ))
   }
 
   
