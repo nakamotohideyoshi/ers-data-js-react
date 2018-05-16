@@ -168,6 +168,7 @@ class TableContainer extends React.Component {
         gpDataSet.push({ 
           groupName: income.header,
           totalCount: gpCount, 
+          unit_desc: income.unit_desc,
           count: gpList[income.header] ? (gpList[income.header]).length : 0,
           isGovernmentPayments: true
         })
@@ -307,7 +308,7 @@ class TableContainer extends React.Component {
                               return (
                                 <tr key={`${index}`}>
                                   <td>
-                                      { data.isGovernmentPayments && `${data.groupName} (${data.count}/${data.totalCount})` }
+                                      { data.isGovernmentPayments && `${data.groupName} (${data.unit_desc})` }
                                       { !data.isGovernmentPayments && this.generatorHeadinInfo(data) }
                                       &ensp;
                                   </td>
@@ -349,34 +350,40 @@ class TableContainer extends React.Component {
                                         {data.isGovernmentPayments && data.group_header}
                                         {!data.isGovernmentPayments && data.header}
                                         <sup>&nbsp;{sign}</sup> 
-                                        {data.header && data.unit_desc !== 'Dollars per farm' ? '('+data.unit_desc+')' : ''}
-                                        <img 
-                                          src={HelpImg}
-                                          className="help-img"
-                                          alt="Help Icon" 
-                                          data-tip={data.desc} 
-                                          data-event="click"
-                                          data-place="top"
-                                          data-offset="{'left': 100}"
-                                          tabIndex={1401+index*2+1}
-                                        />
-                                      </div>
-                                      )
-                                    } 
-                                    {
-                                      blockIndex > 0 &&
-                                        <div className="level-1 nowrap-div">
-                                          {data.header} {data.header && data.unit_desc !== 'Dollars per farm' ? '('+data.unit_desc+')' : ''}
+                                        {data.header && data.unit_desc !== 'Dollars per farm' && !data.isGovernmentPayments ? '('+data.unit_desc+')' : ''}
+                                        {
+                                          !data.isGovernmentPayments &&
                                           <img 
                                             src={HelpImg}
                                             className="help-img"
-                                            alt="help-img" 
+                                            alt="Help Icon" 
                                             data-tip={data.desc} 
                                             data-event="click"
                                             data-place="top"
                                             data-offset="{'left': 100}"
                                             tabIndex={1401+index*2+1}
                                           />
+                                        }
+                                      </div>
+                                      )
+                                    } 
+                                    {
+                                      blockIndex > 0 &&
+                                        <div className="level-1 nowrap-div">
+                                          {data.header} {data.header && data.unit_desc !== 'Dollars per farm' && !data.isGovernmentPayments ? '('+data.unit_desc+')' : ''}
+                                          {
+                                            !data.isGovernmentPayments &&
+                                            <img 
+                                              src={HelpImg}
+                                              className="help-img"
+                                              alt="help-img" 
+                                              data-tip={data.desc} 
+                                              data-event="click"
+                                              data-place="top"
+                                              data-offset="{'left': 100}"
+                                              tabIndex={1401+index*2+1}
+                                            />
+                                          }
                                         </div>
                                     }
                                   </div>
