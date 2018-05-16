@@ -307,11 +307,9 @@ class TableContainer extends React.Component {
                               return (
                                 <tr key={`${index}`}>
                                   <td>
-                                    <div className="heading-info">
                                       { data.isGovernmentPayments && `${data.groupName} (${data.count}/${data.totalCount})` }
                                       { !data.isGovernmentPayments && this.generatorHeadinInfo(data) }
                                       &ensp;
-                                    </div>
                                   </td>
                                 </tr>
                               )

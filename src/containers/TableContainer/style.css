@@ -80,7 +80,7 @@
   color:#000000;  
 }
 .table-static tbody tr:nth-child(1) td {
-  width: 350px;
+  width: 500px;
 }
 .table-static {
   position: relative;
@@ -129,6 +129,9 @@
 
 .table tbody {
   overflow: scroll;
+}
+.table tbody tr td {
+  white-space: nowrap;
 }
 .table tbody tr td:nth-child(1) {  /*the first cell in each tr*/
   position: relative;
