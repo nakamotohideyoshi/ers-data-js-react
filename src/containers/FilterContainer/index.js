@@ -333,7 +333,7 @@ export default class FilterContainer extends React.Component {
       selectedYears: yearsData.reSelectedYears,
       statesInfo: statesData.statesInfo,
       temp_States: statesData.temp_States,
-      selectedStates: statesData.selectedStates,
+      selectedStates: statesData.reSelectedStates,
       selectedStateNames: statesData.selectedStateNames,
       runQuery
     })
@@ -377,7 +377,7 @@ export default class FilterContainer extends React.Component {
       selectedYears: yearsData.reSelectedYears,
       statesInfo: statesData.statesInfo,
       temp_States: statesData.temp_States,
-      selectedStates: statesData.selectedStates,
+      selectedStates: statesData.reSelectedStates,
       selectedStateNames: statesData.selectedStateNames,
       isReset: false,
       runQuery: ''
@@ -402,7 +402,7 @@ export default class FilterContainer extends React.Component {
       selectedYears: yearsData.reSelectedYears,
       statesInfo: statesData.statesInfo,
       temp_States: statesData.temp_States,
-      selectedStates: statesData.selectedStates,
+      selectedStates: statesData.reSelectedStates,
       selectedStateNames: statesData.selectedStateNames,
       isReset: false,
       runQuery: ''
@@ -411,202 +411,53 @@ export default class FilterContainer extends React.Component {
 
   // reset [ Year ]
   resetYFilter = (years, blockIndex) => {
-
-    let {filters, pre_filters, temp_Years, selectedYears, whichOneMultiple, isReset} = this.state
-
-    let prevYearCount = 0
-
-    years.forEach(year => {
-      if (selectedYears.indexOf(year) > -1) {
-        prevYearCount++
-      }
-    })
-
-    let yearCount = whichOneMultiple === YEAR_SELECTED ? (prevYearCount === 0 ? (temp_Years.length===0 ? defaultYearCount : 0) : prevYearCount) : (temp_Years.length===0 ? 1 : 0)
-
-    if (isReset) {
-      yearCount = whichOneMultiple === YEAR_SELECTED ? defaultYearCount : 1
-      prevYearCount = 0
-    }
-
-    let yearsInfo = []
-    let reSelectedYears = []
-    let currentYearCount = 0
-    temp_Years = []
-
-    years.forEach(year => {
-      temp_Years.push(year)
-      const infoObj = {}
-      infoObj.year = year
-      if (prevYearCount === 0) {
-        if (years.indexOf(year) >= 0 && years.indexOf(year) < yearCount) {
-          infoObj.checked = true
-          reSelectedYears.push(year)
-        } else {
-          infoObj.checked = false
-        }
-      } else {
-        if (selectedYears.indexOf(year) > -1 && currentYearCount < yearCount) {
-          infoObj.checked = true
-          reSelectedYears.push(year)
-          currentYearCount++
-        } else {
-          infoObj.checked = false
-        }
-      }        
-      yearsInfo.push(infoObj)
-    })
-
-    if (reSelectedYears.length !== 0) {
-      temp_Years = []
-    }
-
-    const isRemoveDataSource = false
-    const isGetSurveyData = true
-
-    this.setState({
-      filters,
-      pre_filters,
-      isRemoveDataSource,
-      isGetSurveyData,
-      blockIndex,
-      temp_Years,
-      yearsInfo: yearsInfo,
-      selectedYears: reSelectedYears,
-      isReset: false,
-      runQuery: ''
-    })
-
-  }
-
-  // reset [ Region ]
-  // set state
-  resetRFilter = (states, blockIndex) => {
-
-    let {filters, pre_filters, temp_States, selectedStates, whichOneMultiple, isReset} = this.state
-    let prevStateCount = 0
-
-    states.forEach(stateN => {
-      if (selectedStates.indexOf(stateN.id) > -1) {
-        prevStateCount++
-      }
-    })
-
-    let stateCount = whichOneMultiple === YEAR_SELECTED ? (temp_States.length === 0 ? defaultStateCount : 0) : (prevStateCount === 0 ? (temp_States.length === 0 ? defaultStateCount : 0) : prevStateCount)
-
-    if (isReset) {
-      prevStateCount = 0
-      stateCount = defaultStateCount
-    }
-
-    let statesInfo = []
-    let reSelectedStates = []
-    let selectedStateNames = []
-    let currentStateCount = 0
-    temp_States = []
-
-    states.forEach(stateN => {
-      temp_States.push(stateN.id)
-      const obj = {}
-      obj.name = stateN.name
-      obj.id = stateN.id
-      if (prevStateCount === 0) {
-        if (states.indexOf(stateN) >= 0 && states.indexOf(stateN) < stateCount) {
-          obj.checked = true
-          reSelectedStates.push(stateN.id)
-          selectedStateNames.push(stateN.name)
-        } else {
-          obj.checked = false 
-        }
-      } else {
-        if (selectedStates.indexOf(stateN.id) > -1 && currentStateCount < stateCount) {
-          obj.checked = true
-          reSelectedStates.push(stateN.id)
-          selectedStateNames.push(stateN.name)
-          currentStateCount++
-        } else {
-          obj.checked = false
-        }
-      }   
-      statesInfo.push(obj)     
-    })
-
-    if (reSelectedStates.length !== 0) {
-      temp_States = []
-    }
+    const yearsData = this.resetYears(years)
     
     const isRemoveDataSource = false
     const isGetSurveyData = true
 
     this.setState({
-      filters,
-      pre_filters,
       isRemoveDataSource,
       isGetSurveyData,
       blockIndex,
-      selectedStates: reSelectedStates,
-      temp_States,
-      statesInfo: statesInfo,
-      selectedStateNames: selectedStateNames,
+      yearsInfo: yearsData.yearsInfo,
+      temp_Years: yearsData.temp_Years,
+      selectedYears: yearsData.reSelectedYears,
       isReset: false,
       runQuery: ''
     })
+  }
 
+  // reset [ Region ]
+  // set state
+  resetRFilter = (states, blockIndex) => {
+    const statesData = this.resetStates(states)
+
+    const isRemoveDataSource = false
+    const isGetSurveyData = true
+
+    this.setState({
+      isRemoveDataSource,
+      isGetSurveyData,
+      blockIndex,
+      statesInfo: statesData.statesInfo,
+      temp_States: statesData.temp_States,
+      selectedStates: statesData.reSelectedStates,
+      selectedStateNames: statesData.selectedStateNames,
+      isReset: false,
+      runQuery: ''
+    })
   }
 
   // reset [ Filter By, Year ]
   // run query to refresh [ Filter By/Sub ]
   resetSYFilter = (serie, years, blockIndex) => {
-    let {pre_filters, temp_Years, selectedYears, whichOneMultiple, isReset} = this.state
+    let {pre_filters} = this.state
+
     pre_filters[blockIndex].serie = serie
     pre_filters[blockIndex].serie_element = []
 
-    let prevYearCount = 0
-
-    years.forEach(year => {
-      if (selectedYears.indexOf(year) > -1) {
-        prevYearCount++
-      }
-    })
-
-    let yearCount = whichOneMultiple === YEAR_SELECTED ? (prevYearCount === 0 ? (temp_Years.length===0 ? defaultYearCount : 0) : prevYearCount) : (temp_Years.length===0 ? 1 : 0)
-
-    if (isReset) {
-      yearCount = whichOneMultiple === YEAR_SELECTED ? defaultYearCount : 1
-      prevYearCount = 0
-    }
-
-    let yearsInfo = []
-    let reSelectedYears = []
-    let currentYearCount = 0
-    temp_Years = []
-
-    years.forEach(year => {
-      temp_Years.push(year)
-      const infoObj = {}
-      infoObj.year = year
-      if (prevYearCount === 0) {
-        if (years.indexOf(year) >= 0 && years.indexOf(year) < yearCount) {
-          infoObj.checked = true
-          reSelectedYears.push(year)
-        } else {
-          infoObj.checked = false
-        }
-      } else {
-        if (selectedYears.indexOf(year) > -1 && currentYearCount < yearCount) {
-          infoObj.checked = true
-          reSelectedYears.push(year)
-          currentYearCount++
-        } else {
-          infoObj.checked = false
-        }
-      }        
-      yearsInfo.push(infoObj)
-    })
-
-    if (reSelectedYears.length !== 0) {
-      temp_Years = []
-    }
+    const yearsData = this.resetYears(years)
 
     const isRemoveDataSource = false
     const isGetSurveyData = false
@@ -618,9 +469,9 @@ export default class FilterContainer extends React.Component {
       isRemoveDataSource,
       isGetSurveyData,
       blockIndex,
-      yearsInfo: yearsInfo,
-      temp_Years,
-      selectedYears: reSelectedYears,
+      yearsInfo: yearsData.yearsInfo,
+      temp_Years: yearsData.temp_Years,
+      selectedYears: yearsData.reSelectedYears,
       runQuery
     })
   }
@@ -648,68 +499,23 @@ export default class FilterContainer extends React.Component {
 
   // reset [ Filter By/Sub, Year ]
   resetEYFilter = (serie_element, years, blockIndex) => {
-    let {filters, pre_filters, temp_Years, selectedYears, whichOneMultiple, isReset} = this.state
+    let {pre_filters} = this.state
+
     pre_filters[blockIndex].serie_element = serie_element
 
-    let prevYearCount = 0
-
-    years.forEach(year => {
-      if (selectedYears.indexOf(year) > -1) {
-        prevYearCount++
-      }
-    })
-
-    let yearCount = whichOneMultiple === YEAR_SELECTED ? (prevYearCount === 0 ? (temp_Years.length===0 ? defaultYearCount : 0) : prevYearCount) : (temp_Years.length===0 ? 1 : 0)
-
-    let yearsInfo = []
-    let reSelectedYears = []
-    let currentYearCount = 0
-    temp_Years = []
-
-    if (isReset) {
-      yearCount = whichOneMultiple === YEAR_SELECTED ? defaultYearCount : 1
-      prevYearCount = 0
-    }
-
-    years.forEach(year => {
-      temp_Years.push(year)
-      const infoObj = {}
-      infoObj.year = year
-      if (prevYearCount === 0) {
-        if (years.indexOf(year) >= 0 && years.indexOf(year) < yearCount) {
-          infoObj.checked = true
-          reSelectedYears.push(year)
-        } else {
-          infoObj.checked = false
-        }
-      } else {
-        if (selectedYears.indexOf(year) > -1 && currentYearCount < yearCount) {
-          infoObj.checked = true
-          reSelectedYears.push(year)
-          currentYearCount++
-        } else {
-          infoObj.checked = false
-        }
-      }        
-      yearsInfo.push(infoObj)
-    })
-
-    if (reSelectedYears.length !== 0) {
-      temp_Years = []
-    }
+    const yearsData = this.resetYears(years)    
 
     const isRemoveDataSource = false
     const isGetSurveyData = true
 
     this.setState({
-      filters,
       pre_filters,
       isRemoveDataSource,
       isGetSurveyData,
       blockIndex,
-      yearsInfo: yearsInfo,
-      temp_Years,
-      selectedYears: reSelectedYears,
+      yearsInfo: yearsData.yearsInfo,
+      temp_Years: yearsData.temp_Years,
+      selectedYears: yearsData.reSelectedYears,
       isReset: false,
       runQuery: ''
     })
@@ -718,60 +524,11 @@ export default class FilterContainer extends React.Component {
   // reset[ Filter, Region ]
   // run query to reset [ Filter By/Sub ]
   resetSRFilter = (serie, states, blockIndex) => {
-    let {pre_filters, temp_States, selectedStates, whichOneMultiple, isReset} = this.state
+    let {pre_filters} = this.state
     pre_filters[blockIndex].serie = serie
     pre_filters[blockIndex].serie_element = []
 
-    let prevStateCount = 0
-
-    states.forEach(stateN => {
-      if (selectedStates.indexOf(stateN.id) > -1) {
-        prevStateCount++
-      }
-    })
-
-    let stateCount = whichOneMultiple === YEAR_SELECTED ? (temp_States.length === 0 ? defaultStateCount : 0) : (prevStateCount === 0 ? (temp_States.length === 0 ? defaultStateCount : 0) : prevStateCount)
-
-    if (isReset) {
-      prevStateCount = 0
-      stateCount = defaultStateCount
-    }
-
-    let statesInfo = []
-    let reSelectedStates = []
-    let selectedStateNames = []
-    let currentStateCount = 0
-    temp_States = []
-
-    states.forEach(stateN => {
-      temp_States.push(stateN.id)
-      const obj = {}
-      obj.name = stateN.name
-      obj.id = stateN.id
-      if (prevStateCount === 0) {
-        if (states.indexOf(stateN) >= 0 && states.indexOf(stateN) < stateCount) {
-          obj.checked = true
-          reSelectedStates.push(stateN.id)
-          selectedStateNames.push(stateN.name)
-        } else {
-          obj.checked = false 
-        }
-      } else {
-        if (selectedStates.indexOf(stateN.id) > -1 && currentStateCount < stateCount) {
-          obj.checked = true
-          reSelectedStates.push(stateN.id)
-          selectedStateNames.push(stateN.name)
-          currentStateCount++
-        } else {
-          obj.checked = false
-        }
-      }   
-      statesInfo.push(obj)     
-    })
-
-    if (reSelectedStates.length !== 0) {
-      temp_States = []
-    }
+    const statesData = this.resetStates(states)
     
     const isRemoveDataSource = false
     const isGetSurveyData = false
@@ -783,10 +540,10 @@ export default class FilterContainer extends React.Component {
       isRemoveDataSource,
       isGetSurveyData,
       blockIndex,
-      statesInfo: statesInfo,
-      temp_States,
-      selectedStates: reSelectedStates,
-      selectedStateNames: selectedStateNames,
+      statesInfo: statesData.statesInfo,
+      temp_States: statesData.temp_States,
+      selectedStates: statesData.reSelectedStates,
+      selectedStateNames: statesData.selectedStateNames,
       runQuery
     })
   }
@@ -794,73 +551,23 @@ export default class FilterContainer extends React.Component {
 
   // reset [ Filter By/Sub, Region ]
   resetERFilter = (serie_element, states, blockIndex) => {
-    let {filters, pre_filters, temp_States, selectedStates, whichOneMultiple, isReset} = this.state
+    let {pre_filters} = this.state
     pre_filters[blockIndex].serie_element = serie_element
 
-    let prevStateCount = 0
-
-    states.forEach(stateN => {
-      if (selectedStates.indexOf(stateN.id) > -1) {
-        prevStateCount++
-      }
-    })
-
-    let stateCount = whichOneMultiple === YEAR_SELECTED ? (temp_States.length === 0 ? defaultStateCount : 0) : (prevStateCount === 0 ? (temp_States.length === 0 ? defaultStateCount : 0) : prevStateCount)
-
-    if (isReset) {
-      prevStateCount = 0
-      stateCount = defaultStateCount
-    }
-
-    let statesInfo = []
-    let reSelectedStates = []
-    let selectedStateNames = []
-    let currentStateCount = 0
-    temp_States = []
-
-    states.forEach(stateN => {
-      temp_States.push(stateN.id)
-      const obj = {}
-      obj.name = stateN.name
-      obj.id = stateN.id
-      if (prevStateCount === 0) {
-        if (states.indexOf(stateN) >= 0 && states.indexOf(stateN) < stateCount) {
-          obj.checked = true
-          reSelectedStates.push(stateN.id)
-          selectedStateNames.push(stateN.name)
-        } else {
-          obj.checked = false 
-        }
-      } else {
-        if (selectedStates.indexOf(stateN.id) > -1 && currentStateCount < stateCount) {
-          obj.checked = true
-          reSelectedStates.push(stateN.id)
-          selectedStateNames.push(stateN.name)
-          currentStateCount++
-        } else {
-          obj.checked = false
-        }
-      }   
-      statesInfo.push(obj)     
-    })
-
-    if (reSelectedStates.length !== 0) {
-      temp_States = []
-    }
-
+    const statesData = this.resetStates(states)
+    
     const isRemoveDataSource = false
     const isGetSurveyData = true
 
     this.setState({
-      filters,
       pre_filters,
       isRemoveDataSource,
       isGetSurveyData,
       blockIndex,
-      statesInfo: statesInfo,
-      temp_States,
-      selectedStates: reSelectedStates,
-      selectedStateNames: selectedStateNames,
+      statesInfo: statesData.statesInfo,
+      temp_States: statesData.temp_States,
+      selectedStates: statesData.reSelectedStates,
+      selectedStateNames: statesData.selectedStateNames,
       isReset: false,
       runQuery: ''
     })
@@ -902,7 +609,6 @@ export default class FilterContainer extends React.Component {
       pre_filters,
       isRemoveDataSource,
       isGetSurveyData,
-
       blockIndex,
       runQuery: 'dlrTailored'
     })
