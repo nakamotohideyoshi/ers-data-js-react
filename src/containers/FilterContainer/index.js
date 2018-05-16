@@ -347,7 +347,7 @@ export default class FilterContainer extends React.Component {
   resetEFilter = (serie_element, blockIndex) => {
     let {pre_filters} = this.state
     pre_filters[blockIndex].serie_element = serie_element
-    const {selectedYears, selectedStates, selectedStateNames, whichOneMultiple, fontSizeIndex} = this.state
+    const {selectedYears, selectedStates, selectedStateNames, whichOneMultiple} = this.state
     const isRemoveDataSource = false
     const runQuery = ''
     const isReset = false
@@ -366,8 +366,7 @@ export default class FilterContainer extends React.Component {
       selectedStateNames, 
       isRemoveDataSource,
       blockIndex,
-      whichOneMultiple,
-      fontSizeIndex
+      whichOneMultiple
     ))
   }
 
@@ -375,7 +374,7 @@ export default class FilterContainer extends React.Component {
   resetEYRFilter = (serie_element, years, states, blockIndex) => {
     let {pre_filters} = this.state
     pre_filters[blockIndex].serie_element = serie_element
-    const {whichOneMultiple, fontSizeIndex} = this.state
+    const {whichOneMultiple} = this.state
 
     const yearsData = this.resetYears(years)
     const statesData = this.resetStates(states)
@@ -405,23 +404,21 @@ export default class FilterContainer extends React.Component {
       statesData.selectedStateNames, 
       isRemoveDataSource,
       blockIndex,
-      whichOneMultiple,
-      fontSizeIndex
+      whichOneMultiple
     ))
   }
 
   // reset [ Year, Region ]
   resetYRFilter = (years, states, blockIndex) => {
+    const {pre_filters, whichOneMultiple} = this.state
     const yearsData = this.resetYears(years)
-    const statesData = this.resetStates(states)
-    
+    const statesData = this.resetStates(states)   
 
     const isRemoveDataSource = false
-    const isGetSurveyData = true
+    const runQuery = ''
 
     this.setState({
       isRemoveDataSource,
-      isGetSurveyData,
       blockIndex,
       yearsInfo: yearsData.yearsInfo,
       temp_Years: yearsData.temp_Years,
@@ -431,40 +428,58 @@ export default class FilterContainer extends React.Component {
       selectedStates: statesData.reSelectedStates,
       selectedStateNames: statesData.selectedStateNames,
       isReset: false,
-      runQuery: ''
-    }, this.getSurveyData())
+      runQuery
+    }, this.props.getSurveyData(
+      runQuery,
+      pre_filters,
+      yearsData.reSelectedYears,
+      statesData.reSelectedStates,
+      statesData.selectedStateNames, 
+      isRemoveDataSource,
+      blockIndex,
+      whichOneMultiple
+    ))
   }
 
   // reset [ Year ]
   resetYFilter = (years, blockIndex) => {
+    const {pre_filters, selectedStates, selectedStateNames, whichOneMultiple} = this.state
     const yearsData = this.resetYears(years)
     
     const isRemoveDataSource = false
-    const isGetSurveyData = true
+    const runQuery = ''
 
     this.setState({
       isRemoveDataSource,
-      isGetSurveyData,
       blockIndex,
       yearsInfo: yearsData.yearsInfo,
       temp_Years: yearsData.temp_Years,
       selectedYears: yearsData.reSelectedYears,
       isReset: false,
-      runQuery: ''
-    }, this.getSurveyData())
+      runQuery
+    }, this.props.getSurveyData(
+      runQuery,
+      pre_filters,
+      yearsData.reSelectedYears,
+      selectedStates,
+      selectedStateNames, 
+      isRemoveDataSource,
+      blockIndex,
+      whichOneMultiple
+    ))
   }
 
   // reset [ Region ]
   // set state
   resetRFilter = (states, blockIndex) => {
     const statesData = this.resetStates(states)
+    const {pre_filters, selectedYears, whichOneMultiple} = this.state
 
     const isRemoveDataSource = false
-    const isGetSurveyData = true
+    const runQuery = ''
 
     this.setState({
       isRemoveDataSource,
-      isGetSurveyData,
       blockIndex,
       statesInfo: statesData.statesInfo,
       temp_States: statesData.temp_States,
@@ -472,7 +487,16 @@ export default class FilterContainer extends React.Component {
       selectedStateNames: statesData.selectedStateNames,
       isReset: false,
       runQuery: ''
-    }, this.getSurveyData())
+    }, this.props.getSurveyData(
+      runQuery,
+      pre_filters,
+      selectedYears,
+      statesData.reSelectedStates,
+      statesData.selectedStateNames, 
+      isRemoveDataSource,
+      blockIndex,
+      whichOneMultiple
+    ))
   }
 
   // reset [ Filter By, Year ]
