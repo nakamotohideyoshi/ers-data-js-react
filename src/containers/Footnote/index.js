@@ -49,14 +49,15 @@ class Footnote extends React.Component{
           <span>Footnote</span><br />
           {
             footnotes.map((val, index) => {
-               if (val.is_global == 1 || (val.is_global === 0 && val.report_num === this.props.report_num_0[0]))
-              return(
-                (
-                  <div key={index.toString()}>
-                    <strong>{val.sign}</strong> {' - ' + val.text}<br />
-                  </div>
-                )                
-              )
+              if (val.is_global === 1 || (val.is_global === 0 && val.report_num === this.props.report_num_0[0]))
+                return(
+                  (
+                    <div key={index.toString()}>
+                      <strong>{val.sign}</strong> {' - ' + val.text}<br />
+                    </div>
+                  )                
+                )
+              return null
             })
           }
         </div>
