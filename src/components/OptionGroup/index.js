@@ -19,17 +19,17 @@ export default class OptionGroup extends React.Component {
             if (index === selectedIndex) {
               return (
                 <div key={index.toString()} className="single-option center-aligned active" onClick={() => onSelect(index)} onKeyDown={event => this.onEnterKeyDown(event, index)} tabIndex={tabIndex+index}>
-                  <label className={fontSizeStyle}>
+                  <a className={fontSizeStyle}>
                     <i className="fa fa-check"></i>{option.label}
-                  </label>
+                  </a>
                 </div>
               )
             }  
             return (
               <div key={index.toString()} className="single-option center-aligned" onClick={() => onSelect(index)} onKeyDown={event => this.onEnterKeyDown(event, index)} tabIndex={tabIndex+index}>
-                <label className={fontSizeStyle}>
+                <a className={fontSizeStyle}>
                   {option.label}
-                </label>
+                </a>
               </div>
             )
           })
