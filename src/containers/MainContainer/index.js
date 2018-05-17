@@ -274,7 +274,6 @@ class MainContainer extends React.Component {
     this.setState({ showList: Object.assign({}, showList) })
   }
   showGPItem(visibleGP) {
-    console.log('====', visibleGP)
     this.setState({ visibleGP })
   }
   hideAllItem() {

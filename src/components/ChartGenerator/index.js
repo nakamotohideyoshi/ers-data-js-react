@@ -32,12 +32,15 @@ export default class ChartGenerator extends React.Component {
     }
   }
   componentWillReceiveProps(props) {
-    const { series, categories, title, chartType, whichOneMultiple, fontSizeIndex, isGovernmentPayments } = props
+    const { series, categories, title, chartType, whichOneMultiple, fontSizeIndex, isGovernmentPayments, visibleGP } = props
     if (series.length > 0)  {
-      if (isGovernmentPayments)
-        this.generateGPConfig(series, categories, title, chartType, whichOneMultiple, fontSizeIndex)
-      else 
-        this.generateConfig(series, categories, title, chartType, whichOneMultiple, fontSizeIndex)
+      if (isGovernmentPayments) {
+        const filteredSeries=[]
+        series.forEach(single => {
+          if (single[0]['header'] === visibleGP) filteredSeries.push(single)
+        })
+        this.generateGPConfig(filteredSeries, categories, title, chartType, whichOneMultiple, fontSizeIndex, visibleGP)
+      } else this.generateConfig(series, categories, title, chartType, whichOneMultiple, fontSizeIndex)
     }
   }
   generateCSVChart(series, categories) {
@@ -139,12 +142,11 @@ export default class ChartGenerator extends React.Component {
     
     return breaksArr
   }
-  generateGPConfig(series, categories, title, chartType, whichOneMultiple, fontSizeIndex) {
+  generateGPConfig(series, categories, title, chartType, whichOneMultiple, fontSizeIndex, visibleGP) {
     const chartFont = fontSizeIndex/5+1
     const radius = 100
     const xSpace = 30
     const ySpace = 10
-    console.log(series)
 
     const config = {
       title: {
