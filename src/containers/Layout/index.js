@@ -70,39 +70,42 @@ export default class Layout extends React.Component {
     blockIndex,
     whichOneMultiple
   ) => {
-    console.log('dsfds')
-    let filters = this.initFilterState()
 
-    for (let i=0; i<=dataSourceCounts; i++) {      
-      filters[i].report_num = pre_filters[i].report_num
-      filters[i].sub_report = pre_filters[i].sub_report
-      filters[i].subject_num = pre_filters[i].subject_num
-      filters[i].topic_abb = pre_filters[i].topic_abb
-      
-      if (pre_filters[i].serie_element.length > 1){
-        filters[i].serie = ['farm']
-        filters[i].serie_element = [0]        
-      } else {
-        filters[i].serie = pre_filters[i].serie
-        filters[i].serie_element = pre_filters[i].serie_element
+    if (runQuery.length === 0) {
+      console.log('dsfds')
+      let filters = this.initFilterState()
+
+      for (let i=0; i<=dataSourceCounts; i++) {      
+        filters[i].report_num = pre_filters[i].report_num
+        filters[i].sub_report = pre_filters[i].sub_report
+        filters[i].subject_num = pre_filters[i].subject_num
+        filters[i].topic_abb = pre_filters[i].topic_abb
+        
+        if (pre_filters[i].serie_element.length > 1){
+          filters[i].serie = ['farm']
+          filters[i].serie_element = [0]        
+        } else {
+          filters[i].serie = pre_filters[i].serie
+          filters[i].serie_element = pre_filters[i].serie_element
+        }
+        if (pre_filters[i].serie2_element.length > 1){
+          filters[i].serie2 = ['farm']
+          filters[i].serie2_element = [0]
+        } else {
+          filters[i].serie2 = pre_filters[i].serie2
+          filters[i].serie2_element = pre_filters[i].serie2_element
+        }
       }
-      if (pre_filters[i].serie2_element.length > 1){
-        filters[i].serie2 = ['farm']
-        filters[i].serie2_element = [0]
-      } else {
-        filters[i].serie2 = pre_filters[i].serie2
-        filters[i].serie2_element = pre_filters[i].serie2_element
-      }
+      this.setState({
+        filters,
+        selectedYears,
+        selectedStates,
+        selectedStateNames,   
+        blockIndex,
+        isRemoveDataSource,
+        whichOneMultiple
+      })
     }
-    this.setState({
-      filters,
-      selectedYears,
-      selectedStates,
-      selectedStateNames,   
-      blockIndex,
-      isRemoveDataSource,
-      whichOneMultiple
-    })
   }
 
 
