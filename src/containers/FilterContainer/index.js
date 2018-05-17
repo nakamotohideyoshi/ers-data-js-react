@@ -1541,8 +1541,6 @@ export default class FilterContainer extends React.Component {
     }
     let sortedYears = yearsInfo.sort(function(a, b){return parseInt(b.year, 10) - parseInt(a.year, 10)})
 
-    console.log('test', runQuery, pre_filters)
-
 
     return (  
       <div>
