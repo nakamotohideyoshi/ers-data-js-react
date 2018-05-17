@@ -153,11 +153,6 @@ export default class SidebarItem extends React.Component {
           </div>
         )
       }
-       <ReactTooltip 
-        place="top"
-        type="info" 
-        effect="float"
-      />   
     </div>
     );
   }
