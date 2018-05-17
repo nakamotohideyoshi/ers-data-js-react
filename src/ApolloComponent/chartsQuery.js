@@ -51,7 +51,7 @@ export default graphql(gql`
     }    
   }
 `, {
-    skip: (ownProps) => !(ownProps.blockIndex === 0 && ownProps.isGetSurveyData && ownProps.report_num_0[0] !== 6),
+    skip: (ownProps) => !(ownProps.blockIndex === 0 && ownProps.report_num_0[0] !== 6),
     name: 'charts',
   });
 
