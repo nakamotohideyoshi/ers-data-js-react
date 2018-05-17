@@ -20,7 +20,8 @@ import { compose } from 'react-apollo'
 import { YEAR_SELECTED } from '../../helpers/constants'
 class MainContainer extends React.Component {  
   state = {
-    showList: {},    
+    showList: {},
+    visibleGP: 'Farms',    
     years: [],
     surveyData: [],
     showData: [],
@@ -272,6 +273,10 @@ class MainContainer extends React.Component {
     showList[dataId] = true
     this.setState({ showList: Object.assign({}, showList) })
   }
+  showGPItem(visibleGP) {
+    console.log('====', visibleGP)
+    this.setState({ visibleGP })
+  }
   hideAllItem() {
     const { showList } = this.state
     for (let key in showList) 
@@ -286,7 +291,7 @@ class MainContainer extends React.Component {
   }
 
   render() {
-    const { showList, showData, footnotes, isLoading } = this.state
+    const { showList, visibleGP, showData, footnotes, isLoading } = this.state
     const { selectedYears, selectedStateNames, whichOneMultiple, blockIndex, fontSizeIndex, isGetSurveyData } = this.props
     const categories = whichOneMultiple === YEAR_SELECTED ? selectedYears.sort(function(a, b){return a-b}) : selectedStateNames
     if (isLoading) {
@@ -300,6 +305,7 @@ class MainContainer extends React.Component {
           categories={categories}
           surveyData={showData} 
           showList={showList}
+          visibleGP={visibleGP}          
           whichOneMultiple={whichOneMultiple}
           blockIndex={blockIndex}
           fontSizeIndex={fontSizeIndex}              
@@ -310,12 +316,14 @@ class MainContainer extends React.Component {
           categories={categories}
           surveyData={showData}
           showList={showList}
+          visibleGP={visibleGP}
           footnotes={footnotes}
           whichOneMultiple={whichOneMultiple}
           blockIndex={blockIndex}
           fontSizeIndex={fontSizeIndex}    
           hideItem={(dataId) => this.hideItem(dataId)}
           showItem={(dataId) => this.showItem(dataId)}
+          showGPItem={(header) => this.showGPItem(header)}
           showAllItem={() => this.showAllItem()}
           hideAllItem={() => this.hideAllItem()}
         />       

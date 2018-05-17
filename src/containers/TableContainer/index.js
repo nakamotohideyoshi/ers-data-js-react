@@ -269,7 +269,7 @@ class TableContainer extends React.Component {
   }
   render() {
     const { incomeArr, showTypes, selectedShowIndex, isShowItemAll } = this.state
-    const { showList, categories, blockIndex, fontSizeIndex, footnotes } = this.props
+    const { showList, visibleGP, categories, blockIndex, fontSizeIndex, footnotes, showGPItem } = this.props
 
     if (incomeArr.length === 0 || categories.length === 0)
       return ( <div className='center-notification'>No data to display</div> )
@@ -290,11 +290,14 @@ class TableContainer extends React.Component {
                           {
                             isShowItemAll && 
                               <a onClick={() => this.hideAllItem()}>
-                                <img src={ShownImg} alt="Show Icon" tabIndex={1400} onKeyDown={(event) => { if (event.keyCode === 13) this.hideAllItem()} } />                   </a>
+                                <img src={ShownImg} alt="Show Icon" tabIndex={1400} onKeyDown={(event) => { if (event.keyCode === 13) this.hideAllItem()} } />                   
+                              </a>
                           }
                           {
                             !isShowItemAll &&
-                              <a onClick={() => this.showAllItem()}><img src={HideAllImg} alt="Hide Icon" tabIndex={1400} onKeyDown={(event) => { if (event.keyCode === 13) this.showAllItem()} } /></a>
+                              <a onClick={() => this.showAllItem()}>
+                                <img src={HideAllImg} alt="Hide Icon" tabIndex={1400} onKeyDown={(event) => { if (event.keyCode === 13) this.showAllItem()} } />
+                              </a>
                           }
                         </div>
                       </th>
@@ -308,9 +311,24 @@ class TableContainer extends React.Component {
                               return (
                                 <tr key={`${index}`}>
                                   <td>
-                                      { data.isGovernmentPayments && `${data.groupName} (${data.unit_desc})` }
-                                      { !data.isGovernmentPayments && this.generatorHeadinInfo(data) }
-                                      &ensp;
+                                    {
+                                      data.isGovernmentPayments &&
+                                        <a 
+                                          onClick={() => data.groupName !== visibleGP ? showGPItem(data.groupName) : null } 
+                                          tabIndex={1401+index}
+                                          onKeyDown={(event) =>{ if (event.keyCode === 13) data.groupName !== visibleGP ? showGPItem(data.groupName) : null }}
+                                        >
+                                        <img src={data.groupName === visibleGP ? ShownImg : HiddenImg } alt="show-hide" />
+                                        </a> 
+                                    }
+                                    {
+                                      data.isGovernmentPayments &&
+                                        <div className="level-0">
+                                          {`${data.groupName} (${data.unit_desc})`}
+                                        </div>
+                                    }
+                                    { !data.isGovernmentPayments && this.generatorHeadinInfo(data) }
+                                    &ensp;
                                   </td>
                                 </tr>
                               )
@@ -330,7 +348,7 @@ class TableContainer extends React.Component {
                                             onKeyDown={(event) =>{ if (event.keyCode === 13) showList[data.id] === true ? this.hideItem(data.id) : this.showItem(data.id)} }
                                           >
                                           {
-                                            data.header && 
+                                            (data.header && !data.isGovernmentPayments) &&
                                               <img src={showList[data.id] === true ? ShownImg : HiddenImg } alt="show-hide" />
                                           }
                                           {
@@ -341,7 +359,7 @@ class TableContainer extends React.Component {
                                       }
                                     </div>
                                   }
-                                  <div className="pin-container">
+                                  <div className={`pin-container ${data.isGovernmentPayments ? `level-0` : ``}`}>
                                     {
                                       blockIndex < 1 && (
                                         <div 
