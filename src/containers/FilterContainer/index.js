@@ -1084,15 +1084,11 @@ export default class FilterContainer extends React.Component {
 
     pre_filters[blockIndex].serie_element = serie_element
     const isRemoveDataSource = false
-    const isGetSurveyData = false
-    const isAllDataSources = false
 
     const runQuery = pre_filters[blockIndex].report_num[0] === 6 ? 'dlfseAnalysis' : 'dlfseAnalysis'
 
     this.setState({
       isRemoveDataSource,
-      isGetSurveyData,
-      isAllDataSources,
       pre_filters,
       runQuery,
       blockIndex
@@ -1105,15 +1101,11 @@ export default class FilterContainer extends React.Component {
 
     pre_filters[blockIndex].serie2 = serie2
     const isRemoveDataSource = false
-    const isGetSurveyData = false
-    const isAllDataSources = false
 
     const runQuery = pre_filters[blockIndex].report_num[0] === 6 ? 'dlfsesAnalysis' : 'dlfsesAnalysis'
 
     this.setState({
       isRemoveDataSource,
-      isGetSurveyData,
-      isAllDataSources,
       pre_filters,
       runQuery,
       blockIndex
@@ -1126,8 +1118,6 @@ export default class FilterContainer extends React.Component {
 
     pre_filters[blockIndex].serie2_element = serie2_element
     const isRemoveDataSource = false
-    const isGetSurveyData = false
-    const isAllDataSources = false
 
     let isGovernment = false
     for (let i=1; i<9; i++) {
@@ -1142,8 +1132,6 @@ export default class FilterContainer extends React.Component {
 
     this.setState({
       isRemoveDataSource,
-      isGetSurveyData,
-      isAllDataSources,
       pre_filters,
       runQuery,
       blockIndex
@@ -1152,7 +1140,7 @@ export default class FilterContainer extends React.Component {
 
   // reset year in `Arms Data Analysis`
   selectYearAnalysis = (years) => {
-    let {temp_Years, selectedYears, whichOneMultiple, isReset, pre_filters} = this.state
+    let {temp_Years, selectedYears, whichOneMultiple, isReset, pre_filters, selectedStates, selectedStateNames, blockIndex} = this.state
 
     let isGovernment = false
     for (let i=1; i<9; i++) {
@@ -1207,35 +1195,34 @@ export default class FilterContainer extends React.Component {
       temp_Years = []
     }
 
-    const isRemoveDataSource = false
-
-    let isAllDataSources = false
-    let isGetSurveyData = false
-    
+    const isRemoveDataSource = false    
 
     if (runQuery.length === 0) {
       isReset = false
-      isGetSurveyData = true
-      isAllDataSources = true
     }
-
-    //mark1
 
     this.setState({
       isRemoveDataSource,
-      isGetSurveyData,
       yearsInfo: yearsInfo,
       temp_Years,
       selectedYears: reSelectedYears,
-      runQuery: runQuery,
-      isAllDataSources,
+      runQuery,
       isReset
-    })
+    }, this.props.getSurveyData(
+      runQuery,
+      pre_filters,
+      reSelectedYears,
+      selectedStates,
+      selectedStateNames, 
+      isRemoveDataSource,
+      blockIndex,
+      whichOneMultiple
+    ))
   }
 
   // reset Region in `Arms Data Analysis`
   selectStateAnalysis = (states) => {
-    let {temp_States, selectedStates, whichOneMultiple, isReset, pre_filters} = this.state
+    let {temp_States, selectedStates, whichOneMultiple, isReset, pre_filters, selectedYears, blockIndex} = this.state
 
     let isGovernment = false
     for (let i=1; i<9; i++) {
@@ -1294,30 +1281,32 @@ export default class FilterContainer extends React.Component {
     }
 
     const isRemoveDataSource = false
-
-    let isAllDataSources = false
-    let isGetSurveyData = false
     
 
     if (runQuery.length === 0) {
       isReset = false
-      isGetSurveyData = true
-      isAllDataSources = true
     }
 
     // mark1
 
     this.setState({
       isRemoveDataSource,
-      isGetSurveyData,
       statesInfo: statesInfo,
       temp_States,
       selectedStates: reSelectedStates,
       selectedStateNames: selectedStateNames,
-      runQuery: runQuery,
-      isAllDataSources,
+      runQuery,
       isReset
-    })
+    },  this.props.getSurveyData(
+      runQuery,
+      pre_filters,
+      selectedYears,
+      reSelectedStates,
+      selectedStateNames, 
+      isRemoveDataSource,
+      blockIndex,
+      whichOneMultiple
+    ))
   }
 
   // Add Datasource
@@ -1341,15 +1330,11 @@ export default class FilterContainer extends React.Component {
     const runQuery = 'dAnalysis'
 
     const isRemoveDataSource = false
-    const isGetSurveyData = false
-    const isAllDataSources = false
 
     this.setState({
       pre_filters,
       filters,
       isRemoveDataSource,
-      isGetSurveyData,
-      isAllDataSources,
       blockIndex,
       runQuery
     })
@@ -1358,18 +1343,11 @@ export default class FilterContainer extends React.Component {
   // remove DataSource
 
   removeDataSource = (blockIndex) => {
-    let {filters, pre_filters} = this.state
+    let {pre_filters, selectedYears, selectedStates, selectedStateNames, whichOneMultiple} = this.state
 
     for (let i=blockIndex; i<8; i++) {
-      filters[i] = filters[i+1]
       pre_filters[i] = pre_filters[i+1]
     }
-    filters[8].report_num = []
-    filters[8].subject_num = []
-    filters[8].serie = []
-    filters[8].serie_element = []
-    filters[8].serie2 = []
-    filters[8].serie2_element = []
     pre_filters[8].report_num = []
     pre_filters[8].subject_num = []
     pre_filters[8].serie = []
@@ -1378,17 +1356,24 @@ export default class FilterContainer extends React.Component {
     pre_filters[8].serie2_element = []
 
     const isRemoveDataSource = true
-    const isGetSurveyData = false
+    const runQuery = ''
 
     this.setState({
-      filters,
       pre_filters,
       blockIndex,
       isRemoveDataSource,
-      isGetSurveyData,
-      runQuery: '',
+      runQuery,
       isReset: false
-    }, this.getSurveyData())
+    }, this.props.getSurveyData(
+      runQuery,
+      pre_filters,
+      selectedYears,
+      selectedStates,
+      selectedStateNames, 
+      isRemoveDataSource,
+      blockIndex,
+      whichOneMultiple
+    ))
   }
   
   onSwitchMultiple = () => {
@@ -1425,10 +1410,8 @@ export default class FilterContainer extends React.Component {
       })
     }
     let runQuery = ''
-    let isGetSurveyData = true
     if (blockIndex !== 0 && yearsCount !== 1 && statesCount !== 1) {
       runQuery = 'ytDLAnalysis'
-      isGetSurveyData = false
     } 
 
     if (runQuery.length === 0) {
@@ -1436,8 +1419,6 @@ export default class FilterContainer extends React.Component {
     }
     
     const isRemoveDataSource = false
-
-    //mark1
 
     this.setState({
       filters,
@@ -1450,14 +1431,22 @@ export default class FilterContainer extends React.Component {
       statesInfo,
       isSelectedAll: false,
       isRemoveDataSource,
-      isGetSurveyData,
       runQuery,
       isReset
-    })
+    }, this.props.getSurveyData(
+      runQuery,
+      pre_filters,
+      selectedYears.slice(),
+      selectedStates.slice(),
+      selectedStateNames.slice(), 
+      isRemoveDataSource,
+      blockIndex,
+      whichOneMultiple
+    ))
   }
 
   onSelectAll = (whichOneMultiple) => {
-    let { isSelectedAll, yearsInfo, statesInfo } = this.state
+    let { pre_filters, blockIndex, isSelectedAll, yearsInfo, statesInfo } = this.state
     isSelectedAll = !isSelectedAll
     if (whichOneMultiple === YEAR_SELECTED) {
       yearsInfo.forEach(yearN => {
@@ -1495,10 +1484,22 @@ export default class FilterContainer extends React.Component {
       selectedStates.push(stateN.id)
       selectedStateNames.push(stateN.name)
     }
-    this.setState({ isSelectedAll, yearsInfo, statesInfo, selectedYears, selectedStates, selectedStateNames }, this.getSurveyData())
+
+    const runQuery = ''
+    const isRemoveDataSource = false
+    this.setState({ isSelectedAll, yearsInfo, statesInfo, selectedYears, selectedStates, selectedStateNames }, this.props.getSurveyData(
+      runQuery,
+      pre_filters,
+      selectedYears,
+      selectedStates,
+      selectedStateNames, 
+      isRemoveDataSource,
+      blockIndex,
+      whichOneMultiple
+    ))
   }
   switchFontSize(fontSizeIndex) {
-    this.setState({ fontSizeIndex }, this.getSurveyData())
+    this.setState({ fontSizeIndex }, this.props.switchFontSize(fontSizeIndex))
   }
 
   render() {
