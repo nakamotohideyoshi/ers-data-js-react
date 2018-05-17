@@ -41,7 +41,7 @@ class MainContainer extends React.Component {
     let {surveyData, showList, isLoading} = this.state
     let showData = []
     
-    if (!props.isGetSurveyData && props.isRemoveDataSource) {
+    if (props.isRemoveDataSource) {
       surveyData.splice(props.blockIndex, 1)
       surveyData.push([])
 
@@ -52,7 +52,7 @@ class MainContainer extends React.Component {
       
       this.setState({ showList, surveyData, showData, isLoading})
 
-    } else if (props.isGetSurveyData) {
+    } else {
       if (props.charts) {
         if(props.charts.networkStatus === 7) {
           let isTailored = false
@@ -214,9 +214,6 @@ class MainContainer extends React.Component {
       }
       // ---------------------------------
       
-    } else {
-      isLoading = true
-      this.setState({isLoading})
     }
   
   }
