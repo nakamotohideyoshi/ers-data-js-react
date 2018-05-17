@@ -23,21 +23,21 @@ export default class ChartGenerator extends React.Component {
     csvTableArray: [],    
   }
   componentWillMount() {
-    const { series, categories, title, chartType, whichOneMultiple, fontSizeIndex, isGovernmentPayments } = this.props
+    const { series, categories, title, chartType, whichOneMultiple, fontSizeIndex, isGovernmentPayments, isLoading } = this.props
     if (series.length > 0) {
       if (isGovernmentPayments)
         this.generateGPConfig(series, categories, title, chartType, whichOneMultiple, fontSizeIndex)
       else 
-        this.generateConfig(series, categories, title, chartType, whichOneMultiple, fontSizeIndex)
+        this.generateConfig(series, categories, title, chartType, whichOneMultiple, fontSizeIndex, isLoading)
     }
   }
   componentWillReceiveProps(props) {
-    const { series, categories, title, chartType, whichOneMultiple, fontSizeIndex, isGovernmentPayments } = props
+    const { series, categories, title, chartType, whichOneMultiple, fontSizeIndex, isGovernmentPayments, isLoading } = props
     if (series.length > 0)  {
       if (isGovernmentPayments)
         this.generateGPConfig(series, categories, title, chartType, whichOneMultiple, fontSizeIndex)
       else 
-        this.generateConfig(series, categories, title, chartType, whichOneMultiple, fontSizeIndex)
+        this.generateConfig(series, categories, title, chartType, whichOneMultiple, fontSizeIndex, isLoading)
     }
   }
   generateCSVChart(series, categories) {
@@ -239,7 +239,7 @@ export default class ChartGenerator extends React.Component {
     })
     this.setState({ config: Object.assign({}, config) })
   }
-  generateConfig(series, categories, title, chartType, whichOneMultiple, fontSizeIndex) {
+  generateConfig(series, categories, title, chartType, whichOneMultiple, fontSizeIndex, isLoading) {
  
     const chartFont = fontSizeIndex/5+1
     // CSV Generation for Chart/Table
@@ -345,6 +345,11 @@ export default class ChartGenerator extends React.Component {
           pointPadding: 0,
           groupPadding: 0.3
         },
+        line: {
+          animation: isLoading ? false : {
+            duration: 2000
+          }
+        }
       },
       legend: { 
         itemStyle: {
