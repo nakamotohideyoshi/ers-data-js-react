@@ -46,7 +46,12 @@ class Footnote extends React.Component{
       <Col xs={12} md={12} sm={12}>
         <div className={`footnote font-${fontSizeIndex}-normal`}>
           <br />
-          <span>Footnote</span><br />
+          {
+            footnotes.length > 0 && (
+              <span>Footnote</span>
+            )
+          }
+          <br />
           {
             footnotes.map((val, index) => {
               if (val.is_global === 1 || (val.is_global === 0 && val.report_num === this.props.report_num_0[0]))
