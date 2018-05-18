@@ -309,7 +309,7 @@ class TableContainer extends React.Component {
                                         <a 
                                           onClick={() => data.groupName !== visibleGP ? showGPItem(data.groupName) : null } 
                                           tabIndex={1401+index}
-                                          onKeyDown={(event) =>{ if (event.keyCode === 13) data.groupName !== visibleGP ? showGPItem(data.groupName) : null }}
+                                          onKeyDown={(event) =>{ if (event.keyCode === 13 && data.groupName !== visibleGP) showGPItem(data.groupName); return null }}
                                         >
                                         <img src={data.groupName === visibleGP ? ShownImg : HiddenImg } alt="show-hide" />
                                         </a> 
