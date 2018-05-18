@@ -144,7 +144,6 @@ export default class ChartGenerator extends React.Component {
     const radius = 100
     const xSpace = 30
     const ySpace = 10
-    console.log(series)
 
     const config = {
       title: {
