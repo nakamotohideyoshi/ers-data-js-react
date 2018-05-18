@@ -169,6 +169,7 @@ class TableContainer extends React.Component {
           groupName: income.header,
           totalCount: gpCount, 
           unit_desc: income.unit_desc,
+          desc: income.desc,          
           count: gpList[income.header] ? (gpList[income.header]).length : 0,
           isGovernmentPayments: true
         })
@@ -181,16 +182,8 @@ class TableContainer extends React.Component {
     this.setState({ incomeArr })
     this.setState({ scrollLeft: 0 })
   }
-  componentDidMount() {
-    document.addEventListener('mousedown', this.handleClickOutside);
-  }
-  componentWillUnmount() {
-    document.removeEventListener('mousedown', this.handleClickOutside);
-  }
-  handleClickOutside = (event) => {
-    if (this.headerBody && !this.headerBody.contains(event.target)) {
-      this.tooltip.hideTooltip()
-    }
+  componentDidUpdate() {
+    ReactTooltip.rebuild()
   }
   hideItem(dataId){
     this.props.hideItem(dataId)
@@ -329,6 +322,20 @@ class TableContainer extends React.Component {
                                     }
                                     { !data.isGovernmentPayments && this.generatorHeadinInfo(data) }
                                     &ensp;
+                                    <div className="pin-continer">
+                                    {
+                                      data.isGovernmentPayments &&
+                                      <img 
+                                        src={HelpImg}
+                                        className="help-img"
+                                        alt="help-img" 
+                                        data-tip={data.desc} 
+                                        data-place="top"
+                                        data-offset="{'left': 100}"
+                                        tabIndex={1401+index*2+1}
+                                      />
+                                    }
+                                    </div>
                                   </td>
                                 </tr>
                               )
@@ -359,11 +366,11 @@ class TableContainer extends React.Component {
                                       }
                                     </div>
                                   }
-                                  <div className={`pin-container ${data.isGovernmentPayments ? `level-0` : ``}`}>
+                                  <div className={`pin-container ${data.isGovernmentPayments ? `level-3` : ``}`}>
                                     {
                                       blockIndex < 1 && (
                                         <div 
-                                          className={`level-${data.level} nowrap-div` } 
+                                          className={data.isGovernmentPayments ? `nowrap-div` : `level-${data.level} nowrap-div` } 
                                         >
                                         {data.isGovernmentPayments && data.group_header}
                                         {!data.isGovernmentPayments && data.header}
@@ -376,7 +383,6 @@ class TableContainer extends React.Component {
                                             className="help-img"
                                             alt="Help Icon" 
                                             data-tip={data.desc} 
-                                            data-event="click"
                                             data-place="top"
                                             data-offset="{'left': 100}"
                                             tabIndex={1401+index*2+1}
@@ -396,7 +402,6 @@ class TableContainer extends React.Component {
                                               className="help-img"
                                               alt="help-img" 
                                               data-tip={data.desc} 
-                                              data-event="click"
                                               data-place="top"
                                               data-offset="{'left': 100}"
                                               tabIndex={1401+index*2+1}
@@ -505,7 +510,6 @@ class TableContainer extends React.Component {
             </div>
           </div>
           <ReactTooltip 
-            ref={(node) => this.tooltip = node}
             place="top"
             type="info" 
             effect="float"
