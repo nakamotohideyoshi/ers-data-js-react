@@ -70,9 +70,8 @@ export default class Layout extends React.Component {
     blockIndex,
     whichOneMultiple
   ) => {
-
     if (runQuery.length === 0) {
-      console.log('dsfds')
+      
       let filters = this.initFilterState()
 
       for (let i=0; i<=dataSourceCounts; i++) {      
@@ -106,7 +105,7 @@ export default class Layout extends React.Component {
         whichOneMultiple
       })
     }
-  }
+  } 
 
 
 
@@ -122,8 +121,6 @@ export default class Layout extends React.Component {
       fontSizeIndex,
       whichOneMultiple
     } = this.state
-
-    console.log('----', filters)
     
     return (        
       <Grid>        
