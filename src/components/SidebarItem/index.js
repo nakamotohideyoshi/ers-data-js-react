@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import SidebarDropdown from '../SidebarDropdown'
 import { SlideDown } from 'react-slidedown'
 import Reset from '../../images/reset.png'
-import ReactTooltip from 'react-tooltip'
 
 export default class SidebarItem extends React.Component {
   onEnterKeyDown = (event, index, type) => {
@@ -22,9 +21,9 @@ export default class SidebarItem extends React.Component {
     }
   }
 
-  componentDidUpdate() {
-    ReactTooltip.rebuild()
-  }
+  // componentDidUpdate() {
+  //   ReactTooltip.rebuild()
+  // }
 
   render() {
     const {
@@ -153,11 +152,6 @@ export default class SidebarItem extends React.Component {
           </div>
         )
       }
-       <ReactTooltip 
-        place="top"
-        type="info" 
-        effect="float"
-      />   
     </div>
     );
   }
