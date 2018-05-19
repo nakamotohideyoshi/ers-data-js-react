@@ -153,7 +153,11 @@
 }
 .estimate_rse .data-heading {
   font-family: 'Roboto', sans-serif;
-  color:#000000;
+  color: #000000;
+}
+.data-heading,
+.center-heading {
+  font-weight: 400;
 }
 .estimate_rse .data-value {
   text-align: right;
