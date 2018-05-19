@@ -15,8 +15,8 @@ import HelpImg from '../../images/help.png'
 import './style.css'
 
 const defaultShowTypes = [
-  { label: 'Relative Standard Error', selected: false },
-  { label: 'Median', selected: false }
+  { label: 'Relative Standard Error', selected: false, tooltipText: 'Relative Standard Error' },
+  { label: 'Median', selected: false, tooltipText: 'Median' }
 ]
 class TableContainer extends React.Component {
   state = {
