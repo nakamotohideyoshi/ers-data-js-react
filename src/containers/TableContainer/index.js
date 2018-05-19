@@ -300,6 +300,7 @@ class TableContainer extends React.Component {
                   <tbody onScroll={this.onScrollTable1} ref={node=>this.headerBody=node} className="header-body">
                     {
                         incomeArr.map((data, index) => {
+                          if (data !== undefined)
                           if (!data.id) {
                               return (
                                 <tr key={`${index}`}>
@@ -414,6 +415,7 @@ class TableContainer extends React.Component {
                               </tr>
                             )
                           }
+                          return null
                         })
                       }
                   </tbody>   
@@ -464,6 +466,7 @@ class TableContainer extends React.Component {
                 <tbody onScroll={this.onScrollTable} ref={node=>this.tbody=node}>
                   {
                     incomeArr.map((data, index) => {
+                      if (data !== undefined)                      
                       if (!data.id) {
                           return (
                             <tr key={`ltr-${index}`}>
@@ -503,6 +506,7 @@ class TableContainer extends React.Component {
                             }
                         </tr>
                       )
+                      return null
                     })
                   }
                 </tbody>

@@ -37,7 +37,9 @@ export default class ChartGenerator extends React.Component {
       if (isGovernmentPayments) {
         const filteredSeries=[]
         series.forEach(single => {
-          if (single[0]['header'] === visibleGP) filteredSeries.push(single)
+          if (single !== undefined)
+          if (single[0]['header'] === visibleGP) 
+            filteredSeries.push(single)
         })
         this.generateGPConfig(filteredSeries, categories, title, chartType, whichOneMultiple, fontSizeIndex, visibleGP)
       } else this.generateConfig(series, categories, title, chartType, whichOneMultiple, fontSizeIndex)
