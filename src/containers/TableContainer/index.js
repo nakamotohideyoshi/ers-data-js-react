@@ -367,7 +367,7 @@ class TableContainer extends React.Component {
                                       }
                                     </div>
                                   }
-                                  <div className={`pin-container ${data.isGovernmentPayments ? `level-3` : ``}`}>
+                                  <div className={`pin-container ${data.isGovernmentPayments ? `level-3 font-${fontSizeIndex}-smaller` : ``}`}>
                                     {
                                       blockIndex < 1 && (
                                         <div 
@@ -486,8 +486,8 @@ class TableContainer extends React.Component {
                                 categories.map((category, pos) => {
                                   return (
                                     <td className="estimate-rse-td nowrap-div" key={`est-td-${pos}`}>
-                                      <div className={`estimate_rse ${selectedShowIndex<0 ? 'estimate_rse_center':''}`}>
-                                        <div className="data-value">{incomeArr[index].estimateList[pos]}</div>
+                                      <div className={`estimate_rse ${selectedShowIndex<0 ? 'estimate_rse_center':''} ${data.isGovernmentPayments ? `font-${fontSizeIndex}-smaller`: ``}`}>
+                                        <div className="data-value ">{incomeArr[index].estimateList[pos]}</div>
                                         {
                                           selectedShowIndex === 0 && (
                                             <div className="data-value">{incomeArr[index].rseList[pos]}</div>
