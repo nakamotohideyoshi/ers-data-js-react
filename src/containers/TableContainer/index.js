@@ -279,7 +279,7 @@ class TableContainer extends React.Component {
                   <thead>
                     <tr>
                       <th className="primary-th">
-                        <div>
+                        <div className={`font-${fontSizeIndex}-normal`}>
                           {
                             isShowItemAll && 
                               <a onClick={() => this.hideAllItem()}>
@@ -430,7 +430,7 @@ class TableContainer extends React.Component {
                         categories.map((category, pos) => {
                           return (
                             <th scope="col" className="estimate-rse-th estimate-rse-td" key={`category-${pos}`}>
-                              <div className="estimate_rse center-heading">{category}</div>
+                              <div className={`estimate_rse center-heading font-${fontSizeIndex}-normal`}>{category}</div>
                             </th>
                           )
                         })
