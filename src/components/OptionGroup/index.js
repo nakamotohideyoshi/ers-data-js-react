@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
+import HelpImg from '../../images/help.png'
 import './style.css'
 
 export default class OptionGroup extends React.Component {
@@ -22,6 +24,18 @@ export default class OptionGroup extends React.Component {
                   <a className={fontSizeStyle}>
                     <i className="fa fa-check"></i>{option.label}
                   </a>
+                  {
+                    option.tooltipText &&
+                      <img 
+                        src={HelpImg}
+                        className="help-img"
+                        alt="help-img" 
+                        data-tip={option.tooltipText} 
+                        data-place="top"
+                        data-offset="{'left': 100}"
+                        tabIndex={tabIndex+index+1}
+                      />
+                  }
                 </div>
               )
             }  
@@ -30,6 +44,18 @@ export default class OptionGroup extends React.Component {
                 <a className={fontSizeStyle}>
                   {option.label}
                 </a>
+                {
+                  option.tooltipText &&
+                    <img 
+                      src={HelpImg}
+                      className="help-img"
+                      alt="help-img" 
+                      data-tip={option.tooltipText} 
+                      data-place="top"
+                      data-offset="{'left': 100}"
+                      tabIndex={tabIndex+index+1}
+                    />
+                }
               </div>
             )
           })
