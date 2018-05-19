@@ -92,8 +92,7 @@ class Sidebar extends React.Component {
     })    
   }
 
-  componentWillReceiveProps(props) {    
-    
+  componentWillReceiveProps(props) {   
     if (props.runQuery.length !== 0) {
 
       let {categoryTitles, sidebarItems, currentBlock} = this.state
@@ -807,7 +806,6 @@ class Sidebar extends React.Component {
 
   generateElements(serie, elements, currentBlock) {
     const serie_element = []
-    console.log(',m,m,mm,m,m', tooltip_mock[serie] ? tooltip_mock[serie].category : '')
 
     const categoryTitle = [{
       num: 0,
