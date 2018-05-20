@@ -58,7 +58,7 @@
   left: 0;
   top: 0;
   background-color: #1c1e1fb3;
-  position: absolute;  
+  position: fixed;  
   display: none;
   justify-content: center; 
   align-items: center; 

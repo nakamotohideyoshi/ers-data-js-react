@@ -196,12 +196,10 @@ class MainContainer extends React.Component {
 
   showLoadingbar() {
     document.getElementById('root').className = 'loading'
-    document.body.style.overflow = 'hidden'
   }
 
   hideLoadingbar() {
     document.getElementById('root').className = ''
-    document.body.style.overflow = 'unset'
   }
 
   hideItem(dataId) {
