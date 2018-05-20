@@ -4,7 +4,6 @@ import 'react-slidedown/lib/slidedown.css'
 import SidebarItem from '../../components/SidebarItem'
 import './style.css';
 import Reset from '../../images/reset.png'
-import tooltip_mock from '../../mock/tooltip';
 import dTailored from '../../ApolloComponent/dTailored'
 import dlTailored from '../../ApolloComponent/dlTailored'
 import dlfTailored from '../../ApolloComponent/dlfTailored'
@@ -776,7 +775,7 @@ class Sidebar extends React.Component {
       const obj = {}
       obj.num = serie.abb
       obj.header = serie.header
-      obj.tooltip = tooltip_mock[serie.header] ? tooltip_mock[serie.header].menu : ''
+      obj.tooltip = serie.desc ? serie.desc : ''
       categoryTitle.push(obj)
     })
 
@@ -818,7 +817,7 @@ class Sidebar extends React.Component {
       const obj = {}
       obj.num = element.id
       obj.header = element.name
-      obj.tooltip = tooltip_mock[serie] ? tooltip_mock[serie].category[element.name] : ''
+      obj.tooltip = element.desc ? element.desc : ''
       categoryTitle.push(obj)
       serie_element.push(element.id)
     })
