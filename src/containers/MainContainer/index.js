@@ -75,7 +75,7 @@ class MainContainer extends React.Component {
             showList = {}            
           }
 
-          if (surveyData[0].length > 0) {
+          if (surveyData[0].length > 0) {            
             let dataDetails = surveyData[0][0]
             showData = [{ 
               dataSource: 0, 

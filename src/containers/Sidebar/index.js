@@ -99,6 +99,7 @@ class Sidebar extends React.Component {
       const runQuery = props.runQuery
 
       if (['initialize'].indexOf(props.runQuery)>-1) {
+        currentBlock = 0
 
         const reports = this.generateReports(props.reports, currentBlock)
 
@@ -121,6 +122,7 @@ class Sidebar extends React.Component {
         switch (props.runQuery) {
 
           case 'dTailored':
+            currentBlock = 0
 
             let topic_abb = []
             props[runQuery][runQuery].topic.forEach(topic => {
@@ -1221,6 +1223,7 @@ class Sidebar extends React.Component {
   }
 
   render() {  
+    // console.log(this.state)
     const { sidebarItems, categoryTitles, isReports} = this.state
     const { fontSizeIndex } = this.props
     let isAdd = true    
