@@ -119,9 +119,7 @@ export default class Layout extends React.Component {
       fontSizeIndex,
       whichOneMultiple
     } = this.state
-    console.log(filters, blockIndex) 
-    return (
-             
+    return (             
       <Grid>        
         <div
           className='loading-bar'
