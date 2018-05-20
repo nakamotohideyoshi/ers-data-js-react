@@ -1222,8 +1222,7 @@ class Sidebar extends React.Component {
     }
   }
 
-  render() {  
-    // console.log(this.state)
+  render() { 
     const { sidebarItems, categoryTitles, isReports} = this.state
     const { fontSizeIndex } = this.props
     let isAdd = true    
