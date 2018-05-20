@@ -107,8 +107,6 @@ export default class Layout extends React.Component {
     }
   } 
 
-
-
   render() {
     
     const {
@@ -121,24 +119,25 @@ export default class Layout extends React.Component {
       fontSizeIndex,
       whichOneMultiple
     } = this.state
-    
-    return (        
+    console.log(filters, blockIndex) 
+    return (
+             
       <Grid>        
-        {/* <div
+        <div
           className='loading-bar'
         >
           <ReactLoading
             type='bars'
             color='#95ceff'
           />
-        </div> */}
+        </div>
         <FilterContainer
           reports = {this.props.reports}
           getSurveyData = {this.getSurveyData}
           switchFontSize = {this.switchFontSize}
         />      
         
-        <Col xs={12} md={12} sm={12} lg={9}>
+        <Col xs={12} md={12} sm={12} lg={9} className="main">
           <MainContainer
             selectedStates = {selectedStates}
             selectedStateNames = {selectedStateNames}
