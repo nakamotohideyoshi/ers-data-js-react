@@ -266,6 +266,10 @@ class TableContainer extends React.Component {
 
     return headingInfo
   }
+
+  componentDidUpdate() {
+    ReactTooltip.rebuild()
+  }
   render() {
     const { incomeArr, showTypes, selectedShowIndex, isShowItemAll } = this.state
     const { showList, categories, blockIndex, fontSizeIndex, footnotes } = this.props
