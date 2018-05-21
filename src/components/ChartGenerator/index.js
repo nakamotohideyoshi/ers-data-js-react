@@ -60,12 +60,16 @@ export default class ChartGenerator extends React.Component {
       this.setState({ csvChartArray })
   }
   generateCSVTable(series, categories) {
+    const { csvTitle } = this.props
     const csvTableArray = [];
 
     const headerFilter = ['']
     headerFilter.push('Source:')
-    headerFilter.push("Economic Research Services, US Dept of Agriculture")  
+    headerFilter.push('Economic Research Services, US Dept of Agriculture')  
     csvTableArray.push(headerFilter)
+
+    const reporting = ['', 'Report:', csvTitle]   
+    csvTableArray.push(reporting)
 
     const headerSpacing = ['', '']   
     csvTableArray.push(headerSpacing)
