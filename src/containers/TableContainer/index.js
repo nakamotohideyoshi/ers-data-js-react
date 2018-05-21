@@ -147,7 +147,6 @@ class TableContainer extends React.Component {
     // Generate specific data set for Government Payments
     const gpList = {}
     let gpDataSet = []
-    let gpCount = 0
 
     incomeArr.forEach(income => {
       if (income.group_header !== undefined)
@@ -155,11 +154,9 @@ class TableContainer extends React.Component {
           const result = gpList[income.header].find( element => element.group_header === income.group_header );
           if (!result) {
             gpList[income.header].push(income)
-            gpCount++
           }            
         } else {
           gpList[income.header] = [income]
-          gpCount++
         }
     })
     
@@ -167,7 +164,6 @@ class TableContainer extends React.Component {
       if (income.id) {
         gpDataSet.push({ 
           groupName: income.header,
-          totalCount: gpCount, 
           unit_desc: income.unit_desc,
           desc: income.desc,          
           count: gpList[income.header] ? (gpList[income.header]).length : 0,
