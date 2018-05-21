@@ -33,7 +33,6 @@ export default class ChartGenerator extends React.Component {
   }
   componentWillReceiveProps(props) {
     const { series, origin, categories, title, chartType, whichOneMultiple, fontSizeIndex, isGovernmentPayments, visibleGP } = props
-    console.log(origin)
     if (series.length > 0)  {
       if (isGovernmentPayments) {
         const filteredSeries=[]
@@ -41,7 +40,7 @@ export default class ChartGenerator extends React.Component {
           if (single[0]['header'] === visibleGP) 
             filteredSeries.push(single)
         })
-        this.generateGPConfig(filteredSeries, origin, categories, title, chartType, whichOneMultiple, fontSizeIndex, visibleGP)
+        this.generateGPConfig(filteredSeries, series, categories, title, chartType, whichOneMultiple, fontSizeIndex, visibleGP)
       } else this.generateConfig(series, origin, categories, title, chartType, whichOneMultiple, fontSizeIndex)
     }
   }
@@ -100,8 +99,8 @@ export default class ChartGenerator extends React.Component {
       })
       this.setState({ csvChartArray })
   }
-  generateCSVTable(origin, categories) {
-    const { csvTitle } = this.props
+  generateCSVTable(series, categories) {
+    const { csvTitle, isGovernmentPayments } = this.props
     const csvTableArray = [];
 
     const headerFilter = ['']
@@ -123,20 +122,35 @@ export default class ChartGenerator extends React.Component {
     }
     csvTableArray.push(header)
     
-    origin.forEach( element => {
-      if (element.id) {
-        let estRow = [element.header, 'Estimate']
-        let rseRow = ['', 'RSEᵃ']
-        estRow = estRow.concat(element.estimateList)
-        rseRow = rseRow.concat(element.rseList)
-        csvTableArray.push(estRow)
-        csvTableArray.push(rseRow)
-      } else {
-        let optionsRow = [element.isGovernmentPayments ? element.groupName + '(' + element.unit_desc + ')': this.generatorHeadinInfo(element)]
-        csvTableArray.push(optionsRow)
-      }
-
-    })
+    if (!isGovernmentPayments) {
+      series.forEach( element => {
+        if (element.id) {
+          let estRow = [element.header, 'Estimate']
+          let rseRow = ['', 'RSEᵃ']
+          estRow = estRow.concat(element.estimateList)
+          rseRow = rseRow.concat(element.rseList)
+          csvTableArray.push(estRow)
+          csvTableArray.push(rseRow)
+        } else {
+          let optionsRow = [element.isGovernmentPayments ? element.groupName + '(' + element.unit_desc + ')': this.generatorHeadinInfo(element)]
+          csvTableArray.push(optionsRow)
+        }
+      })
+    } else {
+      series.forEach((singleGroup, groupIndex) => {
+        if (groupIndex > 0)
+        Array.from(singleGroup).forEach((subItem, subIndex) => {
+          if (subIndex === 0) 
+            csvTableArray.push([subItem.header])
+          let estList = [subItem.group_header]
+          if (subItem.group_header !== 'All farms') {
+            estList = estList.concat(subItem.estimateList)
+            csvTableArray.push(estList)
+          }
+        })
+      })
+    }
+    
     this.setState({csvTableArray})
   }
   getBreakingPoints(dataSource) {
