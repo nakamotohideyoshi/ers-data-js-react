@@ -23,27 +23,68 @@ export default class ChartGenerator extends React.Component {
     csvTableArray: [],    
   }
   componentWillMount() {
-    const { series, categories, title, chartType, whichOneMultiple, fontSizeIndex, isGovernmentPayments } = this.props
+    const { series, origin, categories, title, chartType, whichOneMultiple, fontSizeIndex, isGovernmentPayments } = this.props
     if (series.length > 0) {
       if (isGovernmentPayments)
-        this.generateGPConfig(series, categories, title, chartType, whichOneMultiple, fontSizeIndex)
+        this.generateGPConfig(series, origin, categories, title, chartType, whichOneMultiple, fontSizeIndex)
       else 
-        this.generateConfig(series, categories, title, chartType, whichOneMultiple, fontSizeIndex)
+        this.generateConfig(series, origin, categories, title, chartType, whichOneMultiple, fontSizeIndex)
     }
   }
   componentWillReceiveProps(props) {
-    const { series, categories, title, chartType, whichOneMultiple, fontSizeIndex, isGovernmentPayments, visibleGP } = props
+    const { series, origin, categories, title, chartType, whichOneMultiple, fontSizeIndex, isGovernmentPayments, visibleGP } = props
+    console.log(origin)
     if (series.length > 0)  {
       if (isGovernmentPayments) {
         const filteredSeries=[]
         series.forEach(single => {
-          if (single !== undefined)
           if (single[0]['header'] === visibleGP) 
             filteredSeries.push(single)
         })
-        this.generateGPConfig(filteredSeries, categories, title, chartType, whichOneMultiple, fontSizeIndex, visibleGP)
-      } else this.generateConfig(series, categories, title, chartType, whichOneMultiple, fontSizeIndex)
+        this.generateGPConfig(filteredSeries, origin, categories, title, chartType, whichOneMultiple, fontSizeIndex, visibleGP)
+      } else this.generateConfig(series, origin, categories, title, chartType, whichOneMultiple, fontSizeIndex)
     }
+  }
+  generatorHeadinInfo(data) {
+    let headingInfo = ""
+    let filterFirst = ""
+    let filterSecond = ""
+    let filter1Header = ""
+    let filter2Header = ""
+    let filter1Content = ""
+    let filter2Content = ""
+    let filterContent = ""
+
+    if (data.serie_element !== "TOTAL") {
+      filterFirst = data.serie2 === "All Farms" || data.serie2 === undefined ? "Filter - " : "Filter1 - "
+      filterSecond = data.serie === "TOTAL" ? "Filter - " : "Filter2 - "
+
+      filter1Header = filterFirst + data.serie
+      filter1Content = data.serie_element === "TOTAL" ? "" : ": " + data.serie_element
+
+      if (data.serie2_element !== "TOTAL") {
+        filter2Header = ", " + filterSecond + data.serie2
+        filter2Content = data.serie2_element === "TOTAL" ? "" : ": " + data.serie2_element
+      } else {
+        filter2Header = ""
+        filter2Content = ""
+      }
+      filterContent = filter1Header + filter1Content
+      if (data.dataSource > 0)
+        filterContent += filter2Header + filter2Content
+    } else {
+      filterContent = ""
+    }
+
+    headingInfo += data.dataSource > 0 ? "Data Source: " + data.dataSource + ", " : "Tailored Report - "
+    headingInfo += "Report: " + data.report + ", "
+    headingInfo += "Subject: " + data.subject + ", "
+    headingInfo += filterContent + ", "                              
+    headingInfo = headingInfo.slice(0, -2)
+    if (filterContent === "")
+      headingInfo = headingInfo.slice(0, -2)
+
+    return headingInfo
   }
   generateCSVChart(series, categories) {
       let csvChartArray = [["Categories"]]
@@ -59,7 +100,7 @@ export default class ChartGenerator extends React.Component {
       })
       this.setState({ csvChartArray })
   }
-  generateCSVTable(series, categories) {
+  generateCSVTable(origin, categories) {
     const { csvTitle } = this.props
     const csvTableArray = [];
 
@@ -68,7 +109,7 @@ export default class ChartGenerator extends React.Component {
     headerFilter.push('Economic Research Services, US Dept of Agriculture')  
     csvTableArray.push(headerFilter)
 
-    const reporting = ['', 'Report:', csvTitle]   
+    const reporting = ['', '', csvTitle]   
     csvTableArray.push(reporting)
 
     const headerSpacing = ['', '']   
@@ -82,13 +123,19 @@ export default class ChartGenerator extends React.Component {
     }
     csvTableArray.push(header)
     
-    series.forEach( element => {
-      let estRow = [element.header, 'Estimate']
-      let rseRow = ['', 'RSEᵃ']
-      estRow = estRow.concat(element.estimateList)
-      rseRow = rseRow.concat(element.rseList)
-      csvTableArray.push(estRow)
-      csvTableArray.push(rseRow)
+    origin.forEach( element => {
+      if (element.id) {
+        let estRow = [element.header, 'Estimate']
+        let rseRow = ['', 'RSEᵃ']
+        estRow = estRow.concat(element.estimateList)
+        rseRow = rseRow.concat(element.rseList)
+        csvTableArray.push(estRow)
+        csvTableArray.push(rseRow)
+      } else {
+        let optionsRow = [element.isGovernmentPayments ? element.groupName + '(' + element.unit_desc + ')': this.generatorHeadinInfo(element)]
+        csvTableArray.push(optionsRow)
+      }
+
     })
     this.setState({csvTableArray})
   }
@@ -146,7 +193,11 @@ export default class ChartGenerator extends React.Component {
     
     return breaksArr
   }
-  generateGPConfig(series, categories, title, chartType, whichOneMultiple, fontSizeIndex, visibleGP) {
+  generateGPConfig(series, origin, categories, title, chartType, whichOneMultiple, fontSizeIndex, visibleGP) {
+    // CSV Generation for Chart/Table
+    this.generateCSVChart(origin, categories)
+    this.generateCSVTable(origin, categories)  
+    
     const chartFont = fontSizeIndex/5+1
     const radius = 100
     const xSpace = 30
@@ -245,13 +296,13 @@ export default class ChartGenerator extends React.Component {
     })
     this.setState({ config: Object.assign({}, config) })
   }
-  generateConfig(series, categories, title, chartType, whichOneMultiple, fontSizeIndex) {
+  generateConfig(series, origin, categories, title, chartType, whichOneMultiple, fontSizeIndex) {
  
-    const chartFont = fontSizeIndex/5+1
     // CSV Generation for Chart/Table
-    this.generateCSVChart(series, categories)
-    this.generateCSVTable(series, categories)  
+    this.generateCSVChart(origin, categories)
+    this.generateCSVTable(origin, categories)  
 
+    const chartFont = fontSizeIndex/5+1
     // Separate Farms and other series
 
     const seriesFarms = series.filter((single, index) => {

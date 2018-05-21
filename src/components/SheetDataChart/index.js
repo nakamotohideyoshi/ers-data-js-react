@@ -12,23 +12,30 @@ const chartTypes = [
 
 class SheetDataChart extends Component {
   state = {
+    originIncomeArr: [],
     incomeArr: [],
+    dataSourceGroups: [],
     chartTypeIndex: 0,
     isLineEnabled: true,
     isGovernmentPayments: false
   }
   componentWillReceiveProps(props) {
     const { showList, surveyData, categories, whichOneMultiple } = props
+    const dataSourceGroups = []
+    let originIncomeArr = []
     let incomeArr = []
     let gpArr = []    
     let isGovernmentPayments = false
 
     if (surveyData) {
       surveyData.forEach((dataSourceCategories, index) => {
+        if (dataSourceCategories.report === 'Government Payments') {
+          isGovernmentPayments = true
+        }
+        if (dataSourceCategories.data.length  > 0)
+          incomeArr.push(dataSourceCategories)
         dataSourceCategories.data.forEach((element, i) => {
-          if (dataSourceCategories.report === 'Government Payments') {
-            isGovernmentPayments = true
-          }
+
           let singleIncome = {}
           let currentIndex = 0
 
@@ -90,6 +97,9 @@ class SheetDataChart extends Component {
         })
       })
     }
+    
+    originIncomeArr = incomeArr
+    incomeArr = incomeArr.filter(item => item.id !== undefined) 
 
     const gpList = {}
     let gpDataSet = []
@@ -125,7 +135,7 @@ class SheetDataChart extends Component {
         }
       }
     }
-    this.setState({ incomeArr: incomeArr.slice() })
+    this.setState({ incomeArr, originIncomeArr })
     this.setState({ isGovernmentPayments })
     
   }
@@ -133,7 +143,7 @@ class SheetDataChart extends Component {
     this.setState({ chartTypeIndex })
   }
   render() {
-    const { incomeArr, chartTypeIndex, isLineEnabled, isGovernmentPayments } = this.state
+    const { incomeArr, originIncomeArr, chartTypeIndex, isLineEnabled, isGovernmentPayments } = this.state
     const { categories, blockIndex, fontSizeIndex, whichOneMultiple, visibleGP } = this.props
     let chartTitle = ''
     let csvTitle = 'ARMS data analysis'
@@ -144,13 +154,12 @@ class SheetDataChart extends Component {
     const chartType = chartTypes[chartTypeIndex].type
     let chartTypesArray = isLineEnabled ? chartTypes : [chartTypes[0]]
 
-    
     if (incomeArr.length === 0)
       return (<div className="empty-data-notification">No data to display</div>)
     else
       return (
         <div className="chart-container col-xs-12">
-          <ChartGenerator series={incomeArr} categories={categories} title={chartTitle} csvTitle={csvTitle} chartType={chartType} fontSizeIndex={fontSizeIndex} whichOneMultiple={whichOneMultiple} isGovernmentPayments={isGovernmentPayments} visibleGP={visibleGP} />
+          <ChartGenerator series={incomeArr} origin={originIncomeArr} categories={categories} title={chartTitle} csvTitle={csvTitle} chartType={chartType} fontSizeIndex={fontSizeIndex} whichOneMultiple={whichOneMultiple} isGovernmentPayments={isGovernmentPayments} visibleGP={visibleGP} />
           <div className="chart-type-container">
             <span className={`font-${fontSizeIndex}-small`}>Chart Type:</span>
             <OptionGroup options={chartTypesArray} selectedIndex={chartTypeIndex} fontSizeIndex={fontSizeIndex} onSelect={(index) => this.switchChartType(index)} tabIndex={1300} />
