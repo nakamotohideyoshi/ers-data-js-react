@@ -135,7 +135,7 @@ class SheetDataChart extends Component {
         }
       }
     }
-    this.setState({ incomeArr, originIncomeArr })
+    this.setState({ incomeArr: incomeArr.slice(), originIncomeArr: originIncomeArr.slice() })
     this.setState({ isGovernmentPayments })
     
   }
