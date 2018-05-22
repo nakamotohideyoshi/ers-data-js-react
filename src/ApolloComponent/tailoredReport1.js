@@ -45,7 +45,10 @@ export default graphql(gql`
         seq
         abb
         header
+        group_id
         group_header
+        sub_report_id
+        sub_report_name
         desc
         unit_num
         unit_desc
