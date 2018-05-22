@@ -259,7 +259,7 @@ class TableContainer extends React.Component {
   render() {
     const { incomeArr, showTypes, selectedShowIndex, isShowItemAll } = this.state
     const { showList, visibleGP, categories, blockIndex, fontSizeIndex, footnotes, showGPItem } = this.props
-
+    console.log(incomeArr)
     if (incomeArr.length === 0 || categories.length === 0)
       return ( <div className='center-notification'>No data to display</div> )
     else
@@ -296,8 +296,8 @@ class TableContainer extends React.Component {
                   <tbody onScroll={this.onScrollTable1} ref={node=>this.headerBody=node} className="header-body">
                     {
                         incomeArr.map((data, index) => {
-                          if (data !== undefined)
-                          if (!data.id) {
+                          if (data !== undefined) {
+                            if (!data.id) {
                               return (
                                 <tr key={`${index}`}>
                                   <td>
@@ -336,7 +336,7 @@ class TableContainer extends React.Component {
                                   </td>
                                 </tr>
                               )
-                          } else {
+                            } else {
                             const footnote = footnotes.filter(note => note.topic_abb === data.topic_abb)
                             const sign = footnote.length > 0 ? footnote[0].sign : ''
                             return (
@@ -405,12 +405,14 @@ class TableContainer extends React.Component {
                                             />
                                           }
                                         </div>
-                                    }
-                                  </div>
-                                </td>
-                              </tr>
-                            )
+                                      }
+                                    </div>
+                                  </td>
+                                </tr>
+                              )
+                            }
                           }
+                          
                           return null
                         })
                       }
