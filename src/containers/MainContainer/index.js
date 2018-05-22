@@ -3,18 +3,11 @@ import PropTypes from 'prop-types';
 import SheetDataChart from '../../components/SheetDataChart';
 import TableContainer from '../TableContainer';
 import './style.css';
-import charts from '../../ApolloComponent/chartsQuery'
-import charts1 from '../../ApolloComponent/charts1Query'
+import tailoredReport from '../../ApolloComponent/tailoredReport'
+import tailoredReport1 from '../../ApolloComponent/tailoredReport1'
+import armsData from '../../ApolloComponent/armsData'
 import tailorfootnote from '../../ApolloComponent/tailorFootNote'
 import armsdatafootnote from '../../ApolloComponent/armsdataFootNote'
-import dataSource1 from '../../ApolloComponent/dataSource1'
-import dataSource2 from '../../ApolloComponent/dataSource2'
-import dataSource3 from '../../ApolloComponent/dataSource3'
-import dataSource4 from '../../ApolloComponent/dataSource4'
-import dataSource5 from '../../ApolloComponent/dataSource5'
-import dataSource6 from '../../ApolloComponent/dataSource6'
-import dataSource7 from '../../ApolloComponent/dataSource7'
-import dataSource8 from '../../ApolloComponent/dataSource8'
 import { compose } from 'react-apollo'
 
 import { YEAR_SELECTED } from '../../helpers/constants'
@@ -38,11 +31,10 @@ class MainContainer extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-
     let {surveyData, showList, isLoading} = this.state
     let showData = []
-    
-    if (!props.isGetSurveyData && props.isRemoveDataSource) {
+
+    if (props.isRemoveDataSource) {
       surveyData.splice(props.blockIndex, 1)
       surveyData.push([])
 
@@ -53,42 +45,14 @@ class MainContainer extends React.Component {
       
       this.setState({ showList, surveyData, showData, isLoading})
 
-    } else if (props.isGetSurveyData) {
-      if (props.charts) {
-        if(props.charts.networkStatus === 7) {
+    } else {
+      const tailoredReport = props.report_num_0[0] === 6 ? 'tailoredReport1' : 'tailoredReport'
+
+      if (props[tailoredReport]) {
+        if(props[tailoredReport].networkStatus === 7) {
           let isTailored = false
-          if(props.charts.arms_surveydata) {
-            // Tailored Report
-            if (surveyData[0].length === 0) {
-              showList = {}
-              isTailored = true
-            } else if (props.report_num_0[0] !== surveyData[0][0].report_num) {
-              showList = {}
-              isTailored = true
-            }
-            props.charts.arms_surveydata.forEach(data => {
-              if (isTailored) {
-                if (data.topic_dim.level > 1) {
-                  showList[0+data.topic_abb] = false
-                } else {
-                  showList[0+data.topic_abb] = true
-                }
-              }
-            })            
-            surveyData[0] = props.charts.arms_surveydata            
-          } else {            
-            surveyData[0] = []
-            showList = {}            
-          }
-          
           isLoading = false
-        } else {
-          isLoading = true
-        }
-      } else if (props.charts1) {
-        if(props.charts1.networkStatus === 7) {
-          let isTailored = false
-          if(props.charts1.arms_surveydata) {
+          if(props[tailoredReport][tailoredReport]) {
             // Tailored Report
             if (surveyData[0].length === 0) {
               showList = {}
@@ -97,7 +61,7 @@ class MainContainer extends React.Component {
               showList = {}
               isTailored = true
             }
-            props.charts1.arms_surveydata.forEach(data => {
+            props[tailoredReport][tailoredReport].forEach(data => {
               if (isTailored) {
                 if (data.topic_dim.level > 1) {
                   showList[0+data.topic_abb] = false
@@ -106,121 +70,99 @@ class MainContainer extends React.Component {
                 }
               }
             })            
-            surveyData[0] = props.charts1.arms_surveydata            
+            surveyData[0] = props[tailoredReport][tailoredReport]
           } else {            
             surveyData[0] = []
             showList = {}            
           }
-          isLoading = false          
+
+          if (surveyData[0].length > 0) {            
+            let dataDetails = surveyData[0][0]
+            showData = [{ 
+              dataSource: 0, 
+              data: surveyData[0],
+              report: dataDetails.report_dim ? dataDetails.report_dim.header : '',
+              subject: dataDetails.subject_dim ? dataDetails.subject_dim.header : '',
+              serie: dataDetails.serie_dim ? dataDetails.serie_dim.header : '',
+              serie_element: dataDetails.serie_element_dim ? dataDetails.serie_element_dim.name : ''
+            }]
+            
+            surveyData[0].forEach((data, i) => {
+              if (data.topic_dim.level > 1) {
+                showList[0+data.topic_abb] = false
+              } else {
+                showList[0+data.topic_abb] = true
+              }
+            })
+          }
+          this.setState({ showList, surveyData, showData, isLoading })          
         } else {
           isLoading = true
+          this.setState({ isLoading }) 
+        }
+      } else if (props.armsData) {
+        if (props.armsData.networkStatus === 7) {
+          isLoading = false
+          for (let i=1; i<9; i++) {
+            const dataSource = 'dataSource' + i            
+            if (props.armsData[dataSource]) {
+              surveyData[i] = props.armsData[dataSource]
+            } else {
+              surveyData[i] = []
+            }
+          }
+          const updateArmsData = this.updateArmsData(surveyData)
+          showList = updateArmsData.showList
+          showData = updateArmsData.showData
+          this.setState({ showList, surveyData, showData, isLoading })
+        } else {
+          isLoading = true
+          this.setState({ isLoading })
         }
       }
 
-      // Cases for modified data source and same data source
-      if (!props.isAllDataSources) {
-        const dataSource = 'dataSource' + props.blockIndex
-        if (props[dataSource]) {
-          if (props[dataSource].networkStatus === 7) {
-            if (props[dataSource][dataSource]) {
-              surveyData[props.blockIndex] = props[dataSource][dataSource]
-            } else {
-              surveyData[props.blockIndex] = []
-            }
-            isLoading = false
-          } else {
-            isLoading = true
-          }
-        }
-      } else {
-        for (let i=1; i<9; i++) {
-          const dataSource = 'dataSource' + i
-          if (props[dataSource]) {
-            if (props[dataSource].networkStatus === 7) {
-              if (props[dataSource][dataSource]) {
-                surveyData[i] = props[dataSource][dataSource]
-              } else {
-                surveyData[i] = []
-              }
-              isLoading = false
-            }
-          }
-        }
-      }
-      // ---------------------------------
-      
-      // Compose showList and showData
-      if (props.blockIndex === 0) {
-        if (surveyData[0].length > 0) {
-          let dataDetails = surveyData[0][0]
-          showData = [{ 
-            dataSource: 0, 
-            data: surveyData[0],
-            report: dataDetails.report_dim ? dataDetails.report_dim.header : '',
-            subject: dataDetails.subject_dim ? dataDetails.subject_dim.header : '',
-            serie: dataDetails.serie_dim ? dataDetails.serie_dim.header : '',
-            serie_element: dataDetails.serie_element_dim ? dataDetails.serie_element_dim.name : ''
-          }]
-          
-          surveyData[0].forEach((data, i) => {
-            if (data.topic_dim.level > 1) {
-              showList[0+data.topic_abb] = false
-            } else {
-              showList[0+data.topic_abb] = true
-            }
-          })
-        }
-        
-      } else {
-        const updateArmsData = this.updateArmsData(surveyData)
-        showList = updateArmsData.showList
-        showData = updateArmsData.showData
-      }
-      // ---------------------------------
-      this.setState({ showList, surveyData, showData, isLoading })
+      /*
 
       // Compose footnote
       let footnotes = []
-      if (props.isGetSurveyData) {
-        if (props.blockIndex === 0) {
-          if (props.tailorfootnote) {
-            if(props.tailorfootnote.networkStatus === 7 && props.tailorfootnote.tailorfootnote) {
-              props.tailorfootnote.tailorfootnote.forEach(footnote => {
+      
+      if (props.blockIndex === 0) {
+        if (props.tailorfootnote) {
+          if(props.tailorfootnote.networkStatus === 7 && props.tailorfootnote.tailorfootnote) {
+            props.tailorfootnote.tailorfootnote.forEach(footnote => {
+              const obj = {}
+              obj.text = footnote.text
+              obj.topic_abb = footnote.topic_abb  
+              obj.sign = footnote.sign                  
+              footnotes.push(obj)
+            })
+          }
+        }
+        // this.setState({footnotes})
+      } else {
+        if (props.armsdatafootnote.networkStatus === 7) {
+          for (let i=1; i<9; i++) {
+            const datasource = 'datasource'+i
+            if (props.armsdatafootnote[datasource]) {
+              props.armsdatafootnote[datasource].forEach(footnote => {
                 const obj = {}
                 obj.text = footnote.text
                 obj.topic_abb = footnote.topic_abb  
-                obj.sign = footnote.sign                  
+                obj.sign = footnote.sign   
                 footnotes.push(obj)
               })
             }
           }
-          this.setState({footnotes})
-        } else {
-          if (props.armsdatafootnote.networkStatus === 7) {
-            for (let i=1; i<9; i++) {
-              const datasource = 'datasource'+i
-              if (props.armsdatafootnote[datasource]) {
-                props.armsdatafootnote[datasource].forEach(footnote => {
-                  const obj = {}
-                  obj.text = footnote.text
-                  obj.topic_abb = footnote.topic_abb  
-                  obj.sign = footnote.sign   
-                  footnotes.push(obj)
-                })
-              }
-            }
-            this.setState({footnotes})
-          }        
-        }
+          // this.setState({footnotes})
+        }        
       }
-      // ---------------------------------
       
-    } else {
-      isLoading = true
-      this.setState({isLoading})
+      // ---------------------------------
+      */
     }
-  
+    
   }
+
   updateArmsData(surveyData) {
     const showList = {}
     const showData = []
@@ -255,12 +197,10 @@ class MainContainer extends React.Component {
 
   showLoadingbar() {
     document.getElementById('root').className = 'loading'
-    document.body.style.overflow = 'hidden'
   }
 
   hideLoadingbar() {
     document.getElementById('root').className = ''
-    document.body.style.overflow = 'unset'
   }
 
   hideItem(dataId) {
@@ -348,16 +288,9 @@ MainContainer.propTypes = {
 };
 
 export default compose(
-  charts,
-  charts1,
+  tailoredReport,
+  tailoredReport1,
   tailorfootnote,
+  armsData,
   armsdatafootnote,
-  dataSource1,
-  dataSource2,
-  dataSource3,
-  dataSource4,
-  dataSource5,
-  dataSource6,
-  dataSource7,
-  dataSource8,
 )(MainContainer)

@@ -22,6 +22,7 @@ import gql from 'graphql-tag';
       serie{
         abb
         header
+        desc
       }
     }     
   }
