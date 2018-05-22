@@ -124,7 +124,7 @@ export default class ChartGenerator extends React.Component {
           Array.from(singleGroup).forEach((subItem, subIndex) => {
             if (subItem.header === visibleGP) {
               if (subIndex === 0) 
-              csvChartArray.push([subItem.header + element.unit_desc !== 'Dollars per farm' ? '(' + subItem.unit_desc + ')' : ''])
+              csvChartArray.push([subItem.header + subItem.unit_desc !== 'Dollars per farm' ? '(' + subItem.unit_desc + ')' : ''])
               let estRow = [subItem.group_header]
               if (subItem.group_header !== 'All farms') {
                 estRow = estRow.concat(subItem.estimateList)
@@ -188,7 +188,7 @@ export default class ChartGenerator extends React.Component {
       series.forEach((singleGroup, groupIndex) => {
         Array.from(singleGroup).forEach((subItem, subIndex) => {
           if (subIndex === 0) 
-            csvTableArray.push([subItem.header + element.unit_desc !== 'Dollars per farm' ? '(' + subItem.unit_desc + ')' : ''])
+            csvTableArray.push([subItem.header + subItem.unit_desc !== 'Dollars per farm' ? '(' + subItem.unit_desc + ')' : ''])
           let estRow = [subItem.group_header, 'Estimate']
           let rseRow = ['', 'RSEᵃ']
           let mdnRow = ['', 'Median']
