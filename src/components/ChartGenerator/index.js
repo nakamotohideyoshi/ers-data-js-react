@@ -262,7 +262,6 @@ export default class ChartGenerator extends React.Component {
   }
   generateGPConfig(series, origin, categories, title, chartType, whichOneMultiple, fontSizeIndex, visibleGP, isGovernmentPayments) {
     // CSV Generation for Chart/Table
-    console.log(origin)
     this.generateCSVChart(origin, categories, isGovernmentPayments)
     this.generateCSVTable(origin, categories, isGovernmentPayments)  
     
@@ -270,7 +269,6 @@ export default class ChartGenerator extends React.Component {
     const radius = 100
     const xSpace = 30
     const ySpace = 10
-
     const config = {
       title: {
         text: title,
@@ -322,7 +320,7 @@ export default class ChartGenerator extends React.Component {
               })
               .add();
               labelHeading.align(ReactHighcharts.Highcharts.extend(label.getBBox(), {
-                x: (radius+xSpace)*2 + (radius+xSpace)*catIndex,
+                x: (radius+xSpace) + (radius+xSpace)*catIndex,
                 y: radius/2,
               }), null, 'spacingBox');
             })
@@ -344,7 +342,7 @@ export default class ChartGenerator extends React.Component {
             type: 'pie',
             colorByPoint: true,
             name: category,
-            center: [(radius+xSpace)*(catIndex+2), (radius+ySpace)*(groupIndex+1)],
+            center: [(radius+xSpace)*[(catIndex+1)], (radius+ySpace)*(groupIndex+1) ],
             size: radius,
             dataLabels: {
               enabled: false
