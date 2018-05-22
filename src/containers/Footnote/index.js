@@ -12,30 +12,28 @@ class Footnote extends React.Component{
 
   componentWillReceiveProps(props){
     let footnotes = []
-    if (props.isGetSurveyData) {
-      if (props.blockIndex === 0) {
-        if (props.tailorfootnote) {
-          if(props.tailorfootnote.networkStatus === 7 && props.tailorfootnote.tailorfootnote) {
-            props.tailorfootnote.tailorfootnote.forEach(footnote => {
+    if (props.blockIndex === 0) {
+      if (props.tailorfootnote) {
+        if(props.tailorfootnote.networkStatus === 7 && props.tailorfootnote.tailorfootnote) {
+          props.tailorfootnote.tailorfootnote.forEach(footnote => {
+            footnotes.push(footnote)
+          })
+        }
+      }
+      this.setState({footnotes})
+    } else {
+      if (props.armsdatafootnote.networkStatus === 7) {
+        for (let i=1; i<9; i++) {
+          const datasource = 'datasource'+i
+          if (props.armsdatafootnote[datasource]) {
+            props.armsdatafootnote[datasource].forEach(footnote => {
               footnotes.push(footnote)
             })
           }
         }
         this.setState({footnotes})
-      } else {
-        if (props.armsdatafootnote.networkStatus === 7) {
-          for (let i=1; i<9; i++) {
-            const datasource = 'datasource'+i
-            if (props.armsdatafootnote[datasource]) {
-              props.armsdatafootnote[datasource].forEach(footnote => {
-                footnotes.push(footnote)
-              })
-            }
-          }
-          this.setState({footnotes})
-        }        
-      }
-    }
+      }        
+    }    
   }
 
   render() {
