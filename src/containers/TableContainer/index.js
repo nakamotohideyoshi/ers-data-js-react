@@ -178,9 +178,6 @@ class TableContainer extends React.Component {
     this.setState({ incomeArr })
     this.setState({ scrollLeft: 0 })
   }
-  componentDidUpdate() {
-    ReactTooltip.rebuild()
-  }
   hideItem(dataId){
     this.props.hideItem(dataId)
   }
