@@ -761,8 +761,10 @@ export default class ChartGenerator extends React.Component {
     this.refs.chart.getChart().print()
   }
   toggleDropdown = () => {
-    const isDropdownOpened = !this.state.isDropdownOpened
-    this.setState({ isDropdownOpened })
+    let {config} = this.state
+    const isDropdownOpened = !this.state.isDropdownOpened    
+    config.plotOptions.line.animation = false
+    this.setState({ isDropdownOpened, config })
   }
   componentDidMount() {
     document.addEventListener('mousedown', this.handleClickOutside);
