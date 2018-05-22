@@ -21,7 +21,6 @@ class SheetDataChart extends Component {
   }
   componentWillReceiveProps(props) {
     const { showList, surveyData, categories, whichOneMultiple } = props
-    const dataSourceGroups = []
     let originIncomeArr = []
     let incomeArr = []
     let gpArr = []    
