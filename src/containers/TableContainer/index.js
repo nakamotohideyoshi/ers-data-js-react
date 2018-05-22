@@ -298,6 +298,11 @@ class TableContainer extends React.Component {
                         incomeArr.map((data, index) => {
                           if (data !== undefined) {
                             if (!data.id) {
+                              let visibleItem = true
+                              if (data.count) {
+                                if (data.count === 1) visibleItem = false
+                              }
+                              if (visibleItem)
                               return (
                                 <tr key={`${index}`}>
                                   <td>
