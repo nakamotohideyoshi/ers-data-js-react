@@ -88,17 +88,53 @@ export default class ChartGenerator extends React.Component {
     return headingInfo
   }
   generateCSVChart(series, categories, isGovernmentPayments) {
-      let csvChartArray = [["Categories"]]
-      let i = 0
-      csvChartArray[0] = csvChartArray[0].concat(categories)
-      series.forEach((element, seriesIndex) => {
-        if (element.shown) {
-          i++
-          csvChartArray[i] = [element.header]
-          const estimateList = element.estimateList.map(est => numberWithCommas(est))
-          csvChartArray[i] = csvChartArray[i].concat(estimateList)
-        }
-      })
+      const { csvTitle, visibleGP } = this.props
+      let csvChartArray = []
+
+      const headerFilter = ['']
+      headerFilter.push('Source:')
+      headerFilter.push('Economic Research Services, US Dept of Agriculture')  
+      csvChartArray.push(headerFilter)
+
+      const reporting = ['', '', csvTitle]   
+      csvChartArray.push(reporting)
+
+      const headerSpacing = ['', '']   
+      csvChartArray.push(headerSpacing)
+
+      csvChartArray[3] = ["Categories"]
+      csvChartArray[3] = csvChartArray[3].concat(categories)
+
+      if (!isGovernmentPayments) { 
+        let i = 3
+        series.forEach((element, seriesIndex) => {
+          if (element.shown) {
+            i++
+            csvChartArray[i] = [element.header+ element.unit_desc !== 'Dollars per farm'  ? '(' + element.unit_desc + ')' : '']
+            const estimateList = element.estimateList.map(est => numberWithCommas(est))
+            csvChartArray[i] = csvChartArray[i].concat(estimateList)
+          } else if (!element.id) {
+            i++
+            let optionsRow = [this.generatorHeadinInfo(element)]
+            csvChartArray[i] = optionsRow
+          }
+        })
+      } else {
+        series.forEach((singleGroup, groupIndex) => {
+          Array.from(singleGroup).forEach((subItem, subIndex) => {
+            if (subItem.header === visibleGP) {
+              if (subIndex === 0) 
+              csvChartArray.push([subItem.header + element.unit_desc !== 'Dollars per farm' ? '(' + subItem.unit_desc + ')' : ''])
+              let estRow = [subItem.group_header]
+              if (subItem.group_header !== 'All farms') {
+                estRow = estRow.concat(subItem.estimateList)
+                csvChartArray.push(estRow)
+              }
+            }
+          })
+        })
+      }
+      
       this.setState({ csvChartArray })
   }
   generateCSVTable(series, categories, isGovernmentPayments) {
@@ -133,7 +169,7 @@ export default class ChartGenerator extends React.Component {
     if (!isGovernmentPayments) {
       series.forEach( element => {
         if (element.id) {
-          let estRow = [element.header, 'Estimate']
+          let estRow = [element.header + element.unit_desc !== 'Dollars per farm' ? '(' + element.unit_desc + ')' : '', 'Estimate']
           let rseRow = ['', 'RSEᵃ']
           let mdnRow = ['', 'Median']          
           estRow = estRow.concat(element.estimateList)
@@ -152,7 +188,7 @@ export default class ChartGenerator extends React.Component {
       series.forEach((singleGroup, groupIndex) => {
         Array.from(singleGroup).forEach((subItem, subIndex) => {
           if (subIndex === 0) 
-            csvTableArray.push([subItem.header])
+            csvTableArray.push([subItem.header + element.unit_desc !== 'Dollars per farm' ? '(' + subItem.unit_desc + ')' : ''])
           let estRow = [subItem.group_header, 'Estimate']
           let rseRow = ['', 'RSEᵃ']
           let mdnRow = ['', 'Median']
@@ -332,6 +368,7 @@ export default class ChartGenerator extends React.Component {
   generateConfig(series, origin, categories, title, chartType, whichOneMultiple, fontSizeIndex, isGovernmentPayments) {
  
     // CSV Generation for Chart/Table
+    console.log(origin)
     this.generateCSVChart(origin, categories, isGovernmentPayments)
     this.generateCSVTable(origin, categories, isGovernmentPayments)  
 
