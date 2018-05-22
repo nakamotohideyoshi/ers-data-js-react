@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import SidebarDropdown from '../SidebarDropdown'
 import { SlideDown } from 'react-slidedown'
 import Reset from '../../images/reset.png'
+import HelpImg from '../../images/help.png'
+import ReactTooltip from 'react-tooltip'
 
 export default class SidebarItem extends React.Component {
   onEnterKeyDown = (event, index, type) => {
@@ -21,9 +23,9 @@ export default class SidebarItem extends React.Component {
     }
   }
 
-  // componentDidUpdate() {
-  //   ReactTooltip.rebuild()
-  // }
+  componentDidUpdate() {
+    ReactTooltip.rebuild()
+  }
 
   render() {
     const {
@@ -112,8 +114,20 @@ export default class SidebarItem extends React.Component {
                           !(isDataLine ? selectedIndex.indexOf(index) > -1 : selectedIndex === index) && (
                             <div className="right-padding-option li-option">{titles[index].header}</div>
                           )
-                        }
+                        }                        
                         </a>
+                        {
+                          titles[index].tooltip.length > 0 && (
+                            <img 
+                              src={HelpImg}
+                              className="lhs-help-img"
+                              alt="Help Icon" 
+                              data-tip={titles[index].tooltip} 
+                              data-place="top"
+                              data-offset="{'top': 10, 'right': 50}"
+                            />
+                          )
+                        }
                       </li>
                     )
                   })
