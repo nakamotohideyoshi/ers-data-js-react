@@ -109,7 +109,7 @@ export default class ChartGenerator extends React.Component {
         series.forEach((element, seriesIndex) => {
           if (element.shown) {
             i++
-            csvChartArray[i] = [element.header+ element.unit_desc !== 'Dollars per farm'  ? '(' + element.unit_desc + ')' : '']
+            csvChartArray[i] = [element.header + (element.unit_desc !== 'Dollars per farm'  ? `(${element.unit_desc})` : '')]
             const estimateList = element.estimateList.map(est => numberWithCommas(est))
             csvChartArray[i] = csvChartArray[i].concat(estimateList)
           } else if (!element.id) {
@@ -123,7 +123,7 @@ export default class ChartGenerator extends React.Component {
           Array.from(singleGroup).forEach((subItem, subIndex) => {
             if (subItem.header === visibleGP) {
               if (subIndex === 0) 
-              csvChartArray.push([subItem.header + subItem.unit_desc !== 'Dollars per farm' ? '(' + subItem.unit_desc + ')' : ''])
+              csvChartArray.push([subItem.header + (subItem.unit_desc !== 'Dollars per farm'  ? `(${subItem.unit_desc})` : '')])
               let estRow = [subItem.group_header]
               if (subItem.group_header !== 'All farms') {
                 estRow = estRow.concat(subItem.estimateList)
@@ -168,7 +168,7 @@ export default class ChartGenerator extends React.Component {
     if (!isGovernmentPayments) {
       series.forEach( element => {
         if (element.id) {
-          let estRow = [element.header + element.unit_desc !== 'Dollars per farm' ? '(' + element.unit_desc + ')' : '', 'Estimate']
+          let estRow = [element.header + (element.unit_desc !== 'Dollars per farm'  ? `(${element.unit_desc})` : ''), 'Estimate']
           let rseRow = ['', 'RSEᵃ']
           let mdnRow = ['', 'Median']          
           estRow = estRow.concat(element.estimateList)
@@ -187,7 +187,7 @@ export default class ChartGenerator extends React.Component {
       series.forEach((singleGroup, groupIndex) => {
         Array.from(singleGroup).forEach((subItem, subIndex) => {
           if (subIndex === 0) 
-            csvTableArray.push([subItem.header + subItem.unit_desc !== 'Dollars per farm' ? '(' + subItem.unit_desc + ')' : ''])
+            csvTableArray.push([subItem.header + (subItem.unit_desc !== 'Dollars per farm'  ? `(${subItem.unit_desc})` : '')])
           let estRow = [subItem.group_header, 'Estimate']
           let rseRow = ['', 'RSEᵃ']
           let mdnRow = ['', 'Median']
