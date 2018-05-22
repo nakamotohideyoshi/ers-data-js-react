@@ -143,7 +143,7 @@ class SheetDataChart extends Component {
   }
   render() {
     const { incomeArr, originIncomeArr, chartTypeIndex, isLineEnabled, isGovernmentPayments } = this.state
-    const { categories, blockIndex, fontSizeIndex, whichOneMultiple, visibleGP } = this.props
+    const { categories, blockIndex, fontSizeIndex, whichOneMultiple, visibleGP, isLoading } = this.props
     let chartTitle = ''
     let csvTitle = 'ARMS data analysis'
     if (incomeArr.length > 0 && blockIndex < 1) {
@@ -158,7 +158,19 @@ class SheetDataChart extends Component {
     else
       return (
         <div className="chart-container col-xs-12">
-          <ChartGenerator series={incomeArr} origin={originIncomeArr} categories={categories} title={chartTitle} csvTitle={csvTitle} chartType={chartType} fontSizeIndex={fontSizeIndex} whichOneMultiple={whichOneMultiple} isGovernmentPayments={isGovernmentPayments} visibleGP={visibleGP} />
+          <ChartGenerator 
+            series={incomeArr}
+            origin={originIncomeArr} 
+            categories={categories} 
+            title={chartTitle} 
+            csvTitle={csvTitle} 
+            chartType={chartType} 
+            fontSizeIndex={fontSizeIndex} 
+            whichOneMultiple={whichOneMultiple} 
+            isGovernmentPayments={isGovernmentPayments} 
+            visibleGP={visibleGP} 
+            isLoading = {isLoading}
+          />
           <div className="chart-type-container">
             <span className={`font-${fontSizeIndex}-small`}>Chart Type:</span>
             <OptionGroup options={chartTypesArray} selectedIndex={chartTypeIndex} fontSizeIndex={fontSizeIndex} onSelect={(index) => this.switchChartType(index)} tabIndex={1300} />

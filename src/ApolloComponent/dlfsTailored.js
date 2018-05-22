@@ -21,6 +21,7 @@ import gql from 'graphql-tag';
     	serie_element{
         id
         name
+        desc
       }
     }
   }

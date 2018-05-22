@@ -23,17 +23,16 @@ export default class ChartGenerator extends React.Component {
     csvTableArray: [],    
   }
   componentWillMount() {
-    const { series, origin, categories, title, chartType, whichOneMultiple, fontSizeIndex, isGovernmentPayments } = this.props
+    const { series, origin, categories, title, chartType, whichOneMultiple, fontSizeIndex, isGovernmentPayments, isLoading } = this.props
     if (series.length > 0) {
       if (isGovernmentPayments)
-        this.generateGPConfig(series, origin, categories, title, chartType, whichOneMultiple, fontSizeIndex, isGovernmentPayments)
+        this.generateGPConfig(series, origin, categories, title, chartType, whichOneMultiple, fontSizeIndex, isGovernmentPayments, isLoading)
       else 
-        this.generateConfig(series, origin, categories, title, chartType, whichOneMultiple, fontSizeIndex, isGovernmentPayments)
+        this.generateConfig(series, origin, categories, title, chartType, whichOneMultiple, fontSizeIndex, isGovernmentPayments, isLoading)
     }
   }
   componentWillReceiveProps(props) {
-    const { series, origin, categories, title, chartType, whichOneMultiple, fontSizeIndex, isGovernmentPayments, visibleGP } = props
-    console.log(isGovernmentPayments)
+    const { series, origin, categories, title, chartType, whichOneMultiple, fontSizeIndex, isGovernmentPayments, visibleGP, isLoading } = props
     
     if (series.length > 0)  {
       if (isGovernmentPayments) {
@@ -42,8 +41,8 @@ export default class ChartGenerator extends React.Component {
           if (single[0]['header'] === visibleGP) 
             filteredSeries.push(single)
         })
-        this.generateGPConfig(filteredSeries, series, categories, title, chartType, whichOneMultiple, fontSizeIndex, visibleGP, isGovernmentPayments)
-      } else this.generateConfig(series, origin, categories, title, chartType, whichOneMultiple, fontSizeIndex, isGovernmentPayments)
+        this.generateGPConfig(filteredSeries, series, categories, title, chartType, whichOneMultiple, fontSizeIndex, visibleGP, isGovernmentPayments, isLoading)
+      } else this.generateConfig(series, origin, categories, title, chartType, whichOneMultiple, fontSizeIndex, isGovernmentPayments, isLoading)
     }
   }
   generatorHeadinInfo(data) {
@@ -365,7 +364,7 @@ export default class ChartGenerator extends React.Component {
     })
     this.setState({ config: Object.assign({}, config) })
   }
-  generateConfig(series, origin, categories, title, chartType, whichOneMultiple, fontSizeIndex, isGovernmentPayments) {
+  generateConfig(series, origin, categories, title, chartType, whichOneMultiple, fontSizeIndex, isGovernmentPayments, isLoading) {
  
     // CSV Generation for Chart/Table
     console.log(origin)
@@ -472,6 +471,11 @@ export default class ChartGenerator extends React.Component {
           pointPadding: 0,
           groupPadding: 0.3
         },
+        line: {
+          animation: isLoading ? false : {
+            duration: 2000
+          }
+        }
       },
       legend: { 
         itemStyle: {

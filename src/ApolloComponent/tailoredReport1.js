@@ -2,16 +2,17 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
 export default graphql(gql`
-  query ChartsQuery($selectedYears: [Int], $report_num_0: [Int], $subject_num_0: [Int], $serie_0: [String], $serie_element_0: [Int], $serie2_0: [String], $serie2_element_0: [Int], $selectedStates: [String]) {
-    arms_surveydata(
+  query TailoredReport1($selectedYears: [Int], $sub_report_0: [Int], $report_num_0: [Int], $subject_num_0: [Int], $serie_0: [String], $serie_element_0: [Int], $serie2_0: [String], $serie2_element_0: [Int], $selectedStates: [String], ) {
+    tailoredReport1: arms_surveydata(
       year: $selectedYears,
       state_id: $selectedStates,
-      report_num: $report_num_0,      
+      report_num: $report_num_0,
+      sub_report: $sub_report_0,      
       subject_num: $subject_num_0,
       series: $serie_0,
       series_element: $serie_element_0,
       series2: $serie2_0,
-      series2_element: $serie2_element_0,
+      series2_element: $serie2_element_0, 
       order_by: "topic_dim.seq|asc"
     )
     {
@@ -44,6 +45,7 @@ export default graphql(gql`
         seq
         abb
         header
+        group_header
         desc
         unit_num
         unit_desc
@@ -51,8 +53,8 @@ export default graphql(gql`
     }    
   }
 `, {
-    skip: (ownProps) => !(ownProps.blockIndex === 0 && ownProps.isGetSurveyData && ownProps.report_num_0[0] !== 6),
-    name: 'charts',
+    skip: (ownProps) => !(ownProps.blockIndex === 0 && ownProps.report_num_0[0] === 6),
+    name: 'tailoredReport1',
   });
 
 
