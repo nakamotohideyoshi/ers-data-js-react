@@ -889,7 +889,7 @@ class Sidebar extends React.Component {
       isCategory: false,
       blockIndex: currentBlock,
       visible: true,
-      headingTitle: 'Data Line'
+      headingTitle: 'Variable'
     }
 
     return { categoryTitle, sidebarItem }
