@@ -269,6 +269,8 @@ export default class ChartGenerator extends React.Component {
     const radius = 100
     const xSpace = 30
     const ySpace = 10
+    let piesInRow = Math.floor((window.innerWidth - 420) / (radius + xSpace*2))
+
     const config = {
       title: {
         text: title,
@@ -277,7 +279,7 @@ export default class ChartGenerator extends React.Component {
         }
       },
       chart: {
-        height: (radius+ySpace)*(series.filter(item=> item.length > 1).length+1.5),
+        height: (radius+ySpace)*(series.filter(item=> item.length > 1).length+1.5)*Math.floor(categories.length/piesInRow),
         type: 'pie',
         events: {
           load: function () {
@@ -307,7 +309,7 @@ export default class ChartGenerator extends React.Component {
               .add();
               labelHeading.align(ReactHighcharts.Highcharts.extend(label.getBBox(), {
                 x: 0, // offset
-                y: (radius+ySpace)*(groupIndex+1)+ySpace // offset
+                y: radius/2+ySpace // offset
               }), null, 'spacingBox');
             })
             categories.forEach((category, catIndex) => {
@@ -320,8 +322,8 @@ export default class ChartGenerator extends React.Component {
               })
               .add();
               labelHeading.align(ReactHighcharts.Highcharts.extend(label.getBBox(), {
-                x: (radius+xSpace) + (radius+xSpace)*catIndex,
-                y: radius/2,
+                x: (radius+xSpace) + (radius+xSpace)*(catIndex%piesInRow),
+                y: (radius+ySpace*3)*Math.floor(catIndex/piesInRow),
               }), null, 'spacingBox');
             })
           }
@@ -342,7 +344,7 @@ export default class ChartGenerator extends React.Component {
             type: 'pie',
             colorByPoint: true,
             name: category,
-            center: [(radius+xSpace)*[(catIndex+1)], (radius+ySpace)*(groupIndex+1) ],
+            center: [(radius+xSpace)*(catIndex%piesInRow+1), radius/2+(radius+ySpace*3)*Math.floor(catIndex/piesInRow) ],
             size: radius,
             dataLabels: {
               enabled: false
