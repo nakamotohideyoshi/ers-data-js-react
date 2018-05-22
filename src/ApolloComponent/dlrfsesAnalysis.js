@@ -23,6 +23,7 @@ import gql from 'graphql-tag';
       serie2_element{
         id
         name
+        desc
       }
     }     
   }
