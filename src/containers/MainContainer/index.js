@@ -6,8 +6,6 @@ import './style.css';
 import tailoredReport from '../../ApolloComponent/tailoredReport'
 import tailoredReport1 from '../../ApolloComponent/tailoredReport1'
 import armsData from '../../ApolloComponent/armsData'
-import tailorfootnote from '../../ApolloComponent/tailorFootNote'
-import armsdatafootnote from '../../ApolloComponent/armsdataFootNote'
 import { compose } from 'react-apollo'
 
 import { YEAR_SELECTED } from '../../helpers/constants'
@@ -119,46 +117,7 @@ class MainContainer extends React.Component {
           isLoading = true
           this.setState({ isLoading })
         }
-      }
-
-      /*
-
-      // Compose footnote
-      let footnotes = []
-      
-      if (props.blockIndex === 0) {
-        if (props.tailorfootnote) {
-          if(props.tailorfootnote.networkStatus === 7 && props.tailorfootnote.tailorfootnote) {
-            props.tailorfootnote.tailorfootnote.forEach(footnote => {
-              const obj = {}
-              obj.text = footnote.text
-              obj.topic_abb = footnote.topic_abb  
-              obj.sign = footnote.sign                  
-              footnotes.push(obj)
-            })
-          }
-        }
-        // this.setState({footnotes})
-      } else {
-        if (props.armsdatafootnote.networkStatus === 7) {
-          for (let i=1; i<9; i++) {
-            const datasource = 'datasource'+i
-            if (props.armsdatafootnote[datasource]) {
-              props.armsdatafootnote[datasource].forEach(footnote => {
-                const obj = {}
-                obj.text = footnote.text
-                obj.topic_abb = footnote.topic_abb  
-                obj.sign = footnote.sign   
-                footnotes.push(obj)
-              })
-            }
-          }
-          // this.setState({footnotes})
-        }        
-      }
-      
-      // ---------------------------------
-      */
+      }      
     }
     
   }
@@ -290,7 +249,5 @@ MainContainer.propTypes = {
 export default compose(
   tailoredReport,
   tailoredReport1,
-  tailorfootnote,
   armsData,
-  armsdatafootnote,
 )(MainContainer)
