@@ -16,7 +16,7 @@ export default graphql(gql`
     }    
   }
 `, {
-    skip: (ownProps) => !(ownProps.blockIndex === 0 && ownProps.isGetSurveyData),
+    skip: (ownProps) => !(ownProps.blockIndex === 0),
     name: 'tailorfootnote',
   });
 
