@@ -11,6 +11,16 @@ import gql from 'graphql-tag';
         header
       }
     }
+    footnotes: arms_footnote
+    {
+      survey_abb
+      report_num
+      topic_abb
+      text
+      sign
+      is_global
+      order     
+    }
   }
 `, {
     name: 'initial',
