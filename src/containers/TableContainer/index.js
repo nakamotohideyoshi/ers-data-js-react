@@ -468,17 +468,18 @@ class TableContainer extends React.Component {
                     incomeArr.map((data, index) => {
                       if (data !== undefined)                      
                       if (!data.id) {
-                          return (
-                            <tr key={`ltr-${index}`}>
-                            {
-                              categories && (
-                                categories.map((category, pos) => {
-                                  return <td key={`ltr-td-${pos}`}>&nbsp;</td>
-                                })
-                              )
-                            }
-                            </tr>
-                          )
+                        if (data.count < 2) return
+                        return (
+                          <tr key={`ltr-${index}`}>
+                          {
+                            categories && (
+                              categories.map((category, pos) => {
+                                return <td key={`ltr-td-${pos}`}>&nbsp;</td>
+                              })
+                            )
+                          }
+                          </tr>
+                        )
                       } else return (
                         <tr key={`ltr-${index}`}>     
                             {
