@@ -257,6 +257,7 @@ class TableContainer extends React.Component {
     const { incomeArr, showTypes, selectedShowIndex, isShowItemAll } = this.state
     const { showList, visibleGP, categories, blockIndex, fontSizeIndex, footnotes, showGPItem } = this.props
     console.log(incomeArr)
+    let visibleItem = true
     if (incomeArr.length === 0 || categories.length === 0)
       return ( <div className='center-notification'>No data to display</div> )
     else
@@ -295,49 +296,50 @@ class TableContainer extends React.Component {
                         incomeArr.map((data, index) => {
                           if (data !== undefined) {
                             if (!data.id) {
-                              let visibleItem = true
                               if (data.count) {
                                 if (data.count === 1) visibleItem = false
+                                else visibleItem = true
                               }
-                              if (visibleItem)
-                              return (
-                                <tr key={`${index}`}>
-                                  <td>
-                                    {
-                                      data.isGovernmentPayments &&
-                                        <a 
-                                          onClick={() => data.groupName !== visibleGP ? showGPItem(data.groupName) : null } 
-                                          tabIndex={1401+index}
-                                          onKeyDown={(event) =>{ if (event.keyCode === 13 && data.groupName !== visibleGP) showGPItem(data.groupName); return null }}
-                                        >
-                                        <img src={data.groupName === visibleGP ? ShownImg : HiddenImg } alt="show-hide" />
-                                        </a> 
-                                    }
-                                    {
-                                      data.isGovernmentPayments &&
-                                        <div className="level-0">
-                                          {`${data.groupName} (${data.unit_desc})`}
-                                        </div>
-                                    }
-                                    { !data.isGovernmentPayments && this.generatorHeadinInfo(data) }
-                                    &ensp;
-                                    <div className="pin-continer">
-                                    {
-                                      data.isGovernmentPayments &&
-                                      <img 
-                                        src={HelpImg}
-                                        className="help-img"
-                                        alt="help-img" 
-                                        data-tip={data.desc} 
-                                        data-place="top"
-                                        data-offset="{'left': 100}"
-                                        tabIndex={1401+index*2+1}
-                                      />
-                                    }
-                                    </div>
-                                  </td>
-                                </tr>
-                              )
+                              if (visibleItem) {
+                                return (
+                                  <tr key={`${index}`}>
+                                    <td>
+                                      {
+                                        data.isGovernmentPayments &&
+                                          <a 
+                                            onClick={() => data.groupName !== visibleGP ? showGPItem(data.groupName) : null } 
+                                            tabIndex={1401+index}
+                                            onKeyDown={(event) =>{ if (event.keyCode === 13 && data.groupName !== visibleGP) showGPItem(data.groupName); return null }}
+                                          >
+                                          <img src={data.groupName === visibleGP ? ShownImg : HiddenImg } alt="show-hide" />
+                                          </a> 
+                                      }
+                                      {
+                                        data.isGovernmentPayments &&
+                                          <div className="level-0">
+                                            {`${data.groupName} (${data.unit_desc})`}
+                                          </div>
+                                      }
+                                      { !data.isGovernmentPayments && this.generatorHeadinInfo(data) }
+                                      &ensp;
+                                      <div className="pin-continer">
+                                      {
+                                        data.isGovernmentPayments &&
+                                        <img 
+                                          src={HelpImg}
+                                          className="help-img"
+                                          alt="help-img" 
+                                          data-tip={data.desc} 
+                                          data-place="top"
+                                          data-offset="{'left': 100}"
+                                          tabIndex={1401+index*2+1}
+                                        />
+                                      }
+                                      </div>
+                                    </td>
+                                  </tr>
+                                )
+                              }
                             } else {
                             const footnote = footnotes.filter(note => note.topic_abb === data.topic_abb)
                             const sign = footnote.length > 0 ? footnote[0].sign : ''
@@ -365,41 +367,24 @@ class TableContainer extends React.Component {
                                       }
                                     </div>
                                   }
-                                  <div className={`pin-container ${data.isGovernmentPayments ? `level-3 font-${fontSizeIndex}-smaller` : ``}`}>
-                                    {
-                                      blockIndex < 1 && (
-                                        <div 
-                                          className={data.isGovernmentPayments ? `nowrap-div` : `level-${data.level} nowrap-div` } 
-                                        >
-                                        {data.isGovernmentPayments && data.group_header}
-                                        {!data.isGovernmentPayments && data.header}
-                                        <sup>&nbsp;{sign}</sup> 
-                                        {data.header && data.unit_desc !== 'Dollars per farm' && !data.isGovernmentPayments ? '('+data.unit_desc+')' : ''}
-                                        {
-                                          !data.isGovernmentPayments &&
-                                          <img 
-                                            src={HelpImg}
-                                            className="help-img"
-                                            alt="Help Icon" 
-                                            data-tip={data.desc} 
-                                            data-place="top"
-                                            data-offset="{'left': 100}"
-                                            tabIndex={1401+index*2+1}
-                                          />
-                                        }
-                                      </div>
-                                      )
-                                    } 
-                                    {
-                                      blockIndex > 0 &&
-                                        <div className="level-1 nowrap-div">
-                                          {data.header} {data.header && data.unit_desc !== 'Dollars per farm' && !data.isGovernmentPayments ? '('+data.unit_desc+')' : ''}
+                                  {
+                                    visibleItem && 
+                                      <div className={`pin-container ${data.isGovernmentPayments ? `level-3 font-${fontSizeIndex}-smaller` : ``}`}>
+                                      {
+                                        blockIndex < 1 && (
+                                          <div 
+                                            className={data.isGovernmentPayments ? `nowrap-div` : `level-${data.level} nowrap-div` } 
+                                          >
+                                          {data.isGovernmentPayments && data.group_header}
+                                          {!data.isGovernmentPayments && data.header}
+                                          <sup>&nbsp;{sign}</sup> 
+                                          {data.header && data.unit_desc !== 'Dollars per farm' && !data.isGovernmentPayments ? '('+data.unit_desc+')' : ''}
                                           {
                                             !data.isGovernmentPayments &&
                                             <img 
                                               src={HelpImg}
                                               className="help-img"
-                                              alt="help-img" 
+                                              alt="Help Icon" 
                                               data-tip={data.desc} 
                                               data-place="top"
                                               data-offset="{'left': 100}"
@@ -407,8 +392,59 @@ class TableContainer extends React.Component {
                                             />
                                           }
                                         </div>
-                                      }
-                                    </div>
+                                        )
+                                      } 
+                                      {
+                                        blockIndex > 0 &&
+                                          <div className="level-1 nowrap-div">
+                                            {data.header} {data.header && data.unit_desc !== 'Dollars per farm' && !data.isGovernmentPayments ? '('+data.unit_desc+')' : ''}
+                                            {
+                                              !data.isGovernmentPayments &&
+                                              <img 
+                                                src={HelpImg}
+                                                className="help-img"
+                                                alt="help-img" 
+                                                data-tip={data.desc} 
+                                                data-place="top"
+                                                data-offset="{'left': 100}"
+                                                tabIndex={1401+index*2+1}
+                                              />
+                                            }
+                                          </div>
+                                        }
+                                      </div>
+                                  }
+                                  {
+                                    (!visibleItem && data.isGovernmentPayments) && (
+                                      <div className={`gp-singleline-header font-${fontSizeIndex}-smaller`}>
+                                        <a 
+                                          onClick={() => data.header !== visibleGP ? showGPItem(data.header) : null } 
+                                          tabIndex={1401+index}
+                                          onKeyDown={(event) =>{ if (event.keyCode === 13 && data.header !== visibleGP) showGPItem(data.header); return null }}
+                                        >
+                                          <img src={data.header === visibleGP ? ShownImg : HiddenImg } alt="show-hide" />
+                                        </a>
+                                        &ensp; 
+                                        <div className="level-0">
+                                          {`${data.header} (${data.unit_desc})`}
+                                        </div>
+                                        <div className="pin-continer">
+                                        {
+                                          data.isGovernmentPayments &&
+                                          <img 
+                                            src={HelpImg}
+                                            className="help-img"
+                                            alt="help-img" 
+                                            data-tip={data.desc} 
+                                            data-place="top"
+                                            data-offset="{'left': 100}"
+                                            tabIndex={1401+index*2+1}
+                                          />
+                                        }
+                                        </div>
+                                      </div>
+                                    )
+                                  }
                                   </td>
                                 </tr>
                               )
