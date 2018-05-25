@@ -264,14 +264,14 @@ export default class ChartGenerator extends React.Component {
     // CSV Generation for Chart/Table
     this.generateCSVChart(origin, categories, isGovernmentPayments)
     this.generateCSVTable(origin, categories, isGovernmentPayments)  
-    
+
     const chartFont = fontSizeIndex/5+1
     const radius = 100
     const xSpace = 30
     const ySpace = 10
     let piesInRow = Math.floor((window.innerWidth - 420) / (radius + xSpace*2))
 
-    const config = {
+    let config = {
       title: {
         text: title,
         style: { 
@@ -362,12 +362,31 @@ export default class ChartGenerator extends React.Component {
         })
       }
     })
+    console.log(series)
+    if (series.length === 1 && series[0].length === 1) {
+      config = {
+        chart: {
+          type: 'column'
+        },
+        title: {
+          text: series[0][0]['header'],
+        },
+        credits: {
+          enabled: false
+        },
+        exporting: {
+          enabled: false
+        },
+        xAxis: { categories: categories },
+        series: [{ data: series[0][0]['estimateList'] }]
+      }
+    }
     this.setState({ config: Object.assign({}, config) })
   }
   generateConfig(series, origin, categories, title, chartType, whichOneMultiple, fontSizeIndex, isGovernmentPayments, isLoading) {
  
     // CSV Generation for Chart/Table
-    console.log(origin)
+    console.log('====', series)
     this.generateCSVChart(origin, categories, isGovernmentPayments)
     this.generateCSVTable(origin, categories, isGovernmentPayments)  
 
