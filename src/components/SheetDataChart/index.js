@@ -52,6 +52,7 @@ class SheetDataChart extends Component {
             singleIncome.header = element.topic_dim.header
             singleIncome.group_header = element.topic_dim.group_header
             singleIncome.unit_desc = element.topic_dim.unit_desc
+            singleIncome.sub_report_name = element.topic_dim.sub_report_name
               let estimateList = []
               let rseList = []
               let medianList = []
@@ -152,6 +153,13 @@ class SheetDataChart extends Component {
     }
     const chartType = chartTypes[chartTypeIndex].type
     let chartTypesArray = isLineEnabled ? chartTypes : [chartTypes[0]]
+    
+    let chartTypeVisible = true
+    if (isGovernmentPayments) {
+      const firstItem = incomeArr[0]
+      if (firstItem[0].sub_report_name === 'Farm Payment Status' || firstItem[0].sub_report_name === 'Summary by Program')
+        chartTypeVisible = false
+    }
 
     if (incomeArr.length === 0)
       return (<div className="empty-data-notification">No data to display</div>)
@@ -171,10 +179,13 @@ class SheetDataChart extends Component {
             visibleGP={visibleGP} 
             isLoading = {isLoading}
           />
-          <div className="chart-type-container">
-            <span className={`font-${fontSizeIndex}-small`}>Chart Type:</span>
-            <OptionGroup options={chartTypesArray} selectedIndex={chartTypeIndex} fontSizeIndex={fontSizeIndex} onSelect={(index) => this.switchChartType(index)} tabIndex={1300} />
-          </div>
+          {
+            chartTypeVisible &&
+            <div className="chart-type-container">
+              <span className={`font-${fontSizeIndex}-small`}>Chart Type:</span>
+              <OptionGroup options={chartTypesArray} selectedIndex={chartTypeIndex} fontSizeIndex={fontSizeIndex} onSelect={(index) => this.switchChartType(index)} tabIndex={1300} />
+            </div>
+          }
         </div>
       );
   }
