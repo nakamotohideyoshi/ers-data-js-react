@@ -322,7 +322,7 @@ export default class ChartGenerator extends React.Component {
               })
               .add();
               labelHeading.align(ReactHighcharts.Highcharts.extend(label.getBBox(), {
-                x: (radius+xSpace) + (radius+xSpace)*(catIndex%piesInRow),
+                x: (radius+xSpace)*2 + (radius+xSpace)*(catIndex%piesInRow),
                 y: (radius+ySpace*3)*Math.floor(catIndex/piesInRow),
               }), null, 'spacingBox');
             })
@@ -344,7 +344,7 @@ export default class ChartGenerator extends React.Component {
             type: 'pie',
             colorByPoint: true,
             name: category,
-            center: [(radius+xSpace)*(catIndex%piesInRow+1), radius/2+(radius+ySpace*3)*Math.floor(catIndex/piesInRow) ],
+            center: [(radius+xSpace)*(catIndex%piesInRow+2), radius/2+(radius+ySpace*3)*Math.floor(catIndex/piesInRow) ],
             size: radius,
             dataLabels: {
               enabled: false
