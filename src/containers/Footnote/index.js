@@ -52,7 +52,6 @@ class Footnote extends React.Component{
   render() {
     const { footnotes } = this.state
     const { fontSizeIndex, blockIndex } = this.props
-    // console.log('foot', footnotes)
     return (
       <Col xs={12} md={12} sm={12}>
         <div className={`footnote font-${fontSizeIndex}-normal`}>
