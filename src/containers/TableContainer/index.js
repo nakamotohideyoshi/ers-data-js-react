@@ -255,9 +255,11 @@ class TableContainer extends React.Component {
   }
   render() {
     const { incomeArr, showTypes, selectedShowIndex, isShowItemAll } = this.state
-    const { showList, visibleGP, categories, blockIndex, fontSizeIndex, footnotes, showGPItem } = this.props
-    console.log(incomeArr)
+    let { showList, visibleGP, categories, blockIndex, fontSizeIndex, isTotalGP, footnotes, showGPItem } = this.props
+
     let visibleItem = true
+    if (isTotalGP && visibleGP === "Farms") visibleGP = incomeArr[0].groupName
+
     if (incomeArr.length === 0 || categories.length === 0)
       return ( <div className='center-notification'>No data to display</div> )
     else
