@@ -504,7 +504,7 @@ class TableContainer extends React.Component {
                     incomeArr.map((data, index) => {
                       if (data !== undefined)                      
                       if (!data.id) {
-                        if (data.count < 2)
+                        if (data.count < 2) return
                         return (
                           <tr key={`ltr-${index}`}>
                           {
