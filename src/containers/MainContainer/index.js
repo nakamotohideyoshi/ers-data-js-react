@@ -17,7 +17,8 @@ class MainContainer extends React.Component {
     surveyData: [],
     showData: [],
     footnotes: [],
-    isLoading: true    
+    isLoading: true,
+    categories: []  
   }
 
   componentWillMount() {
@@ -31,6 +32,8 @@ class MainContainer extends React.Component {
   componentWillReceiveProps(props) {
     let {surveyData, showList, isLoading} = this.state
     let showData = []
+
+    const categories = props.whichOneMultiple === YEAR_SELECTED ? props.selectedYears.sort(function(a, b){return a-b}) : props.selectedStateNames
 
     if (props.isRemoveDataSource) {
       surveyData.splice(props.blockIndex, 1)
@@ -93,7 +96,7 @@ class MainContainer extends React.Component {
               }
             })
           }
-          this.setState({ showList, surveyData, showData, isLoading })          
+          this.setState({ showList, surveyData, showData, isLoading, categories })          
         } else {
           isLoading = true
           this.setState({ isLoading }) 
@@ -112,7 +115,7 @@ class MainContainer extends React.Component {
           const updateArmsData = this.updateArmsData(surveyData)
           showList = updateArmsData.showList
           showData = updateArmsData.showData
-          this.setState({ showList, surveyData, showData, isLoading })
+          this.setState({ showList, surveyData, showData, isLoading, categories })
         } else {
           isLoading = true
           this.setState({ isLoading })
@@ -189,9 +192,9 @@ class MainContainer extends React.Component {
   }
 
   render() {
-    const { showList, visibleGP, showData, footnotes, isLoading } = this.state
-    const { selectedYears, selectedStateNames, whichOneMultiple, blockIndex, fontSizeIndex, isGetSurveyData } = this.props
-    const categories = whichOneMultiple === YEAR_SELECTED ? selectedYears.sort(function(a, b){return a-b}) : selectedStateNames
+    const { showList, visibleGP, showData, footnotes, isLoading, categories } = this.state
+    const { whichOneMultiple, blockIndex, fontSizeIndex, isGetSurveyData } = this.props
+
     if (isLoading) {
       this.showLoadingbar()
     } else {
