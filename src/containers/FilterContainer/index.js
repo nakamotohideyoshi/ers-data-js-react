@@ -786,14 +786,6 @@ export default class FilterContainer extends React.Component {
   onSelectYear = (index) => {
     let {pre_filters, yearsInfo, whichOneMultiple, priority, blockIndex, isReset, selectedStates, selectedStateNames } = this.state
     let runQuery = ''
-    
-    let isGovernment = false
-    for (let i=1; i<9; i++) {
-      if (pre_filters[i].report_num.length !== 0 && pre_filters[i].report_num[0] === 6) {
-        isGovernment = true
-        break
-      }
-    }
 
     const priorityIndex = priority.indexOf('year')
     if (priority.length === 3) {
@@ -877,14 +869,6 @@ export default class FilterContainer extends React.Component {
   onSelectState = (index) => {
     let { pre_filters, statesInfo, whichOneMultiple, priority, blockIndex, isReset, selectedYears } = this.state
     let runQuery = ''
-
-    let isGovernment = false
-    for (let i=1; i<9; i++) {
-      if (pre_filters[i].report_num.length !== 0 && pre_filters[i].report_num[0] === 6) {
-        isGovernment = true
-        break
-      }
-    }
 
     const priorityIndex = priority.indexOf('state')
     if (priority.length === 3) {
@@ -1119,14 +1103,6 @@ export default class FilterContainer extends React.Component {
     pre_filters[blockIndex].serie2_element = serie2_element
     const isRemoveDataSource = false
 
-    let isGovernment = false
-    for (let i=1; i<9; i++) {
-      if (pre_filters[i].report_num.length !== 0 && pre_filters[i].report_num[0] === 6) {
-        isGovernment = true
-        break
-      }
-    }
-
     const runQuery = whichOneMultiple === YEAR_SELECTED ? 'dlfseseyAnalysis' : 'dlfsesetAnalysis'
 
 
@@ -1141,14 +1117,6 @@ export default class FilterContainer extends React.Component {
   // reset year in `Arms Data Analysis`
   selectYearAnalysis = (years) => {
     let {temp_Years, selectedYears, whichOneMultiple, isReset, pre_filters, selectedStates, selectedStateNames, blockIndex} = this.state
-
-    let isGovernment = false
-    for (let i=1; i<9; i++) {
-      if (pre_filters[i].report_num.length !== 0 && pre_filters[i].report_num[0] === 6) {
-        isGovernment = true
-        break
-      }
-    }
 
     const runQuery = whichOneMultiple === YEAR_SELECTED ? 'dlfseseytAnalysis' : ''    
 
@@ -1223,14 +1191,6 @@ export default class FilterContainer extends React.Component {
   // reset Region in `Arms Data Analysis`
   selectStateAnalysis = (states) => {
     let {temp_States, selectedStates, whichOneMultiple, isReset, pre_filters, selectedYears, blockIndex} = this.state
-
-    let isGovernment = false
-    for (let i=1; i<9; i++) {
-      if (pre_filters[i].report_num.length !== 0 && pre_filters[i].report_num[0] === 6) {
-        isGovernment = true
-        break
-      }
-    }
 
     const runQuery = whichOneMultiple === YEAR_SELECTED ? '' : 'dlfsesetyAnalysis'
 
