@@ -192,8 +192,14 @@ class MainContainer extends React.Component {
   }
 
   render() {
-    const { showList, visibleGP, showData, footnotes, isLoading, categories } = this.state
-    const { whichOneMultiple, blockIndex, fontSizeIndex, isGetSurveyData } = this.props
+    let { showList, visibleGP, showData, footnotes, isLoading, categories } = this.state
+    const { whichOneMultiple, blockIndex, fontSizeIndex, isGetSurveyData, report_num_0, sub_report_0 } = this.props
+    
+    // GP / 2nd Sub reporting
+    let isTotalGP = false
+    if (report_num_0[0] === 6 && sub_report_0[0] === 2) {
+      isTotalGP = true
+    }
 
     if (isLoading) {
       this.showLoadingbar()
@@ -209,7 +215,8 @@ class MainContainer extends React.Component {
           visibleGP={visibleGP}          
           whichOneMultiple={whichOneMultiple}
           blockIndex={blockIndex}
-          fontSizeIndex={fontSizeIndex}              
+          fontSizeIndex={fontSizeIndex} 
+          isTotalGP={isTotalGP}                       
           isGetSurveyData={isGetSurveyData}
           isLoading = {isLoading}     
         />
@@ -221,6 +228,7 @@ class MainContainer extends React.Component {
           footnotes={footnotes}
           whichOneMultiple={whichOneMultiple}
           blockIndex={blockIndex}
+          isTotalGP={isTotalGP}
           fontSizeIndex={fontSizeIndex}    
           hideItem={(dataId) => this.hideItem(dataId)}
           showItem={(dataId) => this.showItem(dataId)}
