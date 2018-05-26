@@ -269,99 +269,7 @@ export default class ChartGenerator extends React.Component {
     const xSpace = 30
     const ySpace = 10
     let piesInRow = Math.floor((window.innerWidth - 420) / (radius + xSpace*2))
-
-    let config = {
-      title: {
-        text: title,
-        style: { 
-          fontSize: chartFont*1.4+'em'
-        }
-      },
-      chart: {
-        height: (radius+ySpace)*(series.filter(item=> item.length > 1).length+1.5)*Math.floor(categories.length/piesInRow),
-        type: 'pie',
-        events: {
-          load: function () {
-            const label = this.renderer.label("Source: Economic Research Services, US Dept of Agriculture")
-              .css({
-                fontSize: chartFont*0.9+'em',
-                color: '#000000'
-              })
-              .add();
-            label.align(ReactHighcharts.Highcharts.extend(label.getBBox(), {
-              align: 'right',
-              x: 0, // offset
-              verticalAlign: 'bottom',
-              y: -10 // offset
-            }), null, 'spacingBox');
-
-            this.renderer.image('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAUCAYAAABxnDbHAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAq1JREFUeNrElG1ozVEcx8+uu83zU9tKYWa2MBaTh6Zle6FbEqKwUkqSSChPuWWJW/JG44XEC4WWF2RR3KKrECLPxBReIDO0eRrTxuf33/fa/652SbP96nPO+Z//+Z3fw/mdk+JCkbBzbjJsctFwjTMJRSbRLuR7M+OZjFdABtyDjVAAFa5N3sEjOI7OK+eXUGQxbYz52vhUADJhLrz1LW2GUShM9TZybo2pQxoMhp/SuQjzYTeMhRp0FrhEMSdX+icCrmP5BMUy8ANPm+jXQWPCqmi4xctQNLycr7NwFMPZirKEdgKsYpz2N0ZNLiuyhyiZwVQ2b0iy/iD0hCX6Xg1bIQsW/clovaK4QWtn0gP2eOcWioxLYvSl+mGsG0rfW3q1ylJSoym+9NmZ5sA2sI22JzE6XP1TL6XOPYNZcAuKcGR63GidFmb5lG3zjywqluHPsIPRVRiUxOgyaFDxzYY7MBBOqTjXtkYUiuTrZ5W8S4cjsNfzzrnvsE9R2LotcB1uw3rYDyNhgyraqjnPWx8NV/iuzknaOZa1gO6mhR2E8171OXeM+Qv0JyAXTsMhz0g0fEDpr4ZSRWXX4qZ3zZy7BhPhXLssmNEzloEUV15mEfSFDx5VsSbXGVJe1k/7WjUP8P2pM6OHlZIWTX6BFyqC+3DF874q1uzb0K5RvtKaI7JVF5l6vVI7cKfSjI5mMEIexcWi/aYrMATGa6MpUAj95dRz8fp3ppx7r75eAQT0kqXHH52g3lXz+gE8UbmblyU6sz76dxd2eQ9F6/3L9e5ja6XbeJoizZCOpbSXDLaLtC1llpZysMjfwCV4DGNUGEV66PNk9F+lMqjzKZR31UpVqa5MQcJD0UkSlNd2ZvNghp68/ypmdCcsdV0oAdcN0i1GLb1f9Uh3lTT+EmAAt2yr1kwO7ucAAAAASUVORK5CYII=', label.alignAttr.x-40,label.alignAttr.y+2*fontSizeIndex, 30, 20).add();
-              
-            //Headings
-            series.filter(item=> item.length > 1).forEach((singleGroup, groupIndex) => {
-              const labelHeading = this.renderer.label(singleGroup[0].header)
-              .css({
-                fontSize: chartFont+'em',
-                width: radius*2,
-                color: '#000000'
-              })
-              .add();
-              labelHeading.align(ReactHighcharts.Highcharts.extend(label.getBBox(), {
-                x: 0, // offset
-                y: radius/2+ySpace // offset
-              }), null, 'spacingBox');
-            })
-            categories.forEach((category, catIndex) => {
-              const labelHeading = this.renderer.label(category)
-              .css({
-                fontSize: chartFont+'em',
-                width: radius,
-                textAlign: 'center',
-                color: '#000000'
-              })
-              .add();
-              labelHeading.align(ReactHighcharts.Highcharts.extend(label.getBBox(), {
-                x: (radius+xSpace)*2 + (radius+xSpace)*(catIndex%piesInRow),
-                y: (radius+ySpace*3)*Math.floor(catIndex/piesInRow),
-              }), null, 'spacingBox');
-            })
-          }
-        },
-      },  
-      credits: {
-        enabled: false
-      },
-      exporting: {
-        enabled: false
-      },
-      series: []
-    }
-    series.forEach((singleGroup, groupIndex) => {
-      if (singleGroup.length > 1) {
-        categories.forEach((category, catIndex) => {
-          const singleLine = {
-            type: 'pie',
-            colorByPoint: true,
-            name: category,
-            center: [(radius+xSpace)*(catIndex%piesInRow+2), radius/2+(radius+ySpace*3)*Math.floor(catIndex/piesInRow) ],
-            size: radius,
-            dataLabels: {
-              enabled: false
-            },
-            data: [
-            ]
-          }
-          const singleLineData = []
-            singleGroup.forEach((subItem, subIndex) => {
-              if (subItem.group_header !== 'All farms')
-              singleLineData.push([subItem.group_header, subItem.estimateList[catIndex]])
-            })
-          singleLine.data = singleLineData
-          config.series.push(singleLine)
-        })
-      }
-    })
-    console.log(series)
+    let config
     if (series.length === 1 && series[0].length === 1) {
       config = {
         chart: {
@@ -376,16 +284,140 @@ export default class ChartGenerator extends React.Component {
         exporting: {
           enabled: false
         },
-        xAxis: { categories: categories },
+        xAxis: { 
+          labels: {
+            style: {
+              fontSize: chartFont+'em'
+            },
+            formatter: function() {
+              return categories[this.value];
+            }
+          }
+        },
+        yAxis: [],
         series: [{ data: series[0][0]['estimateList'] }]
       }
+      let trailReduce = ''
+      if (Math.min.apply(null, series[0][0]['estimateList']) > 1000) {
+        trailReduce = " (000's)"
+      }
+      config.yAxis.push({
+        title: {
+          text: "Number of Farms" + trailReduce,
+          style: {
+            fontSize: chartFont+'em'
+          }           
+        },
+        labels: {
+          style: {
+            fontSize: chartFont+'em'
+          },
+          formatter: function () {
+            const isReducePossible = this.value/1000 > 1
+
+            let axisFormat = numberWithCommas(isReducePossible ? Math.round(this.value/1000) : this.value)
+            return '<span style="margin-left:-30px" className="font-'+fontSizeIndex+'-normal">'+ numberWithCommas(axisFormat) +'</span>';
+          }
+        }
+      })
+    } else {
+      config = {
+        title: {
+          text: title,
+          style: { 
+            fontSize: chartFont*1.4+'em'
+          }
+        },
+        chart: {
+          height: (radius+ySpace)*(series.filter(item=> item.length > 1).length+1.5)*Math.floor(categories.length/piesInRow),
+          type: 'pie',
+          events: {
+            load: function () {
+              const label = this.renderer.label("Source: Economic Research Services, US Dept of Agriculture")
+                .css({
+                  fontSize: chartFont*0.9+'em',
+                  color: '#000000'
+                })
+                .add();
+              label.align(ReactHighcharts.Highcharts.extend(label.getBBox(), {
+                align: 'right',
+                x: 0, // offset
+                verticalAlign: 'bottom',
+                y: -10 // offset
+              }), null, 'spacingBox');
+
+              this.renderer.image('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAUCAYAAABxnDbHAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAq1JREFUeNrElG1ozVEcx8+uu83zU9tKYWa2MBaTh6Zle6FbEqKwUkqSSChPuWWJW/JG44XEC4WWF2RR3KKrECLPxBReIDO0eRrTxuf33/fa/652SbP96nPO+Z//+Z3fw/mdk+JCkbBzbjJsctFwjTMJRSbRLuR7M+OZjFdABtyDjVAAFa5N3sEjOI7OK+eXUGQxbYz52vhUADJhLrz1LW2GUShM9TZybo2pQxoMhp/SuQjzYTeMhRp0FrhEMSdX+icCrmP5BMUy8ANPm+jXQWPCqmi4xctQNLycr7NwFMPZirKEdgKsYpz2N0ZNLiuyhyiZwVQ2b0iy/iD0hCX6Xg1bIQsW/clovaK4QWtn0gP2eOcWioxLYvSl+mGsG0rfW3q1ylJSoym+9NmZ5sA2sI22JzE6XP1TL6XOPYNZcAuKcGR63GidFmb5lG3zjywqluHPsIPRVRiUxOgyaFDxzYY7MBBOqTjXtkYUiuTrZ5W8S4cjsNfzzrnvsE9R2LotcB1uw3rYDyNhgyraqjnPWx8NV/iuzknaOZa1gO6mhR2E8171OXeM+Qv0JyAXTsMhz0g0fEDpr4ZSRWXX4qZ3zZy7BhPhXLssmNEzloEUV15mEfSFDx5VsSbXGVJe1k/7WjUP8P2pM6OHlZIWTX6BFyqC+3DF874q1uzb0K5RvtKaI7JVF5l6vVI7cKfSjI5mMEIexcWi/aYrMATGa6MpUAj95dRz8fp3ppx7r75eAQT0kqXHH52g3lXz+gE8UbmblyU6sz76dxd2eQ9F6/3L9e5ja6XbeJoizZCOpbSXDLaLtC1llpZysMjfwCV4DGNUGEV66PNk9F+lMqjzKZR31UpVqa5MQcJD0UkSlNd2ZvNghp68/ypmdCcsdV0oAdcN0i1GLb1f9Uh3lTT+EmAAt2yr1kwO7ucAAAAASUVORK5CYII=', label.alignAttr.x-40,label.alignAttr.y+2*fontSizeIndex, 30, 20).add();
+                
+              //Headings
+              series.filter(item=> item.length > 1).forEach((singleGroup, groupIndex) => {
+                const labelHeading = this.renderer.label(singleGroup[0].header)
+                .css({
+                  fontSize: chartFont+'em',
+                  width: radius*2,
+                  color: '#000000'
+                })
+                .add();
+                labelHeading.align(ReactHighcharts.Highcharts.extend(label.getBBox(), {
+                  x: 0, // offset
+                  y: radius/2+ySpace // offset
+                }), null, 'spacingBox');
+              })
+              categories.forEach((category, catIndex) => {
+                const labelHeading = this.renderer.label(category)
+                .css({
+                  fontSize: chartFont+'em',
+                  width: radius,
+                  textAlign: 'center',
+                  color: '#000000'
+                })
+                .add();
+                labelHeading.align(ReactHighcharts.Highcharts.extend(label.getBBox(), {
+                  x: (radius+xSpace)*2 + (radius+xSpace)*(catIndex%piesInRow),
+                  y: (radius+ySpace*3)*Math.floor(catIndex/piesInRow),
+                }), null, 'spacingBox');
+              })
+            }
+          },
+        },  
+        credits: {
+          enabled: false
+        },
+        exporting: {
+          enabled: false
+        },
+        series: []
+      }
+      series.forEach((singleGroup, groupIndex) => {
+        if (singleGroup.length > 1) {
+          categories.forEach((category, catIndex) => {
+            const singleLine = {
+              type: 'pie',
+              colorByPoint: true,
+              name: category,
+              center: [(radius+xSpace)*(catIndex%piesInRow+2), radius/2+(radius+ySpace*3)*Math.floor(catIndex/piesInRow) ],
+              size: radius,
+              dataLabels: {
+                enabled: false
+              },
+              data: [
+              ]
+            }
+            const singleLineData = []
+              singleGroup.forEach((subItem, subIndex) => {
+                if (subItem.group_header !== 'All farms')
+                singleLineData.push([subItem.group_header, subItem.estimateList[catIndex]])
+              })
+            singleLine.data = singleLineData
+            config.series.push(singleLine)
+          })
+        }
+      })
     }
     this.setState({ config: Object.assign({}, config) })
   }
   generateConfig(series, origin, categories, title, chartType, whichOneMultiple, fontSizeIndex, isGovernmentPayments, isLoading) {
  
     // CSV Generation for Chart/Table
-    console.log('====', series)
     this.generateCSVChart(origin, categories, isGovernmentPayments)
     this.generateCSVTable(origin, categories, isGovernmentPayments)  
 
