@@ -488,7 +488,7 @@ export default graphql(gql`
     }   
   }
 `, {
-    skip: (ownProps) => !(ownProps.blockIndex !== 0),
+    skip: (ownProps) => !(ownProps.blockIndex !== 0 && !ownProps.isRemoveDataSource),
     name: 'armsData',
   });
 
