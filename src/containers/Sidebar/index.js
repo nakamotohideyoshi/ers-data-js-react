@@ -428,7 +428,6 @@ class Sidebar extends React.Component {
             break
 
           case 'dlAnalysis':
-          case 'dlrAnalysis':
           
             subjects = this.generateSubjects(props[runQuery][runQuery].subject, currentBlock)
             subjects.sidebarItem.headingTitle = 'Farm Type'
@@ -464,7 +463,6 @@ class Sidebar extends React.Component {
             break
 
           case 'dlfAnalysis':
-          case 'dlrfAnalysis':
             
             serie = [props[runQuery][runQuery].serie[0].abb]
 
@@ -500,7 +498,6 @@ class Sidebar extends React.Component {
             break
 
           case 'dlfsAnalysis':
-          case 'dlrfsAnalysis':
 
             index = 8*(currentBlock-1) + 11
 
@@ -543,7 +540,6 @@ class Sidebar extends React.Component {
             break
 
           case 'dlfseAnalysis':
-          case 'dlrfseAnalysis':
 
             serie = [props[runQuery][runQuery].serie2[0].abb]
             series = this.generateSeries(props[runQuery][runQuery].serie2, currentBlock)
@@ -585,7 +581,6 @@ class Sidebar extends React.Component {
             break
 
           case 'dlfsesAnalysis':
-          case 'dlrfsesAnalysis':
             
             index = 8*(currentBlock-1) + 13
 
@@ -628,8 +623,6 @@ class Sidebar extends React.Component {
 
           case 'dlfseseyAnalysis':
           case 'dlfsesetyAnalysis':
-          case 'dlrfseseyAnalysis':
-          case 'dlrfsesetyAnalysis':
 
             this.setState({
               categoryTitles,
@@ -641,8 +634,6 @@ class Sidebar extends React.Component {
 
           case 'dlfsesetAnalysis':
           case 'dlfseseytAnalysis':
-          case 'dlrfsesetAnalysis':
-          case 'dlrfseseytAnalysis':
 
             this.setState({
               categoryTitles,
