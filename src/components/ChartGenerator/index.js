@@ -276,6 +276,9 @@ export default class ChartGenerator extends React.Component {
         },
         title: {
           text: series[0][0]['report'] + ' - ' + series[0][0]['sub_report_name'],
+          style: { 
+            fontSize: chartFont*1.4+'em'
+          }
         },
         credits: {
           enabled: false
@@ -330,13 +333,13 @@ export default class ChartGenerator extends React.Component {
     } else {
       config = {
         title: {
-          text: title,
+          text: series[0][0]['report'] + ' - ' + series[0][0]['sub_report_name'],
           style: { 
             fontSize: chartFont*1.4+'em'
           }
         },
         chart: {
-          height: (radius+ySpace*2)*Math.floor(categories.length/piesInRow) + (radius*3),
+          height: (radius+ySpace*2)*Math.floor(categories.length/piesInRow) + (radius*4),
           type: 'pie',
           events: {
             load: function () {
@@ -366,7 +369,7 @@ export default class ChartGenerator extends React.Component {
                 .add();
                 labelHeading.align(ReactHighcharts.Highcharts.extend(label.getBBox(), {
                   x: (radius+xSpace)*2+(radius+xSpace)*(piesInRow-1)/2, 
-                  y: (radius+ySpace*2)*Math.floor(categories.length/piesInRow) + (radius*1.5),
+                  y: (radius+ySpace*2)*Math.floor(categories.length/piesInRow) + (radius*2),
                 }), null, 'spacingBox');
               })
               categories.forEach((category, catIndex) => {
@@ -380,7 +383,7 @@ export default class ChartGenerator extends React.Component {
                 .add();
                 labelHeading.align(ReactHighcharts.Highcharts.extend(label.getBBox(), {
                   x: (radius+xSpace)*2 + (radius+xSpace)*(catIndex%piesInRow),
-                  y: (radius+ySpace*3)*Math.floor(catIndex/piesInRow),
+                  y: (radius+ySpace*3)*Math.floor(catIndex/piesInRow)+radius/2,
                 }), null, 'spacingBox');
               })
             }
@@ -408,7 +411,7 @@ export default class ChartGenerator extends React.Component {
               type: 'pie',
               colorByPoint: true,
               name: category,
-              center: [(radius+xSpace)*(catIndex%piesInRow+2), radius/2+(radius+ySpace*3)*Math.floor(catIndex/piesInRow) ],
+              center: [(radius+xSpace)*(catIndex%piesInRow+2), radius/2+ySpace*1.5+(radius+ySpace*3)*Math.floor(catIndex/piesInRow) ],
               size: radius,
               dataLabels: {
                 enabled: false
