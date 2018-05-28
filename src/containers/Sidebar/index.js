@@ -42,15 +42,6 @@ import dlfseseyAnalysis from '../../ApolloComponent/dlfseseyAnalysis'
 import dlfseseytAnalysis from '../../ApolloComponent/dlfseseytAnalysis'
 import dlfsesetyAnalysis from '../../ApolloComponent/dlfsesetyAnalysis'
 
-import dlrAnalysis from '../../ApolloComponent/dlrAnalysis'
-import dlrfAnalysis from '../../ApolloComponent/dlrfAnalysis'
-import dlrfsAnalysis from '../../ApolloComponent/dlrfsAnalysis'
-import dlrfseAnalysis from '../../ApolloComponent/dlrfseAnalysis'
-import dlrfsesAnalysis from '../../ApolloComponent/dlrfsesAnalysis'
-import dlrfsesetAnalysis from '../../ApolloComponent/dlrfsesetAnalysis'
-import dlrfseseyAnalysis from '../../ApolloComponent/dlrfseseyAnalysis'
-import dlrfseseytAnalysis from '../../ApolloComponent/dlrfseseytAnalysis'
-import dlrfsesetyAnalysis from '../../ApolloComponent/dlrfsesetyAnalysis'
 import { compose } from 'react-apollo'
 
 class Sidebar extends React.Component {
@@ -437,7 +428,6 @@ class Sidebar extends React.Component {
             break
 
           case 'dlAnalysis':
-          case 'dlrAnalysis':
           
             subjects = this.generateSubjects(props[runQuery][runQuery].subject, currentBlock)
             subjects.sidebarItem.headingTitle = 'Farm Type'
@@ -473,7 +463,6 @@ class Sidebar extends React.Component {
             break
 
           case 'dlfAnalysis':
-          case 'dlrfAnalysis':
             
             serie = [props[runQuery][runQuery].serie[0].abb]
 
@@ -509,7 +498,6 @@ class Sidebar extends React.Component {
             break
 
           case 'dlfsAnalysis':
-          case 'dlrfsAnalysis':
 
             index = 8*(currentBlock-1) + 11
 
@@ -552,7 +540,6 @@ class Sidebar extends React.Component {
             break
 
           case 'dlfseAnalysis':
-          case 'dlrfseAnalysis':
 
             serie = [props[runQuery][runQuery].serie2[0].abb]
             series = this.generateSeries(props[runQuery][runQuery].serie2, currentBlock)
@@ -594,7 +581,6 @@ class Sidebar extends React.Component {
             break
 
           case 'dlfsesAnalysis':
-          case 'dlrfsesAnalysis':
             
             index = 8*(currentBlock-1) + 13
 
@@ -637,8 +623,6 @@ class Sidebar extends React.Component {
 
           case 'dlfseseyAnalysis':
           case 'dlfsesetyAnalysis':
-          case 'dlrfseseyAnalysis':
-          case 'dlrfsesetyAnalysis':
 
             this.setState({
               categoryTitles,
@@ -650,8 +634,6 @@ class Sidebar extends React.Component {
 
           case 'dlfsesetAnalysis':
           case 'dlfseseytAnalysis':
-          case 'dlrfsesetAnalysis':
-          case 'dlrfseseytAnalysis':
 
             this.setState({
               categoryTitles,
@@ -1295,30 +1277,32 @@ class Sidebar extends React.Component {
 
 export default compose(  
   dTailored,
-  dlTailored,
-  dlrTailored,
-  dlfTailored,
-  dlrfTailored,
-  dlfsTailored,
-  dlrfsTailored,
-  dlfseTailored,
-  dlrfseTailored,
-  dlfseyTailored,
-  dlrfseyTailored,
-  dlfsetTailored,
-  dlrfsetTailored,
-  dlftTailored,
-  dlrftTailored,
-  dlftsTailored,
-  dlrftsTailored,
-  dlftyTailored,
-  dlrftyTailored,
-  dlftysTailored,
-  dlrftysTailored,
-  dlfyTailored,
-  dlrfyTailored,
+  dlTailored,  
+  dlfTailored,  
+  dlfsTailored,  
+  dlfseTailored,  
+  dlfseyTailored,  
+  dlfsetTailored,  
+  dlftTailored,  
+  dlftsTailored,  
+  dlftyTailored,  
+  dlftysTailored,  
+  dlfyTailored,  
   dlfysTailored,
+  
+  dlrTailored,
+  dlrfTailored,
+  dlrfsTailored,
+  dlrfseTailored,
+  dlrfseyTailored,
+  dlrfsetTailored,
+  dlrftTailored,
+  dlrftsTailored,
+  dlrftyTailored,
+  dlrftysTailored,
+  dlrfyTailored,
   dlrfysTailored,
+  
   dAnalysis,
   dlAnalysis,
   dlfAnalysis,
@@ -1329,14 +1313,5 @@ export default compose(
   dlfseseyAnalysis,
   dlfseseytAnalysis,
   dlfsesetyAnalysis,
-  dlrAnalysis,
-  dlrfAnalysis,
-  dlrfsAnalysis,
-  dlrfseAnalysis,
-  dlrfsesAnalysis,
-  dlrfsesetAnalysis,
-  dlrfseseyAnalysis,
-  dlrfseseytAnalysis,
-  dlrfsesetyAnalysis,
 )(Sidebar)
 

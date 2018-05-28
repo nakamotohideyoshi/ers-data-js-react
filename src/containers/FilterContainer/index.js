@@ -786,14 +786,6 @@ export default class FilterContainer extends React.Component {
   onSelectYear = (index) => {
     let {pre_filters, yearsInfo, whichOneMultiple, priority, blockIndex, isReset, selectedStates, selectedStateNames } = this.state
     let runQuery = ''
-    
-    let isGovernment = false
-    for (let i=1; i<9; i++) {
-      if (pre_filters[i].report_num.length !== 0 && pre_filters[i].report_num[0] === 6) {
-        isGovernment = true
-        break
-      }
-    }
 
     const priorityIndex = priority.indexOf('year')
     if (priority.length === 3) {
@@ -846,7 +838,7 @@ export default class FilterContainer extends React.Component {
         runQuery = ''
         isReset = false
       } else {
-        runQuery = isGovernment ? 'dlfseseytAnalysis' : 'dlfseseytAnalysis'
+        runQuery = 'dlfseseytAnalysis'
       }
     }
 
@@ -877,14 +869,6 @@ export default class FilterContainer extends React.Component {
   onSelectState = (index) => {
     let { pre_filters, statesInfo, whichOneMultiple, priority, blockIndex, isReset, selectedYears } = this.state
     let runQuery = ''
-
-    let isGovernment = false
-    for (let i=1; i<9; i++) {
-      if (pre_filters[i].report_num.length !== 0 && pre_filters[i].report_num[0] === 6) {
-        isGovernment = true
-        break
-      }
-    }
 
     const priorityIndex = priority.indexOf('state')
     if (priority.length === 3) {
@@ -933,7 +917,7 @@ export default class FilterContainer extends React.Component {
       }
     } else {
       if (whichOneMultiple === YEAR_SELECTED) {
-        runQuery = isGovernment ? 'dlfsesetyAnalysis' : 'dlfsesetyAnalysis'
+        runQuery = 'dlfsesetyAnalysis'
       } else {
         runQuery = ''
         isReset = false
@@ -976,7 +960,7 @@ export default class FilterContainer extends React.Component {
     pre_filters[blockIndex].sub_report = sub_report
     const isRemoveDataSource = false
 
-    const runQuery = pre_filters[blockIndex].report_num[0] === 6 ? 'dlAnalysis' : 'dlAnalysis'
+    const runQuery = 'dlAnalysis'
 
     this.setState({
       isRemoveDataSource,
@@ -1050,7 +1034,7 @@ export default class FilterContainer extends React.Component {
 
     pre_filters[blockIndex].subject_num = subject_num
     const isRemoveDataSource = false
-    const runQuery = pre_filters[blockIndex].report_num[0] === 6 ? 'dlfAnalysis' : 'dlfAnalysis'
+    const runQuery = 'dlfAnalysis'
 
 
     this.setState({
@@ -1068,7 +1052,7 @@ export default class FilterContainer extends React.Component {
     pre_filters[blockIndex].serie = serie
     const isRemoveDataSource = false
 
-    const runQuery = pre_filters[blockIndex].report_num[0] === 6 ? 'dlfsAnalysis' : 'dlfsAnalysis'
+    const runQuery = 'dlfsAnalysis'
 
     this.setState({
       isRemoveDataSource,
@@ -1085,7 +1069,7 @@ export default class FilterContainer extends React.Component {
     pre_filters[blockIndex].serie_element = serie_element
     const isRemoveDataSource = false
 
-    const runQuery = pre_filters[blockIndex].report_num[0] === 6 ? 'dlfseAnalysis' : 'dlfseAnalysis'
+    const runQuery = 'dlfseAnalysis'
 
     this.setState({
       isRemoveDataSource,
@@ -1102,7 +1086,7 @@ export default class FilterContainer extends React.Component {
     pre_filters[blockIndex].serie2 = serie2
     const isRemoveDataSource = false
 
-    const runQuery = pre_filters[blockIndex].report_num[0] === 6 ? 'dlfsesAnalysis' : 'dlfsesAnalysis'
+    const runQuery = 'dlfsesAnalysis'
 
     this.setState({
       isRemoveDataSource,
@@ -1119,15 +1103,7 @@ export default class FilterContainer extends React.Component {
     pre_filters[blockIndex].serie2_element = serie2_element
     const isRemoveDataSource = false
 
-    let isGovernment = false
-    for (let i=1; i<9; i++) {
-      if (pre_filters[i].report_num.length !== 0 && pre_filters[i].report_num[0] === 6) {
-        isGovernment = true
-        break
-      }
-    }
-
-    const runQuery = whichOneMultiple === YEAR_SELECTED ? (isGovernment ? 'dlfseseyAnalysis' : 'dlfseseyAnalysis') : (isGovernment ? 'dlfsesetAnalysis' : 'dlfsesetAnalysis')
+    const runQuery = whichOneMultiple === YEAR_SELECTED ? 'dlfseseyAnalysis' : 'dlfsesetAnalysis'
 
 
     this.setState({
@@ -1142,15 +1118,7 @@ export default class FilterContainer extends React.Component {
   selectYearAnalysis = (years) => {
     let {temp_Years, selectedYears, whichOneMultiple, isReset, pre_filters, selectedStates, selectedStateNames, blockIndex} = this.state
 
-    let isGovernment = false
-    for (let i=1; i<9; i++) {
-      if (pre_filters[i].report_num.length !== 0 && pre_filters[i].report_num[0] === 6) {
-        isGovernment = true
-        break
-      }
-    }
-
-    const runQuery = whichOneMultiple === YEAR_SELECTED ? (isGovernment ? 'dlfseseytAnalysis' : 'dlfseseytAnalysis') : ''    
+    const runQuery = whichOneMultiple === YEAR_SELECTED ? 'dlfseseytAnalysis' : ''    
 
     let prevYearCount = 0
 
@@ -1224,15 +1192,7 @@ export default class FilterContainer extends React.Component {
   selectStateAnalysis = (states) => {
     let {temp_States, selectedStates, whichOneMultiple, isReset, pre_filters, selectedYears, blockIndex} = this.state
 
-    let isGovernment = false
-    for (let i=1; i<9; i++) {
-      if (pre_filters[i].report_num.length !== 0 && pre_filters[i].report_num[0] === 6) {
-        isGovernment = true
-        break
-      }
-    }
-
-    const runQuery = whichOneMultiple === YEAR_SELECTED ? '' : (isGovernment ? 'dlfsesetyAnalysis' : 'dlfsesetyAnalysis')
+    const runQuery = whichOneMultiple === YEAR_SELECTED ? '' : 'dlfsesetyAnalysis'
 
     let prevStateCount = 0
 

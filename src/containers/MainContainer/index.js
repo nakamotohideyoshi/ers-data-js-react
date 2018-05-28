@@ -200,6 +200,11 @@ class MainContainer extends React.Component {
       isTotalGP = true
     }
 
+    let isTailor = true
+    if (blockIndex !== 0) {
+      isTailor = false
+    }
+
     if (isLoading) {
       this.showLoadingbar()
     } else {
@@ -217,7 +222,8 @@ class MainContainer extends React.Component {
           fontSizeIndex={fontSizeIndex} 
           isTotalGP={isTotalGP}                       
           isGetSurveyData={isGetSurveyData}
-          isLoading = {isLoading}     
+          isLoading = {isLoading}
+          isTailor = {isTailor}    
         />
         <TableContainer 
           categories={categories}
