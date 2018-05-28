@@ -20,7 +20,7 @@ class SheetDataChart extends Component {
     isGovernmentPayments: false
   }
   componentWillReceiveProps(props) {
-    const { showList, surveyData, categories, whichOneMultiple } = props
+    const { showList, surveyData, categories, whichOneMultiple, isTailor } = props
     let originIncomeArr = []
     let incomeArr = []
     let gpArr = []    
@@ -28,7 +28,7 @@ class SheetDataChart extends Component {
 
     if (surveyData) {
       surveyData.forEach((dataSourceCategories, index) => {
-        if (dataSourceCategories.report === 'Government Payments') {
+        if (dataSourceCategories.report === 'Government Payments' && isTailor) {
           isGovernmentPayments = true
         }
         if (dataSourceCategories.data.length  > 0)
@@ -144,7 +144,7 @@ class SheetDataChart extends Component {
   }
   render() {
     const { incomeArr, originIncomeArr, chartTypeIndex, isLineEnabled, isGovernmentPayments } = this.state
-    let { categories, blockIndex, fontSizeIndex, whichOneMultiple, visibleGP, isTotalGP, isLoading, isTailor } = this.props
+    let { categories, blockIndex, fontSizeIndex, whichOneMultiple, visibleGP, isTotalGP, isLoading } = this.props
     let chartTitle = ''
     let csvTitle = 'ARMS data analysis'
     if (incomeArr.length > 0 && blockIndex < 1) {
@@ -155,7 +155,7 @@ class SheetDataChart extends Component {
     let chartTypesArray = isLineEnabled ? chartTypes : [chartTypes[0]]
     
     let chartTypeVisible = true
-    if (isGovernmentPayments && isTailor) {
+    if (isGovernmentPayments) {
       const firstItem = incomeArr[0]
       if (firstItem[0].sub_report_name === 'Farm Payment Status' || firstItem[0].sub_report_name === 'Summary by Program')
         chartTypeVisible = false
@@ -182,7 +182,6 @@ class SheetDataChart extends Component {
             isGovernmentPayments={isGovernmentPayments} 
             visibleGP={visibleGP} 
             isLoading = {isLoading}
-            isTailor = {isTailor}
           />
           {
             chartTypeVisible &&
