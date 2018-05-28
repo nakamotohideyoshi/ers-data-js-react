@@ -263,7 +263,6 @@ export default class ChartGenerator extends React.Component {
     // CSV Generation for Chart/Table
     this.generateCSVChart(origin, categories, isGovernmentPayments)
     this.generateCSVTable(origin, categories, isGovernmentPayments)  
-
     const chartFont = fontSizeIndex/5+1
     const radius = 100
     const xSpace = 30
@@ -337,7 +336,7 @@ export default class ChartGenerator extends React.Component {
           }
         },
         chart: {
-          height: (radius+ySpace)*(series.filter(item=> item.length > 1).length+1.5)*Math.floor(categories.length/piesInRow),
+          height: (radius+ySpace*2)*Math.floor(categories.length/piesInRow) + (radius*3),
           type: 'pie',
           events: {
             load: function () {
@@ -366,8 +365,8 @@ export default class ChartGenerator extends React.Component {
                 })
                 .add();
                 labelHeading.align(ReactHighcharts.Highcharts.extend(label.getBBox(), {
-                  x: 0, // offset
-                  y: radius/2+ySpace // offset
+                  x: (radius+xSpace)*2+(radius+xSpace)*(piesInRow-1)/2, 
+                  y: (radius+ySpace*2)*Math.floor(categories.length/piesInRow) + (radius*1.5),
                 }), null, 'spacingBox');
               })
               categories.forEach((category, catIndex) => {
