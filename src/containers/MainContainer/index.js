@@ -32,9 +32,8 @@ class MainContainer extends React.Component {
   componentWillReceiveProps(props) {
     let {surveyData, showList, isLoading} = this.state
     let showData = []
-
     const categories = props.whichOneMultiple === YEAR_SELECTED ? props.selectedYears.sort(function(a, b){return a-b}) : props.selectedStateNames
-
+    this.showGPItem("Farms")
     if (props.isRemoveDataSource) {
       surveyData.splice(props.blockIndex, 1)
       surveyData.push([])
