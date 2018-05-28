@@ -144,7 +144,7 @@ class SheetDataChart extends Component {
   }
   render() {
     const { incomeArr, originIncomeArr, chartTypeIndex, isLineEnabled, isGovernmentPayments } = this.state
-    let { categories, blockIndex, fontSizeIndex, whichOneMultiple, visibleGP, isTotalGP, isLoading } = this.props
+    let { categories, blockIndex, fontSizeIndex, whichOneMultiple, visibleGP, isTotalGP, isLoading, isTailor } = this.props
     let chartTitle = ''
     let csvTitle = 'ARMS data analysis'
     if (incomeArr.length > 0 && blockIndex < 1) {
@@ -155,7 +155,7 @@ class SheetDataChart extends Component {
     let chartTypesArray = isLineEnabled ? chartTypes : [chartTypes[0]]
     
     let chartTypeVisible = true
-    if (isGovernmentPayments) {
+    if (isGovernmentPayments && isTailor) {
       const firstItem = incomeArr[0]
       if (firstItem[0].sub_report_name === 'Farm Payment Status' || firstItem[0].sub_report_name === 'Summary by Program')
         chartTypeVisible = false
@@ -182,6 +182,7 @@ class SheetDataChart extends Component {
             isGovernmentPayments={isGovernmentPayments} 
             visibleGP={visibleGP} 
             isLoading = {isLoading}
+            isTailor = {isTailor}
           />
           {
             chartTypeVisible &&
