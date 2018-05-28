@@ -32,9 +32,9 @@ export default class ChartGenerator extends React.Component {
     }
   }
   componentWillReceiveProps(props) {
-    const { series, origin, categories, title, chartType, whichOneMultiple, fontSizeIndex, isGovernmentPayments, visibleGP, isLoading } = props
+    const { series, origin, categories, title, chartType, whichOneMultiple, fontSizeIndex, isGovernmentPayments, visibleGP, isLoading, isTailor } = props
     if (series.length > 0)  {
-      if (isGovernmentPayments) {
+      if (isGovernmentPayments && isTailor) {
         const filteredSeries=[]
         series.forEach(single => {
           if (single[0]['header'] === visibleGP) 
