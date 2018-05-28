@@ -20,7 +20,7 @@ class SheetDataChart extends Component {
     isGovernmentPayments: false
   }
   componentWillReceiveProps(props) {
-    const { showList, surveyData, categories, whichOneMultiple } = props
+    const { showList, surveyData, categories, whichOneMultiple, isTailor } = props
     let originIncomeArr = []
     let incomeArr = []
     let gpArr = []    
@@ -28,7 +28,7 @@ class SheetDataChart extends Component {
 
     if (surveyData) {
       surveyData.forEach((dataSourceCategories, index) => {
-        if (dataSourceCategories.report === 'Government Payments') {
+        if (dataSourceCategories.report === 'Government Payments' && isTailor) {
           isGovernmentPayments = true
         }
         if (dataSourceCategories.data.length  > 0)
