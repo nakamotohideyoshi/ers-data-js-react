@@ -259,7 +259,7 @@ export default class ChartGenerator extends React.Component {
     
     return breaksArr
   }
-  generateGPConfig(series, origin, categories, title, chartType, whichOneMultiple, fontSizeIndex, visibleGP, isGovernmentPayments) {
+  generateGPConfig(series, origin, categories, title, chartType, whichOneMultiple, fontSizeIndex, visibleGP, isGovernmentPayments, isLoading) {
     // CSV Generation for Chart/Table
     this.generateCSVChart(origin, categories, isGovernmentPayments)
     this.generateCSVTable(origin, categories, isGovernmentPayments)  
@@ -283,6 +283,13 @@ export default class ChartGenerator extends React.Component {
         },
         exporting: {
           enabled: false
+        },
+        plotOptions: {
+          line: {
+            animation: isLoading ? false : {
+              duration: 2000
+            }
+          }
         },
         xAxis: { 
           labels: {
@@ -380,6 +387,13 @@ export default class ChartGenerator extends React.Component {
             }
           },
         },  
+        plotOptions: {
+          line: {
+            animation: isLoading ? false : {
+              duration: 2000
+            }
+          }
+        },
         credits: {
           enabled: false
         },
