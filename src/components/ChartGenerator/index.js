@@ -276,7 +276,7 @@ export default class ChartGenerator extends React.Component {
           type: chartType
         },
         title: {
-          text: series[0][0]['header'],
+          text: series[0][0]['report'] + ' - ' + series[0][0]['sub_report_name'],
         },
         credits: {
           enabled: false
@@ -295,7 +295,8 @@ export default class ChartGenerator extends React.Component {
           }
         },
         yAxis: [],
-        series: [{ data: series[0][0]['estimateList'] }]
+        height: 500,
+        series: [{ data: series[0][0]['estimateList'], name: series[0][0]['header'] }]
       }
       let trailReduce = ''
       if (Math.min.apply(null, series[0][0]['estimateList']) > 1000) {
