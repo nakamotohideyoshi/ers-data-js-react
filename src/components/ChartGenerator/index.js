@@ -93,8 +93,8 @@ export default class ChartGenerator extends React.Component {
 
     return headingInfo
   }
-  generateCSVChart(series, categories, isGovernmentPayments) {
-      const { csvTitle, visibleGP } = this.props
+  generateCSVChart(series, categories, isGovernmentPayments, csvTitle) {
+      const { visibleGP } = this.props
       let csvChartArray = []
 
       const headerFilter = ['']
@@ -143,8 +143,8 @@ export default class ChartGenerator extends React.Component {
       
       this.setState({ csvChartArray })
   }
-  generateCSVTable(series, categories, isGovernmentPayments) {
-    const { csvTitle, title } = this.props
+  generateCSVTable(series, categories, isGovernmentPayments, csvTitle) {
+    const { title } = this.props
     const csvTableArray = [];
 
     const isMedianEnabled = title === 'Farm Business Balance Sheet' || 
@@ -268,14 +268,17 @@ export default class ChartGenerator extends React.Component {
     return breaksArr
   }
   generateGPConfig(series, origin, categories, title, chartType, whichOneMultiple, fontSizeIndex, visibleGP, isGovernmentPayments, isTotalGP, isLoading) {
-    // CSV Generation for Chart/Table
-    this.generateCSVChart(origin, categories, isGovernmentPayments)
-    this.generateCSVTable(origin, categories, isGovernmentPayments)  
-    const chartFont = fontSizeIndex/5+1
+  
     let subReportName
     if (this.props.subReport === 1) subReportName = "Farm Payment Status"
     else if (this.props.subReport === 2) subReportName = "Total Government Payments By Type"
     else if (this.props.subReport === 3) subReportName = "Summary by Program"
+
+    // CSV Generation for Chart/Table
+    this.generateCSVChart(origin, categories, isGovernmentPayments, 'Government Payment - ' + subReportName)
+    this.generateCSVTable(origin, categories, isGovernmentPayments, 'Government Payment - ' + subReportName)  
+    const chartFont = fontSizeIndex/5+1
+
 
     const radius = 100
     const xSpace = 30
@@ -472,8 +475,8 @@ export default class ChartGenerator extends React.Component {
   generateConfig(series, origin, categories, title, chartType, whichOneMultiple, fontSizeIndex, isGovernmentPayments, isLoading) {
  
     // CSV Generation for Chart/Table
-    this.generateCSVChart(origin, categories, isGovernmentPayments)
-    this.generateCSVTable(origin, categories, isGovernmentPayments)  
+    this.generateCSVChart(origin, categories, isGovernmentPayments, this.props.csvTitle)
+    this.generateCSVTable(origin, categories, isGovernmentPayments, this.props.csvTitle)  
 
     const chartFont = fontSizeIndex/5+1
     // Separate Farms and other series
