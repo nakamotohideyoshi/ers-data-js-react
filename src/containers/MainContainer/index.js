@@ -220,7 +220,8 @@ class MainContainer extends React.Component {
           whichOneMultiple={whichOneMultiple}
           blockIndex={blockIndex}
           fontSizeIndex={fontSizeIndex} 
-          isTotalGP={isTotalGP}                       
+          isTotalGP={isTotalGP}   
+          subReport={sub_report_0[0]}                    
           isGetSurveyData={isGetSurveyData}
           isLoading = {isLoading}
           isTailor = {isTailor}    
