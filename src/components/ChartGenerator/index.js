@@ -272,6 +272,11 @@ export default class ChartGenerator extends React.Component {
     this.generateCSVChart(origin, categories, isGovernmentPayments)
     this.generateCSVTable(origin, categories, isGovernmentPayments)  
     const chartFont = fontSizeIndex/5+1
+    let subReportName
+    if (this.props.subReport === 1) subReportName = "Farm Payment Status"
+    else if (this.props.subReport === 2) subReportName = "Total Government Payments By Type"
+    else if (this.props.subReport === 3) subReportName = "Summary by Program"
+
     const radius = 100
     const xSpace = 30
     const ySpace = 10
@@ -283,7 +288,7 @@ export default class ChartGenerator extends React.Component {
           type: chartType
         },
         title: {
-          text: series[0][0]['report'] + ' - ' + series[0][0]['sub_report_name'],
+          text: 'Government Payment - ' + subReportName,
           style: { 
             fontSize: chartFont*1.4+'em'
           }
@@ -344,7 +349,7 @@ export default class ChartGenerator extends React.Component {
     } else {
       config = {
         title: {
-          text: series[0][0]['report'] + ' - ' + series[0][0]['sub_report_name'],
+          text: 'Government Payment - ' + subReportName,
           style: { 
             fontSize: chartFont*1.4+'em'
           }
