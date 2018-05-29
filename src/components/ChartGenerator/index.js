@@ -321,7 +321,28 @@ export default class ChartGenerator extends React.Component {
         series: []
       }
       series.forEach(singleArray => {
-        config.series.push({ data: singleArray[0]['estimateList'], name: singleArray[0]['header'] })
+        const singleSeriesData = singleArray[0]['estimateList']
+        console.log(singleSeriesData)
+        singleSeriesData.forEach((single, i) => {
+          if (single === 0) {
+            singleSeriesData[i] = {
+              y: 0,
+              dataLabels: {
+                enabled: true,
+                backgroundColor: 'rgba(252, 255, 197, 0.7)',
+                shadow: false,
+                format: 'NA',
+                verticalAlign: 'bottom',
+                y: -8
+              }
+            }
+          }
+        })
+        const singleSeries = {
+          data: singleArray[0]['estimateList'], 
+          name: singleArray[0]['header'],
+        }
+        config.series.push(singleSeries)
       })
       let trailReduce = ''
       if (Math.min.apply(null, series[0][0]['estimateList']) > 1000) {
