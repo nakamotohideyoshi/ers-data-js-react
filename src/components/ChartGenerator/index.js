@@ -280,7 +280,7 @@ export default class ChartGenerator extends React.Component {
     const radius = 100
     const xSpace = 30
     const ySpace = 10
-    let piesInRow = Math.floor((window.innerWidth - 420) / (radius + xSpace*2))
+    let piesInRow = 1
     let config
     if (isTotalGP) {
       config = {
