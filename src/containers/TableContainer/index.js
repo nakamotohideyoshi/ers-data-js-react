@@ -420,14 +420,14 @@ class TableContainer extends React.Component {
                                     (!visibleItem && data.isGovernmentPayments) && (
                                       <div className={`gp-singleline-header font-${fontSizeIndex}-smaller`}>
                                         <a 
-                                          onClick={() => data.header !== visibleGP ? showGPItem(data.header) : null } 
-                                          tabIndex={1401+index}
-                                          onKeyDown={(event) =>{ if (event.keyCode === 13 && data.header !== visibleGP) showGPItem(data.header); return null }}
+                                          onClick={() => showList[data.id] === true ? this.hideItem(data.id) : this.showItem(data.id)} 
+                                          tabIndex={1401+index*2}
+                                          onKeyDown={(event) =>{ if (event.keyCode === 13) showList[data.id] === true ? this.hideItem(data.id) : this.showItem(data.id)} }
                                         >
-                                          <img src={data.header === visibleGP ? ShownImg : HiddenImg } alt="show-hide" />
+                                          <img src={showList[data.id] === true ? ShownImg : HiddenImg } alt="show-hide" />
                                         </a>
                                         &ensp; 
-                                        <div className="level-0">
+                                        <div className={`level-${data.level} nowrap-div`}>
                                           {`${data.header} (${data.unit_desc})`}
                                         </div>
                                         <div className="pin-continer">
