@@ -164,7 +164,7 @@ class SheetDataChart extends Component {
     if (isTotalGP && visibleGP === "Farms") {
       visibleGP = incomeArr[0][0].header
     }
-
+    
     if (incomeArr.length === 0)
       return (<div className="empty-data-notification">No data to display</div>)
     else
@@ -181,6 +181,7 @@ class SheetDataChart extends Component {
             whichOneMultiple={whichOneMultiple} 
             isGovernmentPayments={isGovernmentPayments} 
             visibleGP={visibleGP} 
+            isTotalGP={isTotalGP}
             isLoading = {isLoading}
           />
           {

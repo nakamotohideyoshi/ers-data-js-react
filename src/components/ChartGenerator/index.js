@@ -23,24 +23,32 @@ export default class ChartGenerator extends React.Component {
     csvTableArray: [],    
   }
   componentWillMount() {
-    const { series, origin, categories, title, chartType, whichOneMultiple, fontSizeIndex, isGovernmentPayments, isLoading } = this.props
+    const { series, origin, categories, title, chartType, whichOneMultiple, fontSizeIndex, isGovernmentPayments, isTotalGP, isLoading } = this.props
     if (series.length > 0) {
       if (isGovernmentPayments)
-        this.generateGPConfig(series, origin, categories, title, chartType, whichOneMultiple, fontSizeIndex, isGovernmentPayments, isLoading)
+        this.generateGPConfig(series, origin, categories, title, chartType, whichOneMultiple, fontSizeIndex, isGovernmentPayments, isTotalGP, isLoading)
       else 
         this.generateConfig(series, origin, categories, title, chartType, whichOneMultiple, fontSizeIndex, isGovernmentPayments, isLoading)
     }
   }
   componentWillReceiveProps(props) {
-    const { series, origin, categories, title, chartType, whichOneMultiple, fontSizeIndex, isGovernmentPayments, visibleGP, isLoading } = props
+    const { series, origin, categories, title, chartType, whichOneMultiple, fontSizeIndex, isGovernmentPayments, visibleGP, isTotalGP, isLoading } = props
     if (series.length > 0)  {
+      let filteredSeries=[]
       if (isGovernmentPayments) {
-        const filteredSeries=[]
-        series.forEach(single => {
-          if (single[0]['header'] === visibleGP) 
-            filteredSeries.push(single)
-        })
-        this.generateGPConfig(filteredSeries, series, categories, title, chartType, whichOneMultiple, fontSizeIndex, visibleGP, isGovernmentPayments, isLoading)
+        if (!isTotalGP) {
+          series.forEach(single => {
+            if (single[0]['header'] === visibleGP) 
+              filteredSeries.push(single)
+          })
+        } else {
+          series.forEach(single => {
+            if (single[0]['shown'] === true) 
+              filteredSeries.push(single)
+          })
+        }
+        console.log(filteredSeries)
+        this.generateGPConfig(filteredSeries, series, categories, title, chartType, whichOneMultiple, fontSizeIndex, visibleGP, isGovernmentPayments, isTotalGP, isLoading)
       } else this.generateConfig(series, origin, categories, title, chartType, whichOneMultiple, fontSizeIndex, isGovernmentPayments, isLoading)
     }
   }
@@ -259,7 +267,7 @@ export default class ChartGenerator extends React.Component {
     
     return breaksArr
   }
-  generateGPConfig(series, origin, categories, title, chartType, whichOneMultiple, fontSizeIndex, visibleGP, isGovernmentPayments, isLoading) {
+  generateGPConfig(series, origin, categories, title, chartType, whichOneMultiple, fontSizeIndex, visibleGP, isGovernmentPayments, isTotalGP, isLoading) {
     // CSV Generation for Chart/Table
     this.generateCSVChart(origin, categories, isGovernmentPayments)
     this.generateCSVTable(origin, categories, isGovernmentPayments)  
@@ -269,7 +277,7 @@ export default class ChartGenerator extends React.Component {
     const ySpace = 10
     let piesInRow = Math.floor((window.innerWidth - 420) / (radius + xSpace*2))
     let config
-    if (series.length === 1 && series[0].length === 1) {
+    if (isTotalGP) {
       config = {
         chart: {
           type: chartType
@@ -305,8 +313,11 @@ export default class ChartGenerator extends React.Component {
         },
         yAxis: [],
         height: 500,
-        series: [{ data: series[0][0]['estimateList'], name: series[0][0]['header'] }]
+        series: []
       }
+      series.forEach(singleArray => {
+        config.series.push({ data: singleArray[0]['estimateList'], name: singleArray[0]['header'] })
+      })
       let trailReduce = ''
       if (Math.min.apply(null, series[0][0]['estimateList']) > 1000) {
         trailReduce = " (000's)"
