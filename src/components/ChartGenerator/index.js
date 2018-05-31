@@ -47,7 +47,6 @@ export default class ChartGenerator extends React.Component {
               filteredSeries.push(single)
           })
         }
-        console.log(filteredSeries)
         this.generateGPConfig(filteredSeries, series, categories, title, chartType, whichOneMultiple, fontSizeIndex, visibleGP, isGovernmentPayments, isTotalGP, isLoading)
       } else this.generateConfig(series, origin, categories, title, chartType, whichOneMultiple, fontSizeIndex, isGovernmentPayments, isLoading)
     }
@@ -325,7 +324,6 @@ export default class ChartGenerator extends React.Component {
       }
       series.forEach(singleArray => {
         const singleSeriesData = singleArray[0]['estimateList']
-        console.log(singleSeriesData)
         singleSeriesData.forEach((single, i) => {
           if (single === 0) {
             singleSeriesData[i] = {
@@ -907,8 +905,9 @@ export default class ChartGenerator extends React.Component {
     }
   }
   render() {
-    const { fontSizeIndex } = this.props
-    const { config, isDropdownOpened, csvChartArray, csvTableArray } = this.state
+    const { fontSizeIndex, isGovernmentPayments, isTotalGP } = this.props
+    const { config, isDropdownOpened, csvChartArray, csvTableArray,  } = this.state
+    const notPrintable = (isGovernmentPayments && !isTotalGP) ? true:false
 
     return (
       <div>
@@ -920,25 +919,34 @@ export default class ChartGenerator extends React.Component {
               </div>
             </button>
             {
-              isDropdownOpened && (
-                <ul role="menu" className={`dropdown-menu dropdown-menu-right font-${fontSizeIndex}-big`} ref={node => this.btnDropdown = node}>
-                  <li tabIndex="1201" onClick={() => this.printChart()} onKeyDown={(event) => this.onEnterKeyDown(event, 'print') }><a>Print</a></li>
-                  <li tabIndex="1202" onClick={() => this.downloadFile('application/pdf')} onKeyDown={(event) => this.onEnterKeyDown(event, 'application/pdf') }><a>PDF</a></li>
-                  <li tabIndex="1203" onClick={() => this.downloadFile('image/png')} onKeyDown={(event) => this.onEnterKeyDown(event, 'image/png') }><a>PNG</a></li>
-                  <li tabIndex="1204" onClick={() => this.downloadFile('image/jpeg')} onKeyDown={(event) => this.onEnterKeyDown(event, 'image/jpeg') }><a>JPEG</a></li>
-                  <li tabIndex="1205" onClick={() => this.downloadFile('application/svg')} onKeyDown={(event) => this.onEnterKeyDown(event, 'application/svg') }><a>SVG</a></li>
-                  <li tabIndex="1206" onKeyDown={(event) => this.onEnterKeyDown(event, 'chart-csv') }>
-                    <CSVLink data={csvChartArray} filename={`${this.getCurrentDateTimeFormat()}chart-csv.csv`} target="_self" ref={node => this.chartCSV = node}>
-                      Chart (CSV)
-                    </CSVLink>     
-                  </li>
-                  <li tabIndex="1207" onKeyDown={(event) => this.onEnterKeyDown(event, 'table-csv') }>
-                    <CSVLink data={csvTableArray} filename={`${this.getCurrentDateTimeFormat()}table-csv.csv`} target="_self" ref={node => this.tableCSV = node}>
-                      Table (CSV)
-                    </CSVLink>     
-                  </li>  
-                </ul>
-              )
+              (isDropdownOpened && !notPrintable) && 
+                  <ul role="menu" className={`dropdown-menu dropdown-menu-right font-${fontSizeIndex}-big`} ref={node => this.btnDropdown = node}>
+                    <li tabIndex="1201" onClick={() => this.printChart()} onKeyDown={(event) => this.onEnterKeyDown(event, 'print') }><a>Print</a></li>
+                    <li tabIndex="1202" onClick={() => this.downloadFile('application/pdf')} onKeyDown={(event) => this.onEnterKeyDown(event, 'application/pdf') }><a>PDF</a></li>
+                    <li tabIndex="1203" onClick={() => this.downloadFile('image/png')} onKeyDown={(event) => this.onEnterKeyDown(event, 'image/png') }><a>PNG</a></li>
+                    <li tabIndex="1204" onClick={() => this.downloadFile('image/jpeg')} onKeyDown={(event) => this.onEnterKeyDown(event, 'image/jpeg') }><a>JPEG</a></li>
+                    <li tabIndex="1205" onClick={() => this.downloadFile('application/svg')} onKeyDown={(event) => this.onEnterKeyDown(event, 'application/svg') }><a>SVG</a></li>
+                    <li tabIndex="1206" onKeyDown={(event) => this.onEnterKeyDown(event, 'chart-csv') }>
+                      <CSVLink data={csvChartArray} filename={`${this.getCurrentDateTimeFormat()}chart-csv.csv`} target="_self" ref={node => this.chartCSV = node}>
+                        Chart (CSV)
+                      </CSVLink>     
+                    </li>
+                    <li tabIndex="1207" onKeyDown={(event) => this.onEnterKeyDown(event, 'table-csv') }>
+                      <CSVLink data={csvTableArray} filename={`${this.getCurrentDateTimeFormat()}table-csv.csv`} target="_self" ref={node => this.tableCSV = node}>
+                        Table (CSV)
+                      </CSVLink>     
+                    </li>  
+                  </ul>
+            }
+            {
+              (isDropdownOpened && notPrintable) && 
+                  <ul role="menu" className={`dropdown-menu dropdown-menu-right font-${fontSizeIndex}-big`} ref={node => this.btnDropdown = node}>
+                    <li tabIndex="1207" onKeyDown={(event) => this.onEnterKeyDown(event, 'table-csv') }>
+                      <CSVLink data={csvTableArray} filename={`${this.getCurrentDateTimeFormat()}table-csv.csv`} target="_self" ref={node => this.tableCSV = node}>
+                        Table (CSV)
+                      </CSVLink>     
+                    </li>  
+                  </ul>
             }
           </div>
         </div>
