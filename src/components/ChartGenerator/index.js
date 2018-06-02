@@ -38,8 +38,9 @@ export default class ChartGenerator extends React.Component {
       if (isGovernmentPayments) {
         if (!isTotalGP) {
           series.forEach(single => {
-            if (single[0]['header'] === visibleGP) 
+            if (single[0]['header'] === visibleGP) {
               filteredSeries.push(single)
+            }
           })
         } else {
           series.forEach(single => {
@@ -406,7 +407,7 @@ export default class ChartGenerator extends React.Component {
                 .add();
                 labelHeading.align(ReactHighcharts.Highcharts.extend(label.getBBox(), {
                   x: (radius+xSpace)*2+(radius+xSpace)*[Math.min(piesInRow, singleGroup[0]['estimateList'].length)%2 === 0 ? (Math.min(piesInRow, singleGroup[0]['estimateList'].length))/2 : (Math.min(piesInRow, singleGroup[0]['estimateList'].length)-1)/2], 
-                  y: (radius+ySpace*2)*Math.floor((categories.length-1)/piesInRow) + (radius*2),
+                  y: (radius+ySpace*2)*Math.floor((categories.length-1)/piesInRow) + (radius+ySpace)*2,
                 }), null, 'spacingBox');
               })
               categories.forEach((category, catIndex) => {
