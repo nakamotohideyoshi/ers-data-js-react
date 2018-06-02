@@ -44,10 +44,8 @@ class TableContainer extends React.Component {
     if (element.rse === null) {
       rseVal = 'NA'
     }
-    if (element.median === 0) {
-      medianVal = element.median
-    }
-    if (element.median !== 0 && element.median !== null) {
+
+    if ((element.median !== 0 && element.median !== null) || element.median === 0)  {
         medianVal = element.median
     }
 
