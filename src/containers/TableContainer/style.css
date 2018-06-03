@@ -81,6 +81,7 @@
 }
 .table-static tbody tr:nth-child(1) td {
   width: 500px;
+  white-space: pre-wrap;
 }
 .table-static {
   position: relative;
