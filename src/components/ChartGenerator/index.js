@@ -378,7 +378,7 @@ export default class ChartGenerator extends React.Component {
           }
         },
         chart: {
-          height: (radius+ySpace*2)*Math.floor(categories.length/piesInRow) + (radius*4) + categories.length*10,
+          height: (radius+ySpace*2)*Math.floor(categories.length/piesInRow) + (radius*4) + series[0].length*categories.length*10*(fontSizeIndex/5+1),
           type: 'pie',
           events: {
             load: function () {
@@ -439,7 +439,7 @@ export default class ChartGenerator extends React.Component {
             dataLabels: {
                 enabled: false
             },
-            showInLegend: true
+            showInLegend: true,
           }
         },
         legend: {
@@ -448,7 +448,11 @@ export default class ChartGenerator extends React.Component {
           verticalAlign: 'xbottom',
           align:'left',
           layout: 'vertical',
-          y: (radius+ySpace*2)*Math.floor((categories.length-1)/piesInRow) + (radius+ySpace)*2 + (ySpace),
+          itemMarginBottom: 5,
+          itemStyle: {
+            fontSize: chartFont+'em'
+          },
+          y: (radius+ySpace*2)*Math.floor((categories.length-1)/piesInRow) + (radius+ySpace)*2 + ySpace*2,
           labelFormatter : function() { 
             let displayName = this.series.name+' - '+this.name
             return displayName
