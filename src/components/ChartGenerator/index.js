@@ -446,8 +446,6 @@ export default class ChartGenerator extends React.Component {
           enabled: true,
           floating: true,
           verticalAlign: 'xbottom',
-          align:'left',
-          layout: 'vertical',
           itemMarginBottom: 5,
           itemStyle: {
             fontSize: chartFont+'em'
