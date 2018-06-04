@@ -79,10 +79,7 @@
   font-family: 'Roboto', sans-serif;
   color:#000000;  
 }
-.table-static tbody tr:nth-child(1) td {
-  width: 500px;
-  white-space: pre-wrap;
-}
+
 .table-static {
   position: relative;
   border-right: solid 2px #E3EBEE;
