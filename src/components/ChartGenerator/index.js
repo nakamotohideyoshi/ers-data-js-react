@@ -487,6 +487,8 @@ export default class ChartGenerator extends React.Component {
                 singleLineData.push([subItem.group_header, subItem.estimateList[catIndex]])
               })
             singleLine.data = singleLineData
+            if (catIndex === 0) singleLine.showInLegend = true
+            else singleLine.showInLegend = false
             config.series.push(singleLine)
           })
         }
