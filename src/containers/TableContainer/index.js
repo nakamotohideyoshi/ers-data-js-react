@@ -18,6 +18,24 @@ const defaultShowTypes = [
   { label: 'Relative Standard Error', selected: false, tooltipText: 'Relative Standard Error' },
   { label: 'Median', selected: false, tooltipText: 'Median' }
 ]
+
+// lcs algorithm from https://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Longest_common_subsequence#JavaScript
+function LCS(a, b) {
+    var m = a.length, n = b.length,
+        C = [], i, j;
+    for (i = 0; i <= m; i++) C.push([0]);
+    for (j = 0; j <= n; j++) C[0].push(0);
+    for (i = 0; i < m; i++)
+        for (j = 0; j < n; j++)
+            C[i+1][j+1] = a[i] === b[j] ? C[i][j]+1 : Math.max(C[i+1][j], C[i][j+1]);
+    return (function bt(i, j) {
+        if (i*j === 0) { return ""; }
+        if (a[i-1] === b[j-1]) { return bt(i-1, j-1) + a[i-1]; }
+        return (C[i][j-1] > C[i-1][j]) ? bt(i, j-1) : bt(i-1, j);
+    }(m, n));
+}
+
+
 class TableContainer extends React.Component {
   state = {
     incomeArr: [],
@@ -55,7 +73,7 @@ class TableContainer extends React.Component {
     return { estimateVal, rseVal, medianVal }
   }
   componentWillReceiveProps(props) {
-    const { surveyData, categories, whichOneMultiple } = props
+    const { surveyData, categories, whichOneMultiple, isTotalGP } = props
     
     let incomeArr = []
     let gpArr = []
@@ -159,19 +177,59 @@ class TableContainer extends React.Component {
           gpList[income.header] = [income]
         }
     })
-    
+
+    // Collect single lined farm items
+    const singleLinedGroup=[]
+    const singledLinedNameList = []
+    let isCollectable = false
+
     gpArr.forEach(income => {
       if (income.id) {
-        gpDataSet.push({ 
-          groupName: income.header,
-          unit_desc: income.unit_desc,
-          desc: income.desc,          
-          count: gpList[income.header] ? (gpList[income.header]).length : 0,
-          isGovernmentPayments: true
-        })
-        gpDataSet = gpDataSet.concat(gpList[income.header])
+        const gpCount = gpList[income.header] ? (gpList[income.header]).length : 0
+        if (gpCount > 1) {
+          gpDataSet.push({ 
+            groupName: income.header,
+            unit_desc: income.unit_desc,
+            desc: income.desc,          
+            count: gpCount,
+            isGovernmentPayments: true
+          })
+          gpDataSet = gpDataSet.concat(gpList[income.header])
+        }
       }
     })
+
+    if (!isTotalGP) {
+      for (let key in gpList) {
+        if (gpList[key].length === 1) {
+          isCollectable = true
+          singleLinedGroup.push(gpList[key][0])
+          singledLinedNameList.push(gpList[key][0].header)
+        }
+      }
+
+      if (isCollectable) {
+        let compared = singledLinedNameList[0]
+        singledLinedNameList.map((item, index) => {
+            compared = LCS(compared, item)
+        })
+  
+        singleLinedGroup.map(item => {
+          item.header = compared
+          return item
+        })
+    
+        gpDataSet.push({ 
+          groupName: compared,
+          unit_desc: singleLinedGroup[0].unit_desc,
+          desc: singleLinedGroup[0].desc,          
+          count: singleLinedGroup.length,
+          isGovernmentPayments: true
+        })
+        gpDataSet = gpDataSet.concat(singleLinedGroup)
+      }
+    }
+      
     if (isGovernmentPayments)
       incomeArr = gpDataSet
     // ------------------------------------
