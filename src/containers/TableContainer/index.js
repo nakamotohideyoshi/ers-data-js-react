@@ -186,7 +186,8 @@ class TableContainer extends React.Component {
     gpArr.forEach(income => {
       if (income.id) {
         const gpCount = gpList[income.header] ? (gpList[income.header]).length : 0
-        if (gpCount > 1) {
+        const gpLimit = isTotalGP ? 0 : 1
+        if (gpCount > gpLimit) {
           gpDataSet.push({ 
             groupName: income.header,
             unit_desc: income.unit_desc,
@@ -318,7 +319,6 @@ class TableContainer extends React.Component {
     let { showList, visibleGP, categories, blockIndex, fontSizeIndex, isTotalGP, footnotes, showGPItem } = this.props
 
     let visibleItem = true
-    if (isTotalGP && visibleGP === "Farms") visibleGP = incomeArr[0].groupName
 
     if (incomeArr.length === 0 || categories.length === 0)
       return ( <div className='center-notification'>No data to display</div> )
