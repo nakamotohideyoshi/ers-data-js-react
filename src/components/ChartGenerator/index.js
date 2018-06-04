@@ -378,7 +378,7 @@ export default class ChartGenerator extends React.Component {
           }
         },
         chart: {
-          height: (radius+ySpace*2)*Math.floor(categories.length/piesInRow) + (radius*4),
+          height: (radius+ySpace*2)*Math.floor(categories.length/piesInRow) + (radius*4) + categories.length*10,
           type: 'pie',
           events: {
             load: function () {
@@ -432,8 +432,28 @@ export default class ChartGenerator extends React.Component {
             animation: isLoading ? false : {
               duration: 2000
             }
+          },
+          pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+                enabled: false
+            },
+            showInLegend: true
           }
         },
+        legend: {
+          enabled: true,
+          floating: true,
+          verticalAlign: 'xbottom',
+          align:'left',
+          layout: 'vertical',
+          y: (radius+ySpace*2)*Math.floor((categories.length-1)/piesInRow) + (radius+ySpace)*2 + (ySpace),
+          labelFormatter : function() { 
+            let displayName = this.series.name+' - '+this.name
+            return displayName
+          }
+        },    
         credits: {
           enabled: false
         },
