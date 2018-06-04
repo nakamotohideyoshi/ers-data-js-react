@@ -378,7 +378,7 @@ export default class ChartGenerator extends React.Component {
           }
         },
         chart: {
-          height: (radius+ySpace*2)*Math.floor(categories.length/piesInRow) + (radius*4) + series[0].length*categories.length*10*(fontSizeIndex/5+1),
+          height: (radius+ySpace*2)*Math.floor(categories.length/piesInRow) + (radius*4) + series[0].length*10*(fontSizeIndex/5+1),
           type: 'pie',
           events: {
             load: function () {
