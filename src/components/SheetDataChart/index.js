@@ -20,7 +20,7 @@ class SheetDataChart extends Component {
     isGovernmentPayments: false
   }
   componentWillReceiveProps(props) {
-    const { showList, surveyData, categories, whichOneMultiple, isTailor } = props
+    const { showList, surveyData, categories, whichOneMultiple, isTailor, isTotalGP } = props
     let originIncomeArr = []
     let incomeArr = []
     let gpArr = []    
@@ -117,12 +117,23 @@ class SheetDataChart extends Component {
     })
 
     let indx = 0
+    let collectionGroup = []
     gpArr.forEach(income => {
       if (income.id) {
-        gpDataSet[indx] = gpList[income.header]
+        if (gpList[income.header].length > 1) {
+          gpDataSet[indx] = gpList[income.header]
+        } else {
+          collectionGroup = collectionGroup.concat(gpList[income.header])
+        }
         indx++
       }
     })
+
+    if (!isTotalGP) {
+      gpDataSet.push(collectionGroup)
+    } 
+
+
     if (isGovernmentPayments) {
       incomeArr = gpDataSet
     } else {
@@ -135,6 +146,7 @@ class SheetDataChart extends Component {
         }
       }
     }
+
     this.setState({ incomeArr: incomeArr.slice(), originIncomeArr: originIncomeArr.slice() })
     this.setState({ isGovernmentPayments })
     
