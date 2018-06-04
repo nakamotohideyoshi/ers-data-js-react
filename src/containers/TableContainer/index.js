@@ -211,8 +211,8 @@ class TableContainer extends React.Component {
 
       if (isCollectable) {
         let compared = singledLinedNameList[0]
-        singledLinedNameList.map((item, index) => {
-            compared = LCS(compared, item)
+        singledLinedNameList.forEach((item, index) => {
+          compared = LCS(compared, item)
         })
   
         singleLinedGroup.map(item => {
