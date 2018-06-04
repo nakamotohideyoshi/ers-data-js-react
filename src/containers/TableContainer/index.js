@@ -177,6 +177,8 @@ class TableContainer extends React.Component {
     // ------------------------------------
     this.setState({ incomeArr })
     this.setState({ scrollLeft: 0 })
+    console.log('----', incomeArr)
+    
   }
   hideItem(dataId){
     this.props.hideItem(dataId)
@@ -427,9 +429,20 @@ class TableContainer extends React.Component {
                                           <img src={showList[data.id] === true ? ShownImg : HiddenImg } alt="show-hide" />
                                         </a>
                                         &ensp; 
-                                        <div className={`level-${data.level} nowrap-div`}>
-                                          {`${data.header} (${data.unit_desc})`}
-                                        </div>
+                                        {
+                                          isTotalGP && (
+                                            <div className={`level-${data.level} nowrap-div`}>
+                                              {`${data.header} (${data.unit_desc})`}
+                                            </div>
+                                          )
+                                        }
+                                        {
+                                          !isTotalGP && (
+                                            <div className={`level-0 nowrap-div`}>
+                                              {`${data.header} (${data.unit_desc})`}
+                                            </div>
+                                          )
+                                        }
                                         <div className="pin-continer">
                                         {
                                           data.isGovernmentPayments &&
