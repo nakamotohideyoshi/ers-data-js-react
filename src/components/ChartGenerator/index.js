@@ -454,7 +454,7 @@ export default class ChartGenerator extends React.Component {
           },
           y: (radius+ySpace*2)*Math.floor((categories.length-1)/piesInRow) + (radius+ySpace)*2 + ySpace*2,
           labelFormatter : function() { 
-            let displayName = this.series.name+' - '+this.name
+            let displayName = this.name
             return displayName
           }
         },    
