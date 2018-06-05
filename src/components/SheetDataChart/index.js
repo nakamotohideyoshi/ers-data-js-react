@@ -10,6 +10,22 @@ const chartTypes = [
   { label: 'Line', type: 'line'}
 ]
 
+// lcs algorithm from https://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Longest_common_subsequence#JavaScript
+function LCS(a, b) {
+  var m = a.length, n = b.length,
+      C = [], i, j;
+  for (i = 0; i <= m; i++) C.push([0]);
+  for (j = 0; j <= n; j++) C[0].push(0);
+  for (i = 0; i < m; i++)
+      for (j = 0; j < n; j++)
+          C[i+1][j+1] = a[i] === b[j] ? C[i][j]+1 : Math.max(C[i+1][j], C[i][j+1]);
+  return (function bt(i, j) {
+      if (i*j === 0) { return ""; }
+      if (a[i-1] === b[j-1]) { return bt(i-1, j-1) + a[i-1]; }
+      return (C[i][j-1] > C[i-1][j]) ? bt(i, j-1) : bt(i-1, j);
+  }(m, n));
+}
+
 class SheetDataChart extends Component {
   state = {
     originIncomeArr: [],
@@ -130,10 +146,31 @@ class SheetDataChart extends Component {
       }
     })
 
+    const singledLinedNameList = []  
+    let isCollectable = false      
     if (!isTotalGP) {
-      gpDataSet.push(collectionGroup)
-    } 
+      for (let key in gpList) {
+        if (gpList[key].length === 1) {
+          isCollectable = true
+          singledLinedNameList.push(gpList[key][0].header)
+        }
+      }
 
+      if (isCollectable) {
+        let compared = singledLinedNameList[0]
+        singledLinedNameList.forEach((item, index) => {
+          compared = LCS(compared, item)
+        })
+  
+        collectionGroup.map(item => {
+          item.header = compared
+          return item
+        })
+      }
+
+      gpDataSet.push(collectionGroup)
+      
+    }
 
     if (isGovernmentPayments) {
       incomeArr = gpDataSet
@@ -168,9 +205,7 @@ class SheetDataChart extends Component {
     let chartTypesArray = isLineEnabled ? chartTypes : [chartTypes[0]]
     
     let chartTypeVisible = true
-    if (isGovernmentPayments) {
-      const firstItem = incomeArr[0]
-      if (firstItem[0].sub_report_name === 'Farm Payment Status' || firstItem[0].sub_report_name === 'Summary by Program')
+    if (isGovernmentPayments && isTotalGP) {
         chartTypeVisible = false
     }
 
