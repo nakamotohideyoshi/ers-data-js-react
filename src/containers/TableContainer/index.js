@@ -237,7 +237,6 @@ class TableContainer extends React.Component {
     // ------------------------------------
     this.setState({ incomeArr })
     this.setState({ scrollLeft: 0 })
-    
   }
   hideItem(dataId){
     this.props.hideItem(dataId)
@@ -319,7 +318,7 @@ class TableContainer extends React.Component {
     let { showList, visibleGP, categories, blockIndex, fontSizeIndex, isTotalGP, footnotes, showGPItem } = this.props
 
     let visibleItem = true
-
+    
     if (incomeArr.length === 0 || categories.length === 0)
       return ( <div className='center-notification'>No data to display</div> )
     else
@@ -359,7 +358,7 @@ class TableContainer extends React.Component {
                           if (data !== undefined) {
                             if (!data.id) {
                               if (data.count) {
-                                if (data.count === 1) visibleItem = false
+                                if (data.count === 1 && isTotalGP) visibleItem = false
                                 else visibleItem = true
                               }
                               if (visibleItem) {
