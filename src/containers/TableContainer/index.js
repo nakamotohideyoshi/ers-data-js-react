@@ -215,20 +215,21 @@ class TableContainer extends React.Component {
         singledLinedNameList.forEach((item, index) => {
           compared = LCS(compared, item)
         })
-  
-        singleLinedGroup.map(item => {
-          item.header = compared
-          return item
-        })
-    
-        gpDataSet.push({ 
-          groupName: compared,
-          unit_desc: singleLinedGroup[0].unit_desc,
-          desc: singleLinedGroup[0].desc,          
-          count: singleLinedGroup.length,
-          isGovernmentPayments: true
-        })
-        gpDataSet = gpDataSet.concat(singleLinedGroup)
+        if (singleLinedGroup.length > 1) {
+          singleLinedGroup.map(item => {
+            item.header = compared
+            return item
+          })
+      
+          gpDataSet.push({ 
+            groupName: compared,
+            unit_desc: singleLinedGroup[0].unit_desc,
+            desc: singleLinedGroup[0].desc,          
+            count: singleLinedGroup.length,
+            isGovernmentPayments: true
+          })
+          gpDataSet = gpDataSet.concat(singleLinedGroup)
+        }
       }
     }
       
