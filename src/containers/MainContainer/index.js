@@ -235,6 +235,7 @@ class MainContainer extends React.Component {
           whichOneMultiple={whichOneMultiple}
           blockIndex={blockIndex}
           isTotalGP={isTotalGP}
+          isTailor = {isTailor}
           fontSizeIndex={fontSizeIndex}    
           hideItem={(dataId) => this.hideItem(dataId)}
           showItem={(dataId) => this.showItem(dataId)}
