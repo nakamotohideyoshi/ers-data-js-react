@@ -74,7 +74,7 @@ class TableContainer extends React.Component {
     return { estimateVal, rseVal, medianVal }
   }
   componentWillReceiveProps(props) {
-    const { surveyData, categories, whichOneMultiple, isTotalGP } = props
+    const { surveyData, categories, whichOneMultiple, isTotalGP, isTailor } = props
     
     let incomeArr = []
     let gpArr = []
@@ -82,7 +82,7 @@ class TableContainer extends React.Component {
     
     if (surveyData) {
       surveyData.forEach((dataSourceCategories, index) => {
-        if (dataSourceCategories.report === 'Government Payments')
+        if (dataSourceCategories.report === 'Government Payments' && isTailor)
           isGovernmentPayments = true
         if (dataSourceCategories.data.length  > 0)
           incomeArr.push(dataSourceCategories)
