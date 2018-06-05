@@ -136,8 +136,9 @@ class SheetDataChart extends Component {
     let collectionGroup = []
     gpArr.forEach(income => {
       if (income.id) {
+        const gpCount = gpList[income.header] ? (gpList[income.header]).length : 0
         const gpLimit = isTotalGP ? 0 : 1
-        if (gpList[income.header].length > gpLimit) {
+        if (gpCount > gpLimit) {
           gpDataSet[indx] = gpList[income.header]
         } else {
           collectionGroup = collectionGroup.concat(gpList[income.header])
