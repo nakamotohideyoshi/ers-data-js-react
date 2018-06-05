@@ -120,7 +120,8 @@ class SheetDataChart extends Component {
     let collectionGroup = []
     gpArr.forEach(income => {
       if (income.id) {
-        if (gpList[income.header].length > 1) {
+        const gpLimit = isTotalGP ? 0 : 1
+        if (gpList[income.header].length > gpLimit) {
           gpDataSet[indx] = gpList[income.header]
         } else {
           collectionGroup = collectionGroup.concat(gpList[income.header])
@@ -149,7 +150,6 @@ class SheetDataChart extends Component {
 
     this.setState({ incomeArr: incomeArr.slice(), originIncomeArr: originIncomeArr.slice() })
     this.setState({ isGovernmentPayments })
-    
   }
   switchChartType(chartTypeIndex) {
     this.setState({ chartTypeIndex })
