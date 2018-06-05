@@ -401,7 +401,6 @@ export default class ChartGenerator extends React.Component {
                 const labelHeading = this.renderer.label(singleGroup[0].header)
                 .css({
                   fontSize: chartFont+'em',
-                  width: radius*2,
                   color: '#000000'
                 })
                 .add();
