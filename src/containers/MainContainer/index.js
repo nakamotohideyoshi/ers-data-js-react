@@ -84,7 +84,8 @@ class MainContainer extends React.Component {
               report: dataDetails.report_dim ? dataDetails.report_dim.header : '',
               subject: dataDetails.subject_dim ? dataDetails.subject_dim.header : '',
               serie: dataDetails.serie_dim ? dataDetails.serie_dim.header : '',
-              serie_element: dataDetails.serie_element_dim ? dataDetails.serie_element_dim.name : ''
+              serie_element: dataDetails.serie_element_dim ? dataDetails.serie_element_dim.name : '',
+              topic_dim: dataDetails.topic_dim
             }]
             
             surveyData[0].forEach((data, i) => {

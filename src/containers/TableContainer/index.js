@@ -232,9 +232,18 @@ class TableContainer extends React.Component {
         }
       }
     }
-      
-    if (isGovernmentPayments)
-      incomeArr = gpDataSet
+
+    console.log(incomeArr[0])
+    if (isGovernmentPayments) {
+      const headingOptions = [{ 
+        report: incomeArr[0]['report'],
+        subject: incomeArr[0]['subject'],
+        serie: incomeArr[0]['serie'],
+        serie_element: incomeArr[0]['serie_element'],
+        sub_report_name: incomeArr[0]['topic_dim']['sub_report_name']
+      }]
+      incomeArr = headingOptions.concat(gpDataSet)
+    }
     // ------------------------------------
     this.setState({ incomeArr })
     this.setState({ scrollLeft: 0 })
@@ -305,7 +314,8 @@ class TableContainer extends React.Component {
     }
 
     headingInfo += data.dataSource > 0 ? "Data Source: " + data.dataSource + ", " : "Tailored Report - "
-    headingInfo += "Report: " + data.report + ", "
+    headingInfo += "Report: " + data.report
+    headingInfo += data.sub_report_name ? " - "+data.sub_report_name+", " : ", "
     headingInfo += "Subject: " + data.subject + ", "
     headingInfo += filterContent + ", "                              
     headingInfo = headingInfo.slice(0, -2)
