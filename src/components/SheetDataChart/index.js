@@ -206,7 +206,7 @@ class SheetDataChart extends Component {
     let chartTypesArray = isLineEnabled ? chartTypes : [chartTypes[0]]
     
     let chartTypeVisible = true
-    if (isGovernmentPayments && isTotalGP) {
+    if (isGovernmentPayments && !isTotalGP) {
         chartTypeVisible = false
     }
 
