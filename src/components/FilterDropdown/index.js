@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ReactTooltip from 'react-tooltip'
 import { Col } from 'react-bootstrap';
 
 import { YEAR_SELECTED } from '../../helpers/constants'
@@ -12,6 +13,7 @@ const MULTIPLE_HEADING = "VIEW MULTIPLE"
 const FILTERED_HEADING = "FILTERED BY"
 const YEARS_CAPTION = "Years"
 const REGIONS_CAPTION = "Regions"
+const changeAxis = "Change Axis"
 
 class FilterDropdown extends React.Component {
   state = {
@@ -133,7 +135,7 @@ class FilterDropdown extends React.Component {
       </Col>
       <Col md={1} sm={1} xs={1} lg={1} className="switchSection">
         <div className='switchContainer' onClick={() => onSwitchMultiple()} onKeyDown={this.onEnterKeyDown} tabIndex={1099}>
-          <img src={RotateImg} alt='Rotate Icon' />
+          <img src={RotateImg} alt='Rotate Icon' data-tip={changeAxis} />
         </div>
       </Col>
       <Col md={5} sm={11} xs={11} lg={5}>
@@ -197,7 +199,7 @@ class FilterDropdown extends React.Component {
                 )
               }
           </Col>
-      </Col>  
+      </Col> 
     </div>
     )
   }
