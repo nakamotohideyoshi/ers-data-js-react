@@ -715,7 +715,7 @@ export default class ChartGenerator extends React.Component {
         seriesFarms.forEach((element, index) => {
           const seriesData = element.estimateList
           seriesData.forEach((singleVal, i) => {
-            if (singleVal === null) 
+            if (singleVal === 0) 
               seriesData[i] = {
                 y: 0,
                 dataLabels: {
@@ -806,7 +806,7 @@ export default class ChartGenerator extends React.Component {
         singleOther.forEach((element, index) => {
           const seriesData = element.estimateList
           seriesData.forEach((singleVal, i) => {
-            if (singleVal === null) 
+            if (singleVal === 0) 
               seriesData[i] = {
                 y: 0,
                 dataLabels: {
