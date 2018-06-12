@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ReactTooltip from 'react-tooltip'
 import { Col } from 'react-bootstrap';
 
 import { YEAR_SELECTED } from '../../helpers/constants'
 
 import Checkbox from '../Checkbox';
-import RotateImg from '../../images/rotate.png'
+import SwitcherImg from '../../images/switcher.png'
+import SwitcherHoverImg from '../../images/switcher_hover.png'
+
 import './style.css'
 
 const MULTIPLE_HEADING = "VIEW MULTIPLE"
@@ -18,7 +19,8 @@ const changeAxis = "Change Axis"
 class FilterDropdown extends React.Component {
   state = {
     isFirstOpened: false,
-    isSecondOpened: false
+    isSecondOpened: false,
+    isSwitcherHoverd: false,
   }
   onEnterKeyDown = (event) => {
     if (event.keyCode === 13) {
@@ -49,6 +51,10 @@ class FilterDropdown extends React.Component {
       this.setState({ isFirstOpened: false })
     this.setState({ isSecondOpened }) 
   }
+  switcherToggle = () => {
+    const isSwitcherHoverd = !this.state.isSwitcherHoverd
+    this.setState({ isSwitcherHoverd })
+  }
   componentDidMount() {
     document.addEventListener('mousedown', this.handleClickOutside);
   }
@@ -67,7 +73,7 @@ class FilterDropdown extends React.Component {
   }
   render() {
     const { yearsInfo, statesInfo, whichOneMultiple, isSelectedAll, fontSizeIndex, onSelectAll, onSelectState, onSelectYear, onSwitchMultiple } = this.props
-    const { isFirstOpened, isSecondOpened } = this.state
+    const { isFirstOpened, isSecondOpened, isSwitcherHoverd } = this.state
     return (
       <div className="filterDropdownContainer">
       <Col md={6} sm={12} xs={12} lg={6}>
@@ -135,7 +141,7 @@ class FilterDropdown extends React.Component {
       </Col>
       <Col md={1} sm={1} xs={1} lg={1} className="switchSection">
         <div className='switchContainer' onClick={() => onSwitchMultiple()} onKeyDown={this.onEnterKeyDown} tabIndex={1099}>
-          <img src={RotateImg} alt='Rotate Icon' data-tip={changeAxis} />
+          <img src={isSwitcherHoverd ? SwitcherHoverImg : SwitcherImg} alt='Switch Icon' data-tip={changeAxis} onMouseEnter={this.switcherToggle} onMouseLeave={this.switcherToggle} />
         </div>
       </Col>
       <Col md={5} sm={11} xs={11} lg={5}>
