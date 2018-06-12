@@ -19,6 +19,9 @@ const defaultShowTypes = [
   { label: 'Median', selected: false, tooltipText: 'Median' }
 ]
 
+const showData = "Show data in the chart"
+const hideData = "Hide data from the chart"
+
 // lcs algorithm from https://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Longest_common_subsequence#JavaScript
 function LCS(a, b) {
     var m = a.length, n = b.length,
@@ -383,7 +386,7 @@ class TableContainer extends React.Component {
                                             tabIndex={1401+index}
                                             onKeyDown={(event) =>{ if (event.keyCode === 13 && data.groupName !== visibleGP) showGPItem(data.groupName); return null }}
                                           >
-                                          <img src={data.groupName === visibleGP ? ShownImg : HiddenImg } alt="show-hide" />
+                                          <img src={data.groupName === visibleGP ? ShownImg : HiddenImg } data-tip={data.groupName === visibleGP ? showData : hideData}  alt="show-hide" />
                                           </a> 
                                       }
                                       {
@@ -429,7 +432,7 @@ class TableContainer extends React.Component {
                                           >
                                           {
                                             (data.header && !data.isGovernmentPayments) &&
-                                              <img src={showList[data.id] === true ? ShownImg : HiddenImg } alt="show-hide" />
+                                              <img src={showList[data.id] === true ? ShownImg : HiddenImg } data-tip={showList[data.id] === true ? showData : hideData}  alt="show-hide" />
                                           }
                                           {
                                             data.data && (<div>{`Data Source ${data.dataSource}`}</div>)
@@ -494,7 +497,7 @@ class TableContainer extends React.Component {
                                           tabIndex={1401+index*2}
                                           onKeyDown={(event) =>{ if (event.keyCode === 13) showList[data.id] === true ? this.hideItem(data.id) : this.showItem(data.id)} }
                                         >
-                                          <img src={showList[data.id] === true ? ShownImg : HiddenImg } alt="show-hide" />
+                                          <img src={showList[data.id] === true ? ShownImg : HiddenImg } data-tip={showList[data.id] === true ? showData : hideData}  alt="show-hide" />
                                         </a>
                                         &ensp; 
                                         {
