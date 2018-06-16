@@ -386,7 +386,7 @@ class TableContainer extends React.Component {
                                             tabIndex={1401+index}
                                             onKeyDown={(event) =>{ if (event.keyCode === 13 && data.groupName !== visibleGP) showGPItem(data.groupName); return null }}
                                           >
-                                          <img src={data.groupName === visibleGP ? ShownImg : HiddenImg } data-tip={data.groupName === visibleGP ? showData : hideData}  alt="show-hide" />
+                                          <img src={data.groupName === visibleGP ? ShownImg : HiddenImg } data-tip={data.groupName === visibleGP ? hideData : showData }  alt="show-hide" />
                                           </a> 
                                       }
                                       {
@@ -432,7 +432,7 @@ class TableContainer extends React.Component {
                                           >
                                           {
                                             (data.header && !data.isGovernmentPayments) &&
-                                              <img src={showList[data.id] === true ? ShownImg : HiddenImg } data-tip={showList[data.id] === true ? showData : hideData}  alt="show-hide" />
+                                              <img src={showList[data.id] === true ? ShownImg : HiddenImg } data-tip={showList[data.id] === true ? hideData : showData }  alt="show-hide" />
                                           }
                                           {
                                             data.data && (<div>{`Data Source ${data.dataSource}`}</div>)
@@ -497,7 +497,7 @@ class TableContainer extends React.Component {
                                           tabIndex={1401+index*2}
                                           onKeyDown={(event) =>{ if (event.keyCode === 13) showList[data.id] === true ? this.hideItem(data.id) : this.showItem(data.id)} }
                                         >
-                                          <img src={showList[data.id] === true ? ShownImg : HiddenImg } data-tip={showList[data.id] === true ? showData : hideData}  alt="show-hide" />
+                                          <img src={showList[data.id] === true ? ShownImg : HiddenImg } data-tip={showList[data.id] === true ? hideData : showData }  alt="show-hide" />
                                         </a>
                                         &ensp; 
                                         {
