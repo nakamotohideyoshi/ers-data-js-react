@@ -42,6 +42,7 @@ function LCS(a, b) {
 }
 
 var prev_scrollTop = 0
+var scroll_speed = 30
 
 
 class TableContainer extends React.Component {
@@ -273,9 +274,9 @@ class TableContainer extends React.Component {
   onScrollTable = () => {   
     let max = this.tbody.scrollHeight - this.tbody.clientHeight    
     if (this.tbody.scrollTop > prev_scrollTop) {
-      prev_scrollTop = prev_scrollTop + 25 > max ? max : prev_scrollTop + 25      
+      prev_scrollTop = prev_scrollTop + scroll_speed > max ? max : prev_scrollTop + scroll_speed      
     } else if (this.tbody.scrollTop < prev_scrollTop) {
-      prev_scrollTop = prev_scrollTop - 25 < 0 ? 0 : prev_scrollTop - 25
+      prev_scrollTop = prev_scrollTop - scroll_speed < 0 ? 0 : prev_scrollTop - scroll_speed
     } 
     if (this.tbody.scrollTop !== prev_scrollTop) {
       this.tbody.scrollTo(this.tbody.scrollLeft, prev_scrollTop)
@@ -287,9 +288,9 @@ class TableContainer extends React.Component {
   onScrollTable1 = () => {
     let max = this.headerBody.scrollHeight - this.headerBody.clientHeight    
     if (this.headerBody.scrollTop > prev_scrollTop) {
-      prev_scrollTop = prev_scrollTop + 25 > max ? max : prev_scrollTop + 25      
+      prev_scrollTop = prev_scrollTop + scroll_speed > max ? max : prev_scrollTop + scroll_speed      
     } else if (this.headerBody.scrollTop < prev_scrollTop) {
-      prev_scrollTop = prev_scrollTop - 25 < 0 ? 0 : prev_scrollTop - 25
+      prev_scrollTop = prev_scrollTop - scroll_speed < 0 ? 0 : prev_scrollTop - scroll_speed
     } 
     if (this.headerBody.scrollTop !== prev_scrollTop) {
       this.tbody.scrollTo(this.tbody.scrollLeft, prev_scrollTop)
