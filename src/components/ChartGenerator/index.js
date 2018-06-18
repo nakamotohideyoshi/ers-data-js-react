@@ -359,7 +359,9 @@ export default class ChartGenerator extends React.Component {
         }
         config.series.push(singleSeries)
       })
+      
       let trailReduce = ''
+      if (series.length > 0)
       if (Math.min.apply(null, series[0][0]['estimateList']) > 1000) {
         trailReduce = " (000's)"
       }
