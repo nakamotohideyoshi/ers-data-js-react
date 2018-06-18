@@ -38,6 +38,8 @@ function LCS(a, b) {
     }(m, n));
 }
 
+var prev_scrollTop = 0
+
 
 class TableContainer extends React.Component {
   state = {
@@ -265,13 +267,33 @@ class TableContainer extends React.Component {
     this.setState({ isShowItemAll: true })
     this.props.showAllItem()
   }
-  onScrollTable = () => {
-    this.headerBody.scrollTop = this.tbody.scrollTop
+  onScrollTable = () => {   
+    let max = this.tbody.scrollHeight - this.tbody.clientHeight    
+    if (this.tbody.scrollTop > prev_scrollTop) {
+      prev_scrollTop = prev_scrollTop + 20 > max ? max : prev_scrollTop + 20      
+    } else if (this.tbody.scrollTop < prev_scrollTop) {
+      prev_scrollTop = prev_scrollTop - 20 < 0 ? 0 : prev_scrollTop - 20
+    } 
+    if (this.tbody.scrollTop !== prev_scrollTop) {
+      this.tbody.scrollTo(this.tbody.scrollLeft, prev_scrollTop)
+      this.headerBody.scrollTo(this.headerBody.scrollLeft, this.tbody.scrollTop)
+    }
     this.setState({ scrollLeft: this.tbody.scrollLeft })
   }
+
   onScrollTable1 = () => {
-    this.tbody.scrollTop = this.headerBody.scrollTop
+    let max = this.headerBody.scrollHeight - this.headerBody.clientHeight    
+    if (this.headerBody.scrollTop > prev_scrollTop) {
+      prev_scrollTop = prev_scrollTop + 20 > max ? max : prev_scrollTop + 20      
+    } else if (this.headerBody.scrollTop < prev_scrollTop) {
+      prev_scrollTop = prev_scrollTop - 20 < 0 ? 0 : prev_scrollTop - 20
+    } 
+    if (this.headerBody.scrollTop !== prev_scrollTop) {
+      this.tbody.scrollTo(this.tbody.scrollLeft, prev_scrollTop)
+      this.headerBody.scrollTo(this.headerBody.scrollLeft, this.tbody.scrollTop)
+    }
   }
+
   selectShowType(index) {
     const { showTypes } = this.state
     showTypes[index].selected = !showTypes[index].selected
