@@ -273,9 +273,9 @@ class TableContainer extends React.Component {
   onScrollTable = () => {   
     let max = this.tbody.scrollHeight - this.tbody.clientHeight    
     if (this.tbody.scrollTop > prev_scrollTop) {
-      prev_scrollTop = prev_scrollTop + 20 > max ? max : prev_scrollTop + 20      
+      prev_scrollTop = prev_scrollTop + 25 > max ? max : prev_scrollTop + 25      
     } else if (this.tbody.scrollTop < prev_scrollTop) {
-      prev_scrollTop = prev_scrollTop - 20 < 0 ? 0 : prev_scrollTop - 20
+      prev_scrollTop = prev_scrollTop - 25 < 0 ? 0 : prev_scrollTop - 25
     } 
     if (this.tbody.scrollTop !== prev_scrollTop) {
       this.tbody.scrollTo(this.tbody.scrollLeft, prev_scrollTop)
@@ -287,9 +287,9 @@ class TableContainer extends React.Component {
   onScrollTable1 = () => {
     let max = this.headerBody.scrollHeight - this.headerBody.clientHeight    
     if (this.headerBody.scrollTop > prev_scrollTop) {
-      prev_scrollTop = prev_scrollTop + 20 > max ? max : prev_scrollTop + 20      
+      prev_scrollTop = prev_scrollTop + 25 > max ? max : prev_scrollTop + 25      
     } else if (this.headerBody.scrollTop < prev_scrollTop) {
-      prev_scrollTop = prev_scrollTop - 20 < 0 ? 0 : prev_scrollTop - 20
+      prev_scrollTop = prev_scrollTop - 25 < 0 ? 0 : prev_scrollTop - 25
     } 
     if (this.headerBody.scrollTop !== prev_scrollTop) {
       this.tbody.scrollTo(this.tbody.scrollLeft, prev_scrollTop)
