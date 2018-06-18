@@ -21,6 +21,9 @@ const defaultShowTypes = [
 
 const showData = "Show data in the chart"
 const hideData = "Hide data from the chart"
+const hideAllData = "Hide all Data from the Chart"
+const showAllData = "Show all data in the chart"
+
 
 // lcs algorithm from https://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Longest_common_subsequence#JavaScript
 function LCS(a, b) {
@@ -374,13 +377,15 @@ class TableContainer extends React.Component {
                           {
                             isShowItemAll && 
                               <a onClick={() => this.hideAllItem()}>
-                                <img src={ShownImg} alt="Show Icon" tabIndex={1400} onKeyDown={(event) => { if (event.keyCode === 13) this.hideAllItem()} } />                   
+                                <img src={ShownImg} data-tip={ isShowItemAll ? hideAllData : showAllData } alt="Show Icon" data-place="top"
+                                          data-offset="{'left': 100}" tabIndex={1400} onKeyDown={(event) => { if (event.keyCode === 13) this.hideAllItem()} } />                   
                               </a>
                           }
                           {
                             !isShowItemAll &&
                               <a onClick={() => this.showAllItem()}>
-                                <img src={HideAllImg} alt="Hide Icon" tabIndex={1400} onKeyDown={(event) => { if (event.keyCode === 13) this.showAllItem()} } />
+                                <img src={HideAllImg} data-tip={ isShowItemAll ? hideAllData : showAllData } alt="Hide Icon" data-place="top"
+                                          data-offset="{'left': 100}" tabIndex={1400} onKeyDown={(event) => { if (event.keyCode === 13) this.showAllItem()} } />
                               </a>
                           }
                         </div>
