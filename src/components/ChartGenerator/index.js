@@ -321,6 +321,19 @@ export default class ChartGenerator extends React.Component {
         },
         yAxis: [],
         height: 500,
+        tooltip: {
+          positioner: function(labelWidth, labelHeight, point) {
+            const eachWidth = this.chart.chartWidth / categories.length;
+            let tooltipX
+            if (this.now.x > this.chart.chartWidth - eachWidth * 2)
+              tooltipX = point.plotX - labelWidth/3;
+            else tooltipX = point.plotX  + 30
+            return {
+                x: tooltipX,
+                y: 30
+            };
+          }
+        },
         series: []
       }
       series.forEach(singleArray => {
@@ -634,7 +647,11 @@ export default class ChartGenerator extends React.Component {
             return s;
         },
         positioner: function(labelWidth, labelHeight, point) {
-          var tooltipX = point.plotX + 30;
+          const eachWidth = this.chart.chartWidth / categories.length;
+          let tooltipX
+          if (this.now.x > this.chart.chartWidth - eachWidth * 2)
+            tooltipX = point.plotX - labelWidth/3;
+          else tooltipX = point.plotX  + 30
           return {
               x: tooltipX,
               y: 30
