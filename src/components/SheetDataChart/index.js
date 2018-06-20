@@ -194,7 +194,7 @@ class SheetDataChart extends Component {
   }
   render() {
     const { incomeArr, originIncomeArr, chartTypeIndex, isLineEnabled, isGovernmentPayments } = this.state
-    let { categories, blockIndex, fontSizeIndex, whichOneMultiple, visibleGP, isTotalGP, isLoading, subReport } = this.props
+    let { categories, blockIndex, fontSizeIndex, whichOneMultiple, visibleGP, isTotalGP, isLoading, subReport, toggleAll } = this.props
     
     let chartTitle = ''
     let csvTitle = 'ARMS data analysis'
@@ -213,9 +213,10 @@ class SheetDataChart extends Component {
     if (isTotalGP && visibleGP === "Farms") {
       visibleGP = incomeArr[0][0].header
     }
-
     if (incomeArr.length === 0)
       return (<div className="empty-data-notification">No data to display</div>)
+    else if (toggleAll === false)
+      return (<div className="empty-data-notification">All data is hidden from chart, please use eye icons in table for chart visualizations.</div>)
     else
       return (
         <div className="chart-container col-xs-12">

@@ -12,6 +12,7 @@ import { YEAR_SELECTED } from '../../helpers/constants'
 class MainContainer extends React.Component {  
   state = {
     showList: {},
+    toggleAll: true,
     visibleGP: 'Farms',    
     years: [],
     surveyData: [],
@@ -166,7 +167,7 @@ class MainContainer extends React.Component {
   }
 
   hideItem(dataId) {
-    const { showList } = this.state
+    let { showList } = this.state
     showList[dataId] = false
     this.setState({ showList: Object.assign({}, showList) })
   }
@@ -182,17 +183,17 @@ class MainContainer extends React.Component {
     const { showList } = this.state
     for (let key in showList) 
       showList[key] = false
-    this.setState({ showList: Object.assign({}, showList) })
+    this.setState({ showList: Object.assign({}, showList), toggleAll: false })
   }
   showAllItem() {
     const { showList } = this.state
     for (let key in showList) 
       showList[key] = true
-    this.setState({ showList: Object.assign({}, showList) })
+    this.setState({ showList: Object.assign({}, showList), toggleAll: true })
   }
 
   render() {
-    let { showList, visibleGP, showData, footnotes, isLoading, categories } = this.state
+    let { showList, visibleGP, showData, footnotes, isLoading, categories, toggleAll } = this.state
     const { whichOneMultiple, blockIndex, fontSizeIndex, isGetSurveyData, report_num_0, sub_report_0 } = this.props
     
     // GP / 2nd Sub reporting
@@ -221,6 +222,7 @@ class MainContainer extends React.Component {
           whichOneMultiple={whichOneMultiple}
           blockIndex={blockIndex}
           fontSizeIndex={fontSizeIndex} 
+          toggleAll={toggleAll}
           isTotalGP={isTotalGP}   
           subReport={sub_report_0[0]}                    
           isGetSurveyData={isGetSurveyData}
