@@ -81,6 +81,9 @@ class TableContainer extends React.Component {
 
     return { estimateVal, rseVal, medianVal }
   }
+  componentDidUpdate() {
+    ReactTooltip.rebuild();
+  }
   componentWillReceiveProps(props) {
     const { surveyData, categories, whichOneMultiple, isTotalGP, isTailor } = props
     
