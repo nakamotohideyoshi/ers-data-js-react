@@ -782,6 +782,7 @@ export default class FilterContainer extends React.Component {
     ))
   }
 
+
   // Year selected
   onSelectYear = (index) => {
     let {pre_filters, yearsInfo, whichOneMultiple, priority, blockIndex, isReset, selectedStates, selectedStateNames } = this.state
@@ -792,6 +793,7 @@ export default class FilterContainer extends React.Component {
       priority.splice(priorityIndex, 1)
       priority.push('year')
     }
+
     if (priorityIndex < 0) {
       priority.push('year')
     }
@@ -803,23 +805,23 @@ export default class FilterContainer extends React.Component {
       })
     }
 
-    let temp_Years = []
+    let tempYears = []
     let selectedYears = []
+
     yearsInfo.forEach(yearN => {
-      temp_Years.push(yearN)
+      tempYears.push(yearN.year)
       if (yearN.checked) {
         selectedYears.push(yearN.year)
       }
     })
 
     if (selectedYears.length !== 0) {
-      temp_Years = []
+      tempYears = []
     }
 
     if (blockIndex === 0) {
 
       if (priority.indexOf('year') === 0) {
-
         // Year -> ... -> ...
         runQuery = pre_filters[blockIndex].report_num[0] === 6 ? 'dlrfyTailored' : 'dlfyTailored'
       } else if (priority.indexOf('year') === 1 &&  priority.indexOf('state') === 0) {
@@ -850,7 +852,7 @@ export default class FilterContainer extends React.Component {
       priority: priority,
       yearsInfo: yearsInfo.slice(),
       selectedYears,
-      temp_Years: temp_Years,
+      temp_Years: tempYears,
       runQuery,
       isReset
     }, this.props.getSurveyData(
