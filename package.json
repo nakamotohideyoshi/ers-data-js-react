@@ -34,7 +34,7 @@
     "highcharts": "^5.0.14",
     "highcharts-export-csv": "^1.4.8",
     "highcharts-exporting": "^0.1.7",
-    "html-webpack-plugin": "2.29.0",
+    "html-webpack-plugin": "5.5.0",
     "jest": "20.0.4",
     "object-assign": "4.1.1",
     "postcss-flexbugs-fixes": "3.2.0",
